@@ -58,16 +58,16 @@ export default function PromptDrill({ onBack, onComplete }) {
         setTranscription(sttResult.text || '');
         setScore(scoreResult.score);
         await updateAfterPractice(phrase.id, scoreResult.score);
-        setResults(prev => [...prev, { phraseId: phrase.id, score: scoreResult.score }]);
+        setResults(prev => [...prev, { phraseId: phrase.id, romanization: phrase.romanization || '', english: phrase.english || '', score: scoreResult.score }]);
       } catch (err) {
         setTranscription('Could not transcribe');
         setScore(null);
-        setResults(prev => [...prev, { phraseId: phrase.id, score: null }]);
+        setResults(prev => [...prev, { phraseId: phrase.id, romanization: phrase.romanization || '', english: phrase.english || '', score: null }]);
       }
     } else {
       setTranscription('Scoring requires internet');
       setScore(null);
-      setResults(prev => [...prev, { phraseId: phrase.id, score: null }]);
+      setResults(prev => [...prev, { phraseId: phrase.id, romanization: phrase.romanization || '', english: phrase.english || '', score: null }]);
     }
   }, [stopRecording, phrase, isOnline, settings.currentLanguage]);
 
@@ -90,7 +90,7 @@ export default function PromptDrill({ onBack, onComplete }) {
       startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
       mode: 'prompt', phrasesAttempted: results.length, phrasesMastered: 0,
       averageScore: scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null,
-      phraseResults: results.map(r => ({ phraseId: r.phraseId, score: r.score, replays: 0, markedKnown: false })),
+      phraseResults: results.map(r => ({ phraseId: r.phraseId, romanization: r.romanization, english: r.english, score: r.score, replays: 0, markedKnown: false })),
     };
     await saveSession(rec);
     onComplete?.({ ...rec, streakCount: streak });

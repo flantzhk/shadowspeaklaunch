@@ -217,3 +217,41 @@
   color: var(--color-text-muted);
   font-size: 14px;
 }
+
+/* Download section */
+.downloadBar {
+  width: 100%;
+  height: 6px;
+  background: var(--color-border-strong);
+  border-radius: 3px;
+  margin-bottom: var(--space-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.downloadFill {
+  height: 100%;
+  background: var(--color-brand-lime);
+  border-radius: 3px;
+  transition: width 200ms ease;
+}
+
+.downloadLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  display: block;
+  margin-bottom: var(--space-sm);
+}
+
+.downloadBtn {
+  width: 100%;
+  padding: var(--space-md);
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: transparent;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-brand-dark);
+  min-height: 44px;
+  text-align: center;
+}

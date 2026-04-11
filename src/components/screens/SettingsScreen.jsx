@@ -1,11 +1,12 @@
 // src/components/screens/SettingsScreen.jsx
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { getAllLanguages } from '../../services/languageManager';
 import { getCurrentUser, signOut } from '../../services/auth';
 import { DAILY_GOAL_OPTIONS, ROUTES } from '../../utils/constants';
 import { ConfirmModal } from '../shared/ConfirmModal';
+import { downloadAllAudio } from '../../services/offlineManager';
 import styles from './SettingsScreen.module.css';
 
 /**
@@ -15,10 +16,28 @@ export default function SettingsScreen({ onBack, onNavigate }) {
   const { settings, updateSettings } = useAppContext();
   const languages = getAllLanguages();
   const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState(null); // null | {done, total}
+  const cancelRef = useRef({ cancelled: false });
 
   const handleSignOut = async () => {
     await signOut();
     window.location.hash = `#${ROUTES.LOGIN}`;
+  };
+
+  const handleDownloadAll = async () => {
+    if (downloadProgress) {
+      cancelRef.current.cancelled = true;
+      setDownloadProgress(null);
+      return;
+    }
+    cancelRef.current = { cancelled: false };
+    setDownloadProgress({ done: 0, total: 1 });
+    await downloadAllAudio(
+      settings.currentLanguage,
+      (p) => setDownloadProgress({ done: p.done, total: p.total }),
+      cancelRef.current
+    );
+    setDownloadProgress(null);
   };
 
   return (
@@ -76,6 +95,20 @@ export default function SettingsScreen({ onBack, onNavigate }) {
           onChange={(v) => updateSettings({ showEnglish: v })} />
         <ToggleRow label="Auto-advance" checked={settings.autoAdvance}
           onChange={(v) => updateSettings({ autoAdvance: v })} />
+      </div>
+
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Offline</h2>
+        <p className={styles.hint}>Download all audio so lessons work without internet.</p>
+        {downloadProgress && (
+          <div className={styles.downloadBar}>
+            <div className={styles.downloadFill} style={{ width: `${(downloadProgress.done / downloadProgress.total) * 100}%` }} />
+            <span className={styles.downloadLabel}>{downloadProgress.done} / {downloadProgress.total} phrases</span>
+          </div>
+        )}
+        <button className={styles.downloadBtn} onClick={handleDownloadAll}>
+          {downloadProgress ? `Cancel (${downloadProgress.done}/${downloadProgress.total})` : 'Download all audio'}
+        </button>
       </div>
 
       <div className={styles.section}>

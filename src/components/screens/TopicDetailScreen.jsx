@@ -1,6 +1,6 @@
 // src/components/screens/TopicDetailScreen.jsx
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAudio } from '../../contexts/AudioContext';
 import { useAppContext } from '../../contexts/AppContext';
 import { getLibraryEntry, saveLibraryEntry } from '../../services/storage';
@@ -19,6 +19,9 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
   const [topic, setTopic] = useState(null);
   const [savedIds, setSavedIds] = useState(new Set());
   const [dialogues, setDialogues] = useState([]);
+  const [downloadProgress, setDownloadProgress] = useState(null); // null | {done, total}
+  const [downloadDone, setDownloadDone] = useState(false);
+  const cancelRef = useRef({ cancelled: false });
 
   useEffect(() => {
     async function load() {
@@ -39,6 +42,25 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
     }
     load();
   }, [topicId]);
+
+  const handleDownloadTopic = useCallback(async () => {
+    if (!topic) return;
+    if (downloadProgress) {
+      cancelRef.current.cancelled = true;
+      setDownloadProgress(null);
+      return;
+    }
+    cancelRef.current = { cancelled: false };
+    const total = topic.phrases.length;
+    setDownloadProgress({ done: 0, total });
+    for (let i = 0; i < topic.phrases.length; i++) {
+      if (cancelRef.current.cancelled) break;
+      await cacheAudioForPhrase(topic.phrases[i], settings.currentLanguage).catch(() => {});
+      setDownloadProgress({ done: i + 1, total });
+    }
+    if (!cancelRef.current.cancelled) setDownloadDone(true);
+    setDownloadProgress(null);
+  }, [topic, downloadProgress, settings.currentLanguage]);
 
   const handlePlayTopic = useCallback(async () => {
     if (!topic) return;
@@ -130,9 +152,32 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
         <p className={styles.description}>{topic.description}</p>
       )}
 
-      <button className={styles.startBtn} onClick={handlePlayTopic}>
-        Start this topic
-      </button>
+      {/* Download progress banner */}
+      {downloadProgress && (
+        <div className={styles.downloadBanner}>
+          <p className={styles.downloadTitle}>Downloading audio for offline...</p>
+          <p className={styles.downloadMeta}>{downloadProgress.done} of {downloadProgress.total} phrases</p>
+          <div className={styles.downloadBarTrack}>
+            <div className={styles.downloadBarFill} style={{ width: `${(downloadProgress.done / downloadProgress.total) * 100}%` }} />
+          </div>
+          <button className={styles.cancelDownload} onClick={handleDownloadTopic}>Cancel download</button>
+        </div>
+      )}
+
+      {downloadDone && !downloadProgress && (
+        <div className={styles.downloadDone}>
+          <span>✓</span> Downloaded for offline use
+        </div>
+      )}
+
+      <div className={styles.topicActions}>
+        <button className={styles.downloadBtn} onClick={handleDownloadTopic}>
+          {downloadProgress ? `↓ ${downloadProgress.done}/${downloadProgress.total}` : downloadDone ? '✓ Downloaded' : '↓ Download offline'}
+        </button>
+        <button className={styles.startBtn} onClick={handlePlayTopic}>
+          Start this topic
+        </button>
+      </div>
 
       <div className={styles.phraseList}>
         {topic.phrases.map(phrase => {

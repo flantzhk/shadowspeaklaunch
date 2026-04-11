@@ -85,11 +85,14 @@ export default function ShadowSession({ onBack, onComplete }) {
   }, [stopRecording, audio, isOnline, settings.currentLanguage]);
 
   const addResult = useCallback((phraseId, score) => {
+    const phrase = audio.currentPhrase;
     setResults(prev => [...prev, {
       phraseId, score,
+      romanization: phrase?.romanization || phraseId,
+      english: phrase?.english || '',
       mastered: score !== null && score >= SCORE_THRESHOLDS.EXCELLENT,
     }]);
-  }, []);
+  }, [audio]);
 
   const handleNext = useCallback(async () => {
     setCurrentScore(null);
@@ -119,7 +122,7 @@ export default function ShadowSession({ onBack, onComplete }) {
       startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
       mode: 'shadow', phrasesAttempted: results.length,
       phrasesMastered: results.filter(r => r.mastered).length, averageScore: avg,
-      phraseResults: results.map(r => ({ phraseId: r.phraseId, score: r.score, replays: 0, markedKnown: false })),
+      phraseResults: results.map(r => ({ phraseId: r.phraseId, romanization: r.romanization, english: r.english, score: r.score, replays: 0, markedKnown: false })),
     };
     await saveSession(rec);
     onComplete?.({ ...rec, streakCount: streak });

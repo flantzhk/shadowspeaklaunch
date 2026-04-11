@@ -1,7 +1,9 @@
-// src/services/offlineManager.js — Offline queue processing
+// src/services/offlineManager.js — Offline queue processing + audio download
 
 import { getQueueItems, deleteQueueItem, updateQueueItem } from './storage';
 import { scorePronunciation } from './api';
+import { cacheAudioForPhrase } from './audio';
+import { getAllPhrasesForLanguage } from './languageManager';
 import { logger } from '../utils/logger';
 
 const MAX_QUEUE_ATTEMPTS = 3;
@@ -92,4 +94,29 @@ function initOfflineQueueListener() {
   });
 }
 
-export { processOfflineQueue, initOfflineQueueListener, blobToBase64 };
+/**
+ * Download all audio for a language to the cache.
+ * @param {string} language
+ * @param {(progress: {done: number, total: number, phraseId: string}) => void} onProgress
+ * @param {{ cancelled: boolean }} cancelRef - Set .cancelled = true to abort
+ */
+async function downloadAllAudio(language, onProgress, cancelRef = { cancelled: false }) {
+  const phrases = getAllPhrasesForLanguage(language);
+  const total = phrases.length;
+
+  for (let i = 0; i < phrases.length; i++) {
+    if (cancelRef.cancelled) {
+      logger.info('Download cancelled');
+      break;
+    }
+    const phrase = phrases[i];
+    try {
+      await cacheAudioForPhrase(phrase, language);
+    } catch (e) {
+      logger.warn(`Failed to cache ${phrase.id}`, e);
+    }
+    onProgress?.({ done: i + 1, total, phraseId: phrase.id });
+  }
+}
+
+export { processOfflineQueue, initOfflineQueueListener, blobToBase64, downloadAllAudio };

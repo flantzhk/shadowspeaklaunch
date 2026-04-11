@@ -78,7 +78,7 @@ export default function SessionSummary({ summary, onDone }) {
                     className={styles.phraseDot}
                     style={{ background: r.score != null ? getScoreColor(r.score) : 'var(--color-text-muted)' }}
                   />
-                  <span className={styles.phraseText}>{r.phraseId}</span>
+                  <span className={styles.phraseText}>{r.romanization || r.english || r.phraseId}</span>
                   <span
                     className={styles.phraseScore}
                     style={{ color: r.score != null ? getScoreColor(r.score) : 'var(--color-text-muted)' }}
