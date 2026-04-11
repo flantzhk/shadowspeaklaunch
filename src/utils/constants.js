@@ -46,6 +46,7 @@ export const ROUTES = {
   REGISTER: 'register',
   FORGOT_PASSWORD: 'forgot-password',
   WELCOME: 'welcome',
+  SEARCH: 'search',
 };
 
 export const DAILY_GOAL_OPTIONS = [5, 10, 15, 20, 30];

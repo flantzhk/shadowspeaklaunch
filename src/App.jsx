@@ -38,6 +38,7 @@ const LoginScreen = lazy(() => import('./components/screens/LoginScreen'));
 const RegisterScreen = lazy(() => import('./components/screens/RegisterScreen'));
 const ForgotPasswordScreen = lazy(() => import('./components/screens/ForgotPasswordScreen'));
 const WelcomeScreen = lazy(() => import('./components/screens/WelcomeScreen'));
+const SearchScreen = lazy(() => import('./components/screens/SearchScreen'));
 
 function parseHash(hash) {
   const clean = hash.replace('#', '');
@@ -201,6 +202,7 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
     case ROUTES.WHAT_DID_THEY_SAY: return <WhatDidTheySay onBack={goBack} showToast={showToast} />;
     case ROUTES.AI_CHAT: return <AIConversation onBack={goBack} showToast={showToast} />;
     case ROUTES.STATS: return <StatsScreen onBack={goBack} />;
+    case ROUTES.SEARCH: return <SearchScreen onBack={goBack} onNavigate={navigate} />;
     default: return <HomeScreen onNavigate={navigate} />;
   }
 }

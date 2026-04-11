@@ -1,0 +1,132 @@
+/* SearchScreen.module.css */
+
+.screen {
+  flex: 1; display: flex; flex-direction: column;
+  background: var(--color-bg);
+  padding-bottom: calc(var(--tab-bar-height) + var(--space-2xl));
+}
+
+.header {
+  display: flex; align-items: center; gap: 8px;
+  padding: var(--space-md) var(--content-padding);
+  flex-shrink: 0;
+}
+
+.backBtn {
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; color: var(--color-text-secondary); flex-shrink: 0;
+}
+
+.searchInputWrap {
+  flex: 1; display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px;
+  background: var(--color-surface);
+  border-radius: 14px;
+  border: 0.5px solid var(--color-border);
+}
+
+.searchInputWrap:focus-within {
+  border-color: var(--color-brand-lime);
+  box-shadow: 0 0 0 3px var(--color-brand-lime-muted);
+}
+
+.searchIcon { color: var(--color-text-muted); flex-shrink: 0; }
+
+.searchInput {
+  flex: 1; border: none; background: none; outline: none;
+  font-size: 14px; color: var(--color-text-primary);
+}
+
+.searchInput::placeholder { color: var(--color-text-muted); }
+
+.clearBtn {
+  font-size: 18px; color: var(--color-text-muted);
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* === Results === */
+.results {
+  flex: 1; overflow-y: auto;
+  padding: var(--space-md) var(--content-padding);
+}
+
+.hint {
+  text-align: center; color: var(--color-text-muted);
+  font-size: 14px; padding: var(--space-3xl) 0;
+}
+
+.noResults {
+  text-align: center; padding: var(--space-3xl) 0;
+}
+
+.noResultsText {
+  font-size: 16px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary); margin-bottom: 4px;
+}
+
+.noResultsHint {
+  font-size: 13px; color: var(--color-text-muted);
+}
+
+.sectionTitle {
+  font-size: 11px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted); text-transform: uppercase;
+  letter-spacing: 1px; margin: 16px 0 8px;
+}
+
+.resultCard {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; background: var(--color-surface);
+  border-radius: 12px; border: 0.5px solid var(--color-border);
+  text-align: left; margin-bottom: 6px; min-height: 44px;
+}
+
+.resultCard:active { transform: scale(0.98); }
+
+.resultTitle {
+  font-size: 14px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.resultPhraseInfo {
+  display: flex; flex-direction: column; gap: 1px; min-width: 0;
+}
+
+.resultRoman {
+  font-size: 14px; font-weight: var(--font-weight-semibold);
+  color: var(--color-jyutping);
+}
+
+.resultChinese { font-size: 12px; color: var(--color-text-secondary); }
+.resultEnglish { font-size: 11px; color: var(--color-text-muted); }
+
+.resultMeta {
+  font-size: 11px; color: var(--color-text-muted); flex-shrink: 0;
+}
+
+/* === Word grid === */
+.wordGrid {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+
+.wordCard {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; padding: 10px; min-width: 58px; text-align: center;
+  background: var(--color-surface); border: 0.5px solid var(--color-border);
+  border-radius: 10px;
+}
+
+.wordChinese {
+  font-size: 18px; font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.wordJyutping {
+  font-size: 10px; font-weight: var(--font-weight-semibold);
+  color: var(--color-jyutping);
+}
+
+.wordEnglish {
+  font-size: 10px; color: var(--color-text-secondary);
+}
