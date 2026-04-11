@@ -1,0 +1,190 @@
+/* SettingsScreen.module.css */
+
+.screen {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-lg) var(--content-padding);
+  padding-bottom: var(--space-3xl);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--color-text-primary);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.section {
+  margin-bottom: var(--space-2xl);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  margin-bottom: var(--space-md);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.fieldLabel {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+}
+
+.input {
+  padding: var(--space-md);
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+}
+
+.input:focus {
+  border-color: var(--color-brand-lime);
+  outline: 2px solid var(--color-brand-lime-muted);
+}
+
+.hint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-sm);
+}
+
+.langRow { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+.langPill {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: var(--space-md) var(--space-lg); border-radius: var(--radius-md);
+  background: var(--color-surface); border: 0.5px solid var(--color-border-strong);
+  min-height: 44px;
+}
+.langActive { background: var(--color-brand-dark); border-color: var(--color-brand-dark); }
+.langName { font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+.langActive .langName { color: var(--color-brand-lime); }
+.langNative { font-size: var(--font-size-sm); color: var(--color-text-muted); }
+
+.goalRow {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.goalPill {
+  padding: var(--space-sm) var(--space-base);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border-strong);
+  color: var(--color-text-secondary);
+  min-height: 44px;
+}
+
+.goalActive {
+  background: var(--color-brand-dark);
+  color: var(--color-brand-lime);
+  border-color: var(--color-brand-dark);
+}
+
+.toggleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) 0;
+  border-bottom: 0.5px solid var(--color-border);
+  cursor: pointer;
+}
+
+.toggleLabel {
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+}
+
+.toggle {
+  width: 48px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border-strong);
+  position: relative;
+  transition: background var(--transition-fast);
+  padding: 2px;
+}
+
+.toggleOn {
+  background: var(--color-brand-lime);
+}
+
+.toggleKnob {
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-circle);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition-fast);
+}
+
+.toggleOn .toggleKnob {
+  transform: translateX(20px);
+}
+
+/* Account section */
+
+.accountRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) 0;
+  border-bottom: 0.5px solid var(--color-border);
+}
+
+.accountLabel {
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+}
+
+.accountValue {
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.signOutBtn {
+  width: 100%;
+  padding: var(--space-md);
+  margin-top: var(--space-base);
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: transparent;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-error);
+  min-height: 44px;
+  transition: transform var(--transition-fast);
+}
+
+.signOutBtn:active {
+  transform: scale(0.97);
+  opacity: 0.8;
+}

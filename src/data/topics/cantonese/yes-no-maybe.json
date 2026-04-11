@@ -1,0 +1,171 @@
+{
+  "id": "yes-no-maybe",
+  "category": "the-very-basics",
+  "name": "Yes, No, Maybe",
+  "description": "Agree, refuse, and buy yourself time gracefully",
+  "phraseCount": 10,
+  "imageGradient": "linear-gradient(135deg, #43B89C 0%, #1A8F6E 100%)",
+  "imageUrl": null,
+  "dialogueScenes": ["declining-invitation"],
+  "phrases": [
+    {
+      "id": "yesno-001",
+      "topicId": "yes-no-maybe",
+      "romanization": "Hai⁶",
+      "jyutping": "hai6",
+      "chinese": "係",
+      "english": "Yes",
+      "context": "Confirming your name when a barista calls out your coffee order",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "係", "jyutping": "hai6", "english": "is / yes" }
+      ]
+    },
+    {
+      "id": "yesno-002",
+      "topicId": "yes-no-maybe",
+      "romanization": "Hou²",
+      "jyutping": "hou2",
+      "chinese": "好",
+      "english": "Okay / Sure",
+      "context": "Agreeing when your friend suggests trying a new restaurant tonight",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "好", "jyutping": "hou2", "english": "good / okay" }
+      ]
+    },
+    {
+      "id": "yesno-003",
+      "topicId": "yes-no-maybe",
+      "romanization": "Mou⁵ man⁶ tai⁴",
+      "jyutping": "mou5 man6 tai4",
+      "chinese": "冇問題",
+      "english": "No problem",
+      "context": "Telling your neighbour it is fine when they apologize for the noise last night",
+      "difficulty": 2,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "冇", "jyutping": "mou5", "english": "not have" },
+        { "chinese": "問題", "jyutping": "man6 tai4", "english": "problem" }
+      ]
+    },
+    {
+      "id": "yesno-004",
+      "topicId": "yes-no-maybe",
+      "romanization": "Dak¹",
+      "jyutping": "dak1",
+      "chinese": "得",
+      "english": "Can do / Sure thing",
+      "context": "Confirming you can pick up groceries on your way home from work",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "得", "jyutping": "dak1", "english": "can / okay" }
+      ]
+    },
+    {
+      "id": "yesno-005",
+      "topicId": "yes-no-maybe",
+      "romanization": "M⁴ hai⁶",
+      "jyutping": "m4 hai6",
+      "chinese": "唔係",
+      "english": "No / That's not right",
+      "context": "Correcting a waiter who brought you the wrong dish",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "唔", "jyutping": "m4", "english": "not" },
+        { "chinese": "係", "jyutping": "hai6", "english": "is" }
+      ]
+    },
+    {
+      "id": "yesno-006",
+      "topicId": "yes-no-maybe",
+      "romanization": "M⁴ dak¹",
+      "jyutping": "m4 dak1",
+      "chinese": "唔得",
+      "english": "Can't / Not allowed",
+      "context": "A security guard telling you that you cannot park here",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "唔", "jyutping": "m4", "english": "not" },
+        { "chinese": "得", "jyutping": "dak1", "english": "can" }
+      ]
+    },
+    {
+      "id": "yesno-007",
+      "topicId": "yes-no-maybe",
+      "romanization": "M⁴ sai² laa³",
+      "jyutping": "m4 sai2 laa3",
+      "chinese": "唔使喇",
+      "english": "No need / Don't bother",
+      "context": "Telling a shop assistant you do not need a bag for your purchase",
+      "difficulty": 2,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "唔", "jyutping": "m4", "english": "not" },
+        { "chinese": "使", "jyutping": "sai2", "english": "need" },
+        { "chinese": "喇", "jyutping": "laa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "yesno-008",
+      "topicId": "yes-no-maybe",
+      "romanization": "M⁴ hou² aa³",
+      "jyutping": "m4 hou2 aa3",
+      "chinese": "唔好呀",
+      "english": "Don't / Please don't",
+      "context": "Asking your friend not to add chili because you cannot handle spicy food",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "唔好", "jyutping": "m4 hou2", "english": "don't" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "yesno-009",
+      "topicId": "yes-no-maybe",
+      "romanization": "Ho² nang⁴",
+      "jyutping": "ho2 nang4",
+      "chinese": "可能",
+      "english": "Maybe / Possibly",
+      "context": "Telling a colleague you might be able to join the after-work drinks",
+      "difficulty": 2,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "可", "jyutping": "ho2", "english": "can" },
+        { "chinese": "能", "jyutping": "nang4", "english": "able" }
+      ]
+    },
+    {
+      "id": "yesno-010",
+      "topicId": "yes-no-maybe",
+      "romanization": "Tai² haa⁵ sin¹",
+      "jyutping": "tai2 haa5 sin1",
+      "chinese": "睇下先",
+      "english": "Let me think about it / Let me see first",
+      "context": "Telling a pushy salesperson you want to browse a bit more before deciding",
+      "difficulty": 2,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "睇", "jyutping": "tai2", "english": "look / see" },
+        { "chinese": "下", "jyutping": "haa5", "english": "a bit" },
+        { "chinese": "先", "jyutping": "sin1", "english": "first" }
+      ]
+    }
+  ]
+}

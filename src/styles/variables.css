@@ -1,0 +1,132 @@
+/* src/styles/variables.css — ShadowSpeak Design Tokens */
+
+:root {
+  /* === Colors === */
+  --color-bg:             #F7F4EC;
+  --color-bg-page:        #EDE8DC;
+  --color-surface:        #FFFFFF;
+  --color-surface-raised: #FFFFFF;
+  --color-border:         rgba(0, 0, 0, 0.06);
+  --color-border-strong:  rgba(0, 0, 0, 0.12);
+
+  --color-text-primary:   #1A1A1A;
+  --color-text-secondary: #5A5A5A;
+  --color-text-tertiary:  #7A7A7A;
+  --color-text-muted:     #9A9A9A;
+  --color-text-inverse:   #FFFFFF;
+
+  --color-brand-dark:     #1A2A18;
+  --color-brand-green:    #8BB82B;
+  --color-brand-lime:     #C5E85A;
+  --color-brand-lime-muted: rgba(197, 232, 90, 0.15);
+
+  --color-streak-orange:  #E8703A;
+  --color-streak-bg:      #FFF0D8;
+  --color-streak-text:    #8A3810;
+
+  --color-learning-bg:    #FFF0D8;
+  --color-learning-text:  #8A3810;
+  --color-mastered-bg:    #E8F1D4;
+  --color-mastered-text:  #2A5A10;
+
+  --color-score-excellent: #2A5A10;
+  --color-score-good:      #8BB82B;
+  --color-score-fair:      #E8A030;
+  --color-score-poor:      #D04040;
+
+  --color-error:           #D04040;
+  --color-warning:         #E8A030;
+  --color-success:         #2A5A10;
+
+  --color-jyutping:        #4A6A2A;
+
+  /* === Typography === */
+  --font-family:           -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --font-family-mono:      "SF Mono", "Menlo", monospace;
+
+  --font-size-xs:          10px;
+  --font-size-sm:          12px;
+  --font-size-base:        14px;
+  --font-size-md:          16px;
+  --font-size-lg:          18px;
+  --font-size-xl:          22px;
+  --font-size-2xl:         24px;
+  --font-size-3xl:         32px;
+
+  --font-weight-normal:    400;
+  --font-weight-medium:    500;
+  --font-weight-semibold:  600;
+  --font-weight-bold:      700;
+
+  --line-height-tight:     1.15;
+  --line-height-normal:    1.4;
+  --line-height-relaxed:   1.6;
+
+  --letter-spacing-tight:  -0.5px;
+  --letter-spacing-normal: -0.2px;
+  --letter-spacing-wide:   1.2px;
+
+  /* === Spacing === */
+  --space-xs:    4px;
+  --space-sm:    8px;
+  --space-md:    12px;
+  --space-base:  16px;
+  --space-lg:    20px;
+  --space-xl:    24px;
+  --space-2xl:   32px;
+  --space-3xl:   40px;
+
+  /* === Radii === */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   22px;
+  --radius-pill:  999px;
+  --radius-circle: 50%;
+
+  /* === Shadows === */
+  --shadow-card:    0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-raised:  0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-player:  0 -4px 20px rgba(0, 0, 0, 0.12);
+  --shadow-phone:   0 30px 80px rgba(0, 0, 0, 0.15);
+
+  /* === Transitions === */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   400ms ease;
+
+  /* === Z-index layers === */
+  --z-base:      1;
+  --z-card:      10;
+  --z-player:    100;
+  --z-modal:     200;
+  --z-toast:     300;
+  --z-overlay:   400;
+
+  /* === Layout === */
+  --safe-area-top:    env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --player-height:    140px;
+  --tab-bar-height:   56px;
+  --top-bar-height:   52px;
+  --content-padding:  22px;
+}
+
+/* === Dark Mode === */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg:             #121212;
+    --color-bg-page:        #0A0A0A;
+    --color-surface:        #1E1E1E;
+    --color-surface-raised: #252525;
+    --color-border:         rgba(255, 255, 255, 0.08);
+    --color-border-strong:  rgba(255, 255, 255, 0.15);
+    --color-text-primary:   #F0F0F0;
+    --color-text-secondary: #A0A0A0;
+    --color-text-tertiary:  #707070;
+    --color-text-muted:     #555555;
+    --shadow-card:          0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-raised:        0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-player:        0 -4px 20px rgba(0, 0, 0, 0.5);
+  }
+}

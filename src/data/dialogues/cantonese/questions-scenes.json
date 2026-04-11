@@ -1,0 +1,95 @@
+[
+  {
+    "id": "finding-bathroom",
+    "topicId": "quick-questions",
+    "title": "Finding the bathroom in a restaurant",
+    "description": "You need to find the toilet while eating out",
+    "turns": [
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": "questions-002",
+        "chinese": "唔該，厠所喺邊度？",
+        "jyutping": "m4 goi1 ci3 so2 hai2 bin1 dou6",
+        "romanization": "M⁴ goi¹, ci³ so² hai² bin¹ dou⁶?",
+        "english": "Excuse me, where's the toilet?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Waiter",
+        "phraseId": null,
+        "chinese": "直行，轉左。",
+        "jyutping": "zik6 haang4 zyun3 zo2",
+        "romanization": "Zik⁶ haang⁴, zyun³ zo².",
+        "english": "Go straight, turn left.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": "basics-005",
+        "chinese": "多謝！",
+        "jyutping": "do1 ze6",
+        "romanization": "Do¹ ze⁶!",
+        "english": "Thanks!",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      }
+    ]
+  },
+  {
+    "id": "asking-time",
+    "topicId": "quick-questions",
+    "title": "Asking what time something starts",
+    "description": "Checking the start time and seat availability",
+    "turns": [
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "幾點開始？",
+        "jyutping": "gei2 dim2 hoi1 ci2",
+        "romanization": "Gei² dim² hoi¹ ci²?",
+        "english": "What time does it start?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Staff",
+        "phraseId": null,
+        "chinese": "三點半。",
+        "jyutping": "saam1 dim2 bun3",
+        "romanization": "Saam¹ dim² bun³.",
+        "english": "3:30.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "仲有冇位？",
+        "jyutping": "zung6 jau5 mou5 wai2",
+        "romanization": "Zung⁶ jau⁵ mou⁵ wai²?",
+        "english": "Are there still seats?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Staff",
+        "phraseId": null,
+        "chinese": "有呀，入嚟坐。",
+        "jyutping": "jau5 aa3 jap6 lai4 co5",
+        "romanization": "Jau⁵ aa³, jap⁶ lai⁴ co⁵.",
+        "english": "Yes, come in and sit down.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

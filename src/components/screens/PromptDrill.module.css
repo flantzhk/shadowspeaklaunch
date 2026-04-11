@@ -1,0 +1,54 @@
+/* PromptDrill.module.css */
+
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-brand-dark);
+  padding: var(--safe-area-top) var(--content-padding) var(--safe-area-bottom);
+}
+
+.loading { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); }
+
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--space-md) 0; flex-shrink: 0;
+}
+
+.closeBtn { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: var(--color-text-muted); }
+.counter { font-size: var(--font-size-sm); color: var(--color-text-muted); }
+
+.promptArea {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: var(--space-md);
+}
+
+.label { font-size: var(--font-size-sm); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); }
+.english { font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold); color: var(--color-text-inverse); }
+.context { font-size: var(--font-size-sm); color: rgba(255,255,255,0.3); font-style: italic; }
+
+.readyBtn {
+  align-self: center; padding: var(--space-base) var(--space-2xl);
+  background: var(--color-brand-lime); color: var(--color-brand-dark);
+  border-radius: var(--radius-md); font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-md); min-height: 52px; margin-bottom: var(--space-2xl);
+}
+
+.resultArea { display: flex; flex-direction: column; align-items: center; gap: var(--space-xl); padding-bottom: var(--space-2xl); }
+
+.comparison { display: flex; gap: var(--space-lg); width: 100%; }
+
+.expected, .actual {
+  flex: 1; display: flex; flex-direction: column; gap: var(--space-xs);
+  padding: var(--space-md); background: rgba(255,255,255,0.06); border-radius: var(--radius-md);
+}
+
+.compLabel { font-size: var(--font-size-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); }
+.compText { font-size: var(--font-size-md); color: var(--color-text-inverse); }
+.compJyutping { font-size: var(--font-size-sm); color: var(--color-brand-lime); }
+
+.nextBtn {
+  padding: var(--space-md) var(--space-2xl); background: var(--color-brand-lime);
+  color: var(--color-brand-dark); border-radius: var(--radius-md);
+  font-weight: var(--font-weight-bold); font-size: var(--font-size-md); min-height: 44px;
+}

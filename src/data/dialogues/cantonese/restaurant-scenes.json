@@ -1,0 +1,139 @@
+[
+  {
+    "id": "arriving-restaurant",
+    "topicId": "at-a-restaurant",
+    "title": "Arriving at a restaurant",
+    "description": "Getting seated and asking for the menu",
+    "turns": [
+      {
+        "speaker": "other",
+        "speakerLabel": "Host",
+        "phraseId": null,
+        "chinese": "幾多位？",
+        "jyutping": "gei2 do1 wai2",
+        "romanization": "Gei² do¹ wai²?",
+        "english": "How many?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "四位。",
+        "jyutping": "sei3 wai2",
+        "romanization": "Sei³ wai².",
+        "english": "Four.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Host",
+        "phraseId": null,
+        "chinese": "等十分鐘，得唔得？",
+        "jyutping": "dang2 sap6 fan1 zung1 dak1 m4 dak1",
+        "romanization": "Dang² sap⁶ fan¹ zung¹, dak¹ m⁴ dak¹?",
+        "english": "Wait 10 minutes, okay?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": "basics-012",
+        "chinese": "好呀。",
+        "jyutping": "hou2 aa3",
+        "romanization": "Hou² aa³.",
+        "english": "Sure.",
+        "voiceId": null,
+        "pauseAfterMs": 3000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Host",
+        "phraseId": null,
+        "chinese": "入嚟坐。呢度。",
+        "jyutping": "jap6 lai4 co5 ni1 dou6",
+        "romanization": "Jap⁶ lai⁴ co⁵. Ni¹ dou⁶.",
+        "english": "Come in. Here.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "多謝。有冇餐牌？",
+        "jyutping": "do1 ze6 jau5 mou5 caan1 paai2",
+        "romanization": "Do¹ ze⁶. Jau⁵ mou⁵ caan¹ paai²?",
+        "english": "Thanks. Do you have a menu?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Host",
+        "phraseId": null,
+        "chinese": "有，喺度。",
+        "jyutping": "jau5 hai2 dou6",
+        "romanization": "Jau⁵, hai² dou⁶.",
+        "english": "Yes, here you go.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      }
+    ]
+  },
+  {
+    "id": "food-allergies",
+    "topicId": "at-a-restaurant",
+    "title": "Explaining food allergies",
+    "description": "Asking about ingredients and finding safe options",
+    "turns": [
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "我想問，呢個有冇蝦？",
+        "jyutping": "ngo5 soeng2 man6 ni1 go3 jau5 mou5 haa1",
+        "romanization": "Ngo⁵ soeng² man⁶, ni¹ go³ jau⁵ mou⁵ haa¹?",
+        "english": "Can I ask, does this have shrimp?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Waiter",
+        "phraseId": null,
+        "chinese": "有蝦。",
+        "jyutping": "jau5 haa1",
+        "romanization": "Jau⁵ haa¹.",
+        "english": "Yes, it has shrimp.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "我對蝦敏感。有冇其他推介？",
+        "jyutping": "ngo5 deoi3 haa1 man5 gam2 jau5 mou5 kei4 taa1 teoi1 gaai3",
+        "romanization": "Ngo⁵ deoi³ haa¹ man⁵ gam². Jau⁵ mou⁵ kei⁴ taa¹ teoi¹ gaai³?",
+        "english": "I'm allergic to shrimp. Any other recommendations?",
+        "voiceId": null,
+        "pauseAfterMs": 3000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Waiter",
+        "phraseId": null,
+        "chinese": "呢個雞煲冇海鮮。",
+        "jyutping": "ni1 go3 gai1 bou1 mou5 hoi2 sin1",
+        "romanization": "Ni¹ go³ gai¹ bou¹ mou⁵ hoi² sin¹.",
+        "english": "This chicken pot has no seafood.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

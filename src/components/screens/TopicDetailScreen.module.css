@@ -1,0 +1,195 @@
+/* TopicDetailScreen.module.css */
+
+.screen {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: calc(var(--tab-bar-height) + var(--space-2xl));
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--content-padding);
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--color-text-primary);
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.loading {
+  text-align: center;
+  padding: var(--space-3xl);
+  color: var(--color-text-muted);
+}
+
+.hero {
+  margin: 0 var(--content-padding);
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.description {
+  font-size: var(--font-size-base);
+  color: var(--color-brand-dark);
+  margin-bottom: var(--space-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.progressBar {
+  flex: 1;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--color-brand-dark);
+  border-radius: var(--radius-pill);
+  transition: width var(--transition-normal);
+}
+
+.progressLabel {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-dark);
+}
+
+.startBtn {
+  display: block;
+  width: calc(100% - var(--content-padding) * 2);
+  margin: 0 var(--content-padding) var(--space-xl);
+  padding: var(--space-md);
+  background: var(--color-brand-lime);
+  color: var(--color-brand-dark);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+  text-align: center;
+  min-height: 44px;
+}
+
+.startBtn:active {
+  opacity: 0.9;
+}
+
+.phraseList {
+  padding: 0 var(--content-padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.phraseRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 0.5px solid var(--color-border);
+  transition: border-color var(--transition-fast);
+}
+
+.phraseRow.active {
+  border-color: var(--color-brand-lime);
+  background: var(--color-brand-lime-muted);
+}
+
+.playBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--color-brand-lime);
+  border-radius: var(--radius-circle);
+  flex-shrink: 0;
+}
+
+.playBtn:active {
+  opacity: 0.9;
+}
+
+.phraseInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.romanization {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-jyutping);
+}
+
+.chinese {
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+}
+
+.english {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.saveBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-circle);
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.saveBtn:active:not(:disabled) {
+  background: var(--color-brand-lime-muted);
+}
+
+.saveBtn.saved {
+  color: var(--color-success);
+}
+
+.dialogueSection {
+  padding: var(--space-xl) var(--content-padding) 0;
+}
+
+.dialogueTitle {
+  font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary); margin-bottom: var(--space-md);
+}
+
+.sceneCard {
+  display: flex; flex-direction: column; gap: var(--space-xs);
+  padding: var(--space-base); background: var(--color-surface);
+  border-radius: var(--radius-md); border: 0.5px solid var(--color-border);
+  text-align: left; width: 100%; margin-bottom: var(--space-sm); min-height: 44px;
+}
+
+.sceneCard:active { background: var(--color-brand-lime-muted); }
+.sceneTitle { font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+.sceneDesc { font-size: var(--font-size-sm); color: var(--color-text-secondary); }
+.sceneTurns { font-size: var(--font-size-xs); color: var(--color-text-muted); }

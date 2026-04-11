@@ -1,0 +1,311 @@
+{
+  "id": "quick-questions",
+  "category": "the-very-basics",
+  "name": "Quick Questions",
+  "description": "Ask where, when, how, and what in any situation",
+  "phraseCount": 18,
+  "imageGradient": "linear-gradient(135deg, #6B5CE7 0%, #A855F7 100%)",
+  "imageUrl": null,
+  "dialogueScenes": ["finding-bathroom", "asking-time"],
+  "phrases": [
+    {
+      "id": "questions-001",
+      "topicId": "quick-questions",
+      "romanization": "Hai² bin¹ dou⁶ aa³",
+      "jyutping": "hai2 bin1 dou6 aa3",
+      "chinese": "喺邊度呀",
+      "english": "Where is it?",
+      "context": "Asking a shop assistant where the fitting rooms are",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "喺", "jyutping": "hai2", "english": "at / in" },
+        { "chinese": "邊度", "jyutping": "bin1 dou6", "english": "where" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "questions-002",
+      "topicId": "quick-questions",
+      "romanization": "Ci³ so² hai² bin¹ dou⁶ aa³",
+      "jyutping": "ci3 so2 hai2 bin1 dou6 aa3",
+      "chinese": "厠所喺邊度呀",
+      "english": "Where's the toilet?",
+      "context": "Urgently looking for the restroom in a busy shopping mall",
+      "difficulty": 2,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "厠所", "jyutping": "ci3 so2", "english": "toilet" },
+        { "chinese": "喺", "jyutping": "hai2", "english": "at / in" },
+        { "chinese": "邊度", "jyutping": "bin1 dou6", "english": "where" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "questions-003",
+      "topicId": "quick-questions",
+      "romanization": "Ni¹ dou⁶",
+      "jyutping": "ni1 dou6",
+      "chinese": "呢度",
+      "english": "Here",
+      "context": "Pointing at a spot on a map and telling your friend you are here",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "呢", "jyutping": "ni1", "english": "this" },
+        { "chinese": "度", "jyutping": "dou6", "english": "place" }
+      ]
+    },
+    {
+      "id": "questions-004",
+      "topicId": "quick-questions",
+      "romanization": "Go² dou⁶",
+      "jyutping": "go2 dou6",
+      "chinese": "嗰度",
+      "english": "There",
+      "context": "Pointing across the street to show someone where the MTR exit is",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "嗰", "jyutping": "go2", "english": "that" },
+        { "chinese": "度", "jyutping": "dou6", "english": "place" }
+      ]
+    },
+    {
+      "id": "questions-005",
+      "topicId": "quick-questions",
+      "romanization": "Gei² si⁴ aa³",
+      "jyutping": "gei2 si4 aa3",
+      "chinese": "幾時呀",
+      "english": "When?",
+      "context": "Asking a colleague when the team lunch is happening",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "幾時", "jyutping": "gei2 si4", "english": "when" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "questions-006",
+      "topicId": "quick-questions",
+      "romanization": "Gei² dim² aa³",
+      "jyutping": "gei2 dim2 aa3",
+      "chinese": "幾點呀",
+      "english": "What time?",
+      "context": "Checking with a stranger what time the last ferry departs",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "幾", "jyutping": "gei2", "english": "how many" },
+        { "chinese": "點", "jyutping": "dim2", "english": "o'clock" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "questions-007",
+      "topicId": "quick-questions",
+      "romanization": "Gam¹ jat⁶",
+      "jyutping": "gam1 jat6",
+      "chinese": "今日",
+      "english": "Today",
+      "context": "Confirming with a doctor's receptionist that your appointment is today",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "今", "jyutping": "gam1", "english": "this / present" },
+        { "chinese": "日", "jyutping": "jat6", "english": "day" }
+      ]
+    },
+    {
+      "id": "questions-008",
+      "topicId": "quick-questions",
+      "romanization": "Ting¹ jat⁶",
+      "jyutping": "ting1 jat6",
+      "chinese": "聽日",
+      "english": "Tomorrow",
+      "context": "Telling a friend you will meet them tomorrow for dim sum",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "聽", "jyutping": "ting1", "english": "listen (colloquial: next)" },
+        { "chinese": "日", "jyutping": "jat6", "english": "day" }
+      ]
+    },
+    {
+      "id": "questions-009",
+      "topicId": "quick-questions",
+      "romanization": "Dim² joeng⁶ aa³",
+      "jyutping": "dim2 joeng6 aa3",
+      "chinese": "點樣呀",
+      "english": "How? / In what way?",
+      "context": "Asking a local how to get to Victoria Peak on foot",
+      "difficulty": 2,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "點樣", "jyutping": "dim2 joeng6", "english": "how / in what way" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "questions-010",
+      "topicId": "quick-questions",
+      "romanization": "Dim² gaai² aa³",
+      "jyutping": "dim2 gaai2 aa3",
+      "chinese": "點解呀",
+      "english": "Why?",
+      "context": "Asking your friend why the restaurant is suddenly closed",
+      "difficulty": 2,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "點解", "jyutping": "dim2 gaai2", "english": "why" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "questions-011",
+      "topicId": "quick-questions",
+      "romanization": "Dim² syun³ aa³",
+      "jyutping": "dim2 syun3 aa3",
+      "chinese": "點算呀",
+      "english": "What should we do?",
+      "context": "Realizing you missed the last train and asking your friend what to do",
+      "difficulty": 2,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "點", "jyutping": "dim2", "english": "how" },
+        { "chinese": "算", "jyutping": "syun3", "english": "count / figure out" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "questions-012",
+      "topicId": "quick-questions",
+      "romanization": "Me¹ je⁵ aa³",
+      "jyutping": "me1 je5 aa3",
+      "chinese": "咩嘢呀",
+      "english": "What? / What thing?",
+      "context": "Not hearing what someone said in a noisy market and asking them to repeat",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "咩嘢", "jyutping": "me1 je5", "english": "what / what thing" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "questions-013",
+      "topicId": "quick-questions",
+      "romanization": "Bin¹ go³ aa³",
+      "jyutping": "bin1 go3 aa3",
+      "chinese": "邊個呀",
+      "english": "Who? / Which one?",
+      "context": "Asking which colleague organized the office birthday party",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "邊", "jyutping": "bin1", "english": "which" },
+        { "chinese": "個", "jyutping": "go3", "english": "classifier (general)" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "questions-014",
+      "topicId": "quick-questions",
+      "romanization": "Hai⁶ m⁴ hai⁶ aa³",
+      "jyutping": "hai6 m4 hai6 aa3",
+      "chinese": "係唔係呀",
+      "english": "Is that right? / Really?",
+      "context": "Double-checking with a taxi driver that he is going to the right address",
+      "difficulty": 2,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "係", "jyutping": "hai6", "english": "is" },
+        { "chinese": "唔", "jyutping": "m4", "english": "not" },
+        { "chinese": "係", "jyutping": "hai6", "english": "is" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "questions-015",
+      "topicId": "quick-questions",
+      "romanization": "Jau⁵ mou⁵ aa³",
+      "jyutping": "jau5 mou5 aa3",
+      "chinese": "有冇呀",
+      "english": "Do you have any? / Is there any?",
+      "context": "Asking a convenience store clerk if they have phone chargers",
+      "difficulty": 2,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "有", "jyutping": "jau5", "english": "have" },
+        { "chinese": "冇", "jyutping": "mou5", "english": "not have" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "questions-016",
+      "topicId": "quick-questions",
+      "romanization": "Dim² aa³",
+      "jyutping": "dim2 aa3",
+      "chinese": "點呀",
+      "english": "What's up? / How is it?",
+      "context": "Casually asking your friend how things are going when you meet up",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "點", "jyutping": "dim2", "english": "how" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "questions-017",
+      "topicId": "quick-questions",
+      "romanization": "Zou⁶ mat¹ je⁵ aa³",
+      "jyutping": "zou6 mat1 je5 aa3",
+      "chinese": "做乜嘢呀",
+      "english": "What are you doing?",
+      "context": "Calling a friend and asking what they are up to right now",
+      "difficulty": 2,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "做", "jyutping": "zou6", "english": "do" },
+        { "chinese": "乜嘢", "jyutping": "mat1 je5", "english": "what" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    },
+    {
+      "id": "questions-018",
+      "topicId": "quick-questions",
+      "romanization": "Gei² cin⁴ aa³",
+      "jyutping": "gei2 cin4 aa3",
+      "chinese": "幾錢呀",
+      "english": "How much?",
+      "context": "Quickly asking the price of a fishball skewer at a street cart",
+      "difficulty": 1,
+      "audioUrl": null,
+      "audioDuration": null,
+      "words": [
+        { "chinese": "幾", "jyutping": "gei2", "english": "how much" },
+        { "chinese": "錢", "jyutping": "cin4", "english": "money" },
+        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "declining-invitation",
+    "topicId": "yes-no-maybe",
+    "title": "Declining an invitation politely",
+    "description": "A friend invites you to dinner but you're busy tonight",
+    "turns": [
+      {
+        "speaker": "other",
+        "speakerLabel": "Friend",
+        "phraseId": null,
+        "chinese": "今晚食飯？",
+        "jyutping": "gam1 maan5 sik6 faan6",
+        "romanization": "Gam¹ maan⁵ sik⁶ faan⁶?",
+        "english": "Dinner tonight?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": "yesno-006",
+        "chinese": "唔得呀，今晚有嘢做。",
+        "jyutping": "m4 dak1 aa3 gam1 maan5 jau5 je5 zou6",
+        "romanization": "M⁴ dak¹ aa³, gam¹ maan⁵ jau⁵ je⁵ zou⁶.",
+        "english": "Can't, I'm busy tonight.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Friend",
+        "phraseId": null,
+        "chinese": "聽日呢？",
+        "jyutping": "ting1 jat6 ne1",
+        "romanization": "Ting¹ jat⁶ ne¹?",
+        "english": "How about tomorrow?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": "yesno-003",
+        "chinese": "好呀，冇問題。",
+        "jyutping": "hou2 aa3 mou5 man6 tai4",
+        "romanization": "Hou² aa³, mou⁵ man⁶ tai⁴.",
+        "english": "Sure, no problem.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Friend",
+        "phraseId": null,
+        "chinese": "好，聽日見。",
+        "jyutping": "hou2 ting1 jat6 gin3",
+        "romanization": "Hou², ting¹ jat⁶ gin³.",
+        "english": "Great, see you tomorrow.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

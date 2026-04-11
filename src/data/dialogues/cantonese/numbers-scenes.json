@@ -1,0 +1,128 @@
+[
+  {
+    "id": "market-price",
+    "topicId": "numbers-and-counting",
+    "title": "Asking the price at a market stall",
+    "description": "Haggling over the price at a local market",
+    "turns": [
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": "numbers-013",
+        "chinese": "唔該，呢個幾多錢？",
+        "jyutping": "m4 goi1 ni1 go3 gei2 do1 cin4",
+        "romanization": "M⁴ goi¹, ni¹ go³ gei² do¹ cin⁴?",
+        "english": "Excuse me, how much is this?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Vendor",
+        "phraseId": null,
+        "chinese": "三十蚊。",
+        "jyutping": "saam1 sap6 man1",
+        "romanization": "Saam¹ sap⁶ man¹.",
+        "english": "Thirty dollars.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": "numbers-014",
+        "chinese": "太貴喇！平啲得唔得？",
+        "jyutping": "taai3 gwai3 laa3 peng4 di1 dak1 m4 dak1",
+        "romanization": "Taai³ gwai³ laa³! Peng⁴ di¹ dak¹ m⁴ dak¹?",
+        "english": "Too expensive! Can you go lower?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Vendor",
+        "phraseId": null,
+        "chinese": "廿五蚊啦。",
+        "jyutping": "jaa6 ng5 man1 laa1",
+        "romanization": "Jaa⁶ ng⁵ man¹ laa¹.",
+        "english": "Twenty-five dollars then.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "好，我要一個。",
+        "jyutping": "hou2 ngo5 jiu3 jat1 go3",
+        "romanization": "Hou², ngo⁵ jiu³ jat¹ go³.",
+        "english": "Okay, I'll take one.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Vendor",
+        "phraseId": null,
+        "chinese": "好，多謝。",
+        "jyutping": "hou2 do1 ze6",
+        "romanization": "Hou², do¹ ze⁶.",
+        "english": "Okay, thanks.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      }
+    ]
+  },
+  {
+    "id": "phone-number",
+    "topicId": "numbers-and-counting",
+    "title": "Giving your phone number",
+    "description": "Someone asks for your phone number and you read it out",
+    "turns": [
+      {
+        "speaker": "other",
+        "speakerLabel": "Friend",
+        "phraseId": null,
+        "chinese": "你電話幾號？",
+        "jyutping": "nei5 din6 waa2 gei2 hou6",
+        "romanization": "Nei⁵ din⁶ waa² gei² hou⁶?",
+        "english": "What's your phone number?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "九四七二，三三零八。",
+        "jyutping": "gau2 sei3 cat1 ji6 saam1 saam1 ling4 baat3",
+        "romanization": "Gau² sei³ cat¹ ji⁶, saam¹ saam¹ ling⁴ baat³.",
+        "english": "9-4-7-2, 3-3-0-8.",
+        "voiceId": null,
+        "pauseAfterMs": 3000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Friend",
+        "phraseId": null,
+        "chinese": "我覆你。",
+        "jyutping": "ngo5 fuk1 nei5",
+        "romanization": "Ngo⁵ fuk¹ nei⁵.",
+        "english": "I'll text you back.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": "basics-012",
+        "chinese": "好，多謝。",
+        "jyutping": "hou2 do1 ze6",
+        "romanization": "Hou², do¹ ze⁶.",
+        "english": "Okay, thanks.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

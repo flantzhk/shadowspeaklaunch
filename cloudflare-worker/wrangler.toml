@@ -1,0 +1,13 @@
+name = "shadowspeak-api"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+CANTONESE_AI_BASE = "https://cantonese.ai/api"
+
+# Secrets (set via `wrangler secret put`):
+# - CANTONESE_AI_KEY
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "4a14059ca271485ca6985a22beb66077"

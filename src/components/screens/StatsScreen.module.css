@@ -1,0 +1,54 @@
+/* StatsScreen.module.css */
+
+.screen { flex: 1; overflow-y: auto; padding: var(--space-lg) var(--content-padding); padding-bottom: var(--space-3xl); }
+.header { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-xl); }
+.backBtn { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; }
+.title { font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold); }
+
+.statGrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-sm); margin-bottom: var(--space-2xl); }
+.statCard {
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-xs);
+  padding: var(--space-base); background: var(--color-surface); border-radius: var(--radius-md);
+  border: 0.5px solid var(--color-border);
+}
+.highlighted { background: var(--color-brand-dark); border-color: var(--color-brand-dark); }
+.highlighted .statValue { color: var(--color-brand-lime); }
+.highlighted .statLabel { color: var(--color-text-muted); }
+.statValue { font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); color: var(--color-text-primary); font-variant-numeric: tabular-nums; }
+.statLabel { font-size: var(--font-size-xs); color: var(--color-text-secondary); text-align: center; }
+
+.section { margin-bottom: var(--space-2xl); }
+.sectionTitle {
+  font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary);
+  text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin-bottom: var(--space-md);
+}
+
+.calendar {
+  display: grid; grid-template-columns: repeat(13, 1fr); gap: 3px;
+}
+.calDay {
+  aspect-ratio: 1; border-radius: 3px; background: var(--color-border);
+}
+.calActive { background: var(--color-brand-green); }
+.calToday { outline: 2px solid var(--color-brand-lime); outline-offset: 1px; }
+
+.barContainer { display: flex; flex-direction: column; gap: var(--space-xs); }
+.barTrack { height: 8px; background: var(--color-border); border-radius: var(--radius-pill); overflow: hidden; }
+.barMastered { height: 100%; background: var(--color-brand-green); border-radius: var(--radius-pill); transition: width var(--transition-normal); }
+.barLabels { display: flex; justify-content: space-between; font-size: var(--font-size-sm); color: var(--color-text-secondary); }
+
+.milestoneGrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); }
+.milestone {
+  display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md);
+  background: var(--color-surface); border-radius: var(--radius-md);
+  border: 0.5px solid var(--color-border); opacity: 0.5;
+}
+.unlocked { opacity: 1; }
+.milestoneIcon { font-size: var(--font-size-md); color: var(--color-brand-green); }
+.unlocked .milestoneIcon { color: var(--color-success); }
+.milestoneLabel { font-size: var(--font-size-sm); color: var(--color-text-primary); }
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .statCard:not(.highlighted) { background: var(--color-surface); }
+}

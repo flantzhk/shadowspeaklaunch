@@ -1,0 +1,127 @@
+/* MiniPlayer.module.css */
+
+.miniPlayer {
+  position: relative;
+  background: var(--color-brand-dark);
+  border-radius: 18px 18px 0 0;
+  box-shadow: var(--shadow-player);
+  flex-shrink: 0;
+  z-index: var(--z-player);
+}
+
+.progressTrack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 18px 18px 0 0;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--color-brand-lime);
+  transition: width 100ms linear;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--content-padding);
+  padding-top: calc(var(--space-md) + 3px);
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  padding: var(--space-xs) 0;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.phraseInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.romanization {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-inverse);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.secondary {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+}
+
+.controlBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-circle);
+}
+
+.controlBtn.active {
+  color: var(--color-brand-lime);
+}
+
+.playBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--color-brand-lime);
+  color: var(--color-brand-dark);
+  border-radius: var(--radius-circle);
+}
+
+.playBtn:active {
+  opacity: 0.9;
+  transform: scale(0.95);
+}
+
+.speedBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-pill);
+  padding: 0 var(--space-sm);
+}
+
+.counter {
+  text-align: center;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  padding-bottom: var(--space-xs);
+}

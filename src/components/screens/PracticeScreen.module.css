@@ -1,0 +1,126 @@
+/* PracticeScreen.module.css */
+
+.screen {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-lg) var(--content-padding);
+  padding-bottom: calc(var(--tab-bar-height) + var(--space-2xl));
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-xl);
+}
+
+.reviewCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-base);
+  background: var(--color-brand-lime-muted);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-xl);
+}
+
+.reviewInfo {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.reviewCount {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-dark);
+}
+
+.reviewLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.reviewButton {
+  background: var(--color-brand-lime);
+  color: var(--color-brand-dark);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-base);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  min-height: 44px;
+}
+
+.modeGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.modeCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 0.5px solid var(--color-border);
+  text-align: left;
+  min-height: 120px;
+  transition: transform var(--transition-fast);
+}
+
+.modeCard:active {
+  transform: scale(0.97);
+}
+
+.modeIcon {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--space-xs);
+}
+
+.modeName {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.modeDesc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  line-height: var(--line-height-normal);
+}
+
+.sceneSection {
+  margin-top: var(--space-xl);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-md);
+}
+
+.sceneRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.sceneCard {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 0.5px solid var(--color-border);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-height: 44px;
+}
+
+.sceneCard:active { transform: scale(0.97); }
+.sceneName { font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+.sceneDesc { font-size: var(--font-size-xs); color: var(--color-text-muted); }

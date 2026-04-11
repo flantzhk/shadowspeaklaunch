@@ -1,0 +1,107 @@
+/* WelcomeScreen.module.css — Post-registration welcome */
+
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--content-padding);
+  padding-top: calc(var(--safe-area-top, 0px) + 16px);
+  padding-bottom: calc(var(--safe-area-bottom, 0px) + 32px);
+  max-width: 428px;
+  margin: 0 auto;
+  width: 100%;
+  background: var(--color-bg);
+}
+
+.center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.playCircle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-brand-lime);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.playTriangle {
+  width: 0;
+  height: 0;
+  border-left: 22px solid var(--color-brand-dark);
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  margin-left: 4px;
+}
+
+.heading {
+  font-size: 32px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-dark);
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  max-width: 280px;
+  margin-bottom: 12px;
+}
+
+.statsRow {
+  display: flex;
+  gap: 12px;
+  margin: 24px 0;
+  align-items: center;
+}
+
+.stat {
+  text-align: center;
+}
+
+.statValue {
+  font-size: 28px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-dark);
+}
+
+.statLabel {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.statDivider {
+  width: 1px;
+  height: 36px;
+  background: var(--color-border-strong);
+}
+
+.primaryBtn {
+  width: 100%;
+  max-width: 280px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+  background: var(--color-brand-lime);
+  color: var(--color-brand-dark);
+  border: none;
+  margin-top: 8px;
+  min-height: 52px;
+  transition: transform var(--transition-fast);
+}
+
+.primaryBtn:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}

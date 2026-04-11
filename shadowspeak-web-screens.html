@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShadowSpeak — Web Screens (Landing, Auth, Setup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   SHADOWSPEAK DESIGN SYSTEM — WEB SCREENS
+   
+   PAGE FLOW MAP:
+   
+   Landing Page (shadowspeak.app)
+     └─→ [Get the app] → App Store / Play Store
+     └─→ [Sign in] → Login Screen
+     └─→ [Start free] → Registration Screen
+   
+   Login Screen
+     └─→ [Log in] → App (Home)
+     └─→ [Forgot password?] → Forgot Password Screen
+     └─→ [Create account] → Registration Screen
+     └─→ [← Back] → Landing Page
+   
+   Registration Screen
+     └─→ [Create account] → Ready Screen → App (Home)
+     └─→ [Already have account?] → Login Screen
+     └─→ [← Back] → Landing Page
+   
+   Forgot Password Screen
+     └─→ [Send reset link] → Confirmation → Login Screen
+     └─→ [← Back] → Login Screen
+
+   BACKEND NOTE:
+   cantonese.ai API key is owned by ShadowSpeak (Faith).
+   Users never see or manage an API key.
+   All API calls route through a backend proxy:
+     App → shadowspeak.app/api/tts → cantonese.ai/api/tts
+   The proxy:
+     - Adds the API key server-side
+     - Rate-limits per authenticated user
+     - Logs usage for billing (tie cost to pricing tiers)
+   Implementation: Cloudflare Worker or Vercel Edge Function.   
+   ═══════════════════════════════════════════════════ */
+
+/* ─── RESET ─── */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:#EDE8DC;color:#1a1a1a;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+button{font:inherit;cursor:pointer;border:none;background:none}
+input{font:inherit;border:none;outline:none}
+a{text-decoration:none;color:inherit}
+
+/* ─── DESIGN TOKENS ─── */
+:root{
+  --bg:#F7F4EC;
+  --bg-page:#EDE8DC;
+  --surface:#FFFFFF;
+  --border:rgba(0,0,0,0.06);
+  --border-strong:rgba(0,0,0,0.12);
+  
+  --text-primary:#1A1A1A;
+  --text-secondary:#5A5A5A;
+  --text-muted:#7A7A7A;
+  --text-faint:#9A9A9A;
+  
+  --brand-dark:#1A2A18;
+  --brand-green:#8BB82B;
+  --brand-lime:#C5E85A;
+  --brand-lime-muted:rgba(197,232,90,0.15);
+  
+  --streak-orange:#E8703A;
+  --streak-bg:#FFF0D8;
+  
+  --error:#D04040;
+  --success:#2A5A10;
+  
+  --radius-sm:8px;
+  --radius-md:12px;
+  --radius-lg:16px;
+  --radius-xl:22px;
+  
+  --shadow-soft:0 2px 20px rgba(0,0,0,0.06);
+  --shadow-card:0 4px 24px rgba(0,0,0,0.08);
+  --shadow-phone:0 30px 80px rgba(0,0,0,0.15);
+  
+  --font-display:'DM Serif Display',Georgia,serif;
+  --font-body:'DM Sans',system-ui,sans-serif;
+}
+
+/* ─── SCREEN WRAPPER (for previewing all screens) ─── */
+.preview-body{display:flex;flex-direction:column;align-items:center;gap:80px;padding:60px 20px}
+.screen-label{font-size:11px;font-weight:600;color:#5a5a5a;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:16px;text-align:center}
+.screen-sublabel{font-size:12px;color:#9a9a9a;margin-top:4px;font-weight:400;letter-spacing:0;text-transform:none}
+.screen-group{display:flex;gap:32px;flex-wrap:wrap;justify-content:center}
+
+/* ═══════════════════════════════════════════════════
+   1. LANDING PAGE
+   ═══════════════════════════════════════════════════ */
+
+.landing{width:100%;max-width:1200px;background:var(--bg);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-card)}
+
+/* ─── NAV ─── */
+.nav{padding:0 48px;height:72px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:10}
+.nav-brand{display:flex;align-items:baseline;gap:1px}
+.nav-brand-shadow{font-family:var(--font-body);font-size:20px;font-weight:700;color:var(--brand-dark);letter-spacing:-0.5px}
+.nav-brand-speak{font-family:var(--font-body);font-size:20px;font-weight:700;color:var(--brand-green);letter-spacing:-0.5px}
+.nav-links{display:flex;align-items:center;gap:36px}
+.nav-link{font-size:14px;font-weight:500;color:var(--text-secondary);transition:color 0.2s}
+.nav-link:hover{color:var(--brand-dark)}
+.nav-cta{background:var(--brand-dark);color:#fff;font-size:14px;font-weight:600;padding:10px 22px;border-radius:10px;transition:transform 0.2s}
+.nav-cta:hover{transform:translateY(-1px)}
+.nav-signin{font-size:14px;font-weight:500;color:var(--text-secondary)}
+
+/* ─── HERO ─── */
+.hero-section{padding:40px 48px 60px;display:flex;align-items:center;gap:60px}
+.hero-text{flex:1;max-width:560px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--brand-lime-muted);border:1px solid rgba(197,232,90,0.3);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;color:var(--brand-dark);margin-bottom:24px}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--brand-lime)}
+.hero-h1{font-family:var(--font-display);font-size:52px;line-height:1.1;color:var(--brand-dark);letter-spacing:-1px}
+.hero-h1 em{font-style:normal;color:var(--brand-green)}
+.hero-sub{font-size:19px;color:var(--text-secondary);line-height:1.6;margin-top:20px;max-width:440px}
+.hero-buttons{display:flex;gap:12px;margin-top:36px}
+.hero-btn-primary{display:flex;align-items:center;gap:10px;background:var(--brand-lime);color:var(--brand-dark);font-size:16px;font-weight:600;padding:16px 28px;border-radius:14px;transition:transform 0.2s,box-shadow 0.2s}
+.hero-btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(197,232,90,0.3)}
+.hero-btn-primary .play-icon{width:0;height:0;border-left:10px solid var(--brand-dark);border-top:6px solid transparent;border-bottom:6px solid transparent}
+.hero-btn-secondary{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border-strong);color:var(--brand-dark);font-size:16px;font-weight:600;padding:16px 28px;border-radius:14px;transition:transform 0.2s}
+.hero-btn-secondary:hover{transform:translateY(-2px)}
+.hero-trust{display:flex;align-items:center;gap:16px;margin-top:24px;font-size:13px;color:var(--text-faint)}
+.hero-trust-item{display:flex;align-items:center;gap:6px}
+.hero-trust-check{width:14px;height:14px;border-radius:50%;background:var(--brand-lime-muted);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--brand-dark);font-weight:700}
+
+/* ─── PHONE MOCKUP ─── */
+.hero-phone{flex-shrink:0;position:relative}
+.phone-frame{width:280px;background:var(--bg);border-radius:36px;border:8px solid #1a1a1a;box-shadow:var(--shadow-phone);overflow:hidden;transform:rotate(2deg)}
+.phone-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:90px;height:22px;background:#1a1a1a;border-radius:0 0 14px 14px;z-index:2}
+.phone-screen{position:relative}
+.phone-sb{padding:10px 20px 6px;display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--text-primary)}
+.phone-greeting{padding:14px 18px 0;font-size:18px;font-weight:600;letter-spacing:-0.3px}
+.phone-greeting-sub{padding:4px 18px 0;font-size:11px;color:var(--text-muted)}
+.phone-hero-card{margin:12px 14px 0;background:#fff;border-radius:16px;overflow:hidden;border:0.5px solid var(--border)}
+.phone-hero-img{height:130px;background:linear-gradient(160deg,#3A506B,#1C2541 40%,#5BC0BE 70%,#E8B865);position:relative}
+.phone-hero-label{position:absolute;top:10px;left:12px;display:flex;align-items:center;gap:4px}
+.phone-hero-dot{width:5px;height:5px;border-radius:50%;background:var(--brand-lime)}
+.phone-hero-tag{font-size:8px;font-weight:600;color:#fff;letter-spacing:1px;text-shadow:0 1px 3px rgba(0,0,0,0.5)}
+.phone-hero-day{position:absolute;top:10px;right:12px;background:rgba(255,255,255,0.9);padding:3px 7px;border-radius:6px;font-size:9px;font-weight:600;color:var(--brand-dark)}
+.phone-hero-grad{position:absolute;bottom:0;left:0;right:0;padding:10px 14px;background:linear-gradient(180deg,transparent,rgba(0,0,0,0.6))}
+.phone-hero-title{color:#fff;font-size:16px;font-weight:600;letter-spacing:-0.3px}
+.phone-hero-desc{color:#fff;font-size:10px;opacity:0.85;margin-top:3px}
+.phone-hero-action{padding:10px 12px;display:flex;gap:6px;align-items:center}
+.phone-dur{display:flex;border:0.5px solid rgba(0,0,0,0.1);border-radius:7px;overflow:hidden}
+.phone-dur-opt{padding:7px 8px;text-align:center;background:var(--bg);font-size:10px;font-weight:600;border-right:0.5px solid rgba(0,0,0,0.06)}
+.phone-dur-opt:last-child{border-right:none}
+.phone-dur-opt.active{background:var(--brand-dark);color:#fff}
+.phone-dur-label{font-size:6px;color:var(--text-faint);margin-top:1px;letter-spacing:0.3px;font-weight:600}
+.phone-dur-opt.active .phone-dur-label{color:#A8C878}
+.phone-start-btn{flex:1;background:var(--brand-lime);border-radius:9px;padding:10px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:600;color:var(--brand-dark)}
+.phone-play{width:0;height:0;border-left:7px solid var(--brand-dark);border-top:4px solid transparent;border-bottom:4px solid transparent}
+.phone-cats{padding:14px 14px 16px}
+.phone-cat-label{font-size:11px;font-weight:600;margin-bottom:8px}
+.phone-cat-row{display:flex;gap:8px}
+.phone-topic{width:100px;flex-shrink:0}
+.phone-topic-img{width:100px;height:68px;border-radius:8px}
+.phone-topic-name{font-size:10px;font-weight:600;margin-top:5px}
+.phone-topic-desc{font-size:8px;color:var(--text-faint);margin-top:2px}
+
+/* ─── SOCIAL PROOF ─── */
+.social-section{padding:48px;background:var(--surface);border-top:0.5px solid var(--border)}
+.social-label{font-size:11px;font-weight:600;color:var(--text-faint);letter-spacing:1.4px;text-transform:uppercase;text-align:center;margin-bottom:24px}
+.social-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+.social-card{background:var(--bg);border-radius:16px;padding:24px;max-width:300px;flex:1;min-width:220px}
+.social-quote{font-size:15px;color:var(--text-secondary);line-height:1.6;font-style:italic}
+.social-author{margin-top:16px;display:flex;align-items:center;gap:10px}
+.social-avatar{width:36px;height:36px;border-radius:50%;background:var(--brand-lime-muted);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--brand-dark)}
+.social-name{font-size:13px;font-weight:600}
+.social-role{font-size:11px;color:var(--text-faint)}
+
+/* ─── HOW IT WORKS ─── */
+.how-section{padding:60px 48px;border-top:0.5px solid var(--border)}
+.how-title{font-family:var(--font-display);font-size:36px;color:var(--brand-dark);text-align:center;margin-bottom:48px}
+.how-steps{display:flex;gap:32px;justify-content:center;flex-wrap:wrap}
+.how-step{flex:1;min-width:200px;max-width:300px;text-align:center}
+.how-step-num{width:40px;height:40px;border-radius:50%;background:var(--brand-dark);color:var(--brand-lime);font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.how-step-title{font-size:18px;font-weight:600;color:var(--brand-dark);margin-bottom:8px}
+.how-step-desc{font-size:14px;color:var(--text-secondary);line-height:1.6}
+
+/* ─── WHY NOT DUOLINGO ─── */
+.why-section{padding:48px;background:var(--brand-dark);color:#fff;border-radius:0}
+.why-title{font-family:var(--font-display);font-size:28px;color:#fff;text-align:center;margin-bottom:12px}
+.why-sub{font-size:15px;color:rgba(255,255,255,0.6);text-align:center;max-width:600px;margin:0 auto 32px;line-height:1.6}
+.why-grid{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.why-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;max-width:260px;flex:1;min-width:200px}
+.why-card-x{font-size:13px;color:rgba(255,255,255,0.35);margin-bottom:8px;font-weight:500}
+.why-card-name{font-size:16px;font-weight:600;color:rgba(255,255,255,0.9);margin-bottom:6px}
+.why-card-reason{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.5}
+
+/* ─── PRICING ─── */
+.pricing-section{padding:60px 48px;border-top:0.5px solid var(--border)}
+.pricing-title{font-family:var(--font-display);font-size:36px;color:var(--brand-dark);text-align:center;margin-bottom:8px}
+.pricing-sub{font-size:15px;color:var(--text-muted);text-align:center;margin-bottom:40px}
+.pricing-cards{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.pricing-card{background:var(--surface);border:1px solid var(--border-strong);border-radius:20px;padding:32px;width:300px;text-align:center;position:relative}
+.pricing-card.featured{border-color:var(--brand-lime);box-shadow:0 0 0 3px var(--brand-lime-muted)}
+.pricing-card-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--brand-lime);color:var(--brand-dark);font-size:11px;font-weight:700;padding:4px 14px;border-radius:12px;letter-spacing:0.3px}
+.pricing-card-name{font-size:14px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.pricing-card-price{font-family:var(--font-display);font-size:48px;color:var(--brand-dark)}
+.pricing-card-period{font-size:14px;color:var(--text-faint);margin-top:4px;margin-bottom:20px}
+.pricing-card-features{text-align:left;margin-bottom:24px}
+.pricing-feature{font-size:14px;color:var(--text-secondary);padding:8px 0;display:flex;align-items:center;gap:10px}
+.pricing-check{width:18px;height:18px;border-radius:50%;background:var(--brand-lime-muted);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--brand-dark);font-weight:700;flex-shrink:0}
+.pricing-btn{width:100%;padding:14px;border-radius:12px;font-size:15px;font-weight:600;transition:transform 0.2s}
+.pricing-btn-primary{background:var(--brand-lime);color:var(--brand-dark)}
+.pricing-btn-secondary{background:var(--bg);color:var(--brand-dark);border:1px solid var(--border-strong)}
+
+/* ─── FOUNDER STORY ─── */
+.founder-section{padding:48px;background:var(--bg);border-top:0.5px solid var(--border)}
+.founder-inner{max-width:640px;margin:0 auto;text-align:center}
+.founder-quote{font-family:var(--font-display);font-size:24px;color:var(--brand-dark);line-height:1.4;margin-bottom:20px}
+.founder-credit{font-size:14px;color:var(--text-muted)}
+.founder-credit strong{color:var(--text-secondary);font-weight:600}
+
+/* ─── FOOTER ─── */
+.footer{padding:32px 48px;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-brand{display:flex;align-items:baseline;gap:1px}
+.footer-links{display:flex;gap:24px}
+.footer-link{font-size:13px;color:var(--text-faint)}
+.footer-copy{font-size:12px;color:var(--text-faint)}
+
+
+/* ═══════════════════════════════════════════════════
+   2. AUTH SCREENS (Login, Register, Forgot Password)
+   Phone-sized cards, same branding.
+   NOTE: cantonese.ai API key is managed server-side via a proxy.
+   Users never see or handle API keys.
+   ═══════════════════════════════════════════════════ */
+
+.auth-frame{width:375px;background:var(--bg);border-radius:44px;border:10px solid #1a1a1a;box-shadow:var(--shadow-phone);overflow:hidden;position:relative}
+.auth-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:110px;height:26px;background:#1a1a1a;border-radius:0 0 18px 18px;z-index:10}
+.auth-statusbar{padding:14px 26px 8px;display:flex;justify-content:space-between;font-size:13px;font-weight:600}
+.auth-content{padding:24px 28px 32px;min-height:720px;display:flex;flex-direction:column}
+
+/* ─── Auth shared ─── */
+.auth-back{font-size:14px;font-weight:500;color:var(--text-secondary);margin-bottom:24px;display:flex;align-items:center;gap:6px}
+.auth-back-arrow{font-size:18px}
+.auth-logo{display:flex;align-items:baseline;gap:1px;margin-bottom:6px}
+.auth-logo-shadow{font-size:24px;font-weight:700;color:var(--brand-dark);letter-spacing:-0.5px}
+.auth-logo-speak{font-size:24px;font-weight:700;color:var(--brand-green);letter-spacing:-0.5px}
+.auth-lang{font-size:9px;color:var(--text-faint);letter-spacing:1.2px;font-weight:500;margin-bottom:32px}
+.auth-title{font-family:var(--font-display);font-size:28px;color:var(--brand-dark);margin-bottom:8px}
+.auth-subtitle{font-size:14px;color:var(--text-muted);line-height:1.5;margin-bottom:32px}
+
+/* ─── Form elements ─── */
+.auth-field{margin-bottom:18px}
+.auth-label{font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:6px;display:block;letter-spacing:0.2px}
+.auth-input{width:100%;padding:14px 16px;background:var(--surface);border:1.5px solid var(--border-strong);border-radius:var(--radius-md);font-size:15px;color:var(--text-primary);transition:border-color 0.2s}
+.auth-input:focus{border-color:var(--brand-lime);box-shadow:0 0 0 3px var(--brand-lime-muted)}
+.auth-input::placeholder{color:var(--text-faint)}
+.auth-input.error{border-color:var(--error)}
+.auth-field-hint{font-size:11px;color:var(--text-faint);margin-top:4px}
+.auth-field-error{font-size:11px;color:var(--error);margin-top:4px;display:none}
+
+.auth-btn{width:100%;padding:16px;border-radius:var(--radius-md);font-size:16px;font-weight:600;transition:transform 0.15s,box-shadow 0.15s;margin-top:8px}
+.auth-btn-primary{background:var(--brand-lime);color:var(--brand-dark)}
+.auth-btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(197,232,90,0.3)}
+.auth-btn-primary:active{transform:translateY(0)}
+.auth-btn-dark{background:var(--brand-dark);color:#fff}
+.auth-btn-outline{background:transparent;border:1.5px solid var(--border-strong);color:var(--text-secondary)}
+
+.auth-divider{display:flex;align-items:center;gap:16px;margin:24px 0}
+.auth-divider-line{flex:1;height:0.5px;background:var(--border-strong)}
+.auth-divider-text{font-size:12px;color:var(--text-faint);font-weight:500}
+
+.auth-social-row{display:flex;gap:10px}
+.auth-social-btn{flex:1;padding:13px;border-radius:var(--radius-md);border:1.5px solid var(--border-strong);background:var(--surface);font-size:14px;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;justify-content:center;gap:8px;transition:border-color 0.2s}
+.auth-social-btn:hover{border-color:var(--text-faint)}
+.auth-social-icon{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.auth-social-g{background:#4285F4;color:#fff}
+.auth-social-a{background:#000;color:#fff}
+
+.auth-footer-link{text-align:center;margin-top:24px;font-size:13px;color:var(--text-muted)}
+.auth-footer-link a,.auth-link{color:var(--brand-dark);font-weight:600}
+
+.auth-forgot{font-size:13px;color:var(--text-muted);text-align:right;margin-top:-10px;margin-bottom:18px}
+.auth-forgot a{color:var(--brand-dark);font-weight:600}
+
+.auth-terms{font-size:11px;color:var(--text-faint);text-align:center;margin-top:16px;line-height:1.5}
+.auth-terms a{color:var(--text-secondary);font-weight:500}
+
+/* ─── Password strength ─── */
+.pw-strength{display:flex;gap:4px;margin-top:6px}
+.pw-bar{flex:1;height:3px;border-radius:2px;background:#EEE8D8}
+.pw-bar.active-1{background:var(--error)}
+.pw-bar.active-2{background:var(--streak-orange)}
+.pw-bar.active-3{background:var(--brand-lime)}
+.pw-bar.active-4{background:var(--brand-green)}
+
+/* ─── API Key setup ─── */
+.api-illustration{width:80px;height:80px;border-radius:20px;background:var(--brand-lime-muted);display:flex;align-items:center;justify-content:center;margin-bottom:24px}
+.api-illustration svg{width:36px;height:36px}
+.api-step{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
+.api-step-num{width:24px;height:24px;border-radius:50%;background:var(--brand-dark);color:var(--brand-lime);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.api-step-text{font-size:13px;color:var(--text-secondary);line-height:1.5}
+.api-step-text strong{color:var(--text-primary);font-weight:600}
+.api-step-text a{color:var(--brand-dark);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+
+/* ─── Success state ─── */
+.auth-success{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;padding:40px 0}
+.auth-success-icon{width:64px;height:64px;border-radius:50%;background:var(--brand-lime-muted);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.auth-success-check{width:28px;height:28px;border-radius:50%;background:var(--brand-lime);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--brand-dark)}
+
+/* ─── Home indicator ─── */
+.auth-home-bar{width:120px;height:4px;background:#1a1a1a;border-radius:2px;margin:16px auto 8px}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════ */
+@media(max-width:900px){
+  .hero-section{flex-direction:column;padding:32px 24px 48px;text-align:center}
+  .hero-text{max-width:100%}
+  .hero-sub{margin:16px auto 0}
+  .hero-buttons{justify-content:center}
+  .hero-trust{justify-content:center}
+  .hero-phone{order:-1}
+  .phone-frame{width:240px;transform:rotate(0)}
+  .nav{padding:0 20px}
+  .nav-links{display:none}
+  .how-section{padding:48px 24px}
+  .pricing-section{padding:48px 24px}
+  .social-section{padding:36px 24px}
+  .why-section{padding:36px 24px}
+  .footer{padding:24px 20px;flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body class="preview-body">
+
+<!-- ═══════════ FLOW DIAGRAM ═══════════ -->
+<div style="background:var(--surface);border-radius:16px;padding:32px 40px;max-width:800px;width:100%;box-shadow:var(--shadow-soft)">
+<div class="screen-label">Page Flow Map</div>
+<pre style="font-family:'DM Sans',system-ui,monospace;font-size:12px;color:var(--text-secondary);line-height:2;white-space:pre-wrap">
+shadowspeak.app (Landing Page)
+├── [Get the app] ─────────→ App Store / Play Store
+├── [Sign in] ─────────────→ Login Screen
+│                              ├── [Log in] → Ready Screen → App (Home)
+│                              ├── [Forgot password?] → Forgot Password
+│                              │                         └── [Send link] → Email sent → Login
+│                              └── [Create account] → Registration
+│                                                      └── (see below)
+└── [Start free] ──────────→ Registration Screen
+                               ├── [Create account] → Ready Screen → App (Home)
+                               └── [Already have account?] → Login
+
+App (authenticated)
+├── Home tab ──────────────→ Topic Detail → Shadow Session
+├── Library tab ───────────→ Phrase Detail → Practice
+├── Practice tab ──────────→ Shadow / Prompt / Speed Run / Tone Gym / Dialogue / AI Chat
+└── Settings ──────────────→ Account / Logout → Landing Page
+
+NOTE: cantonese.ai API key is managed server-side via a proxy.
+Users never see or handle API keys. All API calls route through
+your backend proxy (e.g., Cloudflare Worker) which injects the key.
+This means: no API key setup screen, no key in client code,
+no key in IndexedDB. Users just sign up and start learning.
+</pre>
+</div>
+
+<!-- ═══════════ 1. LANDING PAGE ═══════════ -->
+<div>
+<div class="screen-label">Landing Page<br><span class="screen-sublabel">shadowspeak.app — Desktop (1200px max)</span></div>
+<div class="landing">
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-brand"><span class="nav-brand-shadow">Shadow</span><span class="nav-brand-speak">Speak</span></div>
+  <div class="nav-links">
+    <a href="#" class="nav-link">How it works</a>
+    <a href="#" class="nav-link">Pricing</a>
+    <a href="#" class="nav-link">FAQ</a>
+    <a href="#" class="nav-signin">Sign in</a>
+    <button class="nav-cta">Get the app</button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero-section">
+  <div class="hero-text">
+    <div class="hero-tag"><div class="hero-tag-dot"></div>Audio-first language learning</div>
+    <h1 class="hero-h1">Learn to speak Cantonese.<br>Not read it.<br><em>Speak it.</em></h1>
+    <p class="hero-sub">ShadowSpeak gets expat families in Hong Kong actually talking — at the school gate, in the taxi, at dim sum.</p>
+    <div class="hero-buttons">
+      <button class="hero-btn-primary"><span class="play-icon"></span>Start free</button>
+      <button class="hero-btn-secondary">Download app</button>
+    </div>
+    <div class="hero-trust">
+      <div class="hero-trust-item"><div class="hero-trust-check">✓</div>No credit card needed</div>
+      <div class="hero-trust-item"><div class="hero-trust-check">✓</div>Works offline</div>
+      <div class="hero-trust-item"><div class="hero-trust-check">✓</div>Family-friendly</div>
+    </div>
+  </div>
+  <div class="hero-phone">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-sb"><span>9:41</span><span>5G</span></div>
+        <div class="phone-greeting">Good evening, Faith</div>
+        <div class="phone-greeting-sub">Your lesson is ready. Just press play.</div>
+        <div class="phone-hero-card">
+          <div class="phone-hero-img">
+            <div class="phone-hero-label"><div class="phone-hero-dot"></div><span class="phone-hero-tag">TODAY'S LESSON</span></div>
+            <div class="phone-hero-day">Day 12</div>
+            <div class="phone-hero-grad">
+              <div class="phone-hero-title">At a restaurant</div>
+              <div class="phone-hero-desc">Ordering, asking for the bill</div>
+            </div>
+          </div>
+          <div class="phone-hero-action">
+            <div class="phone-dur">
+              <div class="phone-dur-opt"><div>10</div><div class="phone-dur-label">MIN</div></div>
+              <div class="phone-dur-opt"><div>20</div><div class="phone-dur-label">MIN</div></div>
+              <div class="phone-dur-opt active"><div>30</div><div class="phone-dur-label">MIN</div></div>
+            </div>
+            <div class="phone-start-btn"><div class="phone-play"></div>Start lesson</div>
+          </div>
+        </div>
+        <div class="phone-cats">
+          <div class="phone-cat-label">Food and drink</div>
+          <div class="phone-cat-row">
+            <div class="phone-topic"><div class="phone-topic-img" style="background:linear-gradient(135deg,#6F4E37,#A0785D 50%,#E8D4B8)"></div><div class="phone-topic-name">Ordering coffee</div><div class="phone-topic-desc">Cha chaan teng, milk tea</div></div>
+            <div class="phone-topic"><div class="phone-topic-img" style="background:linear-gradient(135deg,#C8504A,#E88868 50%,#F5D0A8)"></div><div class="phone-topic-name">At a restaurant</div><div class="phone-topic-desc">Ordering, allergies</div></div>
+            <div class="phone-topic"><div class="phone-topic-img" style="background:linear-gradient(135deg,#4A7A5A,#8BB868 50%,#E8E0A8);width:60px;height:68px;border-radius:8px"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Social proof -->
+<section class="social-section">
+  <div class="social-label">What learners say</div>
+  <div class="social-row">
+    <div class="social-card">
+      <div class="social-quote">"I ordered milk tea in Cantonese for the first time after two weeks. The cha chaan teng auntie smiled."</div>
+      <div class="social-author"><div class="social-avatar">S</div><div><div class="social-name">Sarah K.</div><div class="social-role">Expat parent, Discovery Bay</div></div></div>
+    </div>
+    <div class="social-card">
+      <div class="social-quote">"Finally an app that teaches what I actually need. Not textbook phrases. Real Hong Kong life."</div>
+      <div class="social-author"><div class="social-avatar">M</div><div><div class="social-name">Marcus T.</div><div class="social-role">Finance, Central</div></div></div>
+    </div>
+    <div class="social-card">
+      <div class="social-quote">"My kids love it. The shadowing method means they can practice without reading characters."</div>
+      <div class="social-author"><div class="social-avatar">J</div><div><div class="social-name">Jenny L.</div><div class="social-role">Parent, Sai Kung</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="how-section">
+  <h2 class="how-title">How it works</h2>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="how-step-num">1</div>
+      <div class="how-step-title">Browse real HK moments</div>
+      <div class="how-step-desc">Topics like wet market bargaining, school pickup, and cha chaan teng orders. Not textbook dialogues nobody uses.</div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">2</div>
+      <div class="how-step-title">Save what matters to you</div>
+      <div class="how-step-desc">Build a personal library of phrases you actually need. Your daily lesson is built from this library.</div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">3</div>
+      <div class="how-step-title">Press play and speak</div>
+      <div class="how-step-desc">Shadow native speakers for 10, 20, or 30 minutes. Listen. Repeat. Get scored. That's your Cantonese practice, done.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Why not duolingo -->
+<section class="why-section">
+  <h2 class="why-title">Why not the other apps?</h2>
+  <p class="why-sub">Duolingo doesn't offer Cantonese. Neither does Babbel, Rosetta Stone, or Busuu. The apps that do exist focus on reading and writing. You don't need that to order milk tea.</p>
+  <div class="why-grid">
+    <div class="why-card"><div class="why-card-x">Other apps</div><div class="why-card-name">Match tiles</div><div class="why-card-reason">Drag words into boxes. Feels productive. Doesn't get you speaking.</div></div>
+    <div class="why-card"><div class="why-card-x">Other apps</div><div class="why-card-name">Teach characters</div><div class="why-card-reason">Great for literacy. Useless when the taxi driver asks where you're going.</div></div>
+    <div class="why-card"><div class="why-card-x">ShadowSpeak</div><div class="why-card-name">Gets you talking</div><div class="why-card-reason">You hear it. You say it. You get scored. Every day. That's how speaking fluency works.</div></div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="pricing-section">
+  <h2 class="pricing-title">Simple pricing</h2>
+  <p class="pricing-sub">Start free. Upgrade when you're ready.</p>
+  <div class="pricing-cards">
+    <div class="pricing-card">
+      <div class="pricing-card-name">Free</div>
+      <div class="pricing-card-price">$0</div>
+      <div class="pricing-card-period">Forever</div>
+      <div class="pricing-card-features">
+        <div class="pricing-feature"><div class="pricing-check">✓</div>"The Very Basics" category (55 phrases)</div>
+        <div class="pricing-feature"><div class="pricing-check">✓</div>Shadow mode practice</div>
+        <div class="pricing-feature"><div class="pricing-check">✓</div>Pronunciation scoring</div>
+        <div class="pricing-feature"><div class="pricing-check">✓</div>Offline mode</div>
+      </div>
+      <button class="pricing-btn pricing-btn-secondary">Get started</button>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-card-badge">Most popular</div>
+      <div class="pricing-card-name">Pro</div>
+      <div class="pricing-card-price">$9.99</div>
+      <div class="pricing-card-period">per month</div>
+      <div class="pricing-card-features">
+        <div class="pricing-feature"><div class="pricing-check">✓</div>All 20 topics (395+ phrases)</div>
+        <div class="pricing-feature"><div class="pricing-check">✓</div>All practice modes</div>
+        <div class="pricing-feature"><div class="pricing-check">✓</div>Dialogue scenes</div>
+        <div class="pricing-feature"><div class="pricing-check">✓</div>AI conversation partner</div>
+        <div class="pricing-feature"><div class="pricing-check">✓</div>Mandarin (coming soon)</div>
+      </div>
+      <button class="pricing-btn pricing-btn-primary">Start free trial</button>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-card-name">Annual</div>
+      <div class="pricing-card-price">$79</div>
+      <div class="pricing-card-period">per year (save 34%)</div>
+      <div class="pricing-card-features">
+        <div class="pricing-feature"><div class="pricing-check">✓</div>Everything in Pro</div>
+        <div class="pricing-feature"><div class="pricing-check">✓</div>Family profiles (up to 4)</div>
+        <div class="pricing-feature"><div class="pricing-check">✓</div>Priority new features</div>
+        <div class="pricing-feature"><div class="pricing-check">✓</div>All future languages</div>
+      </div>
+      <button class="pricing-btn pricing-btn-primary">Start free trial</button>
+    </div>
+  </div>
+</section>
+
+<!-- Founder story -->
+<section class="founder-section">
+  <div class="founder-inner">
+    <div class="founder-quote">"We built ShadowSpeak because nothing else existed. We're an expat family in Hong Kong who got tired of nodding and smiling through conversations we couldn't understand."</div>
+    <div class="founder-credit"><strong>Faith Lantz</strong> — Founder, Discovery Bay</div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-brand"><span class="nav-brand-shadow">Shadow</span><span class="nav-brand-speak">Speak</span></div>
+  <div class="footer-links">
+    <a href="#" class="footer-link">Privacy</a>
+    <a href="#" class="footer-link">Terms</a>
+    <a href="#" class="footer-link">Contact</a>
+    <a href="#" class="footer-link">FAQ</a>
+  </div>
+  <div class="footer-copy">ShadowSpeak 2026. Made in Hong Kong.</div>
+</footer>
+
+</div>
+</div>
+
+<!-- ═══════════ 2. AUTH SCREENS ═══════════ -->
+<div class="screen-group">
+
+<!-- ─── LOGIN ─── -->
+<div>
+<div class="screen-label">Login<br><span class="screen-sublabel">Returning user signs in</span></div>
+<div class="auth-frame">
+<div class="auth-notch"></div>
+<div class="auth-statusbar"><span>9:41</span><span>5G</span></div>
+<div class="auth-content">
+
+<div class="auth-back"><span class="auth-back-arrow">‹</span> Back</div>
+
+<div class="auth-logo"><span class="auth-logo-shadow">Shadow</span><span class="auth-logo-speak">Speak</span></div>
+<div class="auth-lang">CANTONESE ›</div>
+
+<div class="auth-title">Welcome back</div>
+<div class="auth-subtitle">Sign in to continue your streak.</div>
+
+<div class="auth-field">
+  <label class="auth-label">Email</label>
+  <input class="auth-input" type="email" placeholder="you@example.com" value="faith@lantz.co">
+</div>
+
+<div class="auth-field">
+  <label class="auth-label">Password</label>
+  <input class="auth-input" type="password" placeholder="Your password" value="••••••••••">
+</div>
+
+<div class="auth-forgot"><a href="#">Forgot password?</a></div>
+
+<button class="auth-btn auth-btn-primary">Sign in</button>
+
+<div class="auth-divider"><div class="auth-divider-line"></div><div class="auth-divider-text">or</div><div class="auth-divider-line"></div></div>
+
+<div class="auth-social-row">
+  <button class="auth-social-btn"><div class="auth-social-icon auth-social-g">G</div>Google</button>
+  <button class="auth-social-btn"><div class="auth-social-icon auth-social-a">A</div>Apple</button>
+</div>
+
+<div style="flex:1"></div>
+
+<div class="auth-footer-link">Don't have an account? <a href="#">Create one</a></div>
+
+<div class="auth-home-bar"></div>
+</div>
+</div>
+</div>
+
+<!-- ─── REGISTRATION ─── -->
+<div>
+<div class="screen-label">Registration<br><span class="screen-sublabel">New user creates account</span></div>
+<div class="auth-frame">
+<div class="auth-notch"></div>
+<div class="auth-statusbar"><span>9:41</span><span>5G</span></div>
+<div class="auth-content">
+
+<div class="auth-back"><span class="auth-back-arrow">‹</span> Back</div>
+
+<div class="auth-logo"><span class="auth-logo-shadow">Shadow</span><span class="auth-logo-speak">Speak</span></div>
+<div class="auth-lang">CANTONESE ›</div>
+
+<div class="auth-title">Start speaking</div>
+<div class="auth-subtitle">Create your account. Takes 30 seconds.</div>
+
+<div class="auth-field">
+  <label class="auth-label">First name</label>
+  <input class="auth-input" type="text" placeholder="Your first name" value="Faith">
+</div>
+
+<div class="auth-field">
+  <label class="auth-label">Email</label>
+  <input class="auth-input" type="email" placeholder="you@example.com">
+</div>
+
+<div class="auth-field">
+  <label class="auth-label">Password</label>
+  <input class="auth-input" type="password" placeholder="At least 8 characters" value="••••••••••">
+  <div class="pw-strength">
+    <div class="pw-bar active-4"></div>
+    <div class="pw-bar active-4"></div>
+    <div class="pw-bar active-4"></div>
+    <div class="pw-bar active-4"></div>
+  </div>
+</div>
+
+<button class="auth-btn auth-btn-primary">Create account</button>
+
+<div class="auth-terms">By creating an account, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</div>
+
+<div class="auth-divider"><div class="auth-divider-line"></div><div class="auth-divider-text">or</div><div class="auth-divider-line"></div></div>
+
+<div class="auth-social-row">
+  <button class="auth-social-btn"><div class="auth-social-icon auth-social-g">G</div>Google</button>
+  <button class="auth-social-btn"><div class="auth-social-icon auth-social-a">A</div>Apple</button>
+</div>
+
+<div style="flex:1"></div>
+
+<div class="auth-footer-link">Already have an account? <a href="#">Sign in</a></div>
+
+<div class="auth-home-bar"></div>
+</div>
+</div>
+</div>
+
+<!-- ─── FORGOT PASSWORD ─── -->
+<div>
+<div class="screen-label">Forgot Password<br><span class="screen-sublabel">Reset link sent via email</span></div>
+<div class="auth-frame">
+<div class="auth-notch"></div>
+<div class="auth-statusbar"><span>9:41</span><span>5G</span></div>
+<div class="auth-content">
+
+<div class="auth-back"><span class="auth-back-arrow">‹</span> Back to sign in</div>
+
+<div class="auth-logo"><span class="auth-logo-shadow">Shadow</span><span class="auth-logo-speak">Speak</span></div>
+<div class="auth-lang">CANTONESE ›</div>
+
+<div class="auth-title">Reset password</div>
+<div class="auth-subtitle">Enter your email and we'll send you a link to reset your password.</div>
+
+<div class="auth-field">
+  <label class="auth-label">Email</label>
+  <input class="auth-input" type="email" placeholder="you@example.com" value="faith@lantz.co">
+</div>
+
+<button class="auth-btn auth-btn-primary">Send reset link</button>
+
+<div style="height:40px"></div>
+
+<!-- SUCCESS STATE (shown after sending) -->
+<div class="auth-success">
+  <div class="auth-success-icon"><div class="auth-success-check">✓</div></div>
+  <div class="auth-title" style="font-size:22px;margin-bottom:8px">Check your email</div>
+  <div class="auth-subtitle" style="margin-bottom:24px">We sent a reset link to <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1670777f627e567a7778626c387579">[email&#160;protected]</a></strong>. It expires in 30 minutes.</div>
+  <button class="auth-btn auth-btn-outline" style="width:auto;padding:12px 24px;font-size:14px">Back to sign in</button>
+  <div style="margin-top:16px;font-size:12px;color:var(--text-faint)">Didn't get it? <a href="#" class="auth-link">Resend</a></div>
+</div>
+
+<div style="flex:1"></div>
+<div class="auth-home-bar"></div>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- ═══════════ 3. POST-REGISTRATION ═══════════ -->
+<div class="screen-group">
+
+<!-- ─── WELCOME / READY STATE ─── -->
+<div>
+<div class="screen-label">Ready to Start<br><span class="screen-sublabel">After registration or login — before first lesson</span></div>
+<div class="auth-frame">
+<div class="auth-notch"></div>
+<div class="auth-statusbar"><span>9:41</span><span>5G</span></div>
+<div class="auth-content">
+
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 0">
+
+  <div style="width:72px;height:72px;border-radius:50%;background:var(--brand-lime);display:flex;align-items:center;justify-content:center;margin-bottom:28px">
+    <div style="width:0;height:0;border-left:22px solid var(--brand-dark);border-top:14px solid transparent;border-bottom:14px solid transparent;margin-left:4px"></div>
+  </div>
+
+  <div style="font-family:var(--font-display);font-size:32px;color:var(--brand-dark);margin-bottom:8px">You're all set</div>
+
+  <div style="font-size:16px;color:var(--text-secondary);line-height:1.6;max-width:280px;margin-bottom:12px">ShadowSpeak works like a podcast. Press play. Repeat what you hear. That's your lesson.</div>
+
+  <div style="display:flex;gap:12px;margin:24px 0">
+    <div style="text-align:center">
+      <div style="font-size:28px;font-weight:700;color:var(--brand-dark)">5</div>
+      <div style="font-size:11px;color:var(--text-faint)">phrases ready</div>
+    </div>
+    <div style="width:1px;background:var(--border-strong)"></div>
+    <div style="text-align:center">
+      <div style="font-size:28px;font-weight:700;color:var(--brand-dark)">10</div>
+      <div style="font-size:11px;color:var(--text-faint)">min first lesson</div>
+    </div>
+    <div style="width:1px;background:var(--border-strong)"></div>
+    <div style="text-align:center">
+      <div style="font-size:28px;font-weight:700;color:var(--brand-dark)">0</div>
+      <div style="font-size:11px;color:var(--text-faint)">day streak</div>
+    </div>
+  </div>
+
+  <button class="auth-btn auth-btn-primary" style="max-width:280px;margin-top:8px">Start your first lesson</button>
+
+  <div style="margin-top:16px;font-size:13px;color:var(--text-faint)">or

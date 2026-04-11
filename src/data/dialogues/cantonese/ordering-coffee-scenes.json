@@ -1,0 +1,191 @@
+[
+  {
+    "id": "ordering-milk-tea",
+    "topicId": "ordering-coffee",
+    "title": "Ordering milk tea at a cha chaan teng",
+    "description": "Ordering a drink and snack at a classic Hong Kong cafe",
+    "turns": [
+      {
+        "speaker": "other",
+        "speakerLabel": "Waiter",
+        "phraseId": null,
+        "chinese": "飲咩？",
+        "jyutping": "jam2 me1",
+        "romanization": "Jam² me¹?",
+        "english": "What to drink?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "凍奶茶，少甜。",
+        "jyutping": "dung3 naai5 caa4 siu2 tim4",
+        "romanization": "Dung³ naai⁵ caa⁴, siu² tim⁴.",
+        "english": "Iced milk tea, less sweet.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Waiter",
+        "phraseId": null,
+        "chinese": "要唔要食嘢？",
+        "jyutping": "jiu3 m4 jiu3 sik6 je5",
+        "romanization": "Jiu³ m⁴ jiu³ sik⁶ je⁵?",
+        "english": "Want anything to eat?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "要一個菠蘿包。",
+        "jyutping": "jiu3 jat1 go3 bo1 lo4 baau1",
+        "romanization": "Jiu³ jat¹ go³ bo¹ lo⁴ baau¹.",
+        "english": "A pineapple bun please.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Waiter",
+        "phraseId": null,
+        "chinese": "堂食定外賣？",
+        "jyutping": "tong4 sik6 ding6 ngoi6 maai6",
+        "romanization": "Tong⁴ sik⁶ ding⁶ ngoi⁶ maai⁶?",
+        "english": "Eat in or takeaway?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "堂食，唔該。",
+        "jyutping": "tong4 sik6 m4 goi1",
+        "romanization": "Tong⁴ sik⁶, m⁴ goi¹.",
+        "english": "Eat in, thanks.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      }
+    ]
+  },
+  {
+    "id": "asking-for-bill",
+    "topicId": "ordering-coffee",
+    "title": "Asking for the bill and paying",
+    "description": "Finishing up and paying at a cha chaan teng",
+    "turns": [
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "唔該，埋單。",
+        "jyutping": "m4 goi1 maai4 daan1",
+        "romanization": "M⁴ goi¹, maai⁴ daan¹.",
+        "english": "Excuse me, the bill please.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Waiter",
+        "phraseId": null,
+        "chinese": "一共四十五蚊。",
+        "jyutping": "jat1 gung6 sei3 sap6 ng5 man1",
+        "romanization": "Jat¹ gung⁶ sei³ sap⁶ ng⁵ man¹.",
+        "english": "That's 45 dollars total.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "可唔可以用八達通？",
+        "jyutping": "ho2 m4 ho2 ji5 jung6 baat3 daat6 tung1",
+        "romanization": "Ho² m⁴ ho² ji⁵ jung⁶ baat³ daat⁶ tung¹?",
+        "english": "Can I use Octopus?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Waiter",
+        "phraseId": null,
+        "chinese": "得。嘟一嘟。",
+        "jyutping": "dak1 duk1 jat1 duk1",
+        "romanization": "Dak¹. Duk¹ jat¹ duk¹.",
+        "english": "Yes. Tap here.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": "basics-005",
+        "chinese": "多謝。",
+        "jyutping": "do1 ze6",
+        "romanization": "Do¹ ze⁶.",
+        "english": "Thanks.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      }
+    ]
+  },
+  {
+    "id": "changing-order",
+    "topicId": "ordering-coffee",
+    "title": "Changing your order",
+    "description": "You change your mind about your drink order",
+    "turns": [
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "唔好意思，我想改一改。",
+        "jyutping": "m4 hou2 ji3 si3 ngo5 soeng2 goi2 jat1 goi2",
+        "romanization": "M⁴ hou² ji³ si³, ngo⁵ soeng² goi² jat¹ goi².",
+        "english": "Sorry, I'd like to change my order.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Waiter",
+        "phraseId": null,
+        "chinese": "咩事？",
+        "jyutping": "me1 si6",
+        "romanization": "Me¹ si⁶?",
+        "english": "What is it?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "凍奶茶改做熱奶茶。",
+        "jyutping": "dung3 naai5 caa4 goi2 zou6 jit6 naai5 caa4",
+        "romanization": "Dung³ naai⁵ caa⁴ goi² zou⁶ jit⁶ naai⁵ caa⁴.",
+        "english": "Change the iced milk tea to hot.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Waiter",
+        "phraseId": null,
+        "chinese": "好，冇問題。",
+        "jyutping": "hou2 mou5 man6 tai4",
+        "romanization": "Hou², mou⁵ man⁶ tai⁴.",
+        "english": "Okay, no problem.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

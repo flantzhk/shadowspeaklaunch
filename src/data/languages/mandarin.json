@@ -1,0 +1,26 @@
+{
+  "id": "mandarin",
+  "name": "Mandarin",
+  "nativeName": "普通话",
+  "romanizationSystem": "Pinyin",
+  "romanizationLabel": "PINYIN",
+  "apiLanguage": "mandarin",
+  "pronunciationPassThreshold": 70,
+  "characterSystem": "simplified",
+  "ttsVoiceId": "c09e3009-5aa6-4aab-aa94-a3621032bcc4",
+  "ttsVoiceIdAlt": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+  "categories": [
+    "the-very-basics",
+    "food-and-drink",
+    "getting-around",
+    "social-life",
+    "home-and-family"
+  ],
+  "starterPhraseIds": [
+    "mand-basics-001",
+    "mand-basics-002",
+    "mand-basics-004",
+    "mand-basics-007",
+    "mand-basics-010"
+  ]
+}

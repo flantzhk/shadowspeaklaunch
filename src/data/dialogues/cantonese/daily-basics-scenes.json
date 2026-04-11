@@ -1,0 +1,128 @@
+[
+  {
+    "id": "lift-neighbor",
+    "topicId": "daily-basics",
+    "title": "Meeting your neighbor in the lift",
+    "description": "A friendly morning greeting with your neighbor",
+    "turns": [
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": "basics-002",
+        "chinese": "早晨！",
+        "jyutping": "zou2 san4",
+        "romanization": "Zou² san⁴!",
+        "english": "Good morning!",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Neighbor",
+        "phraseId": null,
+        "chinese": "早晨！你好嗎？",
+        "jyutping": "zou2 san4 nei5 hou2 maa3",
+        "romanization": "Zou² san⁴! Nei⁵ hou² maa³?",
+        "english": "Good morning! How are you?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "好好，多謝。你呢？",
+        "jyutping": "hou2 hou2 do1 ze6 nei5 ne1",
+        "romanization": "Hou² hou², do¹ ze⁶. Nei⁵ ne¹?",
+        "english": "Good, thanks. And you?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Neighbor",
+        "phraseId": null,
+        "chinese": "幾好呀。今日天氣好好。",
+        "jyutping": "gei2 hou2 aa3 gam1 jat6 tin1 hei3 hou2 hou2",
+        "romanization": "Gei² hou² aa³. Gam¹ jat⁶ tin¹ hei³ hou² hou².",
+        "english": "Pretty good. The weather is nice today.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": "basics-010",
+        "chinese": "係呀！拜拜！",
+        "jyutping": "hai6 aa3 baai1 baai3",
+        "romanization": "Hai⁶ aa³! Baai¹ baai³!",
+        "english": "Yes! Bye!",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Neighbor",
+        "phraseId": "basics-007",
+        "chinese": "拜拜！",
+        "jyutping": "baai1 baai3",
+        "romanization": "Baai¹ baai³!",
+        "english": "Bye!",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      }
+    ]
+  },
+  {
+    "id": "bumping-apology",
+    "topicId": "daily-basics",
+    "title": "Apologizing for bumping into someone",
+    "description": "You accidentally bump into someone on the street",
+    "turns": [
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": "basics-006",
+        "chinese": "唔好意思！",
+        "jyutping": "m4 hou2 ji3 si3",
+        "romanization": "M⁴ hou² ji³ si³!",
+        "english": "Sorry!",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Stranger",
+        "phraseId": null,
+        "chinese": "冇問題。",
+        "jyutping": "mou5 man6 tai4",
+        "romanization": "Mou⁵ man⁶ tai⁴.",
+        "english": "No problem.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "唔該晒。",
+        "jyutping": "m4 goi1 saai3",
+        "romanization": "M⁴ goi¹ saai³.",
+        "english": "Thank you so much.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Stranger",
+        "phraseId": null,
+        "chinese": "唔使客氣。",
+        "jyutping": "m4 sai2 haak3 hei3",
+        "romanization": "M⁴ sai² haak³ hei³.",
+        "english": "You're welcome.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

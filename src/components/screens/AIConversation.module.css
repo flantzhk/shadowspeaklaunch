@@ -1,0 +1,77 @@
+/* AIConversation.module.css */
+
+.screen {
+  flex: 1; display: flex; flex-direction: column;
+  background: var(--color-brand-dark);
+  padding: var(--safe-area-top) var(--content-padding) var(--safe-area-bottom);
+}
+
+.offline {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: var(--space-lg); color: var(--color-text-muted);
+}
+
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--space-md) 0; flex-shrink: 0;
+}
+
+.closeBtn { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: var(--color-text-muted); }
+.title { font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); color: var(--color-text-inverse); }
+.subtitle { font-size: var(--font-size-base); color: var(--color-text-muted); margin-bottom: var(--space-xl); }
+.scenarioLabel { font-size: var(--font-size-md); font-weight: var(--font-weight-medium); color: var(--color-text-muted); }
+.endBtn {
+  padding: var(--space-sm) var(--space-md); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-pill); color: var(--color-text-muted); font-size: var(--font-size-sm);
+  min-height: 44px; display: flex; align-items: center;
+}
+
+.scenarioList { display: flex; flex-direction: column; gap: var(--space-sm); }
+.scenarioCard {
+  display: flex; flex-direction: column; gap: var(--space-xs); padding: var(--space-base);
+  background: rgba(255,255,255,0.06); border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.1); text-align: left; min-height: 44px;
+}
+.scenarioCard:active { background: rgba(255,255,255,0.12); }
+.scenarioTitle { font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-inverse); }
+.scenarioDesc { font-size: var(--font-size-sm); color: var(--color-text-muted); }
+
+.chatArea {
+  flex: 1; overflow-y: auto; display: flex; flex-direction: column;
+  gap: var(--space-md); padding: var(--space-lg) 0;
+}
+
+.bubble { max-width: 80%; padding: var(--space-md); border-radius: var(--radius-lg); display: flex; flex-direction: column; gap: 4px; }
+.userBubble { align-self: flex-end; background: rgba(197,232,90,0.15); border-bottom-right-radius: var(--space-xs); }
+.aiBubble { align-self: flex-start; background: rgba(255,255,255,0.08); border-bottom-left-radius: var(--space-xs); }
+.bubbleRoman { font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--color-brand-lime); }
+.bubbleChinese { font-size: var(--font-size-md); color: var(--color-text-inverse); }
+.bubbleEnglish { font-size: var(--font-size-sm); color: var(--color-text-muted); }
+.thinking { align-self: flex-start; font-size: var(--font-size-sm); color: var(--color-text-muted); font-style: italic; padding: var(--space-sm); }
+
+.inputArea { flex-shrink: 0; display: flex; justify-content: center; padding: var(--space-lg) 0; }
+
+.backBtn {
+  padding: var(--space-md) var(--space-xl); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-md); color: var(--color-text-muted); min-height: 44px;
+}
+
+/* Review */
+.reviewList { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: var(--space-sm); padding: var(--space-md) 0; }
+.reviewCard {
+  display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md);
+  background: rgba(255,255,255,0.06); border-radius: var(--radius-md);
+}
+.reviewText { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.reviewChinese { font-size: var(--font-size-md); color: var(--color-text-inverse); }
+.reviewRoman { font-size: var(--font-size-sm); color: var(--color-brand-lime); }
+.reviewEnglish { font-size: var(--font-size-xs); color: var(--color-text-muted); }
+.saveBtn {
+  display: flex; align-items: center; justify-content: center; width: 44px; height: 44px;
+  font-size: var(--font-size-xl); color: var(--color-brand-lime); font-weight: var(--font-weight-bold);
+}
+.doneBtn {
+  padding: var(--space-base) var(--space-xl); background: var(--color-brand-lime);
+  color: var(--color-brand-dark); border-radius: var(--radius-md);
+  font-weight: var(--font-weight-bold); min-height: 44px; margin-top: var(--space-lg);
+}

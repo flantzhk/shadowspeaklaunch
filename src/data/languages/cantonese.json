@@ -1,0 +1,26 @@
+{
+  "id": "cantonese",
+  "name": "Cantonese",
+  "nativeName": "廣東話",
+  "romanizationSystem": "Jyutping",
+  "romanizationLabel": "JYUTPING",
+  "apiLanguage": "cantonese",
+  "pronunciationPassThreshold": 90,
+  "characterSystem": "traditional",
+  "ttsVoiceId": "c09e3009-5aa6-4aab-aa94-a3621032bcc4",
+  "ttsVoiceIdAlt": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+  "categories": [
+    "the-very-basics",
+    "food-and-drink",
+    "getting-around",
+    "social-life",
+    "home-and-family"
+  ],
+  "starterPhraseIds": [
+    "basics-001",
+    "basics-002",
+    "basics-004",
+    "basics-007",
+    "basics-010"
+  ]
+}

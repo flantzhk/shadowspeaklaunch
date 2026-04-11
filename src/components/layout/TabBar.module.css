@@ -1,0 +1,54 @@
+/* TabBar.module.css */
+
+.tabBar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: var(--tab-bar-height);
+  background: var(--color-bg);
+  padding-bottom: var(--safe-area-bottom);
+  flex-shrink: 0;
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  min-width: 64px;
+  min-height: 44px;
+  padding: var(--space-xs) var(--space-sm);
+  position: relative;
+  transition: opacity var(--transition-fast);
+}
+
+.tab:active {
+  opacity: 0.7;
+}
+
+.label {
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.active .label {
+  color: var(--color-brand-dark);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Active indicator bar */
+.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 2px;
+  background: var(--color-brand-lime);
+  border-radius: 1px;
+}
