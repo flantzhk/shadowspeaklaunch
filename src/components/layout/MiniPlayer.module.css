@@ -1,103 +1,90 @@
 /* MiniPlayer.module.css */
 
 .miniPlayer {
-  position: relative;
   background: var(--color-brand-dark);
-  border-radius: 18px 18px 0 0;
+  border-radius: 18px;
+  margin: 0 12px;
   box-shadow: var(--shadow-player);
   flex-shrink: 0;
   z-index: var(--z-player);
-}
-
-.progressTrack {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 18px 18px 0 0;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+  position: relative;
 }
 
-.progressFill {
-  height: 100%;
-  background: var(--color-brand-lime);
-  transition: width 100ms linear;
-}
-
-.content {
+/* === Main row: artwork + text + play === */
+.mainRow {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
-  padding: var(--space-md) var(--content-padding);
-  padding-top: calc(var(--space-md) + 3px);
-}
-
-.body {
+  gap: 12px;
+  padding: 12px 14px 0;
   flex: 1;
   min-width: 0;
   text-align: left;
-  padding: var(--space-xs) 0;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
 }
 
-.phraseInfo {
+.artwork {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.artworkChar {
+  font-size: 22px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.textArea {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
   min-width: 0;
 }
 
 .romanization {
-  font-size: var(--font-size-base);
+  font-size: 14px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text-inverse);
+  color: white;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.secondary {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
+.chinese {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.controls {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  flex-shrink: 0;
-}
-
-.controlBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  color: var(--color-text-muted);
-  border-radius: var(--radius-circle);
-}
-
-.controlBtn.active {
-  color: var(--color-brand-lime);
+.english {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .playBtn {
+  position: absolute;
+  right: 26px;
+  top: 20px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--color-brand-lime);
+  color: var(--color-brand-dark);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  background: var(--color-brand-lime);
-  color: var(--color-brand-dark);
-  border-radius: var(--radius-circle);
 }
 
 .playBtn:active {
@@ -105,23 +92,71 @@
   transform: scale(0.95);
 }
 
-.speedBtn {
+/* === Progress row === */
+.progressRow {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-width: 36px;
-  height: 36px;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-muted);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: var(--radius-pill);
-  padding: 0 var(--space-sm);
+  gap: 6px;
+  padding: 0 14px;
+}
+
+.time {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.4);
+  min-width: 28px;
+  text-align: center;
+}
+
+.progressTrack {
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--color-brand-lime);
+  transition: width 100ms linear;
+  border-radius: 2px;
+}
+
+/* === Settings zone === */
+.settingsZone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px 10px;
+}
+
+.repeatBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 4px;
+}
+
+.repeatActive {
+  color: var(--color-brand-lime);
+}
+
+.repeatLabel {
+  font-size: 10px;
+  font-weight: var(--font-weight-medium);
 }
 
 .counter {
-  text-align: center;
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-  padding-bottom: var(--space-xs);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.speedPill {
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  color: rgba(255, 255, 255, 0.6);
+  padding: 4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 5px;
 }

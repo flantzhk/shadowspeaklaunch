@@ -27,68 +27,70 @@ function MiniPlayer({ onExpand }) {
   if (!hasQueue || !currentPhrase) return null;
 
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const formatTime = (s) => {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${sec.toString().padStart(2, '0')}`;
+  };
 
   return (
     <div className={styles.miniPlayer}>
-      <div
-        className={styles.progressTrack}
-        role="progressbar"
-        aria-valuenow={Math.round(progressPercent)}
-        aria-valuemin={0}
-        aria-valuemax={100}
+      {/* Main row: artwork + text + play button */}
+      <button className={styles.mainRow} onClick={onExpand} aria-label="Open full player">
+        <div className={styles.artwork} style={currentPhrase.imageGradient ? { background: currentPhrase.imageGradient } : undefined}>
+          <span className={styles.artworkChar}>{currentPhrase.chinese?.[0] || '?'}</span>
+        </div>
+        <div className={styles.textArea}>
+          <span className={styles.romanization}>{currentPhrase.romanization}</span>
+          <span className={styles.chinese}>{currentPhrase.chinese}</span>
+          <span className={styles.english}>{currentPhrase.english}</span>
+        </div>
+      </button>
+
+      <button
+        className={styles.playBtn}
+        onClick={isPlaying ? pause : play}
+        aria-label={isPlaying ? 'Pause' : 'Play'}
       >
+        {isPlaying ? <PauseIcon /> : <PlayIcon />}
+      </button>
+
+      {/* Progress row */}
+      <div className={styles.progressRow}>
+        <span className={styles.time}>{formatTime(currentTime)}</span>
         <div
-          className={styles.progressFill}
-          style={{ width: `${progressPercent}%` }}
-        />
+          className={styles.progressTrack}
+          role="progressbar"
+          aria-valuenow={Math.round(progressPercent)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        >
+          <div className={styles.progressFill} style={{ width: `${progressPercent}%` }} />
+        </div>
+        <span className={styles.time}>{formatTime(duration)}</span>
       </div>
 
-      <div className={styles.content}>
+      {/* Settings zone */}
+      <div className={styles.settingsZone}>
         <button
-          className={styles.body}
-          onClick={onExpand}
-          aria-label="Open full player"
+          className={`${styles.repeatBtn} ${isRepeat ? styles.repeatActive : ''}`}
+          onClick={toggleRepeat}
+          aria-label={isRepeat ? 'Repeat off' : 'Repeat one'}
+          aria-pressed={isRepeat}
         >
-          <div className={styles.phraseInfo}>
-            <span className={styles.romanization}>
-              {currentPhrase.romanization}
-            </span>
-            <span className={styles.secondary}>
-              {currentPhrase.chinese} — {currentPhrase.english}
-            </span>
-          </div>
+          <RepeatIcon />
+          <span className={styles.repeatLabel}>Repeat</span>
         </button>
 
-        <div className={styles.controls}>
-          <button
-            className={`${styles.controlBtn} ${isRepeat ? styles.active : ''}`}
-            onClick={toggleRepeat}
-            aria-label={isRepeat ? 'Repeat off' : 'Repeat one'}
-            aria-pressed={isRepeat}
-          >
-            <RepeatIcon />
-          </button>
+        <span className={styles.counter}>{progress.current} / {progress.total}</span>
 
-          <button
-            className={styles.playBtn}
-            onClick={isPlaying ? pause : play}
-            aria-label={isPlaying ? 'Pause' : 'Play'}
-          >
-            {isPlaying ? <PauseIcon /> : <PlayIcon />}
-          </button>
-
-          <button
-            className={styles.speedBtn}
-            onClick={() => setSpeed(speed === 1.0 ? 0.75 : 1.0)}
-            aria-label={`Speed: ${speed === 1.0 ? 'natural' : 'slower'}`}
-          >
-            {speed === 1.0 ? '1x' : '.75x'}
-          </button>
-        </div>
-      </div>
-
-      <div className={styles.counter}>
-        {progress.current} / {progress.total}
+        <button
+          className={styles.speedPill}
+          onClick={() => setSpeed(speed === 1.0 ? 0.75 : 1.0)}
+          aria-label={`Speed: ${speed === 1.0 ? 'natural' : 'slower'}`}
+        >
+          {speed === 1.0 ? '1x' : '.75x'}
+        </button>
       </div>
     </div>
   );
@@ -96,7 +98,7 @@ function MiniPlayer({ onExpand }) {
 
 function PlayIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
       <polygon points="5 3 19 12 5 21 5 3" />
     </svg>
   );
@@ -104,9 +106,9 @@ function PlayIcon() {
 
 function PauseIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-      <rect x="6" y="4" width="4" height="16" />
-      <rect x="14" y="4" width="4" height="16" />
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <rect x="5" y="4" width="5" height="16" rx="1" />
+      <rect x="14" y="4" width="5" height="16" rx="1" />
     </svg>
   );
 }
