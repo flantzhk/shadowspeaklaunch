@@ -15,6 +15,7 @@ import { fbAuth } from './services/firebase';
 import { getDB } from './services/storage';
 import { initOfflineQueueListener } from './services/offlineManager';
 import { logger } from './utils/logger';
+import { OfflineBanner } from './components/shared/OfflineBanner';
 import './styles/global.css';
 
 const HomeScreen = lazy(() => import('./components/screens/HomeScreen'));
@@ -41,6 +42,13 @@ const WelcomeScreen = lazy(() => import('./components/screens/WelcomeScreen'));
 const SearchScreen = lazy(() => import('./components/screens/SearchScreen'));
 const LegalPages = lazy(() => import('./components/screens/LegalPage').then(m => ({ default: m.PrivacyPolicy })));
 const TermsPage = lazy(() => import('./components/screens/LegalPage').then(m => ({ default: m.TermsOfService })));
+const ProfileScreen = lazy(() => import('./components/screens/ProfileScreen'));
+const AboutScreen = lazy(() => import('./components/screens/AboutScreen'));
+const FAQScreen = lazy(() => import('./components/screens/FAQScreen'));
+const ContactScreen = lazy(() => import('./components/screens/ContactScreen'));
+const EmailVerification = lazy(() => import('./components/screens/EmailVerification'));
+const NewPassword = lazy(() => import('./components/screens/NewPassword'));
+const AIScenarioPicker = lazy(() => import('./components/screens/AIScenarioPicker'));
 
 function parseHash(hash) {
   const clean = hash.replace('#', '');
@@ -68,7 +76,7 @@ const Loader = ({ size = 32 }) => (
   </div>
 );
 
-const PUBLIC_ROUTES = [ROUTES.LOGIN, ROUTES.REGISTER, ROUTES.FORGOT_PASSWORD];
+const PUBLIC_ROUTES = [ROUTES.LOGIN, ROUTES.REGISTER, ROUTES.FORGOT_PASSWORD, ROUTES.NEW_PASSWORD, ROUTES.EMAIL_VERIFY, ROUTES.PRIVACY, ROUTES.TERMS];
 
 function MainLayout() {
   const { route, navigate, goBack } = useRouter();
@@ -130,7 +138,8 @@ function MainLayout() {
 
   return (
     <>
-      {isTab && <TopBar streak={settings.streakCount} language={settings.currentLanguage} userName={settings.name} photoURL={settings.photoURL} onSettingsTap={() => navigate(ROUTES.SETTINGS)} onStatsTap={() => navigate(ROUTES.STATS)} />}
+      <OfflineBanner />
+      {isTab && <TopBar streak={settings.streakCount} language={settings.currentLanguage} userName={settings.name} photoURL={settings.photoURL} onSettingsTap={() => navigate(ROUTES.SETTINGS)} onStatsTap={() => navigate(ROUTES.STATS)} onProfileTap={() => navigate(ROUTES.PROFILE)} />}
 
       {!isSession && (
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
@@ -202,7 +211,7 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
     case ROUTES.HOME: return <HomeScreen onNavigate={navigate} />;
     case ROUTES.LIBRARY: return <LibraryScreen onNavigate={navigate} />;
     case ROUTES.PRACTICE: return <PracticeScreen onNavigate={navigate} onStartScene={onStartScene} />;
-    case ROUTES.SETTINGS: return <SettingsScreen onBack={goBack} />;
+    case ROUTES.SETTINGS: return <SettingsScreen onBack={goBack} onNavigate={navigate} />;
     case ROUTES.TOPIC_DETAIL: return <TopicDetailScreen topicId={route.id} onBack={goBack} showToast={showToast} onStartScene={onStartScene} />;
     case ROUTES.CUSTOM_PHRASE: return <CustomPhraseInput onBack={goBack} showToast={showToast} />;
     case ROUTES.WHAT_DID_THEY_SAY: return <WhatDidTheySay onBack={goBack} showToast={showToast} />;
@@ -211,6 +220,13 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
     case ROUTES.SEARCH: return <SearchScreen onBack={goBack} onNavigate={navigate} />;
     case ROUTES.PRIVACY: return <LegalPages onBack={goBack} />;
     case ROUTES.TERMS: return <TermsPage onBack={goBack} />;
+    case ROUTES.PROFILE: return <ProfileScreen onBack={goBack} onNavigate={navigate} showToast={showToast} />;
+    case ROUTES.ABOUT: return <AboutScreen onBack={goBack} onNavigate={navigate} />;
+    case ROUTES.FAQ: return <FAQScreen onBack={goBack} />;
+    case ROUTES.CONTACT: return <ContactScreen onBack={goBack} showToast={showToast} />;
+    case ROUTES.EMAIL_VERIFY: return <EmailVerification onBack={goBack} onVerified={() => navigate(ROUTES.HOME)} />;
+    case ROUTES.NEW_PASSWORD: return <NewPassword onBack={goBack} showToast={showToast} />;
+    case ROUTES.AI_SCENARIO: return <AIScenarioPicker onBack={goBack} onNavigate={navigate} onSelectScenario={(s) => { navigate(ROUTES.AI_CHAT); }} />;
     default: return <HomeScreen onNavigate={navigate} />;
   }
 }

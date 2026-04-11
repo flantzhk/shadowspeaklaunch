@@ -6,7 +6,7 @@ import styles from './TopBar.module.css';
  * Top navigation bar with logo, streak counter, and avatar.
  * @param {{ streak: number, language: string, onSettingsTap: () => void, onStatsTap: () => void, userName: string, photoURL: string }} props
  */
-function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap, userName = '', photoURL = '' }) {
+function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap, onProfileTap, userName = '', photoURL = '' }) {
   const langLabel = language === 'cantonese' ? 'CANTONESE' : 'MANDARIN';
   const initial = userName ? userName.charAt(0).toUpperCase() : '?';
   const streakPulse = streak >= 7;
@@ -43,8 +43,8 @@ function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap,
 
         <button
           className={styles.avatar}
-          onClick={onSettingsTap}
-          aria-label="Settings"
+          onClick={onProfileTap || onSettingsTap}
+          aria-label="Profile"
         >
           {photoURL ? (
             <img src={photoURL} alt="" className={styles.avatarImg} referrerPolicy="no-referrer" />

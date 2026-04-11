@@ -84,6 +84,20 @@ export default function PracticeScreen({ onNavigate, onStartScene }) {
         ))}
       </div>
 
+      {/* AI Practice card */}
+      <button className={styles.aiCard} onClick={() => onNavigate('ai-scenario')}>
+        <div className={styles.aiIconWrap}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand-lime)" strokeWidth="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+        </div>
+        <div className={styles.aiText}>
+          <span className={styles.aiTitle}>AI Conversation</span>
+          <span className={styles.aiDesc}>Talk to an AI Cantonese speaker</span>
+        </div>
+        <span className={styles.aiChevron}>›</span>
+      </button>
+
       {/* Dialogue Scenes */}
       {scenes.length > 0 && (
         <section className={styles.sceneSection}>

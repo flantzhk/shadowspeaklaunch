@@ -1,17 +1,25 @@
 // src/components/screens/SettingsScreen.jsx
 
+import { useState } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { getAllLanguages } from '../../services/languageManager';
 import { getCurrentUser, signOut } from '../../services/auth';
-import { DAILY_GOAL_OPTIONS } from '../../utils/constants';
+import { DAILY_GOAL_OPTIONS, ROUTES } from '../../utils/constants';
+import { ConfirmModal } from '../shared/ConfirmModal';
 import styles from './SettingsScreen.module.css';
 
 /**
- * @param {{ onBack: Function }} props
+ * @param {{ onBack: Function, onNavigate?: Function }} props
  */
-export default function SettingsScreen({ onBack }) {
+export default function SettingsScreen({ onBack, onNavigate }) {
   const { settings, updateSettings } = useAppContext();
   const languages = getAllLanguages();
+  const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
+
+  const handleSignOut = async () => {
+    await signOut();
+    window.location.hash = `#${ROUTES.LOGIN}`;
+  };
 
   return (
     <div className={styles.screen}>
@@ -74,14 +82,45 @@ export default function SettingsScreen({ onBack }) {
         <h2 className={styles.sectionTitle}>Account</h2>
         <div className={styles.accountRow}>
           <span className={styles.accountLabel}>Name</span>
-          <span className={styles.accountValue}>{settings.name || getCurrentUser()?.name || '—'}</span>
+          <span className={styles.accountValue}>{settings.name || getCurrentUser()?.displayName || '—'}</span>
         </div>
         <div className={styles.accountRow}>
           <span className={styles.accountLabel}>Email</span>
-          <span className={styles.accountValue}>{settings.email || getCurrentUser()?.email || '—'}</span>
+          <span className={styles.accountValue}>{getCurrentUser()?.email || settings.email || '—'}</span>
         </div>
-        <button className={styles.signOutBtn} onClick={signOut}>Sign out</button>
+        {onNavigate && (
+          <button className={styles.navLink} onClick={() => onNavigate(ROUTES.PROFILE)}>View full profile</button>
+        )}
+        <button className={styles.signOutBtn} onClick={() => setShowSignOutConfirm(true)}>Sign out</button>
       </div>
+
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>App</h2>
+        {onNavigate && (
+          <>
+            <button className={styles.appRow} onClick={() => onNavigate(ROUTES.ABOUT)}>
+              <span>About ShadowSpeak</span><span className={styles.appChevron}>›</span>
+            </button>
+            <button className={styles.appRow} onClick={() => onNavigate(ROUTES.FAQ)}>
+              <span>FAQ</span><span className={styles.appChevron}>›</span>
+            </button>
+            <button className={styles.appRow} onClick={() => onNavigate(ROUTES.CONTACT)}>
+              <span>Contact / Support</span><span className={styles.appChevron}>›</span>
+            </button>
+          </>
+        )}
+      </div>
+
+      {showSignOutConfirm && (
+        <ConfirmModal
+          title="Sign out of ShadowSpeak?"
+          body="Your progress is saved. You can sign back in anytime."
+          confirmLabel="Sign out"
+          destructive
+          onConfirm={handleSignOut}
+          onCancel={() => setShowSignOutConfirm(false)}
+        />
+      )}
     </div>
   );
 }

@@ -1,0 +1,92 @@
+/* WordDetail.module.css */
+
+.phonetic {
+  font-size: 22px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-jyutping);
+  margin-bottom: 8px;
+}
+
+.phoneticChar {
+  letter-spacing: 0.5px;
+}
+
+.chinese {
+  font-size: 32px;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.english {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  margin-bottom: 20px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.playBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-brand-dark);
+  color: white;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.saveBtn {
+  flex: 1;
+  background: transparent;
+  border: 1.5px solid var(--color-border-strong);
+  color: var(--color-text-secondary);
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.examplesSection {
+  border-top: 0.5px solid var(--color-border);
+  padding-top: 16px;
+}
+
+.examplesLabel {
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+  letter-spacing: 1.2px;
+  margin-bottom: 12px;
+}
+
+.exampleRow {
+  background: white;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+
+.exChinese {
+  font-size: 16px;
+  color: var(--color-text-primary);
+}
+
+.exRoman {
+  font-size: 13px;
+  color: var(--color-jyutping);
+  margin-top: 3px;
+}
+
+.exEnglish {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}

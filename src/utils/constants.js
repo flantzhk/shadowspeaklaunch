@@ -40,15 +40,23 @@ export const ROUTES = {
   TONE_GYM: 'tonegym',
   DIALOGUE: 'dialogue',
   AI_CHAT: 'ai',
+  AI_SCENARIO: 'ai-scenario',
   CUSTOM_PHRASE: 'custom-phrase',
   WHAT_DID_THEY_SAY: 'what-did-they-say',
   LOGIN: 'login',
   REGISTER: 'register',
   FORGOT_PASSWORD: 'forgot-password',
+  NEW_PASSWORD: 'new-password',
+  EMAIL_VERIFY: 'email-verify',
   WELCOME: 'welcome',
   SEARCH: 'search',
   PRIVACY: 'privacy',
   TERMS: 'terms',
+  PROFILE: 'profile',
+  ABOUT: 'about',
+  FAQ: 'faq',
+  CONTACT: 'contact',
+  LICENSES: 'licenses',
 };
 
 export const DAILY_GOAL_OPTIONS = [5, 10, 15, 20, 30];
