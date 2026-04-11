@@ -10,6 +10,13 @@ function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap,
   const langLabel = language === 'cantonese' ? 'CANTONESE' : 'MANDARIN';
   const initial = userName ? userName.charAt(0).toUpperCase() : '?';
   const streakPulse = streak >= 7;
+  const streakHot = streak >= 30;
+
+  const flameClass = [
+    styles.flame,
+    streak === 0 ? styles.flameGray : '',
+    streakHot ? styles.flameHot : '',
+  ].filter(Boolean).join(' ');
 
   return (
     <header className={styles.topBar}>
@@ -25,15 +32,11 @@ function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap,
 
       <div className={styles.actions}>
         <button
-          className={`${styles.streakChip} ${streak === 0 ? styles.streakInactive : ''} ${streakPulse ? styles.streakPulse : ''}`}
+          className={`${styles.streakChip} ${streak === 0 ? styles.streakInactive : ''} ${streakPulse ? styles.streakPulse : ''} ${streakHot ? styles.streakHot : ''}`}
           onClick={onStatsTap}
           aria-label={`${streak} day streak — view stats`}
         >
-          <span className={styles.flame}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill={streak === 0 ? '#CCCCCC' : 'var(--color-streak-orange)'}>
-              <path d="M12 23c-4.97 0-9-3.58-9-8 0-3.07 2.25-5.89 3.76-7.38.73-.72 1.95-.17 1.83.82C8.3 11.12 9.94 13 12 13c1.5 0 2.68-.86 3.3-2.14.32-.66 1.22-.7 1.54-.03C18.22 13.49 21 16.05 21 19c0 2.21-1.79 4-4 4" />
-            </svg>
-          </span>
+          <span className={flameClass} />
           <span className={styles.streakCount}>{streak}</span>
           <span className={styles.streakLabel}>days</span>
         </button>

@@ -74,9 +74,51 @@
   50% { transform: scale(1.15); }
 }
 
+/* CSS-drawn flame: orange base with yellow inner */
 .flame {
-  display: flex;
-  align-items: center;
+  width: 14px;
+  height: 14px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.flame::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1px;
+  width: 12px;
+  height: 14px;
+  background: #E8703A;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  transform: rotate(-2deg);
+}
+
+.flame::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  left: 4px;
+  width: 6px;
+  height: 8px;
+  background: #FFCC4D;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+}
+
+.flameGray::before {
+  background: #CCCCCC;
+}
+
+.flameGray::after {
+  background: #E0E0E0;
+}
+
+.flameHot::before {
+  background: #D04030;
+}
+
+.flameHot::after {
+  background: #E8703A;
 }
 
 .streakCount {
@@ -94,6 +136,10 @@
 .streakInactive .streakCount,
 .streakInactive .streakLabel {
   color: #999999;
+}
+
+.streakHot {
+  box-shadow: 0 0 8px rgba(208, 64, 48, 0.3);
 }
 
 .avatar {
