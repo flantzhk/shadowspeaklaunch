@@ -178,8 +178,11 @@ export default function ShadowSession({ onBack, onComplete }) {
     );
   }
 
-  const progress = audio.queueLength > 0 ? ((audio.currentIndex + 1) / audio.queueLength) * 100 : 0;
-  const phrase = audio.currentPhrase;
+  const totalPhrases = audio.queueLength > 0 ? audio.queueLength : (lessonPhrases?.length || 1);
+  const progress = ((audio.currentIndex + 1) / totalPhrases) * 100;
+  // Show phrase text even while audio is loading
+  const phrase = audio.currentPhrase || (lessonPhrases ? lessonPhrases[audio.currentIndex] : null);
+  const audioLoading = !audio.currentPhrase && phase === 'listen';
 
   return (
     <div className={styles.screen}>
@@ -193,7 +196,7 @@ export default function ShadowSession({ onBack, onComplete }) {
           <div className={styles.sessionBar}>
             <div className={styles.sessionFill} style={{ width: `${progress}%` }} />
           </div>
-          <span className={styles.sessionCount}>{audio.currentIndex + 1}/{audio.queueLength}</span>
+          <span className={styles.sessionCount}>{audio.currentIndex + 1}/{totalPhrases}</span>
         </div>
       </div>
 
@@ -211,6 +214,7 @@ export default function ShadowSession({ onBack, onComplete }) {
           <p className={styles.romanization}>{phrase.romanization}</p>
           {settings.showCharacters && <p className={styles.chinese} lang="yue">{phrase.chinese}</p>}
           {settings.showEnglish && <p className={styles.english}>{phrase.english}</p>}
+          {audioLoading && <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '12px' }}>Loading audio…</p>}
         </div>
       )}
 
