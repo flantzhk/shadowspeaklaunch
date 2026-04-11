@@ -8,6 +8,7 @@
   background: var(--color-bg);
   padding-bottom: var(--safe-area-bottom);
   flex-shrink: 0;
+  position: relative;
 }
 
 .tab {
@@ -51,4 +52,17 @@
   height: 2px;
   background: var(--color-brand-lime);
   border-radius: 1px;
+}
+
+/* Home indicator (iOS-style bottom bar) */
+.tabBar::after {
+  content: '';
+  position: absolute;
+  bottom: calc(var(--safe-area-bottom) + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 4px;
+  background: #1a1a1a;
+  border-radius: 2px;
 }
