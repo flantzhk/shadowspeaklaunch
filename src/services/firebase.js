@@ -5,7 +5,7 @@ import 'firebase/compat/firestore';
 
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyBl8PRFr84XLNZNxfSg7LpVekjh5lvBWRI",
-  authDomain: "shadowspeak-22f04.firebaseapp.com",
+  authDomain: "flantzhk.github.io",
   projectId: "shadowspeak-22f04",
   storageBucket: "shadowspeak-22f04.firebasestorage.app",
   messagingSenderId: "332784610142",
