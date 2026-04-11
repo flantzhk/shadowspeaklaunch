@@ -5,17 +5,17 @@
 .backBtn { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; }
 .title { font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold); }
 
-.statGrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-sm); margin-bottom: var(--space-2xl); }
+.statGrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: var(--space-2xl); }
 .statCard {
   display: flex; flex-direction: column; align-items: center; gap: var(--space-xs);
-  padding: var(--space-base); background: var(--color-surface); border-radius: var(--radius-md);
-  border: 0.5px solid var(--color-border);
+  padding: var(--space-base); background: var(--color-surface); border-radius: 14px;
+  border: 0.5px solid var(--color-border); text-align: center;
 }
 .highlighted { background: var(--color-brand-dark); border-color: var(--color-brand-dark); }
 .highlighted .statValue { color: var(--color-brand-lime); }
 .highlighted .statLabel { color: var(--color-text-muted); }
-.statValue { font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); color: var(--color-text-primary); font-variant-numeric: tabular-nums; }
-.statLabel { font-size: var(--font-size-xs); color: var(--color-text-secondary); text-align: center; }
+.statValue { font-size: 28px; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); font-variant-numeric: tabular-nums; }
+.statLabel { font-size: 11px; color: var(--color-text-muted); text-align: center; }
 
 .section { margin-bottom: var(--space-2xl); }
 .sectionTitle {
@@ -24,16 +24,16 @@
 }
 
 .calendar {
-  display: grid; grid-template-columns: repeat(13, 1fr); gap: 3px;
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
 }
 .calDay {
-  aspect-ratio: 1; border-radius: 3px; background: var(--color-border);
+  width: 12px; height: 12px; border-radius: 2px; background: var(--color-bg);
 }
-.calActive { background: var(--color-brand-green); }
-.calToday { outline: 2px solid var(--color-brand-lime); outline-offset: 1px; }
+.calActive { background: var(--color-brand-lime); }
+.calToday { outline: 1.5px solid var(--color-brand-dark); outline-offset: 0px; }
 
 .barContainer { display: flex; flex-direction: column; gap: var(--space-xs); }
-.barTrack { height: 8px; background: var(--color-border); border-radius: var(--radius-pill); overflow: hidden; }
+.barTrack { height: 6px; background: var(--color-border); border-radius: var(--radius-pill); overflow: hidden; }
 .barMastered { height: 100%; background: var(--color-brand-green); border-radius: var(--radius-pill); transition: width var(--transition-normal); }
 .barLabels { display: flex; justify-content: space-between; font-size: var(--font-size-sm); color: var(--color-text-secondary); }
 

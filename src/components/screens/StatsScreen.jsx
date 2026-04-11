@@ -119,7 +119,8 @@ function StatCard({ value, label, highlight }) {
 function StreakCalendar({ sessionDates }) {
   const today = new Date();
   const days = [];
-  for (let i = 89; i >= 0; i--) {
+  // 12 weeks = 84 days, aligned to 7-column grid
+  for (let i = 83; i >= 0; i--) {
     const d = new Date(today);
     d.setDate(d.getDate() - i);
     const dateStr = d.toISOString().slice(0, 10);
