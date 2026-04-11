@@ -65,6 +65,10 @@ async function fetchWithAuth(url, options = {}) {
   }
 
   const token = await getAuthToken();
+  if (!token) {
+    signOut();
+    throw new ApiError('Session expired. Please sign in again.', 401, url);
+  }
   const headers = {
     ...(options.headers || {}),
     'Authorization': `Bearer ${token}`,

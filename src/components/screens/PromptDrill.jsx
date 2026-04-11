@@ -35,6 +35,7 @@ export default function PromptDrill({ onBack, onComplete }) {
       const lesson = await buildLesson(settings.dailyGoalMinutes, settings.currentLanguage);
       setPhrases(lesson);
       if (lesson.length > 0) setPhase('prompt');
+      else setPhase('empty');
     })();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -96,6 +97,16 @@ export default function PromptDrill({ onBack, onComplete }) {
     await saveSession(rec);
     onComplete?.({ ...rec, streakCount: streak });
   }, [sessionStart, results, updateSettings, settings, onComplete]);
+
+  if (phase === 'empty') {
+    return (
+      <div className={styles.screen} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '24px', gap: '16px' }}>
+        <p style={{ fontSize: '17px', fontWeight: 600, color: 'var(--color-text-primary)' }}>No phrases available</p>
+        <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>Add phrases to your library first, then come back to practice.</p>
+        <button onClick={onBack} style={{ padding: '12px 28px', borderRadius: '10px', background: 'var(--color-brand-dark)', color: 'white', fontWeight: 600, fontSize: '15px' }}>Go back</button>
+      </div>
+    );
+  }
 
   if (phase === 'loading' || !phrase) {
     return <LessonLoader mode="prompt-drill" onCancel={onBack} />;

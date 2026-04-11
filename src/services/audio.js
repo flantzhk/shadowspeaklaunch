@@ -74,7 +74,7 @@ class AudioEngine {
         return;
       }
 
-      this._audio.playbackRate = 1.0;
+      this._audio.playbackRate = this._speed === 'slower' ? 0.75 : 1.0;
       this._onPhraseChange?.(phrase, this._currentIndex);
     } catch (error) {
       logger.error('Failed to load audio', error);
@@ -150,9 +150,10 @@ class AudioEngine {
     } else if (this._autoAdvance && this._currentIndex < this._queue.length - 1) {
       this._onStateChange?.('advancing');
       this._advanceTimer = setTimeout(async () => {
+        if (this._destroyed) return;
         this._currentIndex++;
         await this._loadCurrentPhrase();
-        await this.play();
+        if (!this._destroyed) await this.play();
       }, AUTO_ADVANCE_DELAY_MS);
     } else {
       this._onStateChange?.('ended');
@@ -179,6 +180,7 @@ class AudioEngine {
   }
 
   destroy() {
+    this._destroyed = true;
     this._clearAdvanceTimer();
     this._audio.pause();
     this._audio.removeAttribute('src');

@@ -1,6 +1,6 @@
 // src/hooks/useRecorder.js — Microphone recording hook
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { RECORDING_MAX_SECONDS } from '../utils/constants';
 
 /**
@@ -82,6 +82,18 @@ function useRecorder() {
 
       recorder.stop();
     });
+  }, []);
+
+  // Cleanup on unmount: stop recording and release mic
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      const recorder = mediaRecorderRef.current;
+      if (recorder && recorder.state !== 'inactive') {
+        recorder.stop();
+        recorder.stream?.getTracks().forEach(track => track.stop());
+      }
+    };
   }, []);
 
   return { isRecording, startRecording, stopRecording, error };

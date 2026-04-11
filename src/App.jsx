@@ -111,8 +111,14 @@ function MainLayout() {
       if (user) {
         const name = (user.displayName || '').split(' ')[0];
         const photoURL = user.photoURL || '';
-        if (name && name !== settings.name) updateSettings({ name });
-        if (photoURL) updateSettings({ photoURL });
+        const updates = {};
+        if (name && name !== settings.name) updates.name = name;
+        if (photoURL) updates.photoURL = photoURL;
+        // Returning users (have displayName or email) skip onboarding
+        if (!settings.onboardingCompleted && (user.displayName || user.email)) {
+          updates.onboardingCompleted = true;
+        }
+        if (Object.keys(updates).length > 0) updateSettings(updates);
       }
       setAuthReady(true);
     }).catch(() => {
