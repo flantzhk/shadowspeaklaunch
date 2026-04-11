@@ -189,7 +189,7 @@ function MainLayout() {
   return (
     <>
       <OfflineBanner />
-      {isTab && <TopBar streak={settings.streakCount} language={settings.currentLanguage} userName={settings.name} photoURL={settings.photoURL} onSettingsTap={() => navigate(ROUTES.SETTINGS)} onStatsTap={() => navigate(ROUTES.STATS)} onProfileTap={() => navigate(ROUTES.PROFILE)} />}
+      {isTab && <TopBar streak={settings.streakCount} language={settings.currentLanguage} userName={settings.name} photoURL={settings.photoURL} onSettingsTap={() => navigate(ROUTES.PROFILE)} onStatsTap={() => navigate(ROUTES.STATS)} onProfileTap={() => navigate(ROUTES.PROFILE)} />}
 
       {!isSession && (
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
@@ -294,7 +294,7 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
     case ROUTES.HOME: return <HomeScreen onNavigate={navigate} />;
     case ROUTES.LIBRARY: return <LibraryScreen onNavigate={navigate} />;
     case ROUTES.PRACTICE: return <PracticeScreen onNavigate={navigate} onStartScene={onStartScene} />;
-    case ROUTES.SETTINGS: return <SettingsScreen onBack={goBack} onNavigate={navigate} />;
+    case ROUTES.SETTINGS: return <ProfileScreen onBack={goBack} onNavigate={navigate} showToast={showToast} />;
     case ROUTES.TOPIC_DETAIL: return <TopicDetailScreen topicId={route.id} onBack={goBack} showToast={showToast} onStartScene={onStartScene} />;
     case ROUTES.CUSTOM_PHRASE: return <CustomPhraseInput onBack={goBack} showToast={showToast} />;
     case ROUTES.WHAT_DID_THEY_SAY: return <WhatDidTheySay onBack={goBack} showToast={showToast} />;

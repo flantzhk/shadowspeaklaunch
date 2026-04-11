@@ -1,4 +1,4 @@
-/* ProfileScreen.module.css */
+/* ProfileScreen.module.css — Combined Profile + Settings */
 
 .screen {
   flex: 1;
@@ -7,86 +7,95 @@
   background: var(--color-bg);
 }
 
-.backBtn {
-  display: block;
-  font-size: 14px;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
+/* === Header === */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 12px 22px;
   min-height: 44px;
+}
+
+.backBtn {
+  color: var(--color-text-secondary);
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+.headerTitle {
+  font-size: 17px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+/* === Identity === */
+.identity {
+  text-align: center;
+  padding: 8px 22px 20px;
 }
 
 .avatarWrap {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
 }
 
 .avatar {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   object-fit: cover;
 }
 
 .avatarInitial {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   background: #D8C9A8;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: var(--font-weight-semibold);
   color: #5a4a2a;
 }
 
 .name {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-dark);
-  text-align: center;
-  margin-top: 16px;
+  margin-top: 12px;
 }
 
 .email {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color-text-muted);
-  text-align: center;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .joined {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--color-text-muted);
-  text-align: center;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
-.divider {
-  height: 0.5px;
-  background: var(--color-border);
-  margin: 20px 0;
-}
-
+/* === Stats === */
 .statsRow {
   display: flex;
   gap: 10px;
-  margin: 0 22px;
+  margin: 0 22px 8px;
 }
 
 .statTile {
   flex: 1;
-  background: white;
+  background: var(--color-surface);
   border: 0.5px solid var(--color-border);
   border-radius: 14px;
-  padding: 16px 12px;
+  padding: 14px 10px;
   text-align: center;
 }
 
 .statNum {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-dark);
 }
@@ -98,72 +107,204 @@
   line-height: 1.3;
 }
 
+.statsLink {
+  display: block;
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-dark);
+  padding: 4px 22px 0;
+  text-align: center;
+  width: 100%;
+}
+
+/* === Divider === */
+.divider {
+  height: 0.5px;
+  background: var(--color-border);
+  margin: 18px 0;
+}
+
+/* === Section Header === */
 .sectionHeader {
   font-size: 11px;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   letter-spacing: 1.2px;
-  padding: 0 22px 10px;
+  padding: 0 22px 8px;
 }
 
-.settingRow {
+/* === Row === */
+.row {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 22px;
+  padding: 13px 22px;
   border-bottom: 0.5px solid var(--color-border);
   text-align: left;
 }
 
-.settingLabel {
+.rowLabel {
   font-size: 15px;
   color: var(--color-text-primary);
 }
 
-.settingValue {
+.rowValue {
   font-size: 14px;
   color: var(--color-text-muted);
+}
+
+/* === Language Pills === */
+.langRow {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 22px;
 }
 
-.chevron {
+.langPill {
+  padding: 10px 16px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 100px;
+}
+
+.langPill:active { transform: scale(0.97); }
+
+.langActive {
+  background: var(--color-brand-dark);
+  border-color: var(--color-brand-dark);
+}
+
+.langName {
   font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.langActive .langName { color: white; }
+
+.langNative {
+  font-size: 11px;
   color: var(--color-text-muted);
 }
 
-.statsLink {
-  display: block;
-  font-size: 15px;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
-  padding: 20px 22px;
-  text-align: left;
-  width: 100%;
+.langActive .langNative { color: #A8C878; }
+
+/* === Goal Pills === */
+.goalRow {
+  display: flex;
+  gap: 8px;
+  padding: 0 22px;
 }
 
-.signOutLink {
+.goalPill {
+  flex: 1;
+  padding: 10px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
+.goalPill:active { transform: scale(0.97); }
+
+.goalActive {
+  background: var(--color-brand-dark);
+  border-color: var(--color-brand-dark);
+  color: white;
+}
+
+/* === Toggle === */
+.toggleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 22px;
+  cursor: pointer;
+}
+
+.toggleLabel {
+  font-size: 15px;
+  color: var(--color-text-primary);
+}
+
+.toggle {
+  width: 48px;
+  height: 28px;
+  border-radius: 14px;
+  background: #ccc;
+  position: relative;
+  transition: background 200ms;
+}
+
+.toggleOn { background: var(--color-brand-lime); }
+
+.toggleKnob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 200ms;
+}
+
+.toggleOn .toggleKnob { transform: translateX(20px); }
+
+/* === Hint + Download === */
+.hint {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  padding: 0 22px;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.downloadBtn {
+  margin: 0 22px;
+  padding: 12px 20px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  width: calc(100% - 44px);
+}
+
+.downloadBtn:active { transform: scale(0.98); }
+
+/* === Sign out + Delete === */
+.signOutBtn {
   display: block;
   font-size: 15px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-error);
+  color: var(--color-error, #c44);
   padding: 14px 22px;
   text-align: left;
   width: 100%;
 }
 
 .deleteSection {
-  padding: 24px 22px;
-  border-top: 0.5px solid var(--color-border);
+  padding: 8px 22px 24px;
 }
 
 .deleteTitle {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-error);
-  margin-bottom: 6px;
+  color: var(--color-error, #c44);
+  margin-bottom: 4px;
 }
 
 .deleteBody {
@@ -172,6 +313,15 @@
   line-height: 1.5;
 }
 
+/* === Version === */
+.versionLabel {
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  padding: 16px 0 8px;
+}
+
+/* === Bottom Sheet Pickers === */
 .fieldLabel {
   display: block;
   font-size: 11px;
@@ -185,7 +335,7 @@
   width: 100%;
   padding: 14px 16px;
   background: white;
-  border: 1.5px solid var(--color-border-strong);
+  border: 1.5px solid var(--color-border-strong, var(--color-border));
   border-radius: 12px;
   font-size: 16px;
   color: var(--color-text-primary);
@@ -203,9 +353,53 @@
   margin-top: 8px;
 }
 
-.versionLabel {
-  text-align: center;
+.pickerOption {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 0.5px solid var(--color-border);
+  text-align: left;
+}
+
+.pickerSelected { background: rgba(139, 184, 43, 0.06); }
+
+.pickerRadio {
+  font-size: 18px;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pickerSelected .pickerRadio { color: var(--color-brand-dark); }
+
+.pickerText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.pickerLabel {
+  font-size: 15px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.pickerDesc {
   font-size: 12px;
   color: var(--color-text-muted);
-  padding: 24px 0 8px;
+  line-height: 1.4;
+}
+
+.timeInput {
+  width: 100%;
+  padding: 14px 16px;
+  background: white;
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  font-size: 18px;
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-top: 8px;
 }
