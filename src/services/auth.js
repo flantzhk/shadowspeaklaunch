@@ -46,18 +46,10 @@ async function signIn(email, password) {
 async function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
   try {
-    const cred = await fbAuth.signInWithPopup(provider);
-    return { user: cred.user, error: null };
+    await fbAuth.signInWithRedirect(provider);
+    return { user: null, error: null };
   } catch (error) {
     logger.error('Google sign-in failed', error);
-    // If popup is blocked or fails, fall back to redirect
-    if (error.code === 'auth/popup-blocked' || error.code === 'auth/internal-error') {
-      await fbAuth.signInWithRedirect(provider);
-      return { user: null, error: null };
-    }
-    if (error.code === 'auth/popup-closed-by-user') {
-      return { user: null, error: null };
-    }
     return { user: null, error: firebaseErrorMessage(error) };
   }
 }
