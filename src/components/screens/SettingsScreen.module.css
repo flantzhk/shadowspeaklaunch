@@ -344,3 +344,10 @@
   color: var(--color-text-secondary);
   text-align: center;
 }
+
+.versionLabel {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 12px 0 0;
+}

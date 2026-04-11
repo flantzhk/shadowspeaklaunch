@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { getAllLanguages } from '../../services/languageManager';
 import { getCurrentUser, signOut } from '../../services/auth';
-import { DAILY_GOAL_OPTIONS, ROUTES } from '../../utils/constants';
+import { DAILY_GOAL_OPTIONS, ROUTES, APP_VERSION } from '../../utils/constants';
 import { ConfirmModal } from '../shared/ConfirmModal';
 import { BottomSheet } from '../shared/BottomSheet';
 import DownloadAllModal from '../shared/DownloadAllModal';
@@ -148,6 +148,7 @@ export default function SettingsScreen({ onBack, onNavigate }) {
             </button>
           </>
         )}
+        <p className={styles.versionLabel}>v{APP_VERSION}</p>
       </div>
 
       {showSignOutConfirm && (
