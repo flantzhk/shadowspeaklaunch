@@ -5,7 +5,7 @@ import { useAppContext } from '../../contexts/AppContext';
 import { getCurrentUser, signOut } from '../../services/auth';
 import { ConfirmModal } from '../shared/ConfirmModal';
 import { BottomSheet } from '../shared/BottomSheet';
-import { ROUTES } from '../../utils/constants';
+import { ROUTES, APP_VERSION } from '../../utils/constants';
 import styles from './ProfileScreen.module.css';
 
 export default function ProfileScreen({ onBack, onNavigate, showToast }) {
@@ -95,6 +95,8 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
         <p className={styles.deleteTitle}>Delete account</p>
         <p className={styles.deleteBody}>Permanently delete your account and all data.</p>
       </div>
+
+      <p className={styles.versionLabel}>ShadowSpeak v{APP_VERSION}</p>
 
       {showSignOutConfirm && (
         <ConfirmModal

@@ -1,6 +1,6 @@
 // src/contexts/AppContext.jsx — Global state: user, settings, current language
 
-import { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
+import { createContext, useContext, useReducer, useEffect, useCallback, useRef } from 'react';
 import { getSettings, saveSettings } from '../services/storage';
 import { DEFAULT_USER_SETTINGS } from '../utils/constants';
 import { logger } from '../utils/logger';
@@ -45,6 +45,12 @@ const initialState = {
  */
 function AppProvider({ children }) {
   const [state, dispatch] = useReducer(appReducer, initialState);
+  const settingsRef = useRef(state.settings);
+
+  // Keep ref in sync with latest state
+  useEffect(() => {
+    settingsRef.current = state.settings;
+  }, [state.settings]);
 
   useEffect(() => {
     async function loadSettings() {
@@ -65,14 +71,15 @@ function AppProvider({ children }) {
   }, []);
 
   const updateSettings = useCallback(async (updates) => {
-    const newSettings = { ...state.settings, ...updates };
+    // Read latest settings from ref to avoid stale closure
+    const newSettings = { ...settingsRef.current, ...updates };
     dispatch({ type: ACTION_TYPES.UPDATE_SETTING, payload: updates });
     try {
       await saveSettings(newSettings);
     } catch (error) {
       logger.error('Failed to persist settings', error);
     }
-  }, [state.settings]);
+  }, []);
 
   const value = {
     settings: state.settings,

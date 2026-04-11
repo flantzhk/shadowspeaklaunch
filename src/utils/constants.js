@@ -1,5 +1,6 @@
 // src/utils/constants.js — App-wide constants
 
+export const APP_VERSION = '1.1.0';
 export const MAX_LIBRARY_SIZE = 50;
 export const SECONDS_PER_PHRASE = 120;
 export const PRONUNCIATION_PASS_THRESHOLD = { cantonese: 90, mandarin: 70, english: 70 };
@@ -76,6 +77,7 @@ export const DEFAULT_USER_SETTINGS = {
   defaultSpeed: 'natural',
   streakCount: 0,
   streakLastDate: null,
+  streakFreezeUsedWeek: null,
   totalPracticeSeconds: 0,
   onboardingCompleted: false,
 };

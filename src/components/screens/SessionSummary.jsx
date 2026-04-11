@@ -2,7 +2,7 @@
 
 import { useAppContext } from '../../contexts/AppContext';
 import { formatTime } from '../../utils/formatters';
-import { SCORE_THRESHOLDS, ROUTES } from '../../utils/constants';
+import { ROUTES } from '../../utils/constants';
 import styles from './SessionSummary.module.css';
 
 function getScoreColor(score) {

@@ -46,6 +46,7 @@ const LegalPages = lazy(() => import('./components/screens/LegalPage').then(m =>
 const TermsPage = lazy(() => import('./components/screens/LegalPage').then(m => ({ default: m.TermsOfService })));
 const ProfileScreen = lazy(() => import('./components/screens/ProfileScreen'));
 const AboutScreen = lazy(() => import('./components/screens/AboutScreen'));
+const LicensesScreen = lazy(() => import('./components/screens/LicensesScreen'));
 const FAQScreen = lazy(() => import('./components/screens/FAQScreen'));
 const ContactScreen = lazy(() => import('./components/screens/ContactScreen'));
 const EmailVerification = lazy(() => import('./components/screens/EmailVerification'));
@@ -298,6 +299,7 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
     case ROUTES.TERMS: return <TermsPage onBack={goBack} />;
     case ROUTES.PROFILE: return <ProfileScreen onBack={goBack} onNavigate={navigate} showToast={showToast} />;
     case ROUTES.ABOUT: return <AboutScreen onBack={goBack} onNavigate={navigate} />;
+    case ROUTES.LICENSES: return <LicensesScreen onBack={goBack} />;
     case ROUTES.FAQ: return <FAQScreen onBack={goBack} />;
     case ROUTES.CONTACT: return <ContactScreen onBack={goBack} showToast={showToast} />;
     case ROUTES.EMAIL_VERIFY: return <EmailVerification onBack={goBack} onVerified={() => navigate(ROUTES.HOME)} />;

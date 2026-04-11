@@ -31,18 +31,20 @@ export default function HomeScreen({ onNavigate }) {
   // Streak at risk banner: show when streak >= 3, evening hours, no practice today
   useEffect(() => {
     const hour = new Date().getHours();
-    if (settings.streakCount >= 3 && hour >= 18 && hour < 23) {
+    if ((settings.streakCount ?? 0) >= 3 && hour >= 18 && hour < 23) {
       hasPracticedToday().then(practiced => {
         if (!practiced) setStreakAtRisk(true);
-      });
+        else setStreakAtRisk(false);
+      }).catch(() => {});
     }
-  }, [settings.streakCount]);
+  }, [settings.streakCount, settings.streakLastDate]);
 
   const [completedToday, setCompletedToday] = useState(false);
 
+  // Re-check when streakLastDate changes (i.e. after completing a session)
   useEffect(() => {
-    hasPracticedToday().then(setCompletedToday);
-  }, []);
+    hasPracticedToday().then(setCompletedToday).catch(() => {});
+  }, [settings.streakLastDate]);
 
   const heroTopic = topics[0] || null;
 
@@ -88,7 +90,7 @@ export default function HomeScreen({ onNavigate }) {
         <div className={styles.streakBanner}>
           <span className={styles.streakFlame}>🔥</span>
           <div className={styles.streakBannerText}>
-            <span className={styles.streakBannerTitle}>Your {settings.streakCount}-day streak is at risk!</span>
+            <span className={styles.streakBannerTitle}>Your {settings.streakCount ?? 0}-day streak is at risk!</span>
             <span className={styles.streakBannerSub}>Practice 5 minutes to save it.</span>
           </div>
           <button className={styles.streakBannerAction} onClick={() => { setStreakDismissed(true); onNavigate('session'); }}>

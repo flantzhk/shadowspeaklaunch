@@ -1,6 +1,5 @@
 // src/components/screens/AIScenarioPicker.jsx — Item 23
 
-import { ROUTES } from '../../utils/constants';
 import styles from './AIScenarioPicker.module.css';
 
 const SCENARIOS = [

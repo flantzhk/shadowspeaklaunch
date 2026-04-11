@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { useRecorder } from '../../hooks/useRecorder';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
-import { speechToText, scorePronunciation } from '../../services/api';
+import { speechToText } from '../../services/api';
 import { isAuthenticated } from '../../services/auth';
 import { getScenarios, sendMessage, generateResponseAudio } from '../../services/aiChat';
 import { saveLibraryEntry } from '../../services/storage';
