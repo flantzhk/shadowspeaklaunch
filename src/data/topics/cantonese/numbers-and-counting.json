@@ -5,7 +5,7 @@
   "description": "Count, haggle, and handle money like a local",
   "phraseCount": 15,
   "imageGradient": "linear-gradient(135deg, #F6A623 0%, #E8591C 100%)",
-  "imageUrl": null,
+  "imageUrl": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=200&fit=crop",
   "dialogueScenes": ["market-price", "phone-number"],
   "phrases": [
     {

@@ -5,7 +5,7 @@
   "description": "Agree, refuse, and buy yourself time gracefully",
   "phraseCount": 10,
   "imageGradient": "linear-gradient(135deg, #43B89C 0%, #1A8F6E 100%)",
-  "imageUrl": null,
+  "imageUrl": "https://images.unsplash.com/photo-1533928298208-27ff66555d8d?w=300&h=200&fit=crop",
   "dialogueScenes": ["declining-invitation"],
   "phrases": [
     {

@@ -4,11 +4,11 @@ import styles from './TopBar.module.css';
 
 /**
  * Top navigation bar with logo, streak counter, and avatar.
- * @param {{ streak: number, language: string, onSettingsTap: () => void, onStatsTap: () => void, userName: string }} props
+ * @param {{ streak: number, language: string, onSettingsTap: () => void, onStatsTap: () => void, userName: string, photoURL: string }} props
  */
-function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap, userName = '' }) {
+function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap, userName = '', photoURL = '' }) {
   const langLabel = language === 'cantonese' ? 'CANTONESE' : 'MANDARIN';
-  const initial = userName ? userName.charAt(0).toUpperCase() : 'S';
+  const initial = userName ? userName.charAt(0).toUpperCase() : '?';
   const streakPulse = streak >= 7;
 
   return (
@@ -25,7 +25,7 @@ function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap,
 
       <div className={styles.actions}>
         <button
-          className={`${styles.streakChip} ${streakPulse ? styles.streakPulse : ''}`}
+          className={`${styles.streakChip} ${streak === 0 ? styles.streakInactive : ''} ${streakPulse ? styles.streakPulse : ''}`}
           onClick={onStatsTap}
           aria-label={`${streak} day streak — view stats`}
         >
@@ -35,6 +35,7 @@ function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap,
             </svg>
           </span>
           <span className={styles.streakCount}>{streak}</span>
+          <span className={styles.streakLabel}>days</span>
         </button>
 
         <button
@@ -42,7 +43,11 @@ function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap,
           onClick={onSettingsTap}
           aria-label="Settings"
         >
-          {initial}
+          {photoURL ? (
+            <img src={photoURL} alt="" className={styles.avatarImg} referrerPolicy="no-referrer" />
+          ) : (
+            initial
+          )}
         </button>
       </div>
     </header>

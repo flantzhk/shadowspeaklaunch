@@ -5,7 +5,7 @@
   "description": "Your first words in any Cantonese encounter",
   "phraseCount": 12,
   "imageGradient": "linear-gradient(135deg, #C5E85A 0%, #8BB82B 100%)",
-  "imageUrl": null,
+  "imageUrl": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=300&h=200&fit=crop",
   "dialogueScenes": ["lift-neighbor", "bumping-apology"],
   "phrases": [
     {

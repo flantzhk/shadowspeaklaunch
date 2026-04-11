@@ -10,7 +10,8 @@ import { LoadingSpinner } from './components/shared/LoadingSpinner';
 import { useToast } from './components/shared/Toast';
 import { useLibraryActions } from './hooks/useLibraryActions';
 import { ROUTES } from './utils/constants';
-import { isAuthenticated, waitForAuth } from './services/auth';
+import { isAuthenticated, waitForAuth, getCurrentUser } from './services/auth';
+import { fbAuth } from './services/firebase';
 import { getDB } from './services/storage';
 import { initOfflineQueueListener } from './services/offlineManager';
 import { logger } from './utils/logger';
@@ -77,7 +78,15 @@ function MainLayout() {
   const [authReady, setAuthReady] = useState(false);
 
   useEffect(() => {
-    waitForAuth().then(() => setAuthReady(true));
+    waitForAuth().then((user) => {
+      if (user) {
+        const name = user.displayName || '';
+        const photoURL = user.photoURL || '';
+        if (name && name !== settings.name) updateSettings({ name });
+        if (photoURL) updateSettings({ photoURL });
+      }
+      setAuthReady(true);
+    });
   }, []);
 
   if (isLoading || !authReady) return <Loader size={40} />;
@@ -118,7 +127,7 @@ function MainLayout() {
 
   return (
     <>
-      {isTab && <TopBar streak={settings.streakCount} language={settings.currentLanguage} userName={settings.name} onSettingsTap={() => navigate(ROUTES.SETTINGS)} onStatsTap={() => navigate(ROUTES.STATS)} />}
+      {isTab && <TopBar streak={settings.streakCount} language={settings.currentLanguage} userName={settings.name} photoURL={settings.photoURL} onSettingsTap={() => navigate(ROUTES.SETTINGS)} onStatsTap={() => navigate(ROUTES.STATS)} />}
 
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <Suspense fallback={<Loader />}>

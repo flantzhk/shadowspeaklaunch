@@ -58,9 +58,13 @@ export default function HomeScreen({ onNavigate }) {
       <div className={styles.heroCard}>
         <div
           className={styles.heroImage}
-          style={heroTopic?.imageGradient ? {
-            background: `linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.65) 100%), ${heroTopic.imageGradient}`
-          } : undefined}
+          style={{
+            background: heroTopic?.imageUrl
+              ? `linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.65) 100%), url(${heroTopic.imageUrl}) center/cover`
+              : heroTopic?.imageGradient
+                ? `linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.65) 100%), ${heroTopic.imageGradient}`
+                : undefined
+          }}
         >
           <div className={styles.dayBadge}>Day {libraryCount > 0 ? Math.ceil(libraryCount / 5) : 1}</div>
           <span className={styles.heroLabel}>
@@ -161,7 +165,11 @@ export default function HomeScreen({ onNavigate }) {
                 <div key={topic.id} className={styles.topicCard}>
                   <button
                     className={styles.topicImageArea}
-                    style={{ background: topic.imageGradient }}
+                    style={{
+                      background: topic.imageUrl
+                        ? `linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.4) 100%), url(${topic.imageUrl}) center/cover`
+                        : topic.imageGradient
+                    }}
                     onClick={() => handleTopicTap(topic)}
                   >
                     <span className={styles.topicBadge}>{topic.phraseCount} phrases</span>

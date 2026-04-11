@@ -5,7 +5,7 @@
   "description": "Ask where, when, how, and what in any situation",
   "phraseCount": 18,
   "imageGradient": "linear-gradient(135deg, #6B5CE7 0%, #A855F7 100%)",
-  "imageUrl": null,
+  "imageUrl": "https://images.unsplash.com/photo-1536599018102-9f803c140fc1?w=300&h=200&fit=crop",
   "dialogueScenes": ["finding-bathroom", "asking-time"],
   "phrases": [
     {
