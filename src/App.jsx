@@ -39,6 +39,8 @@ const RegisterScreen = lazy(() => import('./components/screens/RegisterScreen'))
 const ForgotPasswordScreen = lazy(() => import('./components/screens/ForgotPasswordScreen'));
 const WelcomeScreen = lazy(() => import('./components/screens/WelcomeScreen'));
 const SearchScreen = lazy(() => import('./components/screens/SearchScreen'));
+const LegalPages = lazy(() => import('./components/screens/LegalPage').then(m => ({ default: m.PrivacyPolicy })));
+const TermsPage = lazy(() => import('./components/screens/LegalPage').then(m => ({ default: m.TermsOfService })));
 
 function parseHash(hash) {
   const clean = hash.replace('#', '');
@@ -207,6 +209,8 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
     case ROUTES.AI_CHAT: return <AIConversation onBack={goBack} showToast={showToast} />;
     case ROUTES.STATS: return <StatsScreen onBack={goBack} />;
     case ROUTES.SEARCH: return <SearchScreen onBack={goBack} onNavigate={navigate} />;
+    case ROUTES.PRIVACY: return <LegalPages onBack={goBack} />;
+    case ROUTES.TERMS: return <TermsPage onBack={goBack} />;
     default: return <HomeScreen onNavigate={navigate} />;
   }
 }
