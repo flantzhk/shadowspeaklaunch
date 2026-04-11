@@ -221,12 +221,16 @@
 }
 
 .status {
-  font-size: 9px;
+  font-size: 10px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.bestScore {
+  font-size: 12px;
   font-weight: var(--font-weight-semibold);
-  padding: 3px 7px;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: var(--color-brand-green);
 }
 
 .learning {

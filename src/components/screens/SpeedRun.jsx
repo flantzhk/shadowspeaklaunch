@@ -5,6 +5,7 @@ import { useAppContext } from '../../contexts/AppContext';
 import { buildLesson } from '../../services/lessonBuilder';
 import { saveSession, getSettings, saveSettings } from '../../services/storage';
 import { updateStreak } from '../../services/streak';
+import { LessonLoader } from '../shared/LessonLoader';
 import styles from './SpeedRun.module.css';
 
 const TIMER_SECONDS = 5;
@@ -83,7 +84,6 @@ export default function SpeedRun({ onBack, onComplete }) {
   }, [round, phrases, startTimer, generateOptions]);
 
   const finish = useCallback(async () => {
-    setPhase('done');
     const dur = Math.round((Date.now() - sessionStart) / 1000);
     const streak = await updateStreak();
     const newBest = Math.max(personalBest, correct);
@@ -103,21 +103,9 @@ export default function SpeedRun({ onBack, onComplete }) {
     onComplete?.({ ...rec, streakCount: streak, correct, personalBest: newBest });
   }, [sessionStart, correct, personalBest, round, updateSettings, settings, onComplete]);
 
-  if (phase === 'loading') return <div className={styles.screen}><p className={styles.loading}>Loading...</p></div>;
+  if (phase === 'loading') return <LessonLoader mode="speed-run" onCancel={onBack} />;
 
   const phrase = phrases[round];
-  if (phase === 'done') {
-    return (
-      <div className={styles.screen}>
-        <div className={styles.doneCard}>
-          <h2 className={styles.doneTitle}>Speed Run Complete</h2>
-          <p className={styles.doneScore}>{correct}/{Math.min(phrases.length, TOTAL_ROUNDS)}</p>
-          <p className={styles.doneBest}>Personal best: {personalBest}</p>
-          <button className={styles.doneBtn} onClick={() => onComplete?.({})}>Done</button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className={styles.screen}>

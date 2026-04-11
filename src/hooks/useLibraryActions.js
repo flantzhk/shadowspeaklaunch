@@ -1,19 +1,25 @@
 // src/hooks/useLibraryActions.js — Library save/mark-known actions
 
 import { useCallback } from 'react';
-import { saveLibraryEntry, getLibraryEntry } from '../services/storage';
+import { saveLibraryEntry, getLibraryEntry, getAllLibraryEntries } from '../services/storage';
 import { cacheAudioForPhrase } from '../services/audio';
-import { SRS_INITIAL_EASE } from '../utils/constants';
+import { SRS_INITIAL_EASE, MAX_LIBRARY_SIZE } from '../utils/constants';
 
 /**
  * Hook for library actions (save, mark known).
  * @param {Function} showToast
  * @param {string} language
+ * @param {Function} [onStorageFull] - called when library is at MAX_LIBRARY_SIZE
  * @returns {{ handleSaveToLibrary: Function, handleMarkKnown: Function }}
  */
-function useLibraryActions(showToast, language) {
+function useLibraryActions(showToast, language, onStorageFull) {
   const handleSaveToLibrary = useCallback(async (phrase) => {
     try {
+      const existing = await getAllLibraryEntries();
+      if (existing.length >= MAX_LIBRARY_SIZE) {
+        onStorageFull?.();
+        return;
+      }
       await saveLibraryEntry({
         phraseId: phrase.id, type: 'phrase', addedAt: Date.now(),
         source: 'browse', customData: null, interval: 0,
@@ -26,7 +32,7 @@ function useLibraryActions(showToast, language) {
     } catch (error) {
       showToast('Failed to save', 'error');
     }
-  }, [showToast, language]);
+  }, [showToast, language, onStorageFull]);
 
   const handleMarkKnown = useCallback(async (phrase) => {
     try {

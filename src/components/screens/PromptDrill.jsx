@@ -12,6 +12,7 @@ import { saveSession } from '../../services/storage';
 import { updateStreak } from '../../services/streak';
 import { ScoreBadge } from '../cards/ScoreBadge';
 import { RecordButton } from '../shared/RecordButton';
+import { LessonLoader } from '../shared/LessonLoader';
 import styles from './PromptDrill.module.css';
 
 /**
@@ -97,7 +98,7 @@ export default function PromptDrill({ onBack, onComplete }) {
   }, [sessionStart, results, updateSettings, settings, onComplete]);
 
   if (phase === 'loading' || !phrase) {
-    return <div className={styles.screen}><p className={styles.loading}>Loading...</p></div>;
+    return <LessonLoader mode="prompt-drill" onCancel={onBack} />;
   }
 
   return (

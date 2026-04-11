@@ -1,0 +1,185 @@
+/* ScenePickerScreen.module.css */
+
+.screen {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: calc(var(--tab-bar-height) + var(--space-2xl));
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg) var(--content-padding) var(--space-md);
+}
+
+.backBtn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-primary);
+}
+
+.title {
+  font-size: 17px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+/* === Filter Row === */
+.filterRow {
+  display: flex;
+  gap: 6px;
+  padding: 0 var(--content-padding) var(--space-lg);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.filterRow::-webkit-scrollbar { display: none; }
+
+.filterBtn {
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.filterActive {
+  background: var(--color-brand-dark);
+  color: white;
+  border-color: var(--color-brand-dark);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* === Empty === */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  gap: 10px;
+}
+
+.emptyIcon { font-size: 40px; }
+
+.emptyTitle {
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.emptyText {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  text-align: center;
+  max-width: 260px;
+  line-height: 1.5;
+}
+
+/* === Scene List === */
+.sceneList {
+  padding: 0 var(--content-padding);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sceneCard {
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border);
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+}
+
+.sceneCard:active { transform: scale(0.98); }
+
+.sceneLeft { flex-shrink: 0; }
+
+.sceneIconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sceneEmoji { font-size: 22px; }
+
+.sceneBody { flex: 1; min-width: 0; }
+
+.sceneTopRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.sceneTitle {
+  font-size: 15px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.diffBadge {
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-dark);
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+}
+
+.sceneDesc {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  margin-bottom: 6px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.sceneFooter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sceneTopic,
+.sceneTurns,
+.sceneDuration {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.sceneTopic::after {
+  content: '·';
+  margin-left: 8px;
+}
+
+.sceneChevron {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}

@@ -124,6 +124,37 @@
   margin-top: var(--space-lg);
 }
 
+.sceneSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.sceneSectionHeader .sectionTitle {
+  margin-bottom: 0;
+}
+
+.browseAll {
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+}
+
+.sceneEmptyCard {
+  width: 100%;
+  padding: 16px;
+  background: var(--color-surface);
+  border: 1.5px dashed rgba(0, 0, 0, 0.12);
+  border-radius: 14px;
+  text-align: center;
+}
+
+.sceneEmptyText {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
 .sceneList {
   display: flex;
   flex-direction: column;

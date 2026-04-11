@@ -14,6 +14,7 @@ import { buildLesson } from '../../services/lessonBuilder';
 import { blobToBase64 } from '../../services/offlineManager';
 import { ScoreBadge } from '../cards/ScoreBadge';
 import { RecordButton } from '../shared/RecordButton';
+import { LessonLoader } from '../shared/LessonLoader';
 import { SCORE_THRESHOLDS } from '../../utils/constants';
 import styles from './ShadowSession.module.css';
 
@@ -129,7 +130,7 @@ export default function ShadowSession({ onBack, onComplete }) {
   }, [sessionStart, results, audio, updateSettings, settings, onComplete]);
 
   if (phase === 'loading') {
-    return <div className={styles.screen}><p className={styles.loading}>Building your lesson...</p></div>;
+    return <LessonLoader mode="shadow-session" onCancel={onBack} />;
   }
 
   const progress = audio.queueLength > 0 ? ((audio.currentIndex + 1) / audio.queueLength) * 100 : 0;

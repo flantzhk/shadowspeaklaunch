@@ -99,11 +99,16 @@ export default function PracticeScreen({ onNavigate, onStartScene }) {
       </button>
 
       {/* Dialogue Scenes */}
-      {scenes.length > 0 && (
-        <section className={styles.sceneSection}>
+      <section className={styles.sceneSection}>
+        <div className={styles.sceneSectionHeader}>
           <h2 className={styles.sectionTitle}>Scene Mode</h2>
+          <button className={styles.browseAll} onClick={() => onNavigate('scene-picker')}>
+            Browse all ›
+          </button>
+        </div>
+        {scenes.length > 0 ? (
           <div className={styles.sceneList}>
-            {scenes.map(scene => (
+            {scenes.slice(0, 3).map(scene => (
               <button key={scene.id} className={styles.sceneCard}
                 onClick={() => onStartScene?.(scene)}>
                 <div className={styles.sceneInfo}>
@@ -114,8 +119,12 @@ export default function PracticeScreen({ onNavigate, onStartScene }) {
               </button>
             ))}
           </div>
-        </section>
-      )}
+        ) : (
+          <button className={styles.sceneEmptyCard} onClick={() => onNavigate('scene-picker')}>
+            <span className={styles.sceneEmptyText}>Browse dialogue scenes →</span>
+          </button>
+        )}
+      </section>
     </div>
   );
 }

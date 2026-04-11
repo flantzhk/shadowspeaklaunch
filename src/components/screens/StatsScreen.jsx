@@ -21,9 +21,9 @@ const MILESTONES = [
 ];
 
 /**
- * @param {{ onBack: Function }} props
+ * @param {{ onBack: Function, onNavigate?: Function }} props
  */
-export default function StatsScreen({ onBack }) {
+export default function StatsScreen({ onBack, onNavigate }) {
   const { settings } = useAppContext();
   const [stats, setStats] = useState(null);
 
@@ -70,7 +70,7 @@ export default function StatsScreen({ onBack }) {
 
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Streak Calendar</h2>
-        <StreakCalendar sessionDates={stats.sessionDates} />
+        <StreakCalendar sessionDates={stats.sessionDates} onDayTap={onNavigate ? (date) => onNavigate('day-detail', { id: date }) : null} />
       </section>
 
       <section className={styles.section}>
@@ -116,7 +116,7 @@ function StatCard({ value, label, highlight }) {
   );
 }
 
-function StreakCalendar({ sessionDates }) {
+function StreakCalendar({ sessionDates, onDayTap }) {
   const today = new Date();
   const days = [];
   // 12 weeks = 84 days, aligned to 7-column grid
@@ -130,8 +130,11 @@ function StreakCalendar({ sessionDates }) {
   return (
     <div className={styles.calendar} role="img" aria-label="Streak calendar showing last 90 days">
       {days.map(d => (
-        <div key={d.date} className={`${styles.calDay} ${d.active ? styles.calActive : ''} ${d.isToday ? styles.calToday : ''}`}
-          title={d.date} />
+        onDayTap && d.active
+          ? <button key={d.date} className={`${styles.calDay} ${d.active ? styles.calActive : ''} ${d.isToday ? styles.calToday : ''}`}
+              title={d.date} onClick={() => onDayTap(d.date)} aria-label={`View sessions on ${d.date}`} />
+          : <div key={d.date} className={`${styles.calDay} ${d.active ? styles.calActive : ''} ${d.isToday ? styles.calToday : ''}`}
+              title={d.date} />
       ))}
     </div>
   );

@@ -16,6 +16,7 @@ import { getDB } from './services/storage';
 import { initOfflineQueueListener } from './services/offlineManager';
 import { logger } from './utils/logger';
 import { OfflineBanner } from './components/shared/OfflineBanner';
+import { StorageFullModal } from './components/shared/StorageFullModal';
 import './styles/global.css';
 
 const HomeScreen = lazy(() => import('./components/screens/HomeScreen'));
@@ -49,6 +50,9 @@ const ContactScreen = lazy(() => import('./components/screens/ContactScreen'));
 const EmailVerification = lazy(() => import('./components/screens/EmailVerification'));
 const NewPassword = lazy(() => import('./components/screens/NewPassword'));
 const AIScenarioPicker = lazy(() => import('./components/screens/AIScenarioPicker'));
+const DayDetailScreen = lazy(() => import('./components/screens/DayDetailScreen'));
+const ScenePickerScreen = lazy(() => import('./components/screens/ScenePickerScreen'));
+const SceneSummary = lazy(() => import('./components/screens/SceneSummary'));
 
 function parseHash(hash) {
   const clean = hash.replace('#', '');
@@ -82,11 +86,12 @@ function MainLayout() {
   const { route, navigate, goBack } = useRouter();
   const { settings, isLoading, updateSettings } = useAppContext();
   const { showToast, ToastComponent } = useToast();
-  const { handleSaveToLibrary, handleMarkKnown } = useLibraryActions(showToast, settings.currentLanguage);
+  const { handleSaveToLibrary, handleMarkKnown } = useLibraryActions(showToast, settings.currentLanguage, () => setShowStorageFull(true));
   const [showNowPlaying, setShowNowPlaying] = useState(false);
   const [sessionSummary, setSessionSummary] = useState(null);
   const [activeScene, setActiveScene] = useState(null);
   const [authReady, setAuthReady] = useState(false);
+  const [showStorageFull, setShowStorageFull] = useState(false);
 
   useEffect(() => {
     waitForAuth().then((user) => {
@@ -179,11 +184,27 @@ function MainLayout() {
         </Suspense>
       )}
 
-      {sessionSummary && (
+      {sessionSummary && sessionSummary.mode === 'dialogue' ? (
+        <Suspense fallback={null}>
+          <SceneSummary
+            summary={sessionSummary}
+            chatLog={sessionSummary.chatLog}
+            sceneTitle={sessionSummary.sceneTitle}
+            onDone={() => { setSessionSummary(null); navigate(ROUTES.HOME); }}
+          />
+        </Suspense>
+      ) : sessionSummary ? (
         <Suspense fallback={null}>
           <SessionSummary summary={sessionSummary}
             onDone={() => { setSessionSummary(null); navigate(ROUTES.HOME); }} />
         </Suspense>
+      ) : null}
+
+      {showStorageFull && (
+        <StorageFullModal
+          onClose={() => setShowStorageFull(false)}
+          onGoToLibrary={() => navigate(ROUTES.LIBRARY)}
+        />
       )}
 
       {ToastComponent}
@@ -216,7 +237,7 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
     case ROUTES.CUSTOM_PHRASE: return <CustomPhraseInput onBack={goBack} showToast={showToast} />;
     case ROUTES.WHAT_DID_THEY_SAY: return <WhatDidTheySay onBack={goBack} showToast={showToast} />;
     case ROUTES.AI_CHAT: return <AIConversation onBack={goBack} showToast={showToast} />;
-    case ROUTES.STATS: return <StatsScreen onBack={goBack} />;
+    case ROUTES.STATS: return <StatsScreen onBack={goBack} onNavigate={navigate} />;
     case ROUTES.SEARCH: return <SearchScreen onBack={goBack} onNavigate={navigate} />;
     case ROUTES.PRIVACY: return <LegalPages onBack={goBack} />;
     case ROUTES.TERMS: return <TermsPage onBack={goBack} />;
@@ -227,6 +248,8 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
     case ROUTES.EMAIL_VERIFY: return <EmailVerification onBack={goBack} onVerified={() => navigate(ROUTES.HOME)} />;
     case ROUTES.NEW_PASSWORD: return <NewPassword onBack={goBack} showToast={showToast} />;
     case ROUTES.AI_SCENARIO: return <AIScenarioPicker onBack={goBack} onNavigate={navigate} onSelectScenario={(s) => { navigate(ROUTES.AI_CHAT); }} />;
+    case ROUTES.DAY_DETAIL: return <DayDetailScreen date={route.id} onBack={goBack} />;
+    case ROUTES.SCENE_PICKER: return <ScenePickerScreen onBack={goBack} onStartScene={onStartScene} />;
     default: return <HomeScreen onNavigate={navigate} />;
   }
 }

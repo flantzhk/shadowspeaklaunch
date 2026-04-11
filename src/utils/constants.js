@@ -57,6 +57,8 @@ export const ROUTES = {
   FAQ: 'faq',
   CONTACT: 'contact',
   LICENSES: 'licenses',
+  DAY_DETAIL: 'day-detail',
+  SCENE_PICKER: 'scene-picker',
 };
 
 export const DAILY_GOAL_OPTIONS = [5, 10, 15, 20, 30];

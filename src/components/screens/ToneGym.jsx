@@ -77,7 +77,6 @@ export default function ToneGym({ onBack, onComplete }) {
   }, [round, setupRound]);
 
   const finish = useCallback(async () => {
-    setPhase('done');
     const dur = Math.round((Date.now() - sessionStart) / 1000);
     const streak = await updateStreak();
     await updateSettings({ streakCount: streak, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
@@ -85,23 +84,11 @@ export default function ToneGym({ onBack, onComplete }) {
       id: crypto.randomUUID(), date: new Date().toISOString().slice(0, 10),
       startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
       mode: 'tone-gym', phrasesAttempted: TOTAL_ROUNDS, phrasesMastered: 0,
-      averageScore: (correct / TOTAL_ROUNDS) * 100, phraseResults: [],
+      averageScore: Math.round((correct / TOTAL_ROUNDS) * 100), phraseResults: [],
     };
     await saveSession(rec);
     onComplete?.({ ...rec, streakCount: streak, correct, total: TOTAL_ROUNDS });
   }, [sessionStart, correct, updateSettings, settings, onComplete]);
-
-  if (phase === 'done') {
-    return (
-      <div className={styles.screen}>
-        <div className={styles.doneCard}>
-          <h2 className={styles.doneTitle}>Tone Gym Complete</h2>
-          <p className={styles.doneScore}>{correct}/{TOTAL_ROUNDS}</p>
-          <button className={styles.doneBtn} onClick={() => onComplete?.({})}>Done</button>
-        </div>
-      </div>
-    );
-  }
 
   if (!currentPair) return null;
 

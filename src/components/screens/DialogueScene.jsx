@@ -119,8 +119,8 @@ export default function DialogueScene({ sceneData, onBack, onComplete }) {
       phrasesMastered: 0, averageScore: null, phraseResults: [],
     };
     await saveSession(rec);
-    onComplete?.({ ...rec, streakCount: streak });
-  }, [sessionStart, scene, updateSettings, settings, onComplete]);
+    onComplete?.({ ...rec, streakCount: streak, chatLog, sceneTitle: scene.title });
+  }, [sessionStart, scene, chatLog, updateSettings, settings, onComplete]);
 
   if (!scene) return null;
 

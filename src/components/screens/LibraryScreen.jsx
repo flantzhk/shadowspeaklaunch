@@ -1,16 +1,17 @@
 // src/components/screens/LibraryScreen.jsx — Phrases/Vocab toggle, queue, cards
 
 import { useState, useEffect, useCallback } from 'react';
-import { getAllLibraryEntries } from '../../services/storage';
+import { getAllLibraryEntries, saveLibraryEntry } from '../../services/storage';
 import { useAudio } from '../../contexts/AudioContext';
 import { useAppContext } from '../../contexts/AppContext';
 import { formatReviewStatus } from '../../utils/formatters';
+import { ROUTES, SRS_MAX_INTERVAL } from '../../utils/constants';
 import styles from './LibraryScreen.module.css';
 
 /**
  * Library screen showing user's saved phrases and vocab.
  */
-export default function LibraryScreen() {
+export default function LibraryScreen({ onNavigate }) {
   const { settings } = useAppContext();
   const { loadQueue, play, currentPhrase, isPlaying, pause } = useAudio();
   const [entries, setEntries] = useState([]);
@@ -51,6 +52,17 @@ export default function LibraryScreen() {
 
   const toggleExpand = useCallback((phraseId) => {
     setExpandedId(prev => prev === phraseId ? null : phraseId);
+  }, []);
+
+  const handleMarkKnown = useCallback(async (entry) => {
+    const updated = {
+      ...entry,
+      status: 'mastered',
+      interval: SRS_MAX_INTERVAL,
+      nextReviewAt: Date.now() + SRS_MAX_INTERVAL * 24 * 60 * 60 * 1000,
+    };
+    await saveLibraryEntry(updated);
+    setEntries(prev => prev.map(e => e.phraseId === entry.phraseId ? updated : e));
   }, []);
 
   const filtered = filter === 'all'
@@ -168,8 +180,11 @@ export default function LibraryScreen() {
 
                   <div className={styles.cardRight}>
                     <span className={`${styles.status} ${styles[entry.status]}`}>
-                      {entry.status}
+                      {entry.status === 'mastered' ? 'Mastered' : formatReviewStatus(entry.interval, entry.nextReviewAt)}
                     </span>
+                    {entry.bestScore != null && (
+                      <span className={styles.bestScore}>{entry.bestScore}%</span>
+                    )}
                     <span className={`${styles.chevron} ${isExpanded ? styles.chevronOpen : ''}`}>&rsaquo;</span>
                   </div>
                 </button>
@@ -205,9 +220,11 @@ export default function LibraryScreen() {
                       <button className={styles.repeatBtn} onClick={(e) => handlePlayPhrase(e, entry.phraseId)}>
                         Repeat
                       </button>
-                      <button className={styles.knowItBtn}>
-                        I know this!
-                      </button>
+                      {entry.status !== 'mastered' && (
+                        <button className={styles.knowItBtn} onClick={() => handleMarkKnown(entry)}>
+                          I know this!
+                        </button>
+                      )}
                     </div>
                   </div>
                 )}
@@ -218,7 +235,7 @@ export default function LibraryScreen() {
       )}
 
       {/* Add phrase button */}
-      <button className={styles.addPhraseBtn}>
+      <button className={styles.addPhraseBtn} onClick={() => onNavigate?.(ROUTES.CUSTOM_PHRASE)}>
         <span className={styles.addPlusCircle}>+</span>
         <span className={styles.addLabel}>Add a phrase</span>
       </button>
