@@ -2,28 +2,25 @@
 
 .toast {
   position: fixed;
-  bottom: calc(var(--tab-bar-height) + var(--safe-area-bottom) + var(--space-lg));
+  bottom: calc(var(--tab-bar-height) + var(--safe-area-bottom) + 60px);
   left: 50%;
   transform: translateX(-50%);
-  padding: var(--space-md) var(--space-xl);
-  border-radius: var(--radius-pill);
+  padding: 14px 18px;
+  border-radius: 12px;
   z-index: var(--z-toast);
-  transition: opacity var(--transition-normal), transform var(--transition-normal);
   max-width: calc(100% - var(--space-2xl) * 2);
 }
 
 .visible {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  animation: toastIn 200ms ease-out forwards;
 }
 
 .hidden {
-  opacity: 0;
-  transform: translateX(-50%) translateY(10px);
+  animation: toastOut 150ms ease-in forwards;
 }
 
 .message {
-  font-size: var(--font-size-base);
+  font-size: 12px;
   font-weight: var(--font-weight-medium);
 }
 

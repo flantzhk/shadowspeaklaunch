@@ -12,6 +12,7 @@
   padding-top: var(--safe-area-top);
   padding-bottom: var(--safe-area-bottom);
   overflow-y: auto;
+  animation: slideUp 300ms ease-out;
 }
 
 /* === Drag handle === */

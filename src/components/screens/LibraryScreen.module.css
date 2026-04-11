@@ -260,6 +260,12 @@
   margin-top: 0;
   border-top: 0.5px solid var(--color-border);
   padding-top: 14px;
+  animation: expandIn 250ms ease;
+}
+
+@keyframes expandIn {
+  from { opacity: 0; max-height: 0; }
+  to { opacity: 1; max-height: 500px; }
 }
 
 .contextLine {
