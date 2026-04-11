@@ -80,7 +80,7 @@ function MainLayout() {
   useEffect(() => {
     waitForAuth().then((user) => {
       if (user) {
-        const name = user.displayName || '';
+        const name = (user.displayName || '').split(' ')[0];
         const photoURL = user.photoURL || '';
         if (name && name !== settings.name) updateSettings({ name });
         if (photoURL) updateSettings({ photoURL });
