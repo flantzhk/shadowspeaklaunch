@@ -46,10 +46,13 @@ async function signIn(email, password) {
 async function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
   try {
-    await fbAuth.signInWithRedirect(provider);
-    return { user: null, error: null };
+    const cred = await fbAuth.signInWithPopup(provider);
+    return { user: cred.user, error: null };
   } catch (error) {
     logger.error('Google sign-in failed', error);
+    if (error.code === 'auth/popup-closed-by-user') {
+      return { user: null, error: null };
+    }
     return { user: null, error: firebaseErrorMessage(error) };
   }
 }
@@ -127,18 +130,7 @@ function getCurrentUser() {
  * Wait for Firebase Auth to initialize (resolves on first auth state).
  * @returns {Promise<import('firebase/compat').User|null>}
  */
-async function waitForAuth() {
-  // First, check for redirect result (from Google sign-in redirect flow)
-  try {
-    const result = await fbAuth.getRedirectResult();
-    if (result?.user) {
-      return result.user;
-    }
-  } catch (error) {
-    logger.error('Redirect result error', error);
-  }
-
-  // Then wait for auth state to be determined
+function waitForAuth() {
   return new Promise((resolve) => {
     const unsub = fbAuth.onAuthStateChanged((user) => {
       unsub();
