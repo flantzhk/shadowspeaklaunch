@@ -31,11 +31,15 @@ export default function HomeScreen({ onNavigate }) {
     onNavigate('session');
   }, [onNavigate]);
 
-  const handleTopicPlay = useCallback(async (topic) => {
+  const handleTopicTap = useCallback((topic) => {
+    onNavigate('topic', { id: topic.id });
+  }, [onNavigate]);
+
+  const handleTopicPlay = useCallback(async (e, topic) => {
+    e.stopPropagation();
     await loadQueue(topic.phrases, settings.currentLanguage);
     await play();
-    onNavigate('topic', { id: topic.id });
-  }, [loadQueue, play, settings.currentLanguage, onNavigate]);
+  }, [loadQueue, play, settings.currentLanguage]);
 
   const categories = langPack?.categories || [];
   const greeting = getGreeting();
@@ -64,7 +68,9 @@ export default function HomeScreen({ onNavigate }) {
             TODAY&apos;S LESSON
           </span>
           <h2 className={styles.heroTitle}>{heroTopic?.name || 'Daily Basics'}</h2>
-          <p className={styles.heroSubtitle}>{heroTopic?.phraseCount || 12} phrases</p>
+          <p className={styles.heroSubtitle}>
+            {heroTopic?.description || `${heroTopic?.phraseCount || 12} phrases`}
+          </p>
         </div>
         <div className={styles.heroBottom}>
           <div className={styles.durationPicker}>
@@ -128,6 +134,15 @@ export default function HomeScreen({ onNavigate }) {
         </button>
       )}
 
+      {/* Search Bar */}
+      <button className={styles.searchBar} onClick={() => onNavigate('search')}>
+        <svg className={styles.searchIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <span className={styles.searchPlaceholder}>Search phrases, words, topics</span>
+      </button>
+
       {/* Category Sections */}
       {categories.map(categoryId => {
         const categoryTopics = topics.filter(t => t.category === categoryId);
@@ -135,20 +150,40 @@ export default function HomeScreen({ onNavigate }) {
 
         return (
           <section key={categoryId} className={styles.categorySection}>
-            <h2 className={styles.categoryTitle}>
-              {formatCategoryName(categoryId)}
-            </h2>
+            <div className={styles.categoryHeader}>
+              <h2 className={styles.categoryTitle}>
+                {formatCategoryName(categoryId)}
+              </h2>
+              <span className={styles.categoryCount}>{categoryTopics.length} topics</span>
+            </div>
             <div className={styles.topicRow}>
               {categoryTopics.map(topic => (
-                <button
-                  key={topic.id}
-                  className={styles.topicCard}
-                  onClick={() => handleTopicPlay(topic)}
-                  style={{ background: topic.imageGradient }}
-                >
-                  <span className={styles.topicName}>{topic.name}</span>
-                  <span className={styles.topicCount}>{topic.phraseCount} phrases</span>
-                </button>
+                <div key={topic.id} className={styles.topicCard}>
+                  <button
+                    className={styles.topicImageArea}
+                    style={{ background: topic.imageGradient }}
+                    onClick={() => handleTopicTap(topic)}
+                  >
+                    <span className={styles.topicBadge}>{topic.phraseCount} phrases</span>
+                    <button
+                      className={styles.topicPlayBtn}
+                      onClick={(e) => handleTopicPlay(e, topic)}
+                      aria-label={`Play ${topic.name}`}
+                    >
+                      <span className={styles.topicPlayTriangle} />
+                    </button>
+                  </button>
+                  <button className={styles.topicInfo} onClick={() => handleTopicTap(topic)}>
+                    <span className={styles.topicName}>{topic.name}</span>
+                    <span className={styles.topicDesc}>{topic.description || ''}</span>
+                    <div className={styles.progressRow}>
+                      <div className={styles.progressTrack}>
+                        <div className={styles.progressFill} style={{ width: '0%' }} />
+                      </div>
+                      <span className={styles.progressCount}>0/{topic.phraseCount}</span>
+                    </div>
+                  </button>
+                </div>
               ))}
             </div>
           </section>

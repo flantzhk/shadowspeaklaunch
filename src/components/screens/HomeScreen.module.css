@@ -262,7 +262,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-md);
-  margin-bottom: var(--space-xl);
+  margin-bottom: 18px;
   text-align: left;
 }
 
@@ -298,21 +298,64 @@
   color: var(--color-text-muted);
 }
 
+/* === Search Bar === */
+.searchBar {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--color-surface);
+  border-radius: 14px;
+  border: 0.5px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.searchBar:active {
+  transform: scale(0.98);
+}
+
+.searchIcon {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.searchPlaceholder {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
 /* === Category Sections === */
 .categorySection {
-  margin-bottom: var(--space-xl);
+  margin-top: 24px;
+  margin-bottom: var(--space-lg);
+}
+
+.categoryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
 }
 
 .categoryTitle {
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
-  margin-bottom: var(--space-md);
+  letter-spacing: -0.2px;
 }
 
+.categoryCount {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+}
+
+/* === Topic Row (Horizontal Scroll) === */
 .topicRow {
   display: flex;
-  gap: var(--space-md);
+  gap: 10px;
   overflow-x: auto;
   padding-bottom: var(--space-sm);
   -webkit-overflow-scrolling: touch;
@@ -323,31 +366,114 @@
   display: none;
 }
 
+/* === Topic Card === */
 .topicCard {
   flex-shrink: 0;
   width: 140px;
-  height: 100px;
-  border-radius: var(--radius-md);
-  padding: var(--space-base);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: var(--space-xs);
-  box-shadow: var(--shadow-card);
-  transition: transform var(--transition-fast);
 }
 
-.topicCard:active {
+.topicImageArea {
+  width: 140px;
+  height: 100px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  display: block;
+}
+
+.topicImageArea:active {
   transform: scale(0.97);
+}
+
+.topicBadge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.55);
+  color: white;
+  font-size: 9px;
+  font-weight: var(--font-weight-semibold);
+  padding: 3px 7px;
+  border-radius: 5px;
+}
+
+.topicPlayBtn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topicPlayBtn:active {
+  transform: scale(0.9);
+}
+
+.topicPlayTriangle {
+  width: 0;
+  height: 0;
+  border-left: 8px solid var(--color-brand-dark);
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  margin-left: 2px;
+}
+
+.topicInfo {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .topicName {
   font-size: 13px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-text-primary);
+  line-height: 1.25;
+  margin-top: 8px;
 }
 
-.topicCount {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
+.topicDesc {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  margin-top: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* === Progress Bar === */
+.progressRow {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.progressTrack {
+  flex: 1;
+  height: 3px;
+  background: #EEE8D8;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--color-brand-lime);
+  border-radius: 2px;
+  transition: width 500ms ease-out;
+}
+
+.progressCount {
+  font-size: 9px;
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+  flex-shrink: 0;
 }
