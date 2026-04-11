@@ -111,8 +111,13 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
         <div style={{ width: 44 }} />
       </div>
 
-      <div className={styles.hero} style={{ background: topic.imageGradient }}>
-        <p className={styles.description}>{topic.description}</p>
+      <div className={styles.hero} style={{
+        background: topic.imageUrl
+          ? `linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.5) 100%), url(${topic.imageUrl}) center/cover`
+          : topic.imageGradient
+      }}>
+        <h2 className={styles.heroTitle}>{topic.name}</h2>
+        <p className={styles.heroCount}>{topic.phraseCount} phrases</p>
         <div className={styles.progressRow}>
           <div className={styles.progressBar}>
             <div className={styles.progressFill} style={{ width: `${progressPercent}%` }} />
@@ -120,6 +125,10 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
           <span className={styles.progressLabel}>{savedCount}/{topic.phrases.length}</span>
         </div>
       </div>
+
+      {topic.description && (
+        <p className={styles.description}>{topic.description}</p>
+      )}
 
       <button className={styles.startBtn} onClick={handlePlayTopic}>
         Start this topic
