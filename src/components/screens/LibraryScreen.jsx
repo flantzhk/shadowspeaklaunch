@@ -16,6 +16,8 @@ export default function LibraryScreen() {
   const [entries, setEntries] = useState([]);
   const [phrases, setPhrases] = useState({});
   const [filter, setFilter] = useState('all');
+  const [mode, setMode] = useState('phrases');
+  const [expandedId, setExpandedId] = useState(null);
 
   useEffect(() => {
     async function load() {
@@ -35,7 +37,8 @@ export default function LibraryScreen() {
     load();
   }, []);
 
-  const handlePlayPhrase = useCallback(async (phraseId) => {
+  const handlePlayPhrase = useCallback(async (e, phraseId) => {
+    e.stopPropagation();
     const phrase = phrases[phraseId];
     if (!phrase) return;
     if (currentPhrase?.id === phraseId && isPlaying) {
@@ -46,42 +49,85 @@ export default function LibraryScreen() {
     await play();
   }, [phrases, loadQueue, play, pause, currentPhrase, isPlaying, settings.currentLanguage]);
 
+  const toggleExpand = useCallback((phraseId) => {
+    setExpandedId(prev => prev === phraseId ? null : phraseId);
+  }, []);
+
   const filtered = filter === 'all'
     ? entries
-    : entries.filter(e => e.status === filter);
+    : filter === 'due'
+      ? entries.filter(e => e.nextReviewAt && new Date(e.nextReviewAt) <= new Date())
+      : entries.filter(e => e.status === filter);
 
   const learningCount = entries.filter(e => e.status === 'learning').length;
   const masteredCount = entries.filter(e => e.status === 'mastered').length;
+  const dueCount = entries.filter(e => e.nextReviewAt && new Date(e.nextReviewAt) <= new Date()).length;
 
   return (
     <div className={styles.screen}>
-      <h1 className={styles.title}>My Library</h1>
+      {/* Phrases / Vocab toggle */}
+      <div className={styles.modeToggle}>
+        <button
+          className={`${styles.modeBtn} ${mode === 'phrases' ? styles.modeActive : ''}`}
+          onClick={() => setMode('phrases')}
+        >
+          Phrases
+        </button>
+        <button
+          className={`${styles.modeBtn} ${mode === 'vocab' ? styles.modeActive : ''}`}
+          onClick={() => setMode('vocab')}
+        >
+          Vocab
+        </button>
+      </div>
 
-      <div className={styles.queueMeter}>
-        <div className={styles.meterLabel}>
-          <span>{learningCount} learning</span>
-          <span>{masteredCount} mastered</span>
+      {/* Queue meter */}
+      <div className={styles.queueCard}>
+        <div className={styles.queueHeader}>
+          <span className={styles.queueTitle}>Learning queue</span>
+          <span className={styles.queueCount}>{entries.length} total</span>
         </div>
         <div className={styles.meterBar}>
           <div
-            className={styles.meterFill}
+            className={styles.meterFillMastered}
             style={{ width: entries.length > 0 ? `${(masteredCount / entries.length) * 100}%` : '0%' }}
           />
+          <div
+            className={styles.meterFillLearning}
+            style={{ width: entries.length > 0 ? `${(learningCount / entries.length) * 100}%` : '0%' }}
+          />
+        </div>
+        <div className={styles.queueLegend}>
+          <span className={styles.legendItem}>
+            <span className={styles.legendDotMastered} />
+            {masteredCount} mastered
+          </span>
+          <span className={styles.legendItem}>
+            <span className={styles.legendDotLearning} />
+            {learningCount} learning
+          </span>
         </div>
       </div>
 
+      {/* Filter row */}
       <div className={styles.filterRow}>
-        {['all', 'learning', 'mastered'].map(f => (
+        {[
+          { key: 'all', label: 'All' },
+          { key: 'learning', label: 'Learning' },
+          { key: 'mastered', label: 'Mastered' },
+          { key: 'due', label: `Due (${dueCount})` },
+        ].map(f => (
           <button
-            key={f}
-            className={`${styles.filterButton} ${filter === f ? styles.filterActive : ''}`}
-            onClick={() => setFilter(f)}
+            key={f.key}
+            className={`${styles.filterButton} ${filter === f.key ? styles.filterActive : ''}`}
+            onClick={() => setFilter(f.key)}
           >
-            {f.charAt(0).toUpperCase() + f.slice(1)}
+            {f.label}
           </button>
         ))}
       </div>
 
+      {/* Phrase list */}
       {filtered.length === 0 ? (
         <div className={styles.empty}>
           <p className={styles.emptyText}>
@@ -95,42 +141,79 @@ export default function LibraryScreen() {
           {filtered.map(entry => {
             const phrase = phrases[entry.phraseId];
             const isActive = currentPhrase?.id === entry.phraseId;
+            const isExpanded = expandedId === entry.phraseId;
 
             return (
               <div key={entry.phraseId} className={`${styles.phraseCard} ${isActive ? styles.activeCard : ''}`}>
+                <button className={styles.cardBody} onClick={() => toggleExpand(entry.phraseId)}>
+                  <div className={styles.phraseInfo}>
+                    <span className={styles.romanization}>
+                      {phrase?.romanization || entry.phraseId}
+                    </span>
+                    {phrase && (
+                      <>
+                        <span className={styles.chinese} lang="yue">{phrase.chinese}</span>
+                        <span className={styles.english}>{phrase.english}</span>
+                      </>
+                    )}
+                  </div>
+
+                  <div className={styles.cardRight}>
+                    <span className={`${styles.status} ${styles[entry.status]}`}>
+                      {entry.status}
+                    </span>
+                    <span className={`${styles.chevron} ${isExpanded ? styles.chevronOpen : ''}`}>&rsaquo;</span>
+                  </div>
+                </button>
+
                 <button
                   className={styles.playBtn}
-                  onClick={() => handlePlayPhrase(entry.phraseId)}
+                  onClick={(e) => handlePlayPhrase(e, entry.phraseId)}
                   aria-label={isActive && isPlaying ? 'Pause' : 'Play'}
                 >
                   {isActive && isPlaying ? <PauseIcon /> : <PlayIcon />}
                 </button>
 
-                <div className={styles.phraseInfo}>
-                  <span className={styles.romanization}>
-                    {phrase?.romanization || entry.phraseId}
-                  </span>
-                  {phrase && (
-                    <>
-                      <span className={styles.chinese} lang="yue">{phrase.chinese}</span>
-                      <span className={styles.english}>{phrase.english}</span>
-                    </>
-                  )}
-                </div>
+                {/* Expanded section */}
+                {isExpanded && phrase && (
+                  <div className={styles.expandedSection}>
+                    {phrase.context && (
+                      <p className={styles.contextLine}>{phrase.context}</p>
+                    )}
 
-                <div className={styles.meta}>
-                  <span className={`${styles.status} ${styles[entry.status]}`}>
-                    {entry.status}
-                  </span>
-                  <span className={styles.review}>
-                    {formatReviewStatus(entry.interval, entry.nextReviewAt)}
-                  </span>
-                </div>
+                    {phrase.words && phrase.words.length > 0 && (
+                      <div className={styles.wordCards}>
+                        {phrase.words.map((word, i) => (
+                          <div key={i} className={styles.wordCard}>
+                            <span className={styles.wordChinese}>{word.chinese}</span>
+                            <span className={styles.wordJyutping}>{word.jyutping}</span>
+                            <span className={styles.wordEnglish}>{word.english}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className={styles.expandedActions}>
+                      <button className={styles.repeatBtn} onClick={(e) => handlePlayPhrase(e, entry.phraseId)}>
+                        Repeat
+                      </button>
+                      <button className={styles.knowItBtn}>
+                        I know this!
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
       )}
+
+      {/* Add phrase button */}
+      <button className={styles.addPhraseBtn}>
+        <span className={styles.addPlusCircle}>+</span>
+        <span className={styles.addLabel}>Add a phrase</span>
+      </button>
     </div>
   );
 }
@@ -146,8 +229,8 @@ function PlayIcon() {
 function PauseIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--color-brand-dark)">
-      <rect x="6" y="4" width="4" height="16" />
-      <rect x="14" y="4" width="4" height="16" />
+      <rect x="6" y="4" width="4" height="16" rx="1" />
+      <rect x="14" y="4" width="4" height="16" rx="1" />
     </svg>
   );
 }
