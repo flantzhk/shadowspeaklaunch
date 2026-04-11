@@ -5,6 +5,7 @@ import { useAppContext } from '../../contexts/AppContext';
 import { useAudio } from '../../contexts/AudioContext';
 import { getAllLibraryEntries } from '../../services/storage';
 import { getLanguagePack, getTopicsForLanguage } from '../../services/languageManager';
+import { hasPracticedToday } from '../../services/streak';
 import styles from './HomeScreen.module.css';
 
 /**
@@ -17,6 +18,8 @@ export default function HomeScreen({ onNavigate }) {
   const [topics, setTopics] = useState([]);
   const [libraryCount, setLibraryCount] = useState(0);
   const [duration, setDuration] = useState(30);
+  const [streakAtRisk, setStreakAtRisk] = useState(false);
+  const [streakDismissed, setStreakDismissed] = useState(false);
 
   const langPack = getLanguagePack(settings.currentLanguage);
 
@@ -25,7 +28,33 @@ export default function HomeScreen({ onNavigate }) {
     getAllLibraryEntries().then(entries => setLibraryCount(entries.length));
   }, [settings.currentLanguage]);
 
+  // Streak at risk banner: show when streak >= 3, evening hours, no practice today
+  useEffect(() => {
+    const hour = new Date().getHours();
+    if (settings.streakCount >= 3 && hour >= 18 && hour < 23) {
+      hasPracticedToday().then(practiced => {
+        if (!practiced) setStreakAtRisk(true);
+      });
+    }
+  }, [settings.streakCount]);
+
+  const [completedToday, setCompletedToday] = useState(false);
+
+  useEffect(() => {
+    hasPracticedToday().then(setCompletedToday);
+  }, []);
+
   const heroTopic = topics[0] || null;
+
+  // Hero card variant: day1 | completed | streakBroken | noContent | default
+  const isDay1 = libraryCount === 0 && !settings.onboardingCompleted;
+  const isStreakBroken = settings.streakCount === 0 && settings.streakLastDate !== null;
+  const noContent = !heroTopic && libraryCount === 0;
+  const heroVariant = noContent ? 'noContent'
+    : isDay1 ? 'day1'
+    : completedToday ? 'completed'
+    : isStreakBroken ? 'streakBroken'
+    : 'default';
 
   const handleStartLesson = useCallback(() => {
     onNavigate('session');
@@ -54,44 +83,108 @@ export default function HomeScreen({ onNavigate }) {
         <p className={styles.subtitle}>Your lesson is ready. Just press play.</p>
       </div>
 
+      {/* Streak at Risk Banner */}
+      {streakAtRisk && !streakDismissed && (
+        <div className={styles.streakBanner}>
+          <span className={styles.streakFlame}>🔥</span>
+          <div className={styles.streakBannerText}>
+            <span className={styles.streakBannerTitle}>Your {settings.streakCount}-day streak is at risk!</span>
+            <span className={styles.streakBannerSub}>Practice 5 minutes to save it.</span>
+          </div>
+          <button className={styles.streakBannerAction} onClick={() => { setStreakDismissed(true); onNavigate('session'); }}>
+            Start
+          </button>
+          <button className={styles.streakBannerClose} onClick={() => setStreakDismissed(true)} aria-label="Dismiss">✕</button>
+        </div>
+      )}
+
       {/* Hero Card */}
-      <div className={styles.heroCard}>
+      <div className={`${styles.heroCard} ${heroVariant === 'completed' ? styles.heroCompleted : ''}`}>
         <div
           className={styles.heroImage}
           style={{
-            background: heroTopic?.imageUrl
-              ? `linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.65) 100%), url(${heroTopic.imageUrl}) center/cover`
-              : heroTopic?.imageGradient
-                ? `linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.65) 100%), ${heroTopic.imageGradient}`
-                : undefined
+            background: heroVariant === 'noContent'
+              ? 'linear-gradient(135deg, #E8DCC8 0%, #D4C8A8 100%)'
+              : heroVariant === 'completed'
+                ? heroTopic?.imageUrl
+                  ? `linear-gradient(180deg, rgba(58,106,26,0.25) 0%, rgba(0,0,0,0.65) 100%), url(${heroTopic.imageUrl}) center/cover`
+                  : `linear-gradient(180deg, rgba(58,106,26,0.25) 0%, rgba(0,0,0,0.65) 100%), ${heroTopic?.imageGradient || 'var(--color-brand-dark)'}`
+                : heroTopic?.imageUrl
+                  ? `linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.65) 100%), url(${heroTopic.imageUrl}) center/cover`
+                  : heroTopic?.imageGradient
+                    ? `linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.65) 100%), ${heroTopic.imageGradient}`
+                    : undefined
           }}
         >
-          <div className={styles.dayBadge}>Day {libraryCount > 0 ? Math.ceil(libraryCount / 5) : 1}</div>
+          {/* Day badge */}
+          <div className={styles.dayBadge}>
+            {heroVariant === 'day1' ? 'Getting started'
+              : heroVariant === 'noContent' ? ''
+              : `Day ${libraryCount > 0 ? Math.ceil(libraryCount / 5) : 1}`}
+          </div>
+
+          {/* Label */}
           <span className={styles.heroLabel}>
-            <span className={styles.greenDot} />
-            TODAY&apos;S LESSON
+            {heroVariant === 'completed' ? (
+              <><span className={styles.checkMark}>✓</span> LESSON COMPLETE</>
+            ) : heroVariant === 'day1' ? (
+              <><span className={styles.greenDot} /> YOUR FIRST LESSON</>
+            ) : heroVariant === 'streakBroken' ? (
+              <><span className={styles.greenDot} /> FRESH START</>
+            ) : heroVariant === 'noContent' ? (
+              <><span className={styles.warnDot}>⚠</span> NO LESSON AVAILABLE</>
+            ) : (
+              <><span className={styles.greenDot} /> TODAY&apos;S LESSON</>
+            )}
           </span>
-          <h2 className={styles.heroTitle}>{heroTopic?.name || 'Daily Basics'}</h2>
+
+          {/* Title */}
+          <h2 className={styles.heroTitle}>
+            {heroVariant === 'completed' ? `Great work today${settings.name ? `, ${settings.name}` : ''}`
+              : heroVariant === 'day1' ? 'The Very Basics'
+              : heroVariant === 'streakBroken' ? 'Welcome back'
+              : heroVariant === 'noContent' ? 'Add phrases to your library'
+              : heroTopic?.name || 'Daily Basics'}
+          </h2>
+
+          {/* Subtitle */}
           <p className={styles.heroSubtitle}>
-            {heroTopic?.description || `${heroTopic?.phraseCount || 12} phrases`}
+            {heroVariant === 'completed' ? `Your streak is now ${settings.streakCount} day${settings.streakCount !== 1 ? 's' : ''}`
+              : heroVariant === 'day1' ? '5 phrases to get you started'
+              : heroVariant === 'streakBroken' ? "Let\u2019s build a new streak"
+              : heroVariant === 'noContent' ? 'to build your daily lesson'
+              : heroTopic?.description || `${heroTopic?.phraseCount || 12} phrases`}
           </p>
         </div>
+
         <div className={styles.heroBottom}>
-          <div className={styles.durationPicker}>
-            {[10, 20, 30].map(min => (
-              <button
-                key={min}
-                className={`${styles.durationBtn} ${duration === min ? styles.durationActive : ''}`}
-                onClick={() => setDuration(min)}
-              >
-                <span className={styles.durationNum}>{min}</span>
-                <span className={styles.durationMinLabel}>MIN</span>
-              </button>
-            ))}
-          </div>
-          <button className={styles.heroButton} onClick={handleStartLesson}>
-            <span className={styles.playIcon} />
-            Start lesson
+          {/* Duration picker — hidden for day1 and noContent */}
+          {heroVariant !== 'day1' && heroVariant !== 'noContent' && (
+            <div className={styles.durationPicker}>
+              {[10, 20, 30].map(min => (
+                <button
+                  key={min}
+                  className={`${styles.durationBtn} ${duration === min ? styles.durationActive : ''}`}
+                  onClick={() => setDuration(min)}
+                >
+                  <span className={styles.durationNum}>{min}</span>
+                  <span className={styles.durationMinLabel}>MIN</span>
+                </button>
+              ))}
+            </div>
+          )}
+
+          <button
+            className={`${styles.heroButton} ${heroVariant === 'day1' || heroVariant === 'noContent' ? styles.heroButtonFull : ''}`}
+            onClick={heroVariant === 'completed' ? () => onNavigate('practice')
+              : heroVariant === 'noContent' ? () => onNavigate('library')
+              : handleStartLesson}
+          >
+            {heroVariant === 'completed' ? null : heroVariant === 'noContent' ? null : <span className={styles.playIcon} />}
+            {heroVariant === 'completed' ? 'Practice more'
+              : heroVariant === 'day1' ? 'Start your first lesson'
+              : heroVariant === 'noContent' ? 'Browse topics'
+              : 'Start lesson'}
           </button>
         </div>
       </div>

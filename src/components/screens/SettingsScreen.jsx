@@ -1,13 +1,13 @@
 // src/components/screens/SettingsScreen.jsx
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { getAllLanguages } from '../../services/languageManager';
 import { getCurrentUser, signOut } from '../../services/auth';
 import { DAILY_GOAL_OPTIONS, ROUTES } from '../../utils/constants';
 import { ConfirmModal } from '../shared/ConfirmModal';
 import { BottomSheet } from '../shared/BottomSheet';
-import { downloadAllAudio } from '../../services/offlineManager';
+import DownloadAllModal from '../shared/DownloadAllModal';
 import styles from './SettingsScreen.module.css';
 
 /**
@@ -20,28 +20,17 @@ export default function SettingsScreen({ onBack, onNavigate }) {
   const [showSpeedPicker, setShowSpeedPicker] = useState(false);
   const [showReminderPicker, setShowReminderPicker] = useState(false);
   const [reminderTime, setReminderTime] = useState(settings.reminderTime || '09:00');
-  const [downloadProgress, setDownloadProgress] = useState(null); // null | {done, total}
-  const cancelRef = useRef({ cancelled: false });
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [downloadInBackground, setDownloadInBackground] = useState(false);
 
   const handleSignOut = async () => {
     await signOut();
     window.location.hash = `#${ROUTES.LOGIN}`;
   };
 
-  const handleDownloadAll = async () => {
-    if (downloadProgress) {
-      cancelRef.current.cancelled = true;
-      setDownloadProgress(null);
-      return;
-    }
-    cancelRef.current = { cancelled: false };
-    setDownloadProgress({ done: 0, total: 1 });
-    await downloadAllAudio(
-      settings.currentLanguage,
-      (p) => setDownloadProgress({ done: p.done, total: p.total }),
-      cancelRef.current
-    );
-    setDownloadProgress(null);
+  const handleDownloadClose = (mode) => {
+    if (mode === 'background') setDownloadInBackground(true);
+    setShowDownloadModal(false);
   };
 
   return (
@@ -116,16 +105,17 @@ export default function SettingsScreen({ onBack, onNavigate }) {
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Offline</h2>
         <p className={styles.hint}>Download all audio so lessons work without internet.</p>
-        {downloadProgress && (
-          <div className={styles.downloadBar}>
-            <div className={styles.downloadFill} style={{ width: `${(downloadProgress.done / downloadProgress.total) * 100}%` }} />
-            <span className={styles.downloadLabel}>{downloadProgress.done} / {downloadProgress.total} phrases</span>
-          </div>
+        {downloadInBackground && (
+          <p className={styles.hint} style={{ color: 'var(--color-brand-dark)', fontWeight: 600 }}>Downloading in background…</p>
         )}
-        <button className={styles.downloadBtn} onClick={handleDownloadAll}>
-          {downloadProgress ? `Cancel (${downloadProgress.done}/${downloadProgress.total})` : 'Download all audio'}
+        <button className={styles.downloadBtn} onClick={() => setShowDownloadModal(true)}>
+          Download all audio
         </button>
       </div>
+
+      {showDownloadModal && (
+        <DownloadAllModal language={settings.currentLanguage} onClose={handleDownloadClose} />
+      )}
 
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Account</h2>

@@ -115,7 +115,7 @@ async function downloadAllAudio(language, onProgress, cancelRef = { cancelled: f
     } catch (e) {
       logger.warn(`Failed to cache ${phrase.id}`, e);
     }
-    onProgress?.({ done: i + 1, total, phraseId: phrase.id });
+    onProgress?.({ done: i + 1, total, phraseId: phrase.id, currentTopic: phrase.topicName || phrase.topic || '' });
   }
 }
 
