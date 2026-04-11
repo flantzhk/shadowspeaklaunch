@@ -44,14 +44,19 @@ async function signIn(email, password) {
  * @returns {Promise<{user: Object|null, error: string|null}>}
  */
 async function signInWithGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
   try {
-    const provider = new firebase.auth.GoogleAuthProvider();
     const cred = await fbAuth.signInWithPopup(provider);
     return { user: cred.user, error: null };
   } catch (error) {
     logger.error('Google sign-in failed', error);
+    // If popup is blocked or fails, fall back to redirect
+    if (error.code === 'auth/popup-blocked' || error.code === 'auth/internal-error') {
+      await fbAuth.signInWithRedirect(provider);
+      return { user: null, error: null };
+    }
     if (error.code === 'auth/popup-closed-by-user') {
-      return { user: null, error: null }; // user cancelled, not an error
+      return { user: null, error: null };
     }
     return { user: null, error: firebaseErrorMessage(error) };
   }
@@ -130,7 +135,14 @@ function getCurrentUser() {
  * Wait for Firebase Auth to initialize (resolves on first auth state).
  * @returns {Promise<import('firebase/compat').User|null>}
  */
-function waitForAuth() {
+async function waitForAuth() {
+  // Handle redirect result from Google sign-in fallback
+  try {
+    await fbAuth.getRedirectResult();
+  } catch (error) {
+    logger.error('Redirect result error', error);
+  }
+
   return new Promise((resolve) => {
     const unsub = fbAuth.onAuthStateChanged((user) => {
       unsub();
