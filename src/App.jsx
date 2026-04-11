@@ -130,11 +130,13 @@ function MainLayout() {
     <>
       {isTab && <TopBar streak={settings.streakCount} language={settings.currentLanguage} userName={settings.name} photoURL={settings.photoURL} onSettingsTap={() => navigate(ROUTES.SETTINGS)} onStatsTap={() => navigate(ROUTES.STATS)} />}
 
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <Suspense fallback={<Loader />}>
-          {renderScreen(route, navigate, goBack, showToast, setActiveScene)}
-        </Suspense>
-      </main>
+      {!isSession && (
+        <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <Suspense fallback={<Loader />}>
+            {renderScreen(route, navigate, goBack, showToast, setActiveScene)}
+          </Suspense>
+        </main>
+      )}
 
       {isTab && (
         <>
@@ -151,9 +153,11 @@ function MainLayout() {
       )}
 
       {isSession && !sessionSummary && route.path !== ROUTES.DIALOGUE && (
-        <Suspense fallback={null}>
-          {renderSessionScreen(route.path, () => navigate(ROUTES.HOME), (s) => setSessionSummary(s))}
-        </Suspense>
+        <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <Suspense fallback={<Loader />}>
+            {renderSessionScreen(route.path, () => navigate(ROUTES.HOME), (s) => setSessionSummary(s))}
+          </Suspense>
+        </main>
       )}
 
       {activeScene && (
