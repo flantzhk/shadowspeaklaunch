@@ -1,65 +1,168 @@
-/* SpeedRun.module.css */
+/* SpeedRun.module.css — Practice Mode 3: Speed Run */
 
 .screen {
   flex: 1; display: flex; flex-direction: column;
-  background: var(--color-brand-dark);
+  background: var(--color-bg);
   padding: var(--safe-area-top) var(--content-padding) var(--safe-area-bottom);
 }
 
 .loading { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); }
 
+/* === Header === */
 .header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: var(--space-md) 0; flex-shrink: 0;
+  padding: 14px 0; flex-shrink: 0;
 }
 
-.closeBtn { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: var(--color-text-muted); }
-.score { font-size: var(--font-size-md); font-weight: var(--font-weight-bold); color: var(--color-brand-lime); }
-.roundCount { font-size: var(--font-size-sm); color: var(--color-text-muted); }
+.closeBtn {
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; color: var(--color-text-secondary);
+  font-size: 14px; font-weight: var(--font-weight-semibold);
+}
 
-.timerBar { height: 4px; background: rgba(255,255,255,0.1); border-radius: var(--radius-pill); overflow: hidden; margin-bottom: var(--space-lg); }
-.timerFill { height: 100%; background: var(--color-brand-lime); transition: width 1s linear; }
+.timer {
+  font-size: 14px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
 
-.promptArea { display: flex; flex-direction: column; align-items: center; gap: var(--space-md); padding: var(--space-xl) 0; }
-.label { font-size: var(--font-size-sm); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); }
-.english { font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); color: var(--color-text-inverse); text-align: center; }
+.timerUrgent {
+  color: var(--color-error);
+  animation: recordPulse 1s infinite;
+}
 
+.score {
+  font-size: 14px; font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-dark);
+}
+
+/* === Circular timer === */
+.circularTimer {
+  width: 80px; height: 80px; margin: 24px auto;
+  position: relative;
+}
+
+.circularTimerSvg {
+  width: 80px; height: 80px; transform: rotate(-90deg);
+}
+
+.circularTimerTrack {
+  fill: none; stroke: rgba(0,0,0,0.08); stroke-width: 4;
+}
+
+.circularTimerFill {
+  fill: none; stroke: var(--color-brand-lime); stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.circularTimerNum {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+/* === Prompt === */
+.promptArea {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: var(--space-md); padding: var(--space-xl) 0;
+}
+
+.label { font-size: 13px; color: var(--color-text-muted); }
+
+.english {
+  font-size: 32px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary); text-align: center;
+  padding: 0 32px; margin-top: 24px;
+}
+
+/* === Speak button === */
+.speakBtn {
+  width: calc(100% - 40px); margin: 0 20px;
+  background: var(--color-brand-dark); color: white;
+  border-radius: 14px; padding: 18px;
+  font-size: 16px; font-weight: var(--font-weight-semibold);
+  text-align: center; min-height: 52px;
+}
+
+.speakBtn:active { transform: scale(0.98); }
+
+/* === Feedback flash === */
 .feedback {
-  text-align: center; padding: var(--space-md); border-radius: var(--radius-md);
-  font-weight: var(--font-weight-semibold); margin-bottom: var(--space-md);
+  position: fixed; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: var(--space-md);
+  z-index: var(--z-modal);
 }
 
-.correct { background: rgba(197,232,90,0.15); color: var(--color-brand-lime); }
-.wrong { background: rgba(208,64,64,0.15); color: #FF6B6B; }
+.correct { background: var(--color-mastered-bg); }
+.wrong { background: #FFE0E0; }
 
+.feedbackIcon {
+  width: 120px; height: 120px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px; animation: scorePop 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.feedbackIconCorrect { background: var(--color-brand-green); color: white; }
+.feedbackIconWrong { background: var(--color-error); color: white; }
+
+.feedbackAnswer {
+  font-size: 20px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.feedbackIncrement {
+  font-size: 24px; font-weight: var(--font-weight-bold);
+  color: var(--color-brand-green);
+  animation: floatUp 600ms ease-out forwards;
+}
+
+@keyframes floatUp {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-30px); }
+}
+
+/* === Stats footer === */
+.statsFooter {
+  flex-shrink: 0; text-align: center;
+  padding: 16px; font-size: 12px; color: var(--color-text-muted);
+}
+
+/* === Options grid (for tap-based speed run) === */
 .optionsGrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); flex: 1; align-content: start; }
 
 .optionBtn {
   display: flex; flex-direction: column; align-items: center; gap: var(--space-xs);
-  padding: var(--space-lg); background: rgba(255,255,255,0.06); border-radius: var(--radius-md);
-  border: 1px solid rgba(255,255,255,0.1); min-height: 80px;
-  transition: all var(--transition-fast);
+  padding: var(--space-lg); background: var(--color-surface);
+  border-radius: 14px; border: 0.5px solid var(--color-border);
+  min-height: 80px; transition: all var(--transition-fast);
 }
 
-.optionBtn:active:not(:disabled) { background: rgba(255,255,255,0.12); transform: scale(0.97); }
+.optionBtn:active:not(:disabled) { transform: scale(0.97); }
 .optionBtn:disabled { opacity: 0.6; }
 
-.optRoman { font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--color-brand-lime); }
-.optChinese { font-size: var(--font-size-md); color: var(--color-text-inverse); }
+.optRoman { font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--color-jyutping); }
+.optChinese { font-size: var(--font-size-md); color: var(--color-text-primary); }
 
-.nextBtn {
-  align-self: center; padding: var(--space-md) var(--space-2xl);
-  background: var(--color-brand-lime); color: var(--color-brand-dark);
-  border-radius: var(--radius-md); font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-md); min-height: 44px; margin: var(--space-lg) 0;
+.roundCount { font-size: 13px; color: var(--color-text-muted); }
+
+/* === Done/Summary === */
+.doneCard {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: var(--space-xl);
 }
 
-.doneCard { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-xl); }
-.doneTitle { font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold); color: var(--color-text-inverse); }
-.doneScore { font-size: 48px; font-weight: var(--font-weight-bold); color: var(--color-brand-lime); }
+.doneTitle { font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold); color: var(--color-text-primary); }
+.doneScore { font-size: 48px; font-weight: var(--font-weight-bold); color: var(--color-brand-green); }
 .doneBest { font-size: var(--font-size-base); color: var(--color-text-muted); }
+
 .doneBtn {
   padding: var(--space-base) var(--space-2xl); background: var(--color-brand-lime);
-  color: var(--color-brand-dark); border-radius: var(--radius-md);
-  font-weight: var(--font-weight-bold); min-height: 44px;
+  color: var(--color-brand-dark); border-radius: 10px;
+  font-weight: var(--font-weight-semibold); min-height: 44px;
 }
+
+.nextBtn { composes: doneBtn; }
+
+.timerBar { height: 3px; background: rgba(0,0,0,0.08); border-radius: 2px; overflow: hidden; margin-bottom: var(--space-lg); }
+.timerFill { height: 100%; background: var(--color-brand-lime); transition: width 1s linear; }

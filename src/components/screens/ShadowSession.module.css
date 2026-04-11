@@ -1,10 +1,10 @@
-/* ShadowSession.module.css */
+/* ShadowSession.module.css — Shadow Mode (Practice Mode 1) */
 
 .screen {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: var(--color-brand-dark);
+  background: var(--color-bg);
   padding: var(--safe-area-top) var(--content-padding) var(--safe-area-bottom);
 }
 
@@ -17,6 +17,7 @@
   font-size: var(--font-size-md);
 }
 
+/* === Header === */
 .header {
   display: flex;
   align-items: center;
@@ -31,7 +32,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
 }
 
 .sessionProgress {
@@ -43,9 +44,9 @@
 
 .sessionBar {
   flex: 1;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-pill);
+  height: 3px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
   overflow: hidden;
 }
 
@@ -56,12 +57,13 @@
 }
 
 .sessionCount {
-  font-size: var(--font-size-sm);
+  font-size: 13px;
   color: var(--color-text-muted);
   font-weight: var(--font-weight-medium);
   white-space: nowrap;
 }
 
+/* === Phrase Display === */
 .phraseDisplay {
   flex: 1;
   display: flex;
@@ -69,27 +71,31 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: var(--space-md);
+  gap: 6px;
   padding: var(--space-xl) 0;
 }
 
 .romanization {
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-brand-lime);
+  font-size: 32px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-dark);
+  letter-spacing: -0.5px;
   line-height: var(--line-height-tight);
 }
 
 .chinese {
-  font-size: var(--font-size-2xl);
-  color: var(--color-text-inverse);
+  font-size: 20px;
+  color: var(--color-text-secondary);
+  margin-top: 6px;
 }
 
 .english {
-  font-size: var(--font-size-lg);
+  font-size: 15px;
   color: var(--color-text-muted);
+  margin-top: 4px;
 }
 
+/* === Controls === */
 .controls {
   display: flex;
   flex-direction: column;
@@ -103,52 +109,63 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
-  background: var(--color-brand-lime);
-  color: var(--color-brand-dark);
-  border-radius: var(--radius-circle);
+  width: 60px;
+  height: 60px;
+  background: var(--color-brand-dark);
+  color: white;
+  border-radius: 50%;
 }
 
 .playPauseBtn:active {
   transform: scale(0.95);
 }
 
+/* === Score Section === */
 .scoreSection {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-lg);
+  gap: var(--space-md);
+  animation: scorePop 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .tryAgain {
-  font-size: var(--font-size-sm);
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
   color: var(--color-score-fair);
+  margin-top: 12px;
 }
 
 .scoreActions {
   display: flex;
-  gap: var(--space-md);
+  gap: 10px;
+  margin-top: 28px;
+  width: 100%;
+  padding: 0;
 }
 
 .retryBtn {
+  flex: 1;
   padding: var(--space-md) var(--space-xl);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-md);
-  color: var(--color-text-muted);
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: 10px;
+  color: var(--color-text-secondary);
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-base);
   min-height: 44px;
+  text-align: center;
 }
 
 .nextBtn {
+  flex: 1;
   padding: var(--space-md) var(--space-xl);
   background: var(--color-brand-lime);
   color: var(--color-brand-dark);
-  border-radius: var(--radius-md);
+  border-radius: 10px;
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-base);
   min-height: 44px;
+  text-align: center;
 }
 
 .nextBtn:active {
@@ -159,6 +176,8 @@
   align-self: center;
   padding: var(--space-md) var(--space-xl);
   color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  text-decoration: underline;
   min-height: 44px;
 }
