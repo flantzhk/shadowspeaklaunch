@@ -74,7 +74,13 @@ function useRouter() {
   const navigate = useCallback((path, params = {}) => {
     window.location.hash = params.id ? `#${path}/${params.id}` : `#${path}`;
   }, []);
-  const goBack = useCallback(() => window.history.back(), []);
+  const goBack = useCallback(() => {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.hash = `#${ROUTES.HOME}`;
+    }
+  }, []);
   return { route, navigate, goBack };
 }
 
