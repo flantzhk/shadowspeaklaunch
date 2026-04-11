@@ -255,3 +255,92 @@
   min-height: 44px;
   text-align: center;
 }
+
+/* === Settings Row with value === */
+.settingsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 0.5px solid var(--color-border);
+  width: 100%;
+  text-align: left;
+  min-height: 44px;
+}
+
+.settingsRow:last-child { border-bottom: none; }
+
+.rowLabel {
+  font-size: 15px;
+  color: var(--color-text-primary);
+}
+
+.rowValue {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* === Picker Bottom Sheet === */
+.pickerHint {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.pickerOption {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 14px;
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: left;
+}
+
+.pickerSelected { border-color: var(--color-brand-lime); background: var(--color-brand-lime-muted); }
+
+.pickerRadio {
+  font-size: 18px;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pickerSelected .pickerRadio { color: var(--color-brand-dark); }
+
+.pickerText { display: flex; flex-direction: column; gap: 4px; }
+
+.pickerLabel {
+  font-size: 15px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.pickerDesc {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+/* === Reminder Time === */
+.timeInput {
+  width: 100%;
+  padding: 16px;
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: 14px;
+  font-size: 22px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-dark);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.reminderPreview {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  text-align: center;
+}

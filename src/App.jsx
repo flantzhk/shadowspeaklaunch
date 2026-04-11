@@ -53,6 +53,9 @@ const AIScenarioPicker = lazy(() => import('./components/screens/AIScenarioPicke
 const DayDetailScreen = lazy(() => import('./components/screens/DayDetailScreen'));
 const ScenePickerScreen = lazy(() => import('./components/screens/ScenePickerScreen'));
 const SceneSummary = lazy(() => import('./components/screens/SceneSummary'));
+const ToneGymResults = lazy(() => import('./components/screens/ToneGymResults'));
+const FirstLaunchDownload = lazy(() => import('./components/screens/FirstLaunchDownload'));
+import { TopicMasteredCelebration } from './components/shared/TopicMasteredCelebration';
 
 function parseHash(hash) {
   const clean = hash.replace('#', '');
@@ -92,6 +95,8 @@ function MainLayout() {
   const [activeScene, setActiveScene] = useState(null);
   const [authReady, setAuthReady] = useState(false);
   const [showStorageFull, setShowStorageFull] = useState(false);
+  const [showFirstLaunch, setShowFirstLaunch] = useState(false);
+  const [topicMastered, setTopicMastered] = useState(null); // { topicName, phraseCount }
 
   useEffect(() => {
     waitForAuth().then((user) => {
@@ -132,7 +137,18 @@ function MainLayout() {
   if (!settings.onboardingCompleted) {
     return (
       <Suspense fallback={<Loader size={40} />}>
-        <OnboardingScreen onComplete={() => updateSettings({ onboardingCompleted: true })} />
+        <OnboardingScreen onComplete={() => {
+          updateSettings({ onboardingCompleted: true });
+          setShowFirstLaunch(true);
+        }} />
+      </Suspense>
+    );
+  }
+
+  if (showFirstLaunch) {
+    return (
+      <Suspense fallback={<Loader size={40} />}>
+        <FirstLaunchDownload onComplete={() => setShowFirstLaunch(false)} />
       </Suspense>
     );
   }
@@ -193,6 +209,14 @@ function MainLayout() {
             onDone={() => { setSessionSummary(null); navigate(ROUTES.HOME); }}
           />
         </Suspense>
+      ) : sessionSummary && sessionSummary.mode === 'tone-gym' ? (
+        <Suspense fallback={null}>
+          <ToneGymResults
+            summary={sessionSummary}
+            onDone={() => { setSessionSummary(null); navigate(ROUTES.HOME); }}
+            onPlayAgain={() => { setSessionSummary(null); navigate(ROUTES.TONE_GYM); }}
+          />
+        </Suspense>
       ) : sessionSummary ? (
         <Suspense fallback={null}>
           <SessionSummary summary={sessionSummary}
@@ -204,6 +228,15 @@ function MainLayout() {
         <StorageFullModal
           onClose={() => setShowStorageFull(false)}
           onGoToLibrary={() => navigate(ROUTES.LIBRARY)}
+        />
+      )}
+
+      {topicMastered && (
+        <TopicMasteredCelebration
+          topicName={topicMastered.topicName}
+          phraseCount={topicMastered.phraseCount}
+          onDone={() => setTopicMastered(null)}
+          onAIPractice={() => { setTopicMastered(null); navigate(ROUTES.AI_SCENARIO); }}
         />
       )}
 

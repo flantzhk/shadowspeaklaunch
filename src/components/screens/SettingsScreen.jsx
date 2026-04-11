@@ -6,6 +6,7 @@ import { getAllLanguages } from '../../services/languageManager';
 import { getCurrentUser, signOut } from '../../services/auth';
 import { DAILY_GOAL_OPTIONS, ROUTES } from '../../utils/constants';
 import { ConfirmModal } from '../shared/ConfirmModal';
+import { BottomSheet } from '../shared/BottomSheet';
 import { downloadAllAudio } from '../../services/offlineManager';
 import styles from './SettingsScreen.module.css';
 
@@ -16,6 +17,9 @@ export default function SettingsScreen({ onBack, onNavigate }) {
   const { settings, updateSettings } = useAppContext();
   const languages = getAllLanguages();
   const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
+  const [showSpeedPicker, setShowSpeedPicker] = useState(false);
+  const [showReminderPicker, setShowReminderPicker] = useState(false);
+  const [reminderTime, setReminderTime] = useState(settings.reminderTime || '09:00');
   const [downloadProgress, setDownloadProgress] = useState(null); // null | {done, total}
   const cancelRef = useRef({ cancelled: false });
 
@@ -98,6 +102,18 @@ export default function SettingsScreen({ onBack, onNavigate }) {
       </div>
 
       <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Playback</h2>
+        <button className={styles.settingsRow} onClick={() => setShowSpeedPicker(true)}>
+          <span className={styles.rowLabel}>Default speed</span>
+          <span className={styles.rowValue}>{settings.defaultSpeed === 'slower' ? 'Slower' : 'Natural'} ›</span>
+        </button>
+        <button className={styles.settingsRow} onClick={() => setShowReminderPicker(true)}>
+          <span className={styles.rowLabel}>Daily reminder</span>
+          <span className={styles.rowValue}>{settings.reminderTime ? settings.reminderTime : 'Off'} ›</span>
+        </button>
+      </div>
+
+      <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Offline</h2>
         <p className={styles.hint}>Download all audio so lessons work without internet.</p>
         {downloadProgress && (
@@ -153,6 +169,49 @@ export default function SettingsScreen({ onBack, onNavigate }) {
           onConfirm={handleSignOut}
           onCancel={() => setShowSignOutConfirm(false)}
         />
+      )}
+
+      {showSpeedPicker && (
+        <BottomSheet title="Default speed" onClose={() => setShowSpeedPicker(false)}>
+          <p className={styles.pickerHint}>Which speed should new lessons start with?</p>
+          {[
+            { id: 'slower', label: 'Slower', desc: 'Native speaker, slowed down. Better for beginners.' },
+            { id: 'natural', label: 'Natural (recommended)', desc: 'Native speaker at normal conversation speed.' },
+          ].map(opt => (
+            <button
+              key={opt.id}
+              className={`${styles.pickerOption} ${settings.defaultSpeed === opt.id ? styles.pickerSelected : ''}`}
+              onClick={() => { updateSettings({ defaultSpeed: opt.id }); setShowSpeedPicker(false); }}
+            >
+              <span className={styles.pickerRadio}>{settings.defaultSpeed === opt.id ? '◉' : '○'}</span>
+              <div className={styles.pickerText}>
+                <span className={styles.pickerLabel}>{opt.label}</span>
+                <span className={styles.pickerDesc}>{opt.desc}</span>
+              </div>
+            </button>
+          ))}
+        </BottomSheet>
+      )}
+
+      {showReminderPicker && (
+        <BottomSheet
+          title="Reminder time"
+          onClose={() => setShowReminderPicker(false)}
+          showConfirm
+          confirmLabel="Save"
+          onConfirm={() => { updateSettings({ reminderTime }); setShowReminderPicker(false); }}
+        >
+          <p className={styles.pickerHint}>When should we remind you to practice?</p>
+          <input
+            type="time"
+            className={styles.timeInput}
+            value={reminderTime}
+            onChange={e => setReminderTime(e.target.value)}
+          />
+          <p className={styles.reminderPreview}>
+            {reminderTime ? `Reminder at ${reminderTime}` : 'No reminder set'}
+          </p>
+        </BottomSheet>
       )}
     </div>
   );

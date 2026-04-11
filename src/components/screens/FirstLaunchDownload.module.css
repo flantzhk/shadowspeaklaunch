@@ -1,0 +1,114 @@
+/* FirstLaunchDownload.module.css */
+
+.screen {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg);
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+  max-width: 320px;
+  width: 100%;
+}
+
+/* === Spinner / Success === */
+.spinnerWrap {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(0, 0, 0, 0.08);
+  border-top-color: var(--color-brand-lime);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.successCircle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-brand-lime);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: popIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+/* === Text === */
+.title {
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-dark);
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+/* === Progress bar === */
+.barTrack {
+  width: 60%;
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.barFill {
+  height: 100%;
+  background: var(--color-brand-lime);
+  border-radius: 3px;
+  transition: width 300ms ease;
+}
+
+.statusText {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-bottom: 40px;
+}
+
+.helpText {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+/* === Retry === */
+.retryBtn {
+  margin-top: 20px;
+  padding: 14px 32px;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand-dark);
+  color: white;
+  font-size: 15px;
+  font-weight: var(--font-weight-semibold);
+}

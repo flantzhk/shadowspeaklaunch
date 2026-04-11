@@ -1,24 +1,22 @@
-/* SceneSummary.module.css */
+/* ToneGymResults.module.css */
 
 .screen {
   position: fixed;
   inset: 0;
   background: var(--color-bg);
-  z-index: 300;
+  z-index: 200;
   overflow: hidden;
 }
 
 .scrollArea {
   height: 100%;
   overflow-y: auto;
-  padding: var(--space-2xl) var(--content-padding);
-  padding-bottom: 40px;
+  padding: var(--space-2xl) var(--content-padding) 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* === Icon === */
 .iconWrap {
   width: 72px;
   height: 72px;
@@ -27,7 +25,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .iconEmoji { font-size: 36px; }
@@ -36,27 +34,15 @@
   font-size: 26px;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
-  margin-bottom: 4px;
+  margin-bottom: 24px;
 }
 
-.sceneLabel {
-  font-size: 13px;
-  color: var(--color-text-muted);
-  margin-bottom: 4px;
-}
-
-.subtitle {
-  font-size: 15px;
-  color: var(--color-text-secondary);
-  margin-bottom: 28px;
-}
-
-/* === Stat Row === */
+/* === Stats === */
 .statRow {
   display: flex;
   gap: 10px;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 28px;
 }
 
 .statTile {
@@ -83,29 +69,8 @@
   font-weight: var(--font-weight-medium);
 }
 
-/* === Streak === */
-.streakRow {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #FFF8E6;
-  border: 0.5px solid #F0D898;
-  border-radius: 10px;
-  padding: 10px 16px;
-  width: 100%;
-  margin-bottom: 24px;
-}
-
-.streakFlame { font-size: 18px; }
-
-.streakText {
-  font-size: 14px;
-  font-weight: var(--font-weight-semibold);
-  color: #B45309;
-}
-
-/* === Chat Section === */
-.chatSection {
+/* === Section === */
+.section {
   width: 100%;
   margin-bottom: 24px;
 }
@@ -115,61 +80,108 @@
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   letter-spacing: 0.05em;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-.turnList {
+/* === Tone list === */
+.toneList {
   background: var(--color-surface);
   border: 0.5px solid var(--color-border);
   border-radius: 14px;
   overflow: hidden;
 }
 
-.turnRow {
+.toneRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 10px;
   padding: 12px 16px;
   border-bottom: 0.5px solid var(--color-border);
-  gap: 12px;
 }
 
-.turnRow:last-child { border-bottom: none; }
+.toneRow:last-child { border-bottom: none; }
 
-.turnText {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
+.toneLabelCol {
+  width: 90px;
+  flex-shrink: 0;
+}
+
+.toneName {
+  display: block;
+  font-size: 13px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.toneDesc {
+  display: block;
+  font-size: 10px;
+  color: var(--color-text-muted);
+  margin-top: 1px;
+}
+
+.toneBar {
   flex: 1;
-  min-width: 0;
+  height: 6px;
+  background: #EEE8D8;
+  border-radius: 3px;
+  overflow: hidden;
 }
 
-.turnRoman {
+.toneBarFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 600ms ease;
+}
+
+.tonePct {
+  width: 38px;
+  text-align: right;
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  flex-shrink: 0;
+}
+
+/* === Confusion === */
+.confusionList {
+  margin-bottom: 10px;
+}
+
+.confusionItem {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  padding: 8px 0;
+  border-bottom: 0.5px solid var(--color-border);
+}
+
+.confusionItem:last-child { border-bottom: none; }
+
+.practiceNote {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin-top: 8px;
+}
+
+/* === Perfect === */
+.perfectBadge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #FFF8D0;
+  border: 0.5px solid #E8D060;
+  border-radius: 12px;
+  padding: 14px 18px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.perfectEmoji { font-size: 22px; }
+
+.perfectText {
   font-size: 14px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
-}
-
-.turnChinese {
-  font-size: 12px;
-  color: var(--color-text-secondary);
-}
-
-.turnEnglish {
-  font-size: 11px;
-  color: var(--color-text-muted);
-}
-
-.turnScore {
-  font-size: 15px;
-  font-weight: var(--font-weight-bold);
-  flex-shrink: 0;
-}
-
-.turnSkipped {
-  font-size: 15px;
-  color: var(--color-text-muted);
-  flex-shrink: 0;
+  color: #8A6A00;
 }
 
 /* === Actions === */
@@ -180,18 +192,7 @@
   width: 100%;
 }
 
-.saveAllBtn {
-  width: 100%;
-  padding: 16px;
-  border-radius: 14px;
-  background: var(--color-brand-lime);
-  font-size: 16px;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
-  text-align: center;
-}
-
-.replayBtn {
+.playAgainBtn {
   width: 100%;
   padding: 16px;
   border-radius: 14px;
@@ -210,5 +211,4 @@
   font-size: 16px;
   font-weight: var(--font-weight-semibold);
   color: white;
-  text-align: center;
 }

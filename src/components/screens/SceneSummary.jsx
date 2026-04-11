@@ -1,7 +1,9 @@
 // src/components/screens/SceneSummary.jsx — Dialogue scene completion summary
 
+import { useState } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { formatTime } from '../../utils/formatters';
+import { BulkSaveModal } from '../shared/BulkSaveModal';
 import styles from './SceneSummary.module.css';
 
 function getScoreColor(score) {
@@ -16,7 +18,13 @@ function getScoreColor(score) {
  */
 export default function SceneSummary({ summary, chatLog, sceneTitle, onDone, onReplay }) {
   const { settings } = useAppContext();
+  const [showBulkSave, setShowBulkSave] = useState(false);
   if (!summary) return null;
+
+  // Collect user turns that have a phraseId for saving
+  const savablePhrases = chatLog
+    ?.filter(t => t.speaker === 'user' && t.chinese)
+    .map(t => ({ id: t.phraseId || `scene-${Date.now()}-${Math.random()}`, chinese: t.chinese, english: t.english || '' })) || [];
 
   const firstName = (settings.name || '').split(' ')[0] || 'there';
   const userTurns = chatLog?.filter(t => t.speaker === 'user') || [];
@@ -96,6 +104,11 @@ export default function SceneSummary({ summary, chatLog, sceneTitle, onDone, onR
 
         {/* Actions */}
         <div className={styles.actions}>
+          {savablePhrases.length > 0 && (
+            <button className={styles.saveAllBtn} onClick={() => setShowBulkSave(true)}>
+              Save all {savablePhrases.length} phrase{savablePhrases.length !== 1 ? 's' : ''}
+            </button>
+          )}
           {onReplay && (
             <button className={styles.replayBtn} onClick={onReplay}>
               Play again
@@ -106,6 +119,18 @@ export default function SceneSummary({ summary, chatLog, sceneTitle, onDone, onR
           </button>
         </div>
       </div>
+
+      {showBulkSave && (
+        <BulkSaveModal
+          phrases={savablePhrases}
+          sceneName={sceneTitle || 'Scene'}
+          onClose={() => setShowBulkSave(false)}
+          onSaved={(count) => {
+            setShowBulkSave(false);
+            // toast shown via parent if needed
+          }}
+        />
+      )}
     </div>
   );
 }

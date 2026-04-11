@@ -33,6 +33,7 @@ export default function ToneGym({ onBack, onComplete }) {
   const [currentPair, setCurrentPair] = useState(null);
   const [correctIndex, setCorrectIndex] = useState(0);
   const [chosen, setChosen] = useState(null);
+  const [toneResults, setToneResults] = useState([]);
   const [sessionStart] = useState(Date.now());
   const audioRef = useRef(new Audio());
 
@@ -66,8 +67,13 @@ export default function ToneGym({ onBack, onComplete }) {
     const isRight = idx === correctIndex;
     setChosen(idx);
     if (isRight) setCorrect(c => c + 1);
+    // Record which tone was being tested and whether answer was correct
+    if (currentPair) {
+      const correctTone = currentPair.tones[correctIndex].tone;
+      setToneResults(prev => [...prev, { tone: correctTone, isCorrect: isRight }]);
+    }
     setPhase('feedback');
-  }, [correctIndex]);
+  }, [correctIndex, currentPair]);
 
   const handleNext = useCallback(async () => {
     const next = round + 1;
@@ -87,8 +93,8 @@ export default function ToneGym({ onBack, onComplete }) {
       averageScore: Math.round((correct / TOTAL_ROUNDS) * 100), phraseResults: [],
     };
     await saveSession(rec);
-    onComplete?.({ ...rec, streakCount: streak, correct, total: TOTAL_ROUNDS });
-  }, [sessionStart, correct, updateSettings, settings, onComplete]);
+    onComplete?.({ ...rec, streakCount: streak, correct, total: TOTAL_ROUNDS, toneResults });
+  }, [sessionStart, correct, toneResults, updateSettings, settings, onComplete]);
 
   if (!currentPair) return null;
 

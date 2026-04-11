@@ -26,6 +26,9 @@ export default function AIConversation({ onBack, showToast }) {
   const [isThinking, setIsThinking] = useState(false);
   const [userTranscript, setUserTranscript] = useState('');
   const [userScore, setUserScore] = useState(null);
+  const [inputMode, setInputMode] = useState('voice'); // voice|text
+  const [textInput, setTextInput] = useState('');
+  const [savedMsgIds, setSavedMsgIds] = useState(new Set());
   const chatRef = useRef(null);
   const audioRef = useRef(new Audio());
 
@@ -97,7 +100,7 @@ export default function AIConversation({ onBack, showToast }) {
 
   const handleEndChat = useCallback(() => { setPhase('review'); }, []);
 
-  const handleSavePhrase = useCallback(async (msg) => {
+  const handleSavePhrase = useCallback(async (msg, idx) => {
     const phraseId = `ai-${Date.now()}`;
     try {
       await saveLibraryEntry({
@@ -107,9 +110,27 @@ export default function AIConversation({ onBack, showToast }) {
         lastPracticedAt: null, practiceCount: 0, status: 'learning',
         bestScore: null, lastScore: null, scoreHistory: [],
       });
+      if (idx != null) setSavedMsgIds(prev => new Set([...prev, idx]));
       showToast?.('Saved to library', 'success');
     } catch (err) { showToast?.('Failed to save', 'error'); }
   }, [showToast]);
+
+  const handleTextSend = useCallback(async () => {
+    const text = textInput.trim();
+    if (!text || isThinking) return;
+    setTextInput('');
+    const userMsg = { role: 'user', chinese: text, jyutping: '', romanization: text, english: '', inputMode: 'text' };
+    const newMsgs = [...messages, userMsg];
+    setMessages(newMsgs);
+    setIsThinking(true);
+    try {
+      const reply = await sendMessage(newMsgs, scenario);
+      const audioBlob = await generateResponseAudio(reply.chinese);
+      setMessages(prev => [...prev, { role: 'assistant', ...reply }]);
+      if (audioBlob) playAudio(audioBlob);
+    } catch (err) { showToast?.('Something went wrong', 'error'); }
+    setIsThinking(false);
+  }, [textInput, isThinking, messages, scenario, playAudio, showToast]);
 
   if (phase === 'select') {
     return (
@@ -136,24 +157,65 @@ export default function AIConversation({ onBack, showToast }) {
   }
 
   if (phase === 'review') {
+    const userMsgs = messages.filter(m => m.role === 'user');
+    const totalTurns = userMsgs.length;
+    const sessionTime = 0; // rough — no timer in AI chat currently
+
     return (
       <div className={styles.screen}>
         <div className={styles.header}>
+          <button className={styles.closeBtn} onClick={onBack} aria-label="Close">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
           <h1 className={styles.title}>Conversation Review</h1>
+          <div style={{ width: 44 }} />
         </div>
+
+        <div className={styles.reviewIconWrap}>
+          <div className={styles.reviewSuccessCircle}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand-dark)" strokeWidth="2.5">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </div>
+        </div>
+        <p className={styles.reviewTitle}>Conversation complete</p>
+        {scenario?.title && <p className={styles.reviewScenario}>Scenario: {scenario.title}</p>}
+
+        <div className={styles.reviewStatRow}>
+          <div className={styles.reviewStat}>
+            <span className={styles.reviewStatNum}>{totalTurns}</span>
+            <span className={styles.reviewStatLabel}>turns</span>
+          </div>
+        </div>
+
+        <p className={styles.reviewSectionLabel}>TRANSCRIPT</p>
         <div className={styles.reviewList}>
-          {messages.filter(m => m.role === 'assistant').map((msg, i) => (
-            <div key={i} className={styles.reviewCard}>
-              <div className={styles.reviewText}>
-                <span className={styles.reviewChinese} lang="yue">{msg.chinese}</span>
-                {msg.romanization && <span className={styles.reviewRoman}>{msg.romanization}</span>}
-                {msg.english && <span className={styles.reviewEnglish}>{msg.english}</span>}
-              </div>
-              <button className={styles.saveBtn} onClick={() => handleSavePhrase(msg)}>+</button>
+          {messages.map((msg, i) => (
+            <div key={i} className={`${styles.reviewBubble} ${msg.role === 'user' ? styles.reviewUserBubble : styles.reviewAiBubble}`}>
+              <span className={styles.reviewSpeaker}>{msg.role === 'user' ? 'You' : 'AI'}</span>
+              <p className={styles.reviewChinese} lang="yue">{msg.chinese}</p>
+              {msg.romanization && msg.role === 'user' && <p className={styles.reviewRoman}>{msg.romanization}</p>}
+              {msg.english && <p className={styles.reviewEnglish}>{msg.english}</p>}
+              {msg.role === 'user' && !savedMsgIds.has(i) && (
+                <button className={styles.saveMsgBtn} onClick={() => handleSavePhrase(msg, i)}>
+                  + Save
+                </button>
+              )}
+              {msg.role === 'user' && savedMsgIds.has(i) && (
+                <span className={styles.savedLabel}>✓ Saved</span>
+              )}
             </div>
           ))}
         </div>
-        <button className={styles.doneBtn} onClick={onBack}>Done</button>
+
+        <div className={styles.reviewActions}>
+          <button className={styles.tryAnotherBtn} onClick={() => { setPhase('select'); setScenario(null); setMessages([]); setSavedMsgIds(new Set()); }}>
+            Try another scenario
+          </button>
+          <button className={styles.reviewDoneBtn} onClick={onBack}>Done</button>
+        </div>
       </div>
     );
   }
@@ -182,10 +244,45 @@ export default function AIConversation({ onBack, showToast }) {
       </div>
 
       <div className={styles.inputArea}>
-        {phase === 'recording' ? (
-          <RecordButton isRecording={isRecording} onStart={handleRecord} onStop={handleStopRecord} error={micError} />
+        {inputMode === 'text' ? (
+          <>
+            <div className={styles.textInputRow}>
+              <input
+                className={styles.textInput}
+                type="text"
+                placeholder="Type in Cantonese..."
+                value={textInput}
+                onChange={e => setTextInput(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleTextSend()}
+                autoFocus
+              />
+              <button
+                className={`${styles.sendBtn} ${textInput.trim() ? styles.sendBtnActive : ''}`}
+                onClick={handleTextSend}
+                disabled={!textInput.trim() || isThinking}
+                aria-label="Send"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <line x1="22" y1="2" x2="11" y2="13" stroke="currentColor" strokeWidth="2" fill="none" />
+                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+              </button>
+            </div>
+            <button className={styles.switchModeBtn} onClick={() => setInputMode('voice')}>
+              🎤 Speak instead
+            </button>
+          </>
         ) : (
-          <RecordButton isRecording={false} onStart={handleRecord} onStop={() => {}} error={micError} />
+          <>
+            {phase === 'recording' ? (
+              <RecordButton isRecording={isRecording} onStart={handleRecord} onStop={handleStopRecord} error={micError} />
+            ) : (
+              <RecordButton isRecording={false} onStart={handleRecord} onStop={() => {}} error={micError} />
+            )}
+            <button className={styles.switchModeBtn} onClick={() => setInputMode('text')}>
+              ⌨️ Type instead
+            </button>
+          </>
         )}
       </div>
     </div>
