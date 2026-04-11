@@ -55,29 +55,39 @@ class AudioEngine {
     this._clearAdvanceTimer();
 
     try {
-      const cached = await getCachedAudio(phrase.id, this._language, this._speed);
+      // Try cache first
+      const speedNum = this._speed === 'slower' ? 0.75
+        : typeof this._speed === 'number' ? this._speed : 1.0;
+      const cached = await getCachedAudio(phrase.id, this._language, speedNum);
       if (cached) {
         this._currentBlobUrl = URL.createObjectURL(cached);
         this._audio.src = this._currentBlobUrl;
       } else if (isAuthenticated()) {
         const blob = await textToSpeech(phrase.chinese, {
           language: this._language,
-          speed: this._speed,
+          speed: speedNum,
           outputExtension: 'mp3',
         });
+        if (!blob || blob.size === 0) {
+          logger.error('TTS returned empty blob for', phrase.id);
+          this._onStateChange?.('error');
+          this._onPhraseChange?.(phrase, this._currentIndex);
+          return;
+        }
         this._currentBlobUrl = URL.createObjectURL(blob);
         this._audio.src = this._currentBlobUrl;
-        cacheAudioBlob(phrase.id, this._language, this._speed, blob).catch(() => {});
+        cacheAudioBlob(phrase.id, this._language, speedNum, blob).catch(() => {});
       } else {
+        logger.warn('Not authenticated — cannot load audio');
         this._onStateChange?.('no-audio');
         this._onPhraseChange?.(phrase, this._currentIndex);
         return;
       }
 
-      this._audio.playbackRate = this._speed === 'slower' ? 0.75 : 1.0;
+      this._audio.playbackRate = speedNum < 1 ? speedNum : 1.0;
       this._onPhraseChange?.(phrase, this._currentIndex);
     } catch (error) {
-      logger.error('Failed to load audio', error);
+      logger.error('Failed to load audio for phrase', phrase.id, error);
       this._onStateChange?.('error');
       this._onPhraseChange?.(phrase, this._currentIndex);
     }

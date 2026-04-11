@@ -31,15 +31,24 @@ export default function ShadowSession({ onBack, onComplete }) {
   const [results, setResults] = useState([]);
   const [currentScore, setCurrentScore] = useState(null);
   const [isScoring, setIsScoring] = useState(false);
-  const [phase, setPhase] = useState('loading'); // loading | listen | record | scored
+  const [phase, setPhase] = useState('loading'); // loading | ready | listen | record | scored
 
   useEffect(() => {
     (async () => {
       const phrases = await buildLesson(settings.dailyGoalMinutes, settings.currentLanguage);
-      if (phrases.length > 0) { await audio.loadQueue(phrases, settings.currentLanguage); await audio.play(); setPhase('listen'); }
-      else setPhase('empty');
+      if (phrases.length > 0) {
+        await audio.loadQueue(phrases, settings.currentLanguage, settings.defaultSpeed);
+        setPhase('ready');
+      } else {
+        setPhase('empty');
+      }
     })();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleTapToStart = useCallback(async () => {
+    await audio.play();
+    setPhase('listen');
+  }, [audio]);
 
   useEffect(() => {
     if (audio.playbackState === 'ended' && audio.queueLength > 0 && phase === 'listen' && results.length >= audio.queueLength) finishSession();
@@ -144,6 +153,19 @@ export default function ShadowSession({ onBack, onComplete }) {
     );
   }
 
+  if (phase === 'ready') {
+    return (
+      <div className={styles.screen} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '24px', gap: '24px' }}>
+        <p style={{ fontSize: '15px', color: 'var(--color-text-muted)' }}>{audio.queueLength} phrases loaded</p>
+        <button onClick={handleTapToStart} style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'var(--color-brand-lime)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}>
+          <span style={{ width: 0, height: 0, borderLeft: '22px solid var(--color-brand-dark)', borderTop: '14px solid transparent', borderBottom: '14px solid transparent', marginLeft: '4px' }} />
+        </button>
+        <p style={{ fontSize: '17px', fontWeight: 600, color: 'var(--color-text-primary)' }}>Tap to start</p>
+        <button onClick={onBack} style={{ fontSize: '14px', color: 'var(--color-text-muted)', padding: '8px' }}>Cancel</button>
+      </div>
+    );
+  }
+
   const progress = audio.queueLength > 0 ? ((audio.currentIndex + 1) / audio.queueLength) * 100 : 0;
   const phrase = audio.currentPhrase;
 
@@ -162,6 +184,15 @@ export default function ShadowSession({ onBack, onComplete }) {
           <span className={styles.sessionCount}>{audio.currentIndex + 1}/{audio.queueLength}</span>
         </div>
       </div>
+
+      {audio.playbackState === 'error' && (
+        <div style={{ textAlign: 'center', padding: '24px' }}>
+          <p style={{ fontSize: '14px', color: '#c44', marginBottom: '12px' }}>Audio failed to load</p>
+          <button onClick={async () => { await audio.play(); }} style={{ padding: '10px 20px', borderRadius: '8px', background: 'var(--color-brand-dark)', color: 'white', fontSize: '14px', fontWeight: 600 }}>
+            Retry
+          </button>
+        </div>
+      )}
 
       {phrase && (
         <div className={styles.phraseDisplay}>
