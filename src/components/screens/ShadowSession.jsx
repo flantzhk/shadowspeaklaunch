@@ -33,22 +33,34 @@ export default function ShadowSession({ onBack, onComplete }) {
   const [isScoring, setIsScoring] = useState(false);
   const [phase, setPhase] = useState('loading'); // loading | ready | listen | record | scored
 
+  const [lessonPhrases, setLessonPhrases] = useState(null);
+
   useEffect(() => {
     (async () => {
-      const phrases = await buildLesson(settings.dailyGoalMinutes, settings.currentLanguage);
-      if (phrases.length > 0) {
-        await audio.loadQueue(phrases, settings.currentLanguage, settings.defaultSpeed);
-        setPhase('ready');
-      } else {
+      try {
+        const phrases = await buildLesson(settings.dailyGoalMinutes, settings.currentLanguage);
+        if (phrases.length > 0) {
+          setLessonPhrases(phrases);
+          setPhase('ready');
+        } else {
+          setPhase('empty');
+        }
+      } catch (err) {
         setPhase('empty');
       }
     })();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleTapToStart = useCallback(async () => {
-    await audio.play();
+    if (!lessonPhrases) return;
     setPhase('listen');
-  }, [audio]);
+    try {
+      await audio.loadQueue(lessonPhrases, settings.currentLanguage, settings.defaultSpeed);
+      await audio.play();
+    } catch (err) {
+      // Audio will show error state via playbackState
+    }
+  }, [audio, lessonPhrases, settings.currentLanguage, settings.defaultSpeed]);
 
   useEffect(() => {
     if (audio.playbackState === 'ended' && audio.queueLength > 0 && phase === 'listen' && results.length >= audio.queueLength) finishSession();
@@ -156,7 +168,7 @@ export default function ShadowSession({ onBack, onComplete }) {
   if (phase === 'ready') {
     return (
       <div className={styles.screen} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '24px', gap: '24px' }}>
-        <p style={{ fontSize: '15px', color: 'var(--color-text-muted)' }}>{audio.queueLength} phrases loaded</p>
+        <p style={{ fontSize: '15px', color: 'var(--color-text-muted)' }}>{lessonPhrases?.length || 0} phrases ready</p>
         <button onClick={handleTapToStart} style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'var(--color-brand-lime)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}>
           <span style={{ width: 0, height: 0, borderLeft: '22px solid var(--color-brand-dark)', borderTop: '14px solid transparent', borderBottom: '14px solid transparent', marginLeft: '4px' }} />
         </button>
