@@ -17,6 +17,7 @@ import { initOfflineQueueListener } from './services/offlineManager';
 import { logger } from './utils/logger';
 import { OfflineBanner } from './components/shared/OfflineBanner';
 import { StorageFullModal } from './components/shared/StorageFullModal';
+import { TopicMasteredCelebration } from './components/shared/TopicMasteredCelebration';
 import './styles/global.css';
 
 const HomeScreen = lazy(() => import('./components/screens/HomeScreen'));
@@ -55,7 +56,6 @@ const ScenePickerScreen = lazy(() => import('./components/screens/ScenePickerScr
 const SceneSummary = lazy(() => import('./components/screens/SceneSummary'));
 const ToneGymResults = lazy(() => import('./components/screens/ToneGymResults'));
 const FirstLaunchDownload = lazy(() => import('./components/screens/FirstLaunchDownload'));
-import { TopicMasteredCelebration } from './components/shared/TopicMasteredCelebration';
 
 function parseHash(hash) {
   const clean = hash.replace('#', '');
@@ -94,12 +94,19 @@ function MainLayout() {
   const [sessionSummary, setSessionSummary] = useState(null);
   const [activeScene, setActiveScene] = useState(null);
   const [authReady, setAuthReady] = useState(false);
+  const [authError, setAuthError] = useState(null);
   const [showStorageFull, setShowStorageFull] = useState(false);
   const [showFirstLaunch, setShowFirstLaunch] = useState(false);
   const [topicMastered, setTopicMastered] = useState(null); // { topicName, phraseCount }
 
   useEffect(() => {
+    const timeout = setTimeout(() => {
+      setAuthError('Unable to connect. Please check your internet connection and reload.');
+      setAuthReady(true);
+    }, 10000);
+
     waitForAuth().then((user) => {
+      clearTimeout(timeout);
       if (user) {
         const name = (user.displayName || '').split(' ')[0];
         const photoURL = user.photoURL || '';
@@ -107,10 +114,25 @@ function MainLayout() {
         if (photoURL) updateSettings({ photoURL });
       }
       setAuthReady(true);
+    }).catch(() => {
+      clearTimeout(timeout);
+      setAuthError('Failed to initialize. Please reload the app.');
+      setAuthReady(true);
     });
   }, []);
 
   if (isLoading || !authReady) return <Loader size={40} />;
+
+  if (authError && !isAuthenticated()) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, height: '100%', padding: '24px', textAlign: 'center', gap: '16px' }}>
+        <p style={{ fontSize: '15px', color: 'var(--color-text-secondary)', lineHeight: 1.5 }}>{authError}</p>
+        <button onClick={() => window.location.reload()} style={{ padding: '12px 28px', borderRadius: '10px', background: 'var(--color-brand-dark)', color: 'white', fontWeight: 600, fontSize: '15px' }}>
+          Reload
+        </button>
+      </div>
+    );
+  }
 
   // Auth guard: redirect unauthenticated users to login
   if (!PUBLIC_ROUTES.includes(route.path) && route.path !== ROUTES.WELCOME && !isAuthenticated()) {
