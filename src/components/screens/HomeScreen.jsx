@@ -16,6 +16,7 @@ export default function HomeScreen({ onNavigate }) {
   const { loadQueue, play } = useAudio();
   const [topics, setTopics] = useState([]);
   const [libraryCount, setLibraryCount] = useState(0);
+  const [duration, setDuration] = useState(30);
 
   const langPack = getLanguagePack(settings.currentLanguage);
 
@@ -23,6 +24,8 @@ export default function HomeScreen({ onNavigate }) {
     setTopics(getTopicsForLanguage(settings.currentLanguage));
     getAllLibraryEntries().then(entries => setLibraryCount(entries.length));
   }, [settings.currentLanguage]);
+
+  const heroTopic = topics[0] || null;
 
   const handleStartLesson = useCallback(() => {
     onNavigate('session');
@@ -39,42 +42,93 @@ export default function HomeScreen({ onNavigate }) {
 
   return (
     <div className={styles.screen}>
+      {/* Greeting */}
       <div className={styles.greeting}>
         <h1 className={styles.greetingText}>
           {greeting}{settings.name ? `, ${settings.name}` : ''}
         </h1>
-        <p className={styles.subtitle}>Ready to practice your Cantonese?</p>
+        <p className={styles.subtitle}>Your lesson is ready. Just press play.</p>
       </div>
 
+      {/* Hero Card */}
       <div className={styles.heroCard}>
-        <div className={styles.heroContent}>
-          <span className={styles.heroLabel}>TODAY&apos;S LESSON</span>
-          <h2 className={styles.heroTitle}>Daily Basics</h2>
-          <p className={styles.heroPhraseCount}>12 phrases</p>
+        <div
+          className={styles.heroImage}
+          style={heroTopic?.imageGradient ? {
+            background: `linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.65) 100%), ${heroTopic.imageGradient}`
+          } : undefined}
+        >
+          <div className={styles.dayBadge}>Day {libraryCount > 0 ? Math.ceil(libraryCount / 5) : 1}</div>
+          <span className={styles.heroLabel}>
+            <span className={styles.greenDot} />
+            TODAY&apos;S LESSON
+          </span>
+          <h2 className={styles.heroTitle}>{heroTopic?.name || 'Daily Basics'}</h2>
+          <p className={styles.heroSubtitle}>{heroTopic?.phraseCount || 12} phrases</p>
         </div>
-        <button className={styles.heroButton} onClick={handleStartLesson}>
-          Start lesson
-        </button>
+        <div className={styles.heroBottom}>
+          <div className={styles.durationPicker}>
+            {[10, 20, 30].map(min => (
+              <button
+                key={min}
+                className={`${styles.durationBtn} ${duration === min ? styles.durationActive : ''}`}
+                onClick={() => setDuration(min)}
+              >
+                <span className={styles.durationNum}>{min}</span>
+                <span className={styles.durationMinLabel}>MIN</span>
+              </button>
+            ))}
+          </div>
+          <button className={styles.heroButton} onClick={handleStartLesson}>
+            <span className={styles.playIcon} />
+            Start lesson
+          </button>
+        </div>
       </div>
 
-      <div className={styles.quickActions}>
-        <button className={styles.actionCard} onClick={() => onNavigate('custom-phrase')}>
-          <span className={styles.actionTitle}>Add Custom Phrase</span>
-          <span className={styles.actionDesc}>Type Chinese text to learn</span>
-        </button>
-        <button className={styles.actionCard} onClick={() => onNavigate('what-did-they-say')}>
-          <span className={styles.actionTitle}>What did they say?</span>
-          <span className={styles.actionDesc}>Look up what you heard</span>
-        </button>
-      </div>
+      {/* Custom Phrase Card */}
+      <button className={styles.phraseCard} onClick={() => onNavigate('custom-phrase')}>
+        <div className={styles.plusCircle}>+</div>
+        <div className={styles.phraseCardText}>
+          <span className={styles.phraseCardTitle}>Want to say something specific?</span>
+          <span className={styles.phraseCardDesc}>Type it in — goes to My Library</span>
+        </div>
+        <span className={styles.chevron}>&rsaquo;</span>
+      </button>
 
+      {/* What Did They Say Card */}
+      <button className={styles.phraseCard} onClick={() => onNavigate('what-did-they-say')}>
+        <div className={styles.listenCircle}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3a6a1a" strokeWidth="2.5">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+            <line x1="12" y1="19" x2="12" y2="23" />
+          </svg>
+        </div>
+        <div className={styles.phraseCardText}>
+          <span className={styles.phraseCardTitle}>What did they say?</span>
+          <span className={styles.phraseCardDesc}>Look up what you heard</span>
+        </div>
+        <span className={styles.chevron}>&rsaquo;</span>
+      </button>
+
+      {/* Library Summary Card */}
       {libraryCount > 0 && (
-        <div className={styles.libraryCard}>
-          <span className={styles.libraryCount}>{libraryCount}</span>
-          <span className={styles.libraryLabel}>phrases in your library</span>
-        </div>
+        <button className={styles.librarySummary} onClick={() => onNavigate('library')}>
+          <div className={styles.libraryIconWrap}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3a6a1a" strokeWidth="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+          </div>
+          <div className={styles.libraryTextGroup}>
+            <span className={styles.libraryTitle}>My Library</span>
+            <span className={styles.libraryMeta}>{libraryCount} phrases</span>
+          </div>
+        </button>
       )}
 
+      {/* Category Sections */}
       {categories.map(categoryId => {
         const categoryTopics = topics.filter(t => t.category === categoryId);
         if (categoryTopics.length === 0) return null;
@@ -106,8 +160,8 @@ export default function HomeScreen({ onNavigate }) {
 
 function getGreeting() {
   const hour = new Date().getHours();
-  if (hour < 12) return 'Good morning';
-  if (hour < 18) return 'Good afternoon';
+  if (hour >= 5 && hour < 12) return 'Good morning';
+  if (hour >= 12 && hour < 18) return 'Good afternoon';
   return 'Good evening';
 }
 
