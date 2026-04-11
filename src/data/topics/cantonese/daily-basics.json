@@ -4,198 +4,375 @@
   "name": "Daily Basics",
   "description": "Your first words in any Cantonese encounter",
   "phraseCount": 12,
-  "imageGradient": "linear-gradient(135deg, #C5E85A 0%, #8BB82B 100%)",
-  "imageUrl": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=300&h=200&fit=crop",
-  "dialogueScenes": ["lift-neighbor", "bumping-apology"],
+  "imageGradient": "linear-gradient(135deg, #1A3A1A 0%, #3A6A1A 60%, #8BB82B 100%)",
+  "imageUrl": null,
   "phrases": [
     {
       "id": "basics-001",
-      "topicId": "daily-basics",
       "romanization": "Nei⁵ hou²",
       "jyutping": "nei5 hou2",
       "chinese": "你好",
       "english": "Hello",
-      "context": "Greeting someone you meet for the first time or casually",
+      "context": "The standard greeting for any situation",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "你", "jyutping": "nei5", "english": "you" },
-        { "chinese": "好", "jyutping": "hou2", "english": "good" }
+        {
+          "chinese": "你",
+          "jyutping": "nei5",
+          "english": "you"
+        },
+        {
+          "chinese": "好",
+          "jyutping": "hou2",
+          "english": "good / well"
+        }
       ]
     },
     {
       "id": "basics-002",
-      "topicId": "daily-basics",
-      "romanization": "Zou² san⁴",
-      "jyutping": "zou2 san4",
-      "chinese": "早晨",
-      "english": "Good morning",
-      "context": "Greeting someone in the morning, common in lifts and offices",
-      "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
-      "words": [
-        { "chinese": "早", "jyutping": "zou2", "english": "early" },
-        { "chinese": "晨", "jyutping": "san4", "english": "morning" }
-      ]
-    },
-    {
-      "id": "basics-003",
-      "topicId": "daily-basics",
-      "romanization": "Nei⁵ hou² maa³",
-      "jyutping": "nei5 hou2 maa3",
-      "chinese": "你好嗎",
-      "english": "How are you?",
-      "context": "Asking how someone is, usually with people you know",
-      "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
-      "words": [
-        { "chinese": "你", "jyutping": "nei5", "english": "you" },
-        { "chinese": "好", "jyutping": "hou2", "english": "good" },
-        { "chinese": "嗎", "jyutping": "maa3", "english": "question particle" }
-      ]
-    },
-    {
-      "id": "basics-004",
-      "topicId": "daily-basics",
       "romanization": "M⁴ goi¹",
       "jyutping": "m4 goi1",
       "chinese": "唔該",
       "english": "Thank you / Excuse me",
-      "context": "Thanking someone for a service, or getting attention politely",
+      "context": "Say this to thank someone for a service, or to get someone's attention",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "唔", "jyutping": "m4", "english": "not" },
-        { "chinese": "該", "jyutping": "goi1", "english": "should" }
+        {
+          "chinese": "唔",
+          "jyutping": "m4",
+          "english": "not"
+        },
+        {
+          "chinese": "該",
+          "jyutping": "goi1",
+          "english": "should"
+        }
+      ]
+    },
+    {
+      "id": "basics-003",
+      "romanization": "Zou² san⁴",
+      "jyutping": "zou2 san4",
+      "chinese": "早晨",
+      "english": "Good morning",
+      "context": "Used from early morning until around midday",
+      "difficulty": 1,
+      "words": [
+        {
+          "chinese": "早",
+          "jyutping": "zou2",
+          "english": "early / morning"
+        },
+        {
+          "chinese": "晨",
+          "jyutping": "san4",
+          "english": "morning / dawn"
+        }
+      ]
+    },
+    {
+      "id": "basics-004",
+      "romanization": "Hou² hou², do¹ ze⁶",
+      "jyutping": "hou2 hou2, do1 ze6",
+      "chinese": "好好，多謝",
+      "english": "Good, thanks",
+      "context": "The natural response when someone asks how you are",
+      "difficulty": 1,
+      "words": [
+        {
+          "chinese": "好好",
+          "jyutping": "hou2 hou2",
+          "english": "very good / doing well"
+        },
+        {
+          "chinese": "多謝",
+          "jyutping": "do1 ze6",
+          "english": "thank you"
+        }
       ]
     },
     {
       "id": "basics-005",
-      "topicId": "daily-basics",
-      "romanization": "Do¹ ze⁶",
-      "jyutping": "do1 ze6",
-      "chinese": "多謝",
-      "english": "Thanks",
-      "context": "Thanking someone for a gift or a kind gesture",
+      "romanization": "Nei⁵ hou² maa³?",
+      "jyutping": "nei5 hou2 maa3",
+      "chinese": "你好嗎？",
+      "english": "How are you?",
+      "context": "A common greeting — expect 好好 in response",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "多", "jyutping": "do1", "english": "much" },
-        { "chinese": "謝", "jyutping": "ze6", "english": "thank" }
+        {
+          "chinese": "你",
+          "jyutping": "nei5",
+          "english": "you"
+        },
+        {
+          "chinese": "好",
+          "jyutping": "hou2",
+          "english": "good / well"
+        },
+        {
+          "chinese": "嗎",
+          "jyutping": "maa3",
+          "english": "question particle"
+        }
       ]
     },
     {
       "id": "basics-006",
-      "topicId": "daily-basics",
-      "romanization": "M⁴ hou² ji³ si³",
-      "jyutping": "m4 hou2 ji3 si3",
-      "chinese": "唔好意思",
-      "english": "Sorry / Excuse me",
-      "context": "Apologizing for a minor inconvenience like bumping into someone",
+      "romanization": "Do¹ ze⁶",
+      "jyutping": "do1 ze6",
+      "chinese": "多謝",
+      "english": "Thank you",
+      "context": "Use for gifts, compliments, and favours — more heartfelt than 唔該",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "唔好", "jyutping": "m4 hou2", "english": "not good" },
-        { "chinese": "意思", "jyutping": "ji3 si3", "english": "meaning" }
+        {
+          "chinese": "多",
+          "jyutping": "do1",
+          "english": "many / much"
+        },
+        {
+          "chinese": "謝",
+          "jyutping": "ze6",
+          "english": "to thank"
+        }
       ]
     },
     {
       "id": "basics-007",
-      "topicId": "daily-basics",
       "romanization": "Baai¹ baai³",
       "jyutping": "baai1 baai3",
       "chinese": "拜拜",
       "english": "Bye bye",
-      "context": "Casual farewell, used in most everyday situations",
+      "context": "The most common way to say goodbye — used by absolutely everyone",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "拜拜", "jyutping": "baai1 baai3", "english": "bye bye" }
+        {
+          "chinese": "拜拜",
+          "jyutping": "baai1 baai3",
+          "english": "bye bye"
+        }
       ]
     },
     {
       "id": "basics-008",
-      "topicId": "daily-basics",
-      "romanization": "Haa⁶ ci³ gin³",
-      "jyutping": "haa6 ci3 gin3",
-      "chinese": "下次見",
-      "english": "See you next time",
-      "context": "Saying goodbye to someone you expect to see again",
+      "romanization": "M⁴ hou² ji³ si³",
+      "jyutping": "m4 hou2 ji3 si3",
+      "chinese": "唔好意思",
+      "english": "Sorry / Excuse me",
+      "context": "Use to apologize, or to politely get someone's attention",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "下次", "jyutping": "haa6 ci3", "english": "next time" },
-        { "chinese": "見", "jyutping": "gin3", "english": "see" }
+        {
+          "chinese": "唔好",
+          "jyutping": "m4 hou2",
+          "english": "not good"
+        },
+        {
+          "chinese": "意思",
+          "jyutping": "ji3 si3",
+          "english": "meaning / intention"
+        }
       ]
     },
     {
       "id": "basics-009",
-      "topicId": "daily-basics",
-      "romanization": "Maan⁶ maan⁶ haang⁴",
-      "jyutping": "maan6 maan6 haang4",
-      "chinese": "慢慢行",
-      "english": "Take care",
-      "context": "Wishing someone well as they leave, literally 'walk slowly'",
+      "romanization": "Haa⁶ ci³ gin³",
+      "jyutping": "haa6 ci3 gin3",
+      "chinese": "下次見",
+      "english": "See you next time",
+      "context": "A warm farewell when you expect to see them again",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "慢慢", "jyutping": "maan6 maan6", "english": "slowly" },
-        { "chinese": "行", "jyutping": "haang4", "english": "walk" }
+        {
+          "chinese": "下次",
+          "jyutping": "haa6 ci3",
+          "english": "next time"
+        },
+        {
+          "chinese": "見",
+          "jyutping": "gin3",
+          "english": "to see / to meet"
+        }
       ]
     },
     {
       "id": "basics-010",
-      "topicId": "daily-basics",
       "romanization": "Hai⁶",
       "jyutping": "hai6",
       "chinese": "係",
       "english": "Yes",
-      "context": "Confirming or agreeing with something",
+      "context": "The Cantonese yes — sounds like 'hey' with a low falling tone",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "係", "jyutping": "hai6", "english": "is / yes" }
+        {
+          "chinese": "係",
+          "jyutping": "hai6",
+          "english": "yes / is / am / are"
+        }
       ]
     },
     {
       "id": "basics-011",
-      "topicId": "daily-basics",
       "romanization": "M⁴ hai⁶",
       "jyutping": "m4 hai6",
       "chinese": "唔係",
-      "english": "No",
-      "context": "Disagreeing or correcting something",
+      "english": "No / That's not right",
+      "context": "The Cantonese no — literally 'is not'",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "唔", "jyutping": "m4", "english": "not" },
-        { "chinese": "係", "jyutping": "hai6", "english": "is" }
+        {
+          "chinese": "唔",
+          "jyutping": "m4",
+          "english": "not"
+        },
+        {
+          "chinese": "係",
+          "jyutping": "hai6",
+          "english": "yes / is"
+        }
       ]
     },
     {
       "id": "basics-012",
-      "topicId": "daily-basics",
       "romanization": "Hou²",
       "jyutping": "hou2",
       "chinese": "好",
       "english": "Okay / Good",
-      "context": "Agreeing to something or expressing approval",
+      "context": "Means both 'good' and 'okay' — you'll use this dozens of times a day",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "好", "jyutping": "hou2", "english": "good / okay" }
+        {
+          "chinese": "好",
+          "jyutping": "hou2",
+          "english": "good / okay"
+        }
+      ]
+    }
+  ],
+  "dialogueScenes": [
+    {
+      "id": "basics-scene-1",
+      "title": "Meeting your neighbor in the lift",
+      "description": "You run into a neighbor on the way up to your floor",
+      "turns": [
+        {
+          "speaker": "user",
+          "speakerLabel": "You",
+          "phraseId": "basics-003",
+          "chinese": "早晨！",
+          "jyutping": "zou2 san4!",
+          "romanization": "Zou² san⁴!",
+          "english": "Good morning!",
+          "voiceId": null,
+          "pauseAfterMs": 1500
+        },
+        {
+          "speaker": "other",
+          "speakerLabel": "Neighbor",
+          "phraseId": null,
+          "chinese": "早晨！你好嗎？",
+          "jyutping": "zou2 san4! nei5 hou2 maa3?",
+          "romanization": "Zou² san⁴! Nei⁵ hou² maa³?",
+          "english": "Good morning! How are you?",
+          "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+          "pauseAfterMs": 2000
+        },
+        {
+          "speaker": "user",
+          "speakerLabel": "You",
+          "phraseId": "basics-004",
+          "chinese": "好好，多謝。你呢？",
+          "jyutping": "hou2 hou2, do1 ze6. nei5 ne1?",
+          "romanization": "Hou² hou², do¹ ze⁶. Nei⁵ ne¹?",
+          "english": "Good, thanks. And you?",
+          "voiceId": null,
+          "pauseAfterMs": 2000
+        },
+        {
+          "speaker": "other",
+          "speakerLabel": "Neighbor",
+          "phraseId": null,
+          "chinese": "幾好呀。今日天氣好好。",
+          "jyutping": "gei2 hou2 aa3. gam1 jat6 tin1 hei3 hou2 hou2.",
+          "romanization": "Gei² hou² aa³. Gam¹ jat⁶ tin¹ hei³ hou² hou².",
+          "english": "Pretty good. The weather is lovely today.",
+          "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+          "pauseAfterMs": 2000
+        },
+        {
+          "speaker": "user",
+          "speakerLabel": "You",
+          "phraseId": "basics-010",
+          "chinese": "係呀！拜拜！",
+          "jyutping": "hai6 aa3! baai1 baai3!",
+          "romanization": "Hai⁶ aa³! Baai¹ baai³!",
+          "english": "Yes! Bye!",
+          "voiceId": null,
+          "pauseAfterMs": 1500
+        },
+        {
+          "speaker": "other",
+          "speakerLabel": "Neighbor",
+          "phraseId": null,
+          "chinese": "拜拜！",
+          "jyutping": "baai1 baai3!",
+          "romanization": "Baai¹ baai³!",
+          "english": "Bye!",
+          "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+          "pauseAfterMs": 1000
+        }
+      ]
+    },
+    {
+      "id": "basics-scene-2",
+      "title": "Apologizing for bumping into someone",
+      "description": "You accidentally bump into someone on a busy pavement",
+      "turns": [
+        {
+          "speaker": "user",
+          "speakerLabel": "You",
+          "phraseId": "basics-008",
+          "chinese": "唔好意思！",
+          "jyutping": "m4 hou2 ji3 si3!",
+          "romanization": "M⁴ hou² ji³ si³!",
+          "english": "Sorry!",
+          "voiceId": null,
+          "pauseAfterMs": 1500
+        },
+        {
+          "speaker": "other",
+          "speakerLabel": "Passerby",
+          "phraseId": null,
+          "chinese": "冇問題。",
+          "jyutping": "mou5 man6 tai4.",
+          "romanization": "Mou⁵ man⁶ tai⁴.",
+          "english": "No problem.",
+          "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+          "pauseAfterMs": 1500
+        },
+        {
+          "speaker": "user",
+          "speakerLabel": "You",
+          "phraseId": "basics-002",
+          "chinese": "唔該晒。",
+          "jyutping": "m4 goi1 saai3.",
+          "romanization": "M⁴ goi¹ saai³.",
+          "english": "Thank you so much.",
+          "voiceId": null,
+          "pauseAfterMs": 1500
+        },
+        {
+          "speaker": "other",
+          "speakerLabel": "Passerby",
+          "phraseId": null,
+          "chinese": "唔使客氣。",
+          "jyutping": "m4 sai2 haak3 hei3.",
+          "romanization": "M⁴ sai² haak³ hei³.",
+          "english": "You're welcome.",
+          "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+          "pauseAfterMs": 1000
+        }
       ]
     }
   ]

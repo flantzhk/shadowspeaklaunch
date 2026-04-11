@@ -1,243 +1,406 @@
 {
-  "id": "numbers-and-counting",
+  "id": "numbers-counting",
   "category": "the-very-basics",
   "name": "Numbers and Counting",
-  "description": "Count, haggle, and handle money like a local",
+  "description": "Prices, phone numbers, and quantities",
   "phraseCount": 15,
-  "imageGradient": "linear-gradient(135deg, #F6A623 0%, #E8591C 100%)",
-  "imageUrl": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=200&fit=crop",
-  "dialogueScenes": ["market-price", "phone-number"],
+  "imageGradient": "linear-gradient(135deg, #2A3A8A 0%, #4A5AC4 60%, #8AB0FF 100%)",
+  "imageUrl": null,
   "phrases": [
     {
-      "id": "numbers-001",
-      "topicId": "numbers-and-counting",
+      "id": "nums-001",
       "romanization": "Jat¹",
       "jyutping": "jat1",
       "chinese": "一",
       "english": "One",
-      "context": "Holding up one finger to order a single drink at a cha chaan teng",
+      "context": "The number one — used in counting, prices, and quantities",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "一", "jyutping": "jat1", "english": "one" }
+        {
+          "chinese": "一",
+          "jyutping": "jat1",
+          "english": "one"
+        }
       ]
     },
     {
-      "id": "numbers-002",
-      "topicId": "numbers-and-counting",
+      "id": "nums-002",
       "romanization": "Ji⁶",
       "jyutping": "ji6",
       "chinese": "二",
       "english": "Two",
-      "context": "Telling the host you need a table for two at a restaurant",
+      "context": "Used in phone numbers and formal counting — say 兩 when ordering two of something",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "二", "jyutping": "ji6", "english": "two" }
+        {
+          "chinese": "二",
+          "jyutping": "ji6",
+          "english": "two"
+        }
       ]
     },
     {
-      "id": "numbers-003",
-      "topicId": "numbers-and-counting",
+      "id": "nums-003",
       "romanization": "Saam¹",
       "jyutping": "saam1",
       "chinese": "三",
       "english": "Three",
-      "context": "Asking for three pieces of egg tart at a bakery",
+      "context": "The number three",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "三", "jyutping": "saam1", "english": "three" }
+        {
+          "chinese": "三",
+          "jyutping": "saam1",
+          "english": "three"
+        }
       ]
     },
     {
-      "id": "numbers-004",
-      "topicId": "numbers-and-counting",
+      "id": "nums-004",
       "romanization": "Sei³",
       "jyutping": "sei3",
       "chinese": "四",
       "english": "Four",
-      "context": "Telling someone your flat is on the fourth floor",
+      "context": "The number four — considered unlucky as it sounds like 死 (to die)",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "四", "jyutping": "sei3", "english": "four" }
+        {
+          "chinese": "四",
+          "jyutping": "sei3",
+          "english": "four"
+        }
       ]
     },
     {
-      "id": "numbers-005",
-      "topicId": "numbers-and-counting",
+      "id": "nums-005",
       "romanization": "Ng⁵",
       "jyutping": "ng5",
       "chinese": "五",
       "english": "Five",
-      "context": "Counting out five-dollar coins to pay for a minibus ride",
+      "context": "The number five",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "五", "jyutping": "ng5", "english": "five" }
+        {
+          "chinese": "五",
+          "jyutping": "ng5",
+          "english": "five"
+        }
       ]
     },
     {
-      "id": "numbers-006",
-      "topicId": "numbers-and-counting",
+      "id": "nums-006",
       "romanization": "Luk⁶",
       "jyutping": "luk6",
       "chinese": "六",
       "english": "Six",
-      "context": "Reading a dice roll during a board game with friends",
+      "context": "The number six — considered lucky as it sounds like 祿 (prosperity)",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "六", "jyutping": "luk6", "english": "six" }
+        {
+          "chinese": "六",
+          "jyutping": "luk6",
+          "english": "six"
+        }
       ]
     },
     {
-      "id": "numbers-007",
-      "topicId": "numbers-and-counting",
+      "id": "nums-007",
       "romanization": "Cat¹",
       "jyutping": "cat1",
       "chinese": "七",
       "english": "Seven",
-      "context": "Telling someone your appointment is at seven o'clock",
+      "context": "The number seven",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "七", "jyutping": "cat1", "english": "seven" }
+        {
+          "chinese": "七",
+          "jyutping": "cat1",
+          "english": "seven"
+        }
       ]
     },
     {
-      "id": "numbers-008",
-      "topicId": "numbers-and-counting",
+      "id": "nums-008",
       "romanization": "Baat³",
       "jyutping": "baat3",
       "chinese": "八",
       "english": "Eight",
-      "context": "Giving your lucky number when choosing a phone plan",
+      "context": "The number eight — very lucky, sounds like 發 (to prosper)",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "八", "jyutping": "baat3", "english": "eight" }
+        {
+          "chinese": "八",
+          "jyutping": "baat3",
+          "english": "eight"
+        }
       ]
     },
     {
-      "id": "numbers-009",
-      "topicId": "numbers-and-counting",
+      "id": "nums-009",
       "romanization": "Gau²",
       "jyutping": "gau2",
       "chinese": "九",
       "english": "Nine",
-      "context": "Reading a bus number at a Hong Kong bus stop",
+      "context": "The number nine — sounds like 久 (long time), associated with longevity",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "九", "jyutping": "gau2", "english": "nine" }
+        {
+          "chinese": "九",
+          "jyutping": "gau2",
+          "english": "nine"
+        }
       ]
     },
     {
-      "id": "numbers-010",
-      "topicId": "numbers-and-counting",
+      "id": "nums-010",
       "romanization": "Sap⁶",
       "jyutping": "sap6",
       "chinese": "十",
       "english": "Ten",
-      "context": "Counting out a ten-dollar note to pay at a street food stall",
+      "context": "The number ten — combine with other numbers: 十一 (11), 二十 (20)",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "十", "jyutping": "sap6", "english": "ten" }
+        {
+          "chinese": "十",
+          "jyutping": "sap6",
+          "english": "ten"
+        }
       ]
     },
     {
-      "id": "numbers-011",
-      "topicId": "numbers-and-counting",
-      "romanization": "Ji⁶ sap⁶",
-      "jyutping": "ji6 sap6",
-      "chinese": "二十",
-      "english": "Twenty",
-      "context": "Telling the taxi driver your destination is about twenty minutes away",
+      "id": "nums-011",
+      "romanization": "Gei² do¹ cin²?",
+      "jyutping": "gei2 do1 cin2",
+      "chinese": "幾多錢？",
+      "english": "How much?",
+      "context": "Ask this at any shop, market stall, or restaurant",
       "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
       "words": [
-        { "chinese": "二", "jyutping": "ji6", "english": "two" },
-        { "chinese": "十", "jyutping": "sap6", "english": "ten" }
+        {
+          "chinese": "幾多",
+          "jyutping": "gei2 do1",
+          "english": "how much / how many"
+        },
+        {
+          "chinese": "錢",
+          "jyutping": "cin2",
+          "english": "money"
+        }
       ]
     },
     {
-      "id": "numbers-012",
-      "topicId": "numbers-and-counting",
-      "romanization": "Jat¹ baak³",
-      "jyutping": "jat1 baak3",
-      "chinese": "一百",
-      "english": "One hundred",
-      "context": "Checking the price tag on a souvenir at a market stall",
-      "difficulty": 1,
-      "audioUrl": null,
-      "audioDuration": null,
-      "words": [
-        { "chinese": "一", "jyutping": "jat1", "english": "one" },
-        { "chinese": "百", "jyutping": "baak3", "english": "hundred" }
-      ]
-    },
-    {
-      "id": "numbers-013",
-      "topicId": "numbers-and-counting",
-      "romanization": "Gei² do¹ cin⁴ aa³",
-      "jyutping": "gei2 do1 cin4 aa3",
-      "chinese": "幾多錢呀",
-      "english": "How much is it?",
-      "context": "Pointing at a dish in a dai pai dong and asking the price",
-      "difficulty": 2,
-      "audioUrl": null,
-      "audioDuration": null,
-      "words": [
-        { "chinese": "幾多", "jyutping": "gei2 do1", "english": "how much" },
-        { "chinese": "錢", "jyutping": "cin4", "english": "money" },
-        { "chinese": "呀", "jyutping": "aa3", "english": "sentence particle" }
-      ]
-    },
-    {
-      "id": "numbers-014",
-      "topicId": "numbers-and-counting",
-      "romanization": "Taai³ gwai³ laa³",
+      "id": "nums-012",
+      "romanization": "Taai³ gwai³ laa³!",
       "jyutping": "taai3 gwai3 laa3",
-      "chinese": "太貴喇",
+      "chinese": "太貴喇！",
       "english": "That's too expensive!",
-      "context": "Haggling with a vendor at the Ladies' Market over a handbag price",
-      "difficulty": 2,
-      "audioUrl": null,
-      "audioDuration": null,
+      "context": "Say this at markets when negotiating — it's expected and not rude",
+      "difficulty": 1,
       "words": [
-        { "chinese": "太", "jyutping": "taai3", "english": "too" },
-        { "chinese": "貴", "jyutping": "gwai3", "english": "expensive" },
-        { "chinese": "喇", "jyutping": "laa3", "english": "sentence particle" }
+        {
+          "chinese": "太",
+          "jyutping": "taai3",
+          "english": "too / excessively"
+        },
+        {
+          "chinese": "貴",
+          "jyutping": "gwai3",
+          "english": "expensive"
+        },
+        {
+          "chinese": "喇",
+          "jyutping": "laa3",
+          "english": "sentence-final particle"
+        }
       ]
     },
     {
-      "id": "numbers-015",
-      "topicId": "numbers-and-counting",
+      "id": "nums-013",
+      "romanization": "Peng⁴ di¹ dak¹ m⁴ dak¹?",
+      "jyutping": "peng4 di1 dak1 m4 dak1",
+      "chinese": "平啲得唔得？",
+      "english": "Can you go a bit cheaper?",
+      "context": "The polite way to negotiate at a market stall",
+      "difficulty": 2,
+      "words": [
+        {
+          "chinese": "平啲",
+          "jyutping": "peng4 di1",
+          "english": "a bit cheaper"
+        },
+        {
+          "chinese": "得唔得",
+          "jyutping": "dak1 m4 dak1",
+          "english": "is it okay / can you?"
+        }
+      ]
+    },
+    {
+      "id": "nums-014",
       "romanization": "Loeng⁵ go³",
       "jyutping": "loeng5 go3",
       "chinese": "兩個",
-      "english": "Two (of something)",
-      "context": "Ordering two bowls of wonton noodles for you and your friend",
-      "difficulty": 2,
-      "audioUrl": null,
-      "audioDuration": null,
+      "english": "Two of them",
+      "context": "Use 兩 (not 二) when ordering or counting physical items",
+      "difficulty": 1,
       "words": [
-        { "chinese": "兩", "jyutping": "loeng5", "english": "two (quantity)" },
-        { "chinese": "個", "jyutping": "go3", "english": "classifier (general)" }
+        {
+          "chinese": "兩",
+          "jyutping": "loeng5",
+          "english": "two (of things)"
+        },
+        {
+          "chinese": "個",
+          "jyutping": "go3",
+          "english": "general measure word"
+        }
+      ]
+    },
+    {
+      "id": "nums-015",
+      "romanization": "Gau³ laa³",
+      "jyutping": "gau3 laa3",
+      "chinese": "夠喇",
+      "english": "That's enough",
+      "context": "Stop someone from giving you more food, change, or items",
+      "difficulty": 1,
+      "words": [
+        {
+          "chinese": "夠",
+          "jyutping": "gau3",
+          "english": "enough"
+        },
+        {
+          "chinese": "喇",
+          "jyutping": "laa3",
+          "english": "sentence-final particle"
+        }
+      ]
+    }
+  ],
+  "dialogueScenes": [
+    {
+      "id": "nums-scene-1",
+      "title": "Asking the price at a market stall",
+      "description": "You're at a wet market and want to buy some fruit",
+      "turns": [
+        {
+          "speaker": "user",
+          "speakerLabel": "You",
+          "phraseId": "nums-011",
+          "chinese": "唔該，呢個幾多錢？",
+          "jyutping": "m4 goi1, ni1 go3 gei2 do1 cin2?",
+          "romanization": "M⁴ goi¹, ni¹ go³ gei² do¹ cin²?",
+          "english": "Excuse me, how much is this?",
+          "voiceId": null,
+          "pauseAfterMs": 2000
+        },
+        {
+          "speaker": "other",
+          "speakerLabel": "Vendor",
+          "phraseId": null,
+          "chinese": "三十蚊。",
+          "jyutping": "saam1 sap6 man1.",
+          "romanization": "Saam¹ sap⁶ man¹.",
+          "english": "Thirty dollars.",
+          "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+          "pauseAfterMs": 1500
+        },
+        {
+          "speaker": "user",
+          "speakerLabel": "You",
+          "phraseId": "nums-012",
+          "chinese": "太貴喇！平啲得唔得？",
+          "jyutping": "taai3 gwai3 laa3! peng4 di1 dak1 m4 dak1?",
+          "romanization": "Taai³ gwai³ laa³! Peng⁴ di¹ dak¹ m⁴ dak¹?",
+          "english": "Too expensive! Can you go a bit cheaper?",
+          "voiceId": null,
+          "pauseAfterMs": 2000
+        },
+        {
+          "speaker": "other",
+          "speakerLabel": "Vendor",
+          "phraseId": null,
+          "chinese": "廿五蚊啦，最平喇。",
+          "jyutping": "jaa6 ng5 man1 laa3, zeoi3 peng4 laa3.",
+          "romanization": "Jaa⁶ ng⁵ man¹ laa³, zeoi³ peng⁴ laa³.",
+          "english": "Twenty-five dollars, that's the lowest.",
+          "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+          "pauseAfterMs": 2000
+        },
+        {
+          "speaker": "user",
+          "speakerLabel": "You",
+          "phraseId": "nums-014",
+          "chinese": "好，我要兩個。",
+          "jyutping": "hou2, ngo5 jiu3 loeng5 go3.",
+          "romanization": "Hou², ngo⁵ jiu³ loeng⁵ go³.",
+          "english": "Okay, I'll take two.",
+          "voiceId": null,
+          "pauseAfterMs": 1500
+        },
+        {
+          "speaker": "other",
+          "speakerLabel": "Vendor",
+          "phraseId": null,
+          "chinese": "好，五十蚊，多謝。",
+          "jyutping": "hou2, ng5 sap6 man1, do1 ze6.",
+          "romanization": "Hou², ng⁵ sap⁶ man¹, do¹ ze⁶.",
+          "english": "Great, fifty dollars, thank you.",
+          "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+          "pauseAfterMs": 1000
+        }
+      ]
+    },
+    {
+      "id": "nums-scene-2",
+      "title": "Giving your phone number",
+      "description": "A new friend asks for your number",
+      "turns": [
+        {
+          "speaker": "other",
+          "speakerLabel": "Friend",
+          "phraseId": null,
+          "chinese": "你電話幾號？",
+          "jyutping": "nei5 din6 waa2 gei2 hou6?",
+          "romanization": "Nei⁵ din⁶ waa² gei² hou⁶?",
+          "english": "What's your phone number?",
+          "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+          "pauseAfterMs": 2000
+        },
+        {
+          "speaker": "user",
+          "speakerLabel": "You",
+          "phraseId": null,
+          "chinese": "九四七二，三三零八。",
+          "jyutping": "gau2 sei3 cat1 ji6, saam1 saam1 ling4 baat3.",
+          "romanization": "Gau² sei³ cat¹ ji⁶, saam¹ saam¹ ling⁴ baat³.",
+          "english": "9472, 3308.",
+          "voiceId": null,
+          "pauseAfterMs": 2000
+        },
+        {
+          "speaker": "other",
+          "speakerLabel": "Friend",
+          "phraseId": null,
+          "chinese": "好，我WhatsApp你。",
+          "jyutping": "hou2, ngo5 WhatsApp nei5.",
+          "romanization": "Hou², ngo⁵ WhatsApp nei⁵.",
+          "english": "Great, I'll WhatsApp you.",
+          "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+          "pauseAfterMs": 1500
+        },
+        {
+          "speaker": "user",
+          "speakerLabel": "You",
+          "phraseId": "basics-012",
+          "chinese": "好，多謝。",
+          "jyutping": "hou2, do1 ze6.",
+          "romanization": "Hou², do¹ ze⁶.",
+          "english": "Great, thanks.",
+          "voiceId": null,
+          "pauseAfterMs": 1000
+        }
       ]
     }
   ]
