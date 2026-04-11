@@ -136,13 +136,17 @@ function getCurrentUser() {
  * @returns {Promise<import('firebase/compat').User|null>}
  */
 async function waitForAuth() {
-  // Handle redirect result from Google sign-in fallback
+  // First, check for redirect result (from Google sign-in redirect flow)
   try {
-    await fbAuth.getRedirectResult();
+    const result = await fbAuth.getRedirectResult();
+    if (result?.user) {
+      return result.user;
+    }
   } catch (error) {
     logger.error('Redirect result error', error);
   }
 
+  // Then wait for auth state to be determined
   return new Promise((resolve) => {
     const unsub = fbAuth.onAuthStateChanged((user) => {
       unsub();
