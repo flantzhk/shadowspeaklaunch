@@ -2,7 +2,7 @@
 
 .screen {
   flex: 1; display: flex; flex-direction: column;
-  background: var(--color-brand-dark);
+  background: var(--color-bg);
   padding: var(--safe-area-top) 0 var(--safe-area-bottom);
 }
 
@@ -11,38 +11,91 @@
   padding: var(--space-md) var(--content-padding); flex-shrink: 0;
 }
 
-.closeBtn { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: var(--color-text-muted); }
-.title { font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-inverse); }
+.closeBtn {
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; color: var(--color-text-secondary);
+}
+
+.title {
+  font-size: var(--font-size-md); font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
 
 .chatArea {
   flex: 1; overflow-y: auto; padding: var(--space-md) var(--content-padding);
-  display: flex; flex-direction: column; gap: var(--space-md);
+  display: flex; flex-direction: column; gap: 12px;
 }
 
+/* === Chat Bubbles === */
 .bubble {
-  max-width: 80%; padding: var(--space-md); border-radius: var(--radius-lg);
-  display: flex; flex-direction: column; gap: 4px;
-}
-
-.userBubble {
-  align-self: flex-end; background: rgba(197,232,90,0.15);
-  border-bottom-right-radius: var(--space-xs);
+  max-width: 75%; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px;
 }
 
 .otherBubble {
-  align-self: flex-start; background: rgba(255,255,255,0.08);
-  border-bottom-left-radius: var(--space-xs);
+  align-self: flex-start;
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border);
+  border-radius: 14px 14px 14px 4px;
 }
 
-.speakerLabel { font-size: var(--font-size-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); }
-.bubbleRoman { font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--color-brand-lime); }
-.bubbleChinese { font-size: var(--font-size-md); color: var(--color-text-inverse); }
-.bubbleEnglish { font-size: var(--font-size-sm); color: var(--color-text-muted); }
-.bubbleScore { margin-top: var(--space-xs); }
+.userBubble {
+  align-self: flex-end;
+  background: var(--color-brand-lime-muted);
+  border: 1px solid rgba(197, 232, 90, 0.3);
+  border-radius: 14px 14px 4px 14px;
+}
 
+.speakerLabel {
+  font-size: 10px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted); margin-bottom: 4px;
+}
+
+.bubbleRoman {
+  font-size: 14px; font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-dark);
+}
+
+.bubbleChinese {
+  font-size: 12px; color: var(--color-text-secondary); margin-top: 2px;
+}
+
+.bubbleEnglish {
+  font-size: 11px; color: var(--color-text-muted); margin-top: 2px;
+}
+
+.bubbleScore {
+  margin-top: 4px; text-align: right;
+  font-size: 11px; font-weight: var(--font-weight-semibold);
+}
+
+/* === Recording prompt === */
 .controls {
   flex-shrink: 0; display: flex; flex-direction: column; align-items: center;
   gap: var(--space-md); padding: var(--space-lg) var(--content-padding);
+  background: var(--color-bg);
+}
+
+.recordingPrompt {
+  background: var(--color-brand-dark);
+  color: white;
+  padding: 14px 24px;
+  border-radius: 14px;
+  text-align: center;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pulseDot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--color-error);
+  animation: dotPulse 1s infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
 .scoredControls { display: flex; flex-direction: column; align-items: center; gap: var(--space-md); }
@@ -50,12 +103,12 @@
 
 .continueBtn, .doneBtn {
   padding: var(--space-md) var(--space-2xl); background: var(--color-brand-lime);
-  color: var(--color-brand-dark); border-radius: var(--radius-md);
-  font-weight: var(--font-weight-bold); min-height: 44px;
+  color: var(--color-brand-dark); border-radius: 10px;
+  font-weight: var(--font-weight-semibold); min-height: 44px;
 }
 
 .replayBtn {
-  padding: var(--space-md) var(--space-2xl); border: 1px solid rgba(255,255,255,0.2);
-  border-radius: var(--radius-md); color: var(--color-text-muted);
+  padding: var(--space-md) var(--space-2xl); border: 1px solid var(--color-border-strong);
+  border-radius: 10px; color: var(--color-text-secondary);
   font-weight: var(--font-weight-semibold); min-height: 44px;
 }
