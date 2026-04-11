@@ -14,8 +14,16 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
 
+    const origin = request.headers.get('Origin') || '';
+    const allowedOrigins = [
+      'https://flantzhk.github.io',
+      'http://localhost:3000',
+      'http://localhost:5173',
+    ];
+    const corsOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+
     const corsHeaders = {
-      'Access-Control-Allow-Origin': '*', // Lock to your domain in production
+      'Access-Control-Allow-Origin': corsOrigin,
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     };

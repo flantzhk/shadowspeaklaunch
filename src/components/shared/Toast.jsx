@@ -14,7 +14,7 @@ function Toast({ message, type = 'info', onDismiss }) {
     const timer = setTimeout(() => {
       setIsVisible(false);
       setTimeout(onDismiss, 300);
-    }, 3000);
+    }, 4000);
     return () => clearTimeout(timer);
   }, [onDismiss]);
 

@@ -130,11 +130,19 @@ export default function LibraryScreen() {
       {/* Phrase list */}
       {filtered.length === 0 ? (
         <div className={styles.empty}>
-          <p className={styles.emptyText}>
-            {entries.length === 0
-              ? 'Your library is empty. Browse topics to add phrases.'
-              : 'No phrases match this filter.'}
-          </p>
+          {entries.length === 0 ? (
+            <>
+              <div className={styles.emptyIcon}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.5">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                </svg>
+              </div>
+              <p className={styles.emptyTitle}>Your library is empty</p>
+              <p className={styles.emptyText}>Browse topics to find phrases you want to learn.</p>
+            </>
+          ) : (
+            <p className={styles.emptyText}>No phrases match this filter.</p>
+          )}
         </div>
       ) : (
         <div className={styles.phraseList}>
