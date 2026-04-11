@@ -43,6 +43,10 @@ async function signIn(email, password) {
  * Sign in with Google popup.
  * @returns {Promise<{user: Object|null, error: string|null}>}
  */
+/**
+ * Sign in with Google popup.
+ * @returns {Promise<{user: Object|null, error: string|null}>}
+ */
 async function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
   try {
