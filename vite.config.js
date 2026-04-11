@@ -7,18 +7,8 @@ export default defineConfig({
   base: '/shadowspeaklaunch/',
   plugins: [
     react(),
-    {
-      name: 'inject-csp',
-      transformIndexHtml(html, ctx) {
-        if (!ctx.server) {
-          return html.replace(
-            '<!-- CSP is injected by Vite in production builds via vite.config.js -->',
-            `<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com https://*.firebaseapp.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://shadowspeak-api.faith-lantz-ee8.workers.dev https://cantonese.ai/api/text-to-jyutping https://*.firebaseapp.com https://*.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com; frame-src https://*.firebaseapp.com https://accounts.google.com; media-src 'self' blob:; img-src 'self' data: blob: https://*.googleusercontent.com; font-src 'self';" />`
-          );
-        }
-        return html;
-      },
-    },
+    // CSP removed — Firebase Auth popup requires access to multiple Google domains.
+    // Re-add once hosting domain is finalized.
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icons/*.png'],
