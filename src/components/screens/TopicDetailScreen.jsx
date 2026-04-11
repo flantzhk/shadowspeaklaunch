@@ -64,9 +64,13 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
 
   const handlePlayTopic = useCallback(async () => {
     if (!topic) return;
+    if (isPlaying) {
+      pause();
+      return;
+    }
     await loadQueue(topic.phrases, settings.currentLanguage);
     await play();
-  }, [topic, loadQueue, play, settings.currentLanguage]);
+  }, [topic, loadQueue, play, pause, isPlaying, settings.currentLanguage]);
 
   const handlePlayPhrase = useCallback(async (phrase) => {
     if (!topic) return;
@@ -175,7 +179,7 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
           {downloadProgress ? `↓ ${downloadProgress.done}/${downloadProgress.total}` : downloadDone ? '✓ Downloaded' : '↓ Download offline'}
         </button>
         <button className={styles.startBtn} onClick={handlePlayTopic}>
-          Start this topic
+          {isPlaying ? '⏸ Pause' : '▶ Play all phrases'}
         </button>
       </div>
 

@@ -51,8 +51,15 @@ function AudioProvider({ children }) {
     }
     setQueueLength(phrases.length);
     setPlaybackState('loading');
-    await engineRef.current.loadQueue(phrases, language);
-    setPlaybackState('ready');
+    try {
+      await engineRef.current.loadQueue(phrases, language);
+      // Only set ready if not already in error state
+      if (engineRef.current._audio?.src) {
+        setPlaybackState('ready');
+      }
+    } catch (err) {
+      setPlaybackState('error');
+    }
   }, []);
 
   const play = useCallback(async () => {

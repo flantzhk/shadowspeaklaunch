@@ -20,12 +20,23 @@ export default function HomeScreen({ onNavigate }) {
   const [duration, setDuration] = useState(30);
   const [streakAtRisk, setStreakAtRisk] = useState(false);
   const [streakDismissed, setStreakDismissed] = useState(false);
+  const [topicProgress, setTopicProgress] = useState({}); // { topicId: savedCount }
 
   const langPack = getLanguagePack(settings.currentLanguage);
 
   useEffect(() => {
-    setTopics(getTopicsForLanguage(settings.currentLanguage));
-    getAllLibraryEntries().then(entries => setLibraryCount(entries.length));
+    const loadedTopics = getTopicsForLanguage(settings.currentLanguage);
+    setTopics(loadedTopics);
+    getAllLibraryEntries().then(entries => {
+      setLibraryCount(entries.length);
+      // Build a set of saved phrase IDs for fast lookup
+      const savedIds = new Set(entries.map(e => e.phraseId));
+      const progress = {};
+      for (const topic of loadedTopics) {
+        progress[topic.id] = topic.phrases.filter(p => savedIds.has(p.id)).length;
+      }
+      setTopicProgress(progress);
+    });
   }, [settings.currentLanguage]);
 
   // Streak at risk banner: show when streak >= 3, evening hours, no practice today
@@ -281,9 +292,9 @@ export default function HomeScreen({ onNavigate }) {
                     <span className={styles.topicDesc}>{topic.description || ''}</span>
                     <div className={styles.progressRow}>
                       <div className={styles.progressTrack}>
-                        <div className={styles.progressFill} style={{ width: '0%' }} />
+                        <div className={styles.progressFill} style={{ width: `${topic.phraseCount > 0 ? ((topicProgress[topic.id] || 0) / topic.phraseCount) * 100 : 0}%` }} />
                       </div>
-                      <span className={styles.progressCount}>0/{topic.phraseCount}</span>
+                      <span className={styles.progressCount}>{topicProgress[topic.id] || 0}/{topic.phraseCount}</span>
                     </div>
                   </button>
                 </div>

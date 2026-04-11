@@ -75,11 +75,17 @@ function useRouter() {
     window.location.hash = params.id ? `#${path}/${params.id}` : `#${path}`;
   }, []);
   const goBack = useCallback(() => {
-    if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      window.location.hash = `#${ROUTES.HOME}`;
-    }
+    // Check if there's a previous hash-based route in history
+    // history.length is unreliable (counts external pages too)
+    const currentHash = window.location.hash;
+    window.history.back();
+    // If after 100ms the hash hasn't changed (e.g. no in-app history),
+    // navigate to home as fallback
+    setTimeout(() => {
+      if (window.location.hash === currentHash || !window.location.hash) {
+        window.location.hash = `#${ROUTES.HOME}`;
+      }
+    }, 100);
   }, []);
   return { route, navigate, goBack };
 }
@@ -147,8 +153,19 @@ function MainLayout() {
     );
   }
 
-  // Auth guard: redirect unauthenticated users to login
+  // Auth guard: unauthenticated users see onboarding first, then login
   if (!PUBLIC_ROUTES.includes(route.path) && route.path !== ROUTES.WELCOME && !isAuthenticated()) {
+    if (!settings.onboardingCompleted) {
+      // New user — show onboarding before login wall
+      return (
+        <Suspense fallback={<Loader size={40} />}>
+          <OnboardingScreen onComplete={() => {
+            updateSettings({ onboardingCompleted: true });
+            window.location.hash = `#${ROUTES.REGISTER}`;
+          }} />
+        </Suspense>
+      );
+    }
     window.location.hash = `#${ROUTES.LOGIN}`;
     return null;
   }
@@ -189,7 +206,7 @@ function MainLayout() {
   }
 
   const isTab = [ROUTES.HOME, ROUTES.LIBRARY, ROUTES.PRACTICE].includes(route.path);
-  const SESSION_ROUTES = [ROUTES.SHADOW_SESSION, ROUTES.PROMPT_DRILL, ROUTES.SPEED_RUN, ROUTES.TONE_GYM, ROUTES.DIALOGUE];
+  const SESSION_ROUTES = [ROUTES.SHADOW_SESSION, ROUTES.PROMPT_DRILL, ROUTES.SPEED_RUN, ROUTES.TONE_GYM];
   const isSession = SESSION_ROUTES.includes(route.path);
 
   return (
@@ -219,7 +236,7 @@ function MainLayout() {
         </Suspense>
       )}
 
-      {isSession && !sessionSummary && route.path !== ROUTES.DIALOGUE && (
+      {isSession && !sessionSummary && (
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <Suspense fallback={<Loader />}>
             {renderSessionScreen(route.path, () => navigate(ROUTES.HOME), (s) => setSessionSummary(s))}
@@ -230,8 +247,9 @@ function MainLayout() {
       {activeScene && (
         <Suspense fallback={null}>
           <DialogueSceneScreen sceneData={activeScene}
-            onBack={() => { setActiveScene(null); navigate(ROUTES.HOME); }}
-            onComplete={(s) => { setActiveScene(null); if (s?.id) setSessionSummary(s); else navigate(ROUTES.HOME); }} />
+            onBack={() => { setActiveScene(null); }}
+            onComplete={(s) => { setActiveScene(null); if (s?.id) setSessionSummary(s); }}
+            showToast={showToast} />
         </Suspense>
       )}
 

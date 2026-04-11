@@ -18,30 +18,38 @@ import styles from './CustomPhraseInput.module.css';
 export default function CustomPhraseInput({ onBack, showToast }) {
   const { settings } = useAppContext();
   const isOnline = useOnlineStatus();
-  const [chinese, setChinese] = useState('');
   const [english, setEnglish] = useState('');
+  const [jyutpingInput, setJyutpingInput] = useState('');
+  const [chinese, setChinese] = useState('');
   const [jyutping, setJyutping] = useState('');
   const [romanization, setRomanization] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [phase, setPhase] = useState('input'); // input | preview | saved
+  const [showChinese, setShowChinese] = useState(false);
+
+  const hasChinese = (text) => /[\u4e00-\u9fff\u3400-\u4dbf]/.test(text);
 
   const handleLookup = useCallback(async () => {
-    const text = sanitizeInput(chinese);
-    if (!text) return;
+    const chineseText = sanitizeInput(chinese);
+    if (!chineseText || !hasChinese(chineseText)) {
+      showToast?.('Paste or type Chinese characters to look up pronunciation', 'info');
+      return;
+    }
     if (!isOnline) { showToast?.('Requires internet', 'error'); return; }
 
     setIsLoading(true);
     try {
-      const result = await textToJyutping(text);
+      const result = await textToJyutping(chineseText);
       if (result.success && result.result) {
         const jp = result.result.map(r => r.jyutping).join(' ');
         setJyutping(jp);
+        setJyutpingInput(jp);
         setRomanization(jyutpingToDisplay(jp));
       }
 
       if (isAuthenticated()) {
-        const blob = await textToSpeech(text, {
+        const blob = await textToSpeech(chineseText, {
           language: settings.currentLanguage, speed: 1.0,
           outputExtension: 'mp3', turbo: true,
         });
@@ -54,6 +62,45 @@ export default function CustomPhraseInput({ onBack, showToast }) {
       setIsLoading(false);
     }
   }, [chinese, isOnline, settings.currentLanguage, showToast]);
+
+  const handleSaveDirectly = useCallback(async () => {
+    // Save without API lookup — user provided English + optional Jyutping
+    const eng = sanitizeInput(english);
+    const jp = sanitizeInput(jyutpingInput);
+    const ch = sanitizeInput(chinese);
+    if (!eng && !jp && !ch) return;
+
+    setJyutping(jp);
+    setRomanization(jp ? jyutpingToDisplay(jp) : '');
+
+    // If Chinese text exists and we're online, try to generate audio
+    if (ch && hasChinese(ch) && isOnline && isAuthenticated()) {
+      setIsLoading(true);
+      try {
+        const blob = await textToSpeech(ch, {
+          language: settings.currentLanguage, speed: 1.0,
+          outputExtension: 'mp3', turbo: true,
+        });
+        setAudioBlob(blob);
+      } catch (err) { /* audio is optional */ }
+
+      // Also look up Jyutping if not provided
+      if (!jp) {
+        try {
+          const result = await textToJyutping(ch);
+          if (result.success && result.result) {
+            const autoJp = result.result.map(r => r.jyutping).join(' ');
+            setJyutping(autoJp);
+            setJyutpingInput(autoJp);
+            setRomanization(jyutpingToDisplay(autoJp));
+          }
+        } catch (err) { /* jyutping is optional */ }
+      }
+      setIsLoading(false);
+    }
+
+    setPhase('preview');
+  }, [english, jyutpingInput, chinese, isOnline, settings.currentLanguage]);
 
   const handlePlayAudio = useCallback(() => {
     if (!audioBlob) return;
@@ -69,7 +116,11 @@ export default function CustomPhraseInput({ onBack, showToast }) {
       await saveLibraryEntry({
         phraseId, type: 'phrase', addedAt: Date.now(),
         source: 'custom',
-        customData: { chinese: sanitizeInput(chinese), jyutping, english: sanitizeInput(english) },
+        customData: {
+          chinese: sanitizeInput(chinese) || '',
+          jyutping: jyutping || sanitizeInput(jyutpingInput) || '',
+          english: sanitizeInput(english) || '',
+        },
         interval: 0, easeFactor: SRS_INITIAL_EASE, nextReviewAt: Date.now(),
         lastPracticedAt: null, practiceCount: 0, status: 'learning',
         bestScore: null, lastScore: null, scoreHistory: [],
@@ -84,7 +135,9 @@ export default function CustomPhraseInput({ onBack, showToast }) {
     } catch (err) {
       showToast?.('Failed to save', 'error');
     }
-  }, [chinese, english, jyutping, audioBlob, settings.currentLanguage, showToast]);
+  }, [chinese, english, jyutping, jyutpingInput, audioBlob, settings.currentLanguage, showToast]);
+
+  const hasContent = english.trim() || jyutpingInput.trim() || chinese.trim();
 
   return (
     <div className={styles.screen}>
@@ -99,32 +152,63 @@ export default function CustomPhraseInput({ onBack, showToast }) {
 
       <div className={styles.form}>
         <label className={styles.field}>
-          <span className={styles.label}>Chinese text</span>
-          <input className={styles.input} type="text" value={chinese}
-            onChange={e => setChinese(e.target.value)} placeholder="e.g. 你食咗飯未"
-            lang="yue" disabled={phase !== 'input'} />
-        </label>
-
-        <label className={styles.field}>
-          <span className={styles.label}>English meaning (optional)</span>
+          <span className={styles.label}>English meaning</span>
           <input className={styles.input} type="text" value={english}
             onChange={e => setEnglish(e.target.value)} placeholder="e.g. Have you eaten yet?"
             disabled={phase !== 'input'} />
         </label>
 
-        {phase === 'input' && (
-          <button className={styles.lookupBtn} onClick={handleLookup}
-            disabled={!chinese.trim() || isLoading}>
-            {isLoading ? 'Looking up...' : 'Look up Jyutping'}
+        <label className={styles.field}>
+          <span className={styles.label}>Jyutping / romanization (optional)</span>
+          <input className={styles.input} type="text" value={jyutpingInput}
+            onChange={e => setJyutpingInput(e.target.value)} placeholder="e.g. nei5 sik6 zo2 faan6 mei6"
+            disabled={phase !== 'input'} />
+        </label>
+
+        {showChinese ? (
+          <label className={styles.field}>
+            <span className={styles.label}>Chinese characters (optional — paste from a message)</span>
+            <input className={styles.input} type="text" value={chinese}
+              onChange={e => setChinese(e.target.value)} placeholder="e.g. 你食咗飯未"
+              lang="yue" disabled={phase !== 'input'} />
+          </label>
+        ) : (
+          <button
+            className={styles.toggleChineseBtn}
+            onClick={() => setShowChinese(true)}
+            style={{ background: 'none', border: 'none', color: 'var(--color-text-muted)', fontSize: '13px', padding: '4px 0', cursor: 'pointer', textAlign: 'left' }}
+            disabled={phase !== 'input'}
+          >
+            + Add Chinese characters (paste from a message)
           </button>
+        )}
+
+        {phase === 'input' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '8px' }}>
+            {chinese.trim() && hasChinese(chinese) && (
+              <button className={styles.lookupBtn} onClick={handleLookup}
+                disabled={isLoading}>
+                {isLoading ? 'Looking up...' : 'Look up pronunciation'}
+              </button>
+            )}
+            <button className={styles.lookupBtn} onClick={handleSaveDirectly}
+              disabled={!hasContent || isLoading}
+              style={{ background: 'var(--color-brand-dark)', color: 'white' }}>
+              {isLoading ? 'Processing...' : 'Save phrase'}
+            </button>
+          </div>
         )}
 
         {phase === 'preview' && (
           <div className={styles.preview}>
             <div className={styles.previewCard}>
-              <p className={styles.previewRoman}>{romanization}</p>
-              <p className={styles.previewJyutping}>{jyutping}</p>
-              <p className={styles.previewChinese} lang="yue">{chinese}</p>
+              {(romanization || jyutpingInput) && (
+                <p className={styles.previewRoman}>{romanization || jyutpingToDisplay(jyutpingInput)}</p>
+              )}
+              {(jyutping || jyutpingInput) && (
+                <p className={styles.previewJyutping}>{jyutping || jyutpingInput}</p>
+              )}
+              {chinese && <p className={styles.previewChinese} lang="yue">{chinese}</p>}
               {english && <p className={styles.previewEnglish}>{english}</p>}
             </div>
 
@@ -151,8 +235,8 @@ export default function CustomPhraseInput({ onBack, showToast }) {
             </svg>
             <p>Added to your library</p>
             <button className={styles.addAnother} onClick={() => {
-              setChinese(''); setEnglish(''); setJyutping(''); setRomanization('');
-              setAudioBlob(null); setPhase('input');
+              setChinese(''); setEnglish(''); setJyutping(''); setJyutpingInput(''); setRomanization('');
+              setAudioBlob(null); setPhase('input'); setShowChinese(false);
             }}>Add another</button>
           </div>
         )}

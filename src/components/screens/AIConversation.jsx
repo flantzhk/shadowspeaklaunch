@@ -119,7 +119,7 @@ export default function AIConversation({ onBack, showToast }) {
     const text = textInput.trim();
     if (!text || isThinking) return;
     setTextInput('');
-    const userMsg = { role: 'user', chinese: text, jyutping: '', romanization: text, english: '', inputMode: 'text' };
+    const userMsg = { role: 'user', chinese: '', jyutping: '', romanization: '', english: text, inputMode: 'text' };
     const newMsgs = [...messages, userMsg];
     setMessages(newMsgs);
     setIsThinking(true);
@@ -195,7 +195,7 @@ export default function AIConversation({ onBack, showToast }) {
           {messages.map((msg, i) => (
             <div key={i} className={`${styles.reviewBubble} ${msg.role === 'user' ? styles.reviewUserBubble : styles.reviewAiBubble}`}>
               <span className={styles.reviewSpeaker}>{msg.role === 'user' ? 'You' : 'AI'}</span>
-              <p className={styles.reviewChinese} lang="yue">{msg.chinese}</p>
+              {msg.chinese && <p className={styles.reviewChinese} lang="yue">{msg.chinese}</p>}
               {msg.romanization && msg.role === 'user' && <p className={styles.reviewRoman}>{msg.romanization}</p>}
               {msg.english && <p className={styles.reviewEnglish}>{msg.english}</p>}
               {msg.role === 'user' && !savedMsgIds.has(i) && (
@@ -236,7 +236,7 @@ export default function AIConversation({ onBack, showToast }) {
         {messages.map((msg, i) => (
           <div key={i} className={`${styles.bubble} ${msg.role === 'user' ? styles.userBubble : styles.aiBubble}`}>
             {msg.romanization && <p className={styles.bubbleRoman}>{msg.romanization}</p>}
-            <p className={styles.bubbleChinese} lang="yue">{msg.chinese}</p>
+            {msg.chinese && <p className={styles.bubbleChinese} lang="yue">{msg.chinese}</p>}
             {msg.english && <p className={styles.bubbleEnglish}>{msg.english}</p>}
           </div>
         ))}
@@ -250,7 +250,7 @@ export default function AIConversation({ onBack, showToast }) {
               <input
                 className={styles.textInput}
                 type="text"
-                placeholder="Type in Cantonese..."
+                placeholder="Type in English..."
                 value={textInput}
                 onChange={e => setTextInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleTextSend()}

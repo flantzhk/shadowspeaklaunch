@@ -24,22 +24,29 @@ export default function WhatDidTheySay({ onBack, showToast }) {
   const [generated, setGenerated] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
+  const [noResults, setNoResults] = useState(false);
+
+  // Check if text contains Chinese characters
+  const hasChinese = (text) => /[\u4e00-\u9fff\u3400-\u4dbf]/.test(text);
 
   const handleSearch = useCallback(async () => {
     const q = sanitizeInput(query).toLowerCase();
     if (!q) return;
-    setIsLoading(true); setGenerated(null); setResults([]);
+    setIsLoading(true); setGenerated(null); setResults([]); setNoResults(false);
 
     try {
       const all = await loadAllPhrases(settings.currentLanguage);
-      const matches = all.filter(p =>
-        p.chinese.includes(q) || p.jyutping.toLowerCase().includes(q) ||
-        p.romanization.toLowerCase().includes(q) || p.english.toLowerCase().includes(q)
-      ).slice(0, 5);
+      const words = q.split(/\s+/).filter(Boolean);
+      const matches = all.filter(p => {
+        const fields = [p.chinese, p.jyutping.toLowerCase(), p.romanization.toLowerCase(), p.english.toLowerCase()].join(' ');
+        // Match if ALL words appear somewhere in the phrase fields
+        return words.every(w => fields.includes(w));
+      }).slice(0, 10);
 
       if (matches.length > 0) {
         setResults(matches);
-      } else if (isOnline) {
+      } else if (isOnline && hasChinese(q)) {
+        // Only call API for Chinese text input
         const jResult = await textToJyutping(q);
         if (jResult.success && jResult.result) {
           const jp = jResult.result.map(r => r.jyutping).join(' ');
@@ -52,9 +59,11 @@ export default function WhatDidTheySay({ onBack, showToast }) {
             });
             setAudioBlob(blob);
           }
+        } else {
+          setNoResults(true);
         }
       } else {
-        showToast?.('No match found. Go online to generate.', 'info');
+        setNoResults(true);
       }
     } catch (err) {
       showToast?.('Lookup failed', 'error');
@@ -124,6 +133,13 @@ export default function WhatDidTheySay({ onBack, showToast }) {
               <button className={styles.addBtn} onClick={() => handleSave(p)}>+</button>
             </div>
           ))}
+        </div>
+      )}
+
+      {noResults && (
+        <div style={{ textAlign: 'center', padding: '32px 16px', color: 'var(--color-text-muted)' }}>
+          <p style={{ fontSize: '15px', marginBottom: '8px' }}>No matches found for "{query}"</p>
+          <p style={{ fontSize: '13px' }}>Try a single keyword like "hello", "thank", or "how much"</p>
         </div>
       )}
 

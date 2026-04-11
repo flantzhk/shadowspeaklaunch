@@ -12,7 +12,7 @@ const TOTAL_ROUNDS = 10;
 const TONE_PAIRS = [
   { base: '媽', tones: [{ char: '媽', jyutping: 'maa1', tone: 1 }, { char: '麻', jyutping: 'maa4', tone: 4 }] },
   { base: '好', tones: [{ char: '好', jyutping: 'hou2', tone: 2 }, { char: '號', jyutping: 'hou6', tone: 6 }] },
-  { base: '三', tones: [{ char: '三', jyutping: 'saam1', tone: 1 }, { char: '衫', jyutping: 'saam1', tone: 1 }] },
+  { base: '心', tones: [{ char: '心', jyutping: 'sam1', tone: 1 }, { char: '沁', jyutping: 'sam3', tone: 3 }] },
   { base: '飛', tones: [{ char: '飛', jyutping: 'fei1', tone: 1 }, { char: '肥', jyutping: 'fei4', tone: 4 }] },
   { base: '四', tones: [{ char: '四', jyutping: 'sei3', tone: 3 }, { char: '死', jyutping: 'sei2', tone: 2 }] },
   { base: '詩', tones: [{ char: '詩', jyutping: 'si1', tone: 1 }, { char: '時', jyutping: 'si4', tone: 4 }] },
@@ -20,6 +20,21 @@ const TONE_PAIRS = [
   { base: '買', tones: [{ char: '買', jyutping: 'maai5', tone: 5 }, { char: '賣', jyutping: 'maai6', tone: 6 }] },
   { base: '長', tones: [{ char: '長', jyutping: 'coeng4', tone: 4 }, { char: '唱', jyutping: 'coeng3', tone: 3 }] },
   { base: '大', tones: [{ char: '大', jyutping: 'daai6', tone: 6 }, { char: '帶', jyutping: 'daai3', tone: 3 }] },
+  { base: '知', tones: [{ char: '知', jyutping: 'zi1', tone: 1 }, { char: '紙', jyutping: 'zi2', tone: 2 }] },
+  { base: '事', tones: [{ char: '事', jyutping: 'si6', tone: 6 }, { char: '試', jyutping: 'si3', tone: 3 }] },
+  { base: '油', tones: [{ char: '油', jyutping: 'jau4', tone: 4 }, { char: '有', jyutping: 'jau5', tone: 5 }] },
+  { base: '九', tones: [{ char: '九', jyutping: 'gau2', tone: 2 }, { char: '夠', jyutping: 'gau3', tone: 3 }] },
+  { base: '花', tones: [{ char: '花', jyutping: 'faa1', tone: 1 }, { char: '化', jyutping: 'faa3', tone: 3 }] },
+  { base: '書', tones: [{ char: '書', jyutping: 'syu1', tone: 1 }, { char: '樹', jyutping: 'syu6', tone: 6 }] },
+  { base: '門', tones: [{ char: '問', jyutping: 'man6', tone: 6 }, { char: '文', jyutping: 'man4', tone: 4 }] },
+  { base: '雞', tones: [{ char: '雞', jyutping: 'gai1', tone: 1 }, { char: '計', jyutping: 'gai3', tone: 3 }] },
+  { base: '天', tones: [{ char: '天', jyutping: 'tin1', tone: 1 }, { char: '甜', jyutping: 'tim4', tone: 4 }] },
+  { base: '糖', tones: [{ char: '糖', jyutping: 'tong4', tone: 4 }, { char: '燙', jyutping: 'tong3', tone: 3 }] },
+  { base: '魚', tones: [{ char: '魚', jyutping: 'jyu4', tone: 4 }, { char: '語', jyutping: 'jyu5', tone: 5 }] },
+  { base: '貓', tones: [{ char: '貓', jyutping: 'maau1', tone: 1 }, { char: '冒', jyutping: 'maau6', tone: 6 }] },
+  { base: '水', tones: [{ char: '水', jyutping: 'seoi2', tone: 2 }, { char: '睡', jyutping: 'seoi6', tone: 6 }] },
+  { base: '鞋', tones: [{ char: '鞋', jyutping: 'haai4', tone: 4 }, { char: '蟹', jyutping: 'haai5', tone: 5 }] },
+  { base: '字', tones: [{ char: '字', jyutping: 'zi6', tone: 6 }, { char: '姐', jyutping: 'ze2', tone: 2 }] },
 ];
 
 /**
@@ -35,21 +50,30 @@ export default function ToneGym({ onBack, onComplete }) {
   const [chosen, setChosen] = useState(null);
   const [toneResults, setToneResults] = useState([]);
   const [sessionStart] = useState(Date.now());
+  const [sessionPairs] = useState(() => {
+    const shuffled = [...TONE_PAIRS].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, TOTAL_ROUNDS);
+  });
+  const [noAuth, setNoAuth] = useState(false);
   const audioRef = useRef(new Audio());
 
-  useEffect(() => { setupRound(0); return () => { audioRef.current.pause(); }; }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    setNoAuth(!isAuthenticated());
+    setupRound(0);
+    return () => { audioRef.current.pause(); };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const setupRound = useCallback((r) => {
-    const pair = TONE_PAIRS[r % TONE_PAIRS.length];
+    const pair = sessionPairs[r % sessionPairs.length];
     const idx = Math.random() < 0.5 ? 0 : 1;
     setCurrentPair(pair);
     setCorrectIndex(idx);
     setChosen(null);
     setPhase('choose');
-  }, []);
+  }, [sessionPairs]);
 
   const playTone = useCallback(async (toneData) => {
-    if (!isAuthenticated()) return;
+    if (!isAuthenticated()) { setNoAuth(true); return; }
     try {
       const blob = await textToSpeech(toneData.char, { language: 'cantonese', speed: 0.85, outputExtension: 'mp3' });
       const url = URL.createObjectURL(blob);
@@ -67,7 +91,6 @@ export default function ToneGym({ onBack, onComplete }) {
     const isRight = idx === correctIndex;
     setChosen(idx);
     if (isRight) setCorrect(c => c + 1);
-    // Record which tone was being tested and whether answer was correct
     if (currentPair) {
       const correctTone = currentPair.tones[correctIndex].tone;
       setToneResults(prev => [...prev, { tone: correctTone, isCorrect: isRight }]);
@@ -112,10 +135,15 @@ export default function ToneGym({ onBack, onComplete }) {
 
       <div className={styles.playArea}>
         <span className={styles.label}>Listen and pick the correct character</span>
-        <button className={styles.listenBtn} onClick={handlePlayTarget}>
+        <button className={styles.listenBtn} onClick={handlePlayTarget} disabled={noAuth}>
           <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
           Play sound
         </button>
+        {noAuth && (
+          <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', textAlign: 'center', marginTop: '8px' }}>
+            Sign in to hear the audio
+          </p>
+        )}
       </div>
 
       <div className={styles.choiceRow}>
@@ -129,7 +157,7 @@ export default function ToneGym({ onBack, onComplete }) {
           }
           return (
             <button key={i} className={`${styles.choiceBtn} ${variant}`}
-              onClick={() => phase === 'choose' && handleChoice(i)} disabled={phase !== 'choose'}>
+              onClick={() => phase === 'choose' && handleChoice(i)} disabled={phase !== 'choose' || noAuth}>
               <span className={styles.choiceChar} lang="yue">{t.char}</span>
               <span className={styles.choiceJyutping}>{t.jyutping}</span>
             </button>

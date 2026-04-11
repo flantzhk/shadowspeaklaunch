@@ -79,7 +79,7 @@ class AudioEngine {
         cacheAudioBlob(phrase.id, this._language, speedNum, blob).catch(() => {});
       } else {
         logger.warn('Not authenticated — cannot load audio');
-        this._onStateChange?.('no-audio');
+        this._onStateChange?.('error');
         this._onPhraseChange?.(phrase, this._currentIndex);
         return;
       }
