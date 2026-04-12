@@ -8,7 +8,7 @@ import { textToSpeech, scorePronunciation } from '../../services/api';
 import { isAuthenticated } from '../../services/auth';
 import { updateAfterPractice } from '../../services/srs';
 import { saveSession, saveLibraryEntry } from '../../services/storage';
-import { updateStreak } from '../../services/streak';
+import { updateStreak, getTodayString } from '../../services/streak';
 import { SRS_INITIAL_EASE } from '../../utils/constants';
 import { ScoreBadge } from '../cards/ScoreBadge';
 import { RecordButton } from '../shared/RecordButton';
@@ -148,7 +148,7 @@ export default function DialogueScene({ sceneData, onBack, onComplete, showToast
     const streak = await updateStreak();
     await updateSettings({ streakCount: streak, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
     const rec = {
-      id: crypto.randomUUID(), date: new Date().toISOString().slice(0, 10),
+      id: crypto.randomUUID(), date: getTodayString(),
       startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
       mode: 'dialogue', phrasesAttempted: scene.turns.filter(t => t.speaker === 'user').length,
       phrasesMastered: 0, averageScore: null, phraseResults: [],

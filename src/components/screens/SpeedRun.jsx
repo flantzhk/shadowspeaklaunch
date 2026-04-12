@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { buildLesson } from '../../services/lessonBuilder';
 import { saveSession, getSettings, saveSettings } from '../../services/storage';
-import { updateStreak } from '../../services/streak';
+import { updateStreak, getTodayString } from '../../services/streak';
 import { LessonLoader } from '../shared/LessonLoader';
 import styles from './SpeedRun.module.css';
 
@@ -95,7 +95,7 @@ export default function SpeedRun({ onBack, onComplete }) {
       setPersonalBest(newBest);
     }
     const rec = {
-      id: crypto.randomUUID(), date: new Date().toISOString().slice(0, 10),
+      id: crypto.randomUUID(), date: getTodayString(),
       startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
       mode: 'speed-run', phrasesAttempted: round + 1, phrasesMastered: 0,
       averageScore: null, phraseResults: [],

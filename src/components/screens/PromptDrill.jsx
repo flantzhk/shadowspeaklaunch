@@ -9,7 +9,7 @@ import { isAuthenticated } from '../../services/auth';
 import { updateAfterPractice } from '../../services/srs';
 import { buildLesson } from '../../services/lessonBuilder';
 import { saveSession } from '../../services/storage';
-import { updateStreak } from '../../services/streak';
+import { updateStreak, getTodayString } from '../../services/streak';
 import { SCORE_THRESHOLDS } from '../../utils/constants';
 import { ScoreBadge } from '../cards/ScoreBadge';
 import { RecordButton } from '../shared/RecordButton';
@@ -135,7 +135,7 @@ export default function PromptDrill({ onBack, onComplete }) {
     const scores = results.filter(r => r.score !== null).map(r => r.score);
     await updateSettings({ streakCount, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
     const rec = {
-      id: crypto.randomUUID(), date: new Date().toISOString().slice(0, 10),
+      id: crypto.randomUUID(), date: getTodayString(),
       startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
       mode: 'prompt', phrasesAttempted: results.length, phrasesMastered: 0,
       averageScore: scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null,

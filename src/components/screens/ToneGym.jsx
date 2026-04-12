@@ -5,7 +5,7 @@ import { useAppContext } from '../../contexts/AppContext';
 import { textToSpeech } from '../../services/api';
 import { isAuthenticated } from '../../services/auth';
 import { saveSession } from '../../services/storage';
-import { updateStreak } from '../../services/streak';
+import { updateStreak, getTodayString } from '../../services/streak';
 import styles from './ToneGym.module.css';
 
 const TOTAL_ROUNDS = 10;
@@ -110,7 +110,7 @@ export default function ToneGym({ onBack, onComplete }) {
     const streak = await updateStreak();
     await updateSettings({ streakCount: streak, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
     const rec = {
-      id: crypto.randomUUID(), date: new Date().toISOString().slice(0, 10),
+      id: crypto.randomUUID(), date: getTodayString(),
       startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
       mode: 'tone-gym', phrasesAttempted: TOTAL_ROUNDS, phrasesMastered: 0,
       averageScore: Math.round((correct / TOTAL_ROUNDS) * 100), phraseResults: [],

@@ -9,7 +9,7 @@ import { updateAfterPractice } from '../../services/srs';
 import { saveSession, addToQueue } from '../../services/storage';
 import { scorePronunciation } from '../../services/api';
 import { isAuthenticated } from '../../services/auth';
-import { updateStreak } from '../../services/streak';
+import { updateStreak, getTodayString } from '../../services/streak';
 import { buildLesson } from '../../services/lessonBuilder';
 import { blobToBase64 } from '../../services/offlineManager';
 import { ScoreBadge } from '../cards/ScoreBadge';
@@ -141,7 +141,7 @@ export default function ShadowSession({ onBack, onComplete }) {
     const avg = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : null;
     await updateSettings({ streakCount: streak, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
     const rec = {
-      id: crypto.randomUUID(), date: new Date().toISOString().slice(0, 10),
+      id: crypto.randomUUID(), date: getTodayString(),
       startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
       mode: 'shadow', phrasesAttempted: results.length,
       phrasesMastered: results.filter(r => r.mastered).length, averageScore: avg,
@@ -203,7 +203,7 @@ export default function ShadowSession({ onBack, onComplete }) {
       {audio.playbackState === 'error' && (
         <div style={{ textAlign: 'center', padding: '24px' }}>
           <p style={{ fontSize: '14px', color: '#c44', marginBottom: '12px' }}>Audio failed to load</p>
-          <button onClick={async () => { await audio.play(); }} style={{ padding: '10px 20px', borderRadius: '8px', background: 'var(--color-brand-dark)', color: 'white', fontSize: '14px', fontWeight: 600 }}>
+          <button onClick={async () => { await audio.retryCurrentPhrase(); }} style={{ padding: '10px 20px', borderRadius: '8px', background: 'var(--color-brand-dark)', color: 'white', fontSize: '14px', fontWeight: 600 }}>
             Retry
           </button>
         </div>
