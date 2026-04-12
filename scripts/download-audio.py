@@ -8,9 +8,14 @@ import sys
 import time
 
 API_URL = "https://cantonese.ai/api/tts"
-API_KEY = "CANTONESE_AI_KEY_REMOVED"
+API_KEY = os.environ.get("CANTONESE_AI_API_KEY", "")
 VOICE_ID = "c09e3009-5aa6-4aab-aa94-a3621032bcc4"
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+if not API_KEY:
+    print("ERROR: CANTONESE_AI_API_KEY environment variable is not set.")
+    print("  export CANTONESE_AI_API_KEY=sk-...")
+    sys.exit(1)
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TOPICS_DIR = os.path.join(SCRIPT_DIR, "..", "src", "data", "topics", "cantonese")

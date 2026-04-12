@@ -4,7 +4,12 @@
 
 set -e
 
-API_KEY="CANTONESE_AI_KEY_REMOVED"
+if [ -z "$CANTONESE_AI_API_KEY" ]; then
+  echo "ERROR: CANTONESE_AI_API_KEY environment variable is not set."
+  echo "  export CANTONESE_AI_API_KEY=sk-..."
+  exit 1
+fi
+API_KEY="$CANTONESE_AI_API_KEY"
 VOICE_ID="c09e3009-5aa6-4aab-aa94-a3621032bcc4"
 API_URL="https://cantonese.ai/api/tts"
 OUTPUT_DIR="public/audio/cantonese"
