@@ -197,7 +197,8 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
 
           const isExpanded = expandedPhraseId === phrase.id;
           return (
-            <div key={phrase.id} className={`${styles.phraseRow} ${isActive ? styles.active : ''}`}>
+            <div key={phrase.id} className={`${styles.phraseRow} ${isActive ? styles.active : ''}`}
+              style={{ flexWrap: 'wrap' }}>
               <button
                 className={styles.playBtn}
                 onClick={() => isActive && isPlaying ? pause() : handlePlayPhrase(phrase)}
@@ -211,7 +212,7 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
               </button>
 
               <button className={styles.phraseInfo} onClick={() => setExpandedPhraseId(isExpanded ? null : phrase.id)}
-                style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', flex: 1, padding: 0 }}>
+                style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', flex: 1, padding: 0, minWidth: 0 }}>
                 <span className={styles.romanization}>{phrase.romanization}</span>
                 <span className={styles.chinese} lang="yue">{phrase.chinese}</span>
                 <span className={styles.english}>{phrase.english}</span>
@@ -231,10 +232,10 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
               </button>
 
               {isExpanded && phrase.words && phrase.words.length > 0 && (
-                <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap', gap: '8px', padding: '8px 0 4px', borderTop: '0.5px solid var(--color-border)' }}>
+                <div style={{ flexBasis: '100%', display: 'flex', flexWrap: 'wrap', gap: '8px', padding: '12px 0 4px', marginTop: '8px', borderTop: '0.5px solid var(--color-border)' }}>
                   {phrase.words.map((word, i) => (
                     <button key={i} onClick={(e) => handlePlayWord(e, word.chinese)}
-                      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', padding: '10px 14px', background: 'var(--color-surface)', border: '0.5px solid var(--color-border)', borderRadius: '10px', cursor: 'pointer', minWidth: '60px' }}>
+                      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', padding: '10px 14px', background: 'var(--color-bg)', border: '0.5px solid var(--color-border)', borderRadius: '10px', cursor: 'pointer', minWidth: '60px' }}>
                       <span style={{ fontSize: '18px' }} lang="yue">{word.chinese}</span>
                       <span style={{ fontSize: '11px', color: 'var(--color-jyutping, #6b8f5e)' }}>{word.jyutping}</span>
                       <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{word.english}</span>
@@ -242,7 +243,7 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
                     </button>
                   ))}
                   {phrase.context && (
-                    <p style={{ width: '100%', fontSize: '12px', color: 'var(--color-text-muted)', fontStyle: 'italic', margin: '4px 0 0' }}>{phrase.context}</p>
+                    <p style={{ flexBasis: '100%', fontSize: '12px', color: 'var(--color-text-muted)', fontStyle: 'italic', margin: '4px 0 0' }}>{phrase.context}</p>
                   )}
                 </div>
               )}
