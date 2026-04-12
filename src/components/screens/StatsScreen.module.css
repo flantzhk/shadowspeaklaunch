@@ -1,54 +1,412 @@
-/* StatsScreen.module.css */
+/* StatsScreen.module.css — Gamified progress dashboard */
 
-.screen { flex: 1; overflow-y: auto; padding: var(--space-lg) var(--content-padding); padding-bottom: var(--space-3xl); }
-.header { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-xl); }
-.backBtn { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; }
-.title { font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold); }
-
-.statGrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: var(--space-2xl); }
-.statCard {
-  display: flex; flex-direction: column; align-items: center; gap: var(--space-xs);
-  padding: var(--space-base); background: var(--color-surface); border-radius: 14px;
-  border: 0.5px solid var(--color-border); text-align: center;
+.screen {
+  flex: 1; overflow-y: auto;
+  padding: var(--space-lg) var(--content-padding);
+  padding-bottom: var(--space-3xl);
 }
-.highlighted { background: var(--color-brand-dark); border-color: var(--color-brand-dark); }
-.highlighted .statValue { color: var(--color-brand-lime); }
-.highlighted .statLabel { color: var(--color-text-muted); }
-.statValue { font-size: 28px; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); font-variant-numeric: tabular-nums; }
-.statLabel { font-size: 11px; color: var(--color-text-muted); text-align: center; }
 
-.section { margin-bottom: var(--space-2xl); }
+.header {
+  display: flex; align-items: center; gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.backBtn {
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px;
+}
+
+.title {
+  font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold);
+}
+
+/* === Streak Hero === */
+.streakHero {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 28px 20px 24px;
+  background: linear-gradient(165deg, #2A1A08 0%, var(--color-brand-dark) 60%, #1A2A18 100%);
+  border-radius: 20px; margin-bottom: var(--space-base);
+  position: relative; overflow: hidden;
+}
+
+.streakHero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 30%, rgba(232, 112, 58, 0.12) 0%, transparent 70%);
+}
+
+.flameWrap {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; position: relative; z-index: 1;
+}
+
+.flame {
+  animation: flameFloat 2s ease-in-out infinite;
+}
+
+@keyframes flameFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-3px) scale(1.03); }
+}
+
+.streakNum {
+  font-size: 48px; font-weight: var(--font-weight-bold);
+  color: white; font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.streakInfo {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; position: relative; z-index: 1; margin-top: 4px;
+}
+
+.streakLabel {
+  font-size: 15px; font-weight: var(--font-weight-semibold);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.bestStreak {
+  font-size: 12px; color: rgba(255, 255, 255, 0.45);
+}
+
+/* === This Week === */
+.weekCard {
+  background: var(--color-surface); border-radius: 16px;
+  border: 0.5px solid var(--color-border);
+  padding: 16px 18px; margin-bottom: var(--space-base);
+}
+
+.weekHeader {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 14px;
+}
+
+.weekTitle {
+  font-size: 15px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.weekCount {
+  font-size: 13px; font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-green);
+}
+
+.weekRow {
+  display: flex; justify-content: space-between;
+}
+
+.weekDay {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+
+.weekDot {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.weekDotActive {
+  background: var(--color-brand-lime);
+  border-color: var(--color-brand-green);
+  color: var(--color-brand-dark);
+}
+
+.weekDotToday {
+  border-color: var(--color-brand-dark);
+  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 3.5px var(--color-brand-dark);
+}
+
+.weekLabel {
+  font-size: 11px; font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+}
+
+.weekLabelToday {
+  color: var(--color-brand-dark); font-weight: var(--font-weight-semibold);
+}
+
+/* === Daily Challenge === */
+.challengeCard {
+  background: var(--color-surface); border-radius: 16px;
+  border: 0.5px solid var(--color-border);
+  padding: 16px 18px; margin-bottom: var(--space-base);
+}
+
+.challengeHeader {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 14px;
+}
+
+.challengeTitle {
+  font-size: 15px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.challengeDone {
+  font-size: 12px; font-weight: var(--font-weight-bold);
+  color: var(--color-brand-green);
+  background: var(--color-mastered-bg); padding: 3px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.challengeContent {
+  display: flex; align-items: center; gap: 18px;
+}
+
+.challengeRing {
+  width: 72px; height: 72px; flex-shrink: 0; position: relative;
+}
+
+.ringSvg {
+  width: 100%; height: 100%; transform: rotate(-90deg);
+}
+
+.ringTrack {
+  fill: none; stroke: var(--color-bg); stroke-width: 5;
+}
+
+.ringFill {
+  fill: none; stroke: var(--color-brand-lime); stroke-width: 5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ringText {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: var(--font-weight-bold);
+  color: var(--color-brand-dark);
+}
+
+.challengeDetails {
+  display: flex; flex-direction: column; gap: 2px;
+}
+
+.challengeGoal {
+  font-size: 15px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.challengeSub {
+  font-size: 13px; color: var(--color-text-secondary);
+}
+
+.challengeTime {
+  font-size: 12px; color: var(--color-text-muted); margin-top: 2px;
+}
+
+/* === Level / XP === */
+.levelCard {
+  background: var(--color-surface); border-radius: 16px;
+  border: 0.5px solid var(--color-border);
+  padding: 16px 18px; margin-bottom: var(--space-base);
+}
+
+.levelHeader {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+}
+
+.levelBadge {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--color-brand-dark);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.levelNum {
+  font-size: 20px; font-weight: var(--font-weight-bold);
+  color: var(--color-brand-lime);
+}
+
+.levelInfo {
+  flex: 1; display: flex; flex-direction: column; gap: 1px;
+}
+
+.levelTitle {
+  font-size: 16px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.xpText {
+  font-size: 13px; color: var(--color-text-muted);
+}
+
+.levelNext {
+  font-size: 12px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+}
+
+.xpBar {
+  height: 8px; background: var(--color-bg); border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.xpFill {
+  height: 100%; background: linear-gradient(90deg, var(--color-brand-green), var(--color-brand-lime));
+  border-radius: var(--radius-pill);
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  min-width: 4px;
+}
+
+.xpRemaining {
+  display: block; text-align: right;
+  font-size: 11px; color: var(--color-text-muted); margin-top: 6px;
+}
+
+/* === Quick Stats === */
+.quickStats {
+  display: flex; align-items: center;
+  background: var(--color-surface); border-radius: 16px;
+  border: 0.5px solid var(--color-border);
+  padding: 16px 8px; margin-bottom: var(--space-xl);
+}
+
+.qStat {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+
+.qNum {
+  font-size: 22px; font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-dark); font-variant-numeric: tabular-nums;
+}
+
+.qLabel {
+  font-size: 10px; color: var(--color-text-muted);
+  text-transform: uppercase; letter-spacing: 0.3px;
+}
+
+.qDivider {
+  width: 1px; height: 28px; background: var(--color-border); flex-shrink: 0;
+}
+
+/* === Sections === */
+.section { margin-bottom: var(--space-xl); }
+
+.sectionHeader {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: var(--space-md);
+}
+
 .sectionTitle {
-  font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary);
-  text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin-bottom: var(--space-md);
+  font-size: 15px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
 }
 
-.calendar {
-  display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
+.sectionCount {
+  font-size: 13px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
 }
-.calDay {
-  width: 12px; height: 12px; border-radius: 2px; background: var(--color-bg);
+
+/* === Achievements Grid === */
+.achieveGrid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
 }
-.calActive { background: var(--color-brand-lime); }
-.calToday { outline: 1.5px solid var(--color-brand-dark); outline-offset: 0px; }
 
-.barContainer { display: flex; flex-direction: column; gap: var(--space-xs); }
-.barTrack { height: 6px; background: var(--color-border); border-radius: var(--radius-pill); overflow: hidden; }
-.barMastered { height: 100%; background: var(--color-brand-green); border-radius: var(--radius-pill); transition: width var(--transition-normal); }
-.barLabels { display: flex; justify-content: space-between; font-size: var(--font-size-sm); color: var(--color-text-secondary); }
-
-.milestoneGrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); }
-.milestone {
-  display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md);
-  background: var(--color-surface); border-radius: var(--radius-md);
-  border: 0.5px solid var(--color-border); opacity: 0.5;
+.achieveCard {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 4px; padding: 14px 8px 12px;
+  background: var(--color-surface); border-radius: 14px;
+  border: 0.5px solid var(--color-border);
+  opacity: 0.45; text-align: center;
+  transition: all var(--transition-fast);
 }
-.unlocked { opacity: 1; }
-.milestoneIcon { font-size: var(--font-size-md); color: var(--color-brand-green); }
-.unlocked .milestoneIcon { color: var(--color-success); }
-.milestoneLabel { font-size: var(--font-size-sm); color: var(--color-text-primary); }
 
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  .statCard:not(.highlighted) { background: var(--color-surface); }
+.achieveUnlocked {
+  opacity: 1;
+  border-color: var(--color-brand-lime);
+  background: var(--color-mastered-bg);
+}
+
+.achieveIcon {
+  width: 44px; height: 44px; position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.achieveRing {
+  position: absolute; inset: 0;
+}
+
+.achieveTrack {
+  fill: none; stroke: var(--color-border); stroke-width: 2.5;
+}
+
+.achieveProgress {
+  fill: none; stroke: var(--color-brand-lime); stroke-width: 2.5;
+  stroke-linecap: round; transform: rotate(-90deg); transform-origin: center;
+  transition: stroke-dashoffset 0.4s ease;
+}
+
+.achieveEmoji {
+  font-size: 16px; font-weight: var(--font-weight-bold);
+  color: var(--color-brand-dark); position: relative; z-index: 1;
+}
+
+.achieveUnlocked .achieveEmoji {
+  color: var(--color-brand-green);
+}
+
+.achieveLabel {
+  font-size: 11px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary); line-height: 1.2;
+}
+
+.achieveDesc {
+  font-size: 10px; color: var(--color-text-muted); line-height: 1.2;
+}
+
+/* === Library === */
+.libraryCard {
+  background: var(--color-surface); border-radius: 14px;
+  border: 0.5px solid var(--color-border);
+  padding: 14px 16px;
+}
+
+.libRow {
+  display: flex; align-items: center; gap: 8px; padding: 4px 0;
+}
+
+.libDot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+
+.libLabel {
+  flex: 1; font-size: 14px; color: var(--color-text-secondary);
+}
+
+.libVal {
+  font-size: 14px; font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.libBar {
+  display: flex; height: 6px; border-radius: var(--radius-pill);
+  background: var(--color-bg); overflow: hidden; margin-top: 10px;
+}
+
+.libBarMastered {
+  height: 100%; background: var(--color-brand-green);
+  transition: width var(--transition-normal);
+}
+
+.libBarLearning {
+  height: 100%; background: var(--color-brand-lime);
+  transition: width var(--transition-normal);
+}
+
+/* === Total Time === */
+.totalTimeCard {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--color-surface); border-radius: 14px;
+  border: 0.5px solid var(--color-border);
+  padding: 14px 16px;
+}
+
+.totalTimeLabel {
+  font-size: 14px; color: var(--color-text-secondary);
+}
+
+.totalTimeVal {
+  font-size: 18px; font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-dark); font-variant-numeric: tabular-nums;
 }
