@@ -1,108 +1,251 @@
-/* StatsScreen.module.css — Gamified progress dashboard */
+/* StatsScreen.module.css — Encouraging progress dashboard */
 
 .screen {
-  flex: 1; overflow-y: auto;
+  flex: 1;
+  overflow-y: auto;
   padding: var(--space-lg) var(--content-padding);
   padding-bottom: var(--space-3xl);
 }
 
+/* ── Header ── */
 .header {
-  display: flex; align-items: center; gap: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
   margin-bottom: var(--space-xl);
 }
 
 .backBtn {
-  display: flex; align-items: center; justify-content: center;
-  width: 44px; height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
 }
 
 .title {
-  font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
 }
 
-/* === Streak Hero === */
+/* ── Streak Hero ── */
 .streakHero {
-  display: flex; flex-direction: column; align-items: center;
-  padding: 28px 20px 24px;
-  background: linear-gradient(165deg, #2A1A08 0%, var(--color-brand-dark) 60%, #1A2A18 100%);
-  border-radius: 20px; margin-bottom: var(--space-base);
-  position: relative; overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 20px;
+  background: linear-gradient(140deg, #2A1A08 0%, var(--color-brand-dark) 55%, #1A2A12 100%);
+  border-radius: 20px;
+  margin-bottom: var(--space-base);
+  overflow: hidden;
+  position: relative;
 }
 
 .streakHero::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(circle at 50% 30%, rgba(232, 112, 58, 0.12) 0%, transparent 70%);
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(232, 112, 58, 0.14) 0%, transparent 60%);
+  pointer-events: none;
 }
 
-.flameWrap {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 6px; position: relative; z-index: 1;
+.streakLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .flame {
-  animation: flameFloat 2s ease-in-out infinite;
+  animation: flameFloat 2.2s ease-in-out infinite;
 }
 
 @keyframes flameFloat {
   0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-3px) scale(1.03); }
+  50%       { transform: translateY(-3px) scale(1.04); }
+}
+
+.streakNums {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .streakNum {
-  font-size: 48px; font-weight: var(--font-weight-bold);
-  color: white; font-variant-numeric: tabular-nums;
+  font-size: 42px;
+  font-weight: var(--font-weight-bold);
+  color: white;
   line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
-.streakInfo {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 2px; position: relative; z-index: 1; margin-top: 4px;
+.streakUnit {
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
 }
 
-.streakLabel {
-  font-size: 15px; font-weight: var(--font-weight-semibold);
-  color: rgba(255, 255, 255, 0.85);
+.streakRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  position: relative;
+  z-index: 1;
+}
+
+.streakHeadline {
+  font-size: 15px;
+  font-weight: var(--font-weight-semibold);
+  color: white;
+  line-height: 1.3;
+}
+
+.streakSub {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.4;
 }
 
 .bestStreak {
-  font-size: 12px; color: rgba(255, 255, 255, 0.45);
+  font-size: 11px;
+  color: var(--color-brand-lime);
+  margin-top: 4px;
+  font-weight: var(--font-weight-semibold);
 }
 
-/* === This Week === */
-.weekCard {
-  background: var(--color-surface); border-radius: 16px;
+/* ── Today + Week Row ── */
+.todayWeekRow {
+  display: flex;
+  gap: 10px;
+  margin-bottom: var(--space-base);
+}
+
+.cardLabel {
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* Today card */
+.todayCard {
+  flex: 0 0 120px;
+  background: var(--color-surface);
   border: 0.5px solid var(--color-border);
-  padding: 16px 18px; margin-bottom: var(--space-base);
+  border-radius: 16px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.weekHeader {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 14px;
+.ringWrap {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  margin-bottom: 8px;
 }
 
-.weekTitle {
-  font-size: 15px; font-weight: var(--font-weight-semibold);
+.ringSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ringTrack {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 5;
+}
+
+.ringFill {
+  fill: none;
+  stroke: var(--color-brand-lime);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ringInner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
 }
 
+.todayGoalLabel {
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.todayTime {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 3px;
+  text-align: center;
+}
+
+/* Week card */
+.weekCard {
+  flex: 1;
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border);
+  border-radius: 16px;
+  padding: 14px 12px;
+}
+
+.weekTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
 .weekCount {
-  font-size: 13px; font-weight: var(--font-weight-semibold);
+  font-size: 13px;
+  font-weight: var(--font-weight-bold);
   color: var(--color-brand-green);
 }
 
 .weekRow {
-  display: flex; justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .weekDay {
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
 }
 
 .weekDot {
-  width: 36px; height: 36px; border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
   background: var(--color-bg);
-  border: 2px solid var(--color-border);
-  display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all var(--transition-fast);
 }
 
@@ -113,404 +256,341 @@
 }
 
 .weekDotToday {
-  border-color: var(--color-brand-dark);
-  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 3.5px var(--color-brand-dark);
+  border-color: var(--color-text-secondary);
 }
 
 .weekLabel {
-  font-size: 11px; font-weight: var(--font-weight-medium);
+  font-size: 10px;
+  font-weight: var(--font-weight-medium);
   color: var(--color-text-muted);
 }
 
 .weekLabelToday {
-  color: var(--color-brand-dark); font-weight: var(--font-weight-semibold);
-}
-
-/* === Daily Challenge === */
-.challengeCard {
-  background: var(--color-surface); border-radius: 16px;
-  border: 0.5px solid var(--color-border);
-  padding: 16px 18px; margin-bottom: var(--space-base);
-}
-
-.challengeHeader {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 14px;
-}
-
-.challengeTitle {
-  font-size: 15px; font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
 }
 
-.challengeDone {
-  font-size: 12px; font-weight: var(--font-weight-bold);
+/* ── Stats Grid ── */
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: var(--space-base);
+}
+
+.statTile {
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border);
+  border-radius: 14px;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statNum {
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.statNumGreen {
   color: var(--color-brand-green);
-  background: var(--color-mastered-bg); padding: 3px 10px;
-  border-radius: var(--radius-pill);
 }
 
-.challengeContent {
-  display: flex; align-items: center; gap: 18px;
+.statLabel {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
 }
 
-.challengeRing {
-  width: 72px; height: 72px; flex-shrink: 0; position: relative;
-}
-
-.ringSvg {
-  width: 100%; height: 100%; transform: rotate(-90deg);
-}
-
-.ringTrack {
-  fill: none; stroke: var(--color-bg); stroke-width: 5;
-}
-
-.ringFill {
-  fill: none; stroke: var(--color-brand-lime); stroke-width: 5;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.ringText {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; font-weight: var(--font-weight-bold);
-  color: var(--color-brand-dark);
-}
-
-.challengeDetails {
-  display: flex; flex-direction: column; gap: 2px;
-}
-
-.challengeGoal {
-  font-size: 15px; font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-
-.challengeSub {
-  font-size: 13px; color: var(--color-text-secondary);
-}
-
-.challengeTime {
-  font-size: 12px; color: var(--color-text-muted); margin-top: 2px;
-}
-
-/* === Level Roadmap === */
+/* ── Level Card ── */
 .levelCard {
-  background: var(--color-surface); border-radius: 16px;
+  background: var(--color-surface);
   border: 0.5px solid var(--color-border);
-  padding: 18px; margin-bottom: var(--space-base);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: var(--space-base);
 }
 
-.levelCardHeader {
-  display: flex; justify-content: space-between; align-items: center;
+.levelTop {
+  display: flex;
+  align-items: center;
+  gap: 14px;
   margin-bottom: 16px;
 }
 
-.levelCardTitle {
-  font-size: 15px; font-weight: var(--font-weight-semibold);
+.levelBadgeLarge {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--color-brand-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.levelBadgeNum {
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-lime);
+  line-height: 1;
+}
+
+.levelInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.levelTitle {
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
+  line-height: 1;
 }
 
-.xpTotal {
-  font-size: 13px; font-weight: var(--font-weight-semibold);
+.levelDesc {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.3;
+}
+
+.xpChip {
+  font-size: 13px;
+  font-weight: var(--font-weight-bold);
   color: var(--color-brand-green);
+  background: var(--color-mastered-bg);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
 }
 
-/* Roadmap vertical timeline */
-.roadmap {
-  display: flex; flex-direction: column;
-}
-
-.roadmapRow {
-  display: flex; gap: 12px; position: relative;
-}
-
-.roadmapLeft {
-  display: flex; flex-direction: column; align-items: center;
-  width: 28px; flex-shrink: 0;
-}
-
-.roadmapBadge {
-  width: 28px; height: 28px; border-radius: 50%;
-  background: var(--color-bg); border: 2px solid var(--color-border);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; z-index: 1;
-  transition: all var(--transition-fast);
-}
-
-.roadmapBadgeReached {
-  background: var(--color-mastered-bg); border-color: var(--color-brand-green);
-}
-
-.roadmapBadgeCurrent {
-  background: var(--color-brand-dark); border-color: var(--color-brand-dark);
-  width: 32px; height: 32px; margin: -2px -2px;
-  box-shadow: 0 0 0 3px var(--color-brand-lime-muted);
-}
-
-.roadmapNum {
-  font-size: 12px; font-weight: var(--font-weight-bold);
-  color: var(--color-text-muted);
-}
-
-.roadmapBadgeReached .roadmapNum {
-  color: var(--color-brand-green);
-}
-
-.roadmapBadgeCurrent .roadmapNum {
-  color: var(--color-brand-lime); font-size: 14px;
-}
-
-.roadmapLine {
-  width: 2px; flex: 1; min-height: 12px;
-  background: var(--color-border);
-}
-
-.roadmapLineReached {
-  background: var(--color-brand-green);
-}
-
-.roadmapContent {
-  flex: 1; padding-bottom: 16px;
-}
-
-.roadmapTop {
-  display: flex; justify-content: space-between; align-items: baseline;
-}
-
-.roadmapTitle {
-  font-size: 14px; font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-
-.roadmapLocked .roadmapTitle {
-  color: var(--color-text-muted);
-}
-
-.roadmapXp {
-  font-size: 11px; font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted); font-variant-numeric: tabular-nums;
-}
-
-.roadmapDesc {
-  font-size: 12px; color: var(--color-text-secondary);
-  line-height: 1.3; margin-top: 2px;
-}
-
-.roadmapLocked .roadmapDesc {
-  color: var(--color-text-muted);
-}
-
-.roadmapProgress {
-  margin-top: 8px;
-}
-
-.roadmapNextLabel {
-  display: inline-block; margin-top: 4px;
-  font-size: 10px; font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-green); background: var(--color-mastered-bg);
-  padding: 2px 8px; border-radius: var(--radius-pill);
-  text-transform: uppercase; letter-spacing: 0.5px;
+.levelProgress {
+  margin-bottom: 16px;
 }
 
 .xpBar {
-  height: 6px; background: var(--color-bg); border-radius: var(--radius-pill);
+  height: 6px;
+  background: var(--color-bg);
+  border-radius: var(--radius-pill);
   overflow: hidden;
+  margin-bottom: 6px;
 }
 
 .xpFill {
-  height: 100%; background: linear-gradient(90deg, var(--color-brand-green), var(--color-brand-lime));
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-brand-green), var(--color-brand-lime));
   border-radius: var(--radius-pill);
-  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   min-width: 4px;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.levelProgressRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.levelProgressLabel {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
 }
 
 .xpRemaining {
-  display: block; text-align: right;
-  font-size: 11px; color: var(--color-text-muted); margin-top: 4px;
+  font-size: 12px;
+  color: var(--color-text-muted);
 }
 
-/* XP Explainer */
-.xpExplainer {
-  margin-top: 16px; padding-top: 14px;
+/* XP Rules */
+.xpRules {
+  padding-top: 14px;
   border-top: 0.5px solid var(--color-border);
 }
 
-.xpExplainerTitle {
-  font-size: 12px; font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary); display: block; margin-bottom: 8px;
+.xpRulesTitle {
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  display: block;
+  margin-bottom: 8px;
 }
 
-.xpRule {
-  font-size: 12px; color: var(--color-text-secondary);
-  padding: 3px 0; display: flex; align-items: center; gap: 8px;
+.xpRuleRow {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
 }
 
 .xpAmount {
-  font-size: 12px; font-weight: var(--font-weight-bold);
-  color: var(--color-brand-green); min-width: 28px;
+  font-size: 13px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-green);
+  min-width: 30px;
 }
 
-/* === Quick Stats === */
-.quickStats {
-  display: flex; align-items: center;
-  background: var(--color-surface); border-radius: 16px;
-  border: 0.5px solid var(--color-border);
-  padding: 16px 8px; margin-bottom: var(--space-xl);
+/* ── Achievements ── */
+.section {
+  margin-bottom: var(--space-xl);
 }
-
-.qStat {
-  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
-}
-
-.qNum {
-  font-size: 22px; font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark); font-variant-numeric: tabular-nums;
-}
-
-.qLabel {
-  font-size: 10px; color: var(--color-text-muted);
-  text-transform: uppercase; letter-spacing: 0.3px;
-}
-
-.qDivider {
-  width: 1px; height: 28px; background: var(--color-border); flex-shrink: 0;
-}
-
-/* === Sections === */
-.section { margin-bottom: var(--space-xl); }
 
 .sectionHeader {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: var(--space-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
 .sectionTitle {
-  font-size: 15px; font-weight: var(--font-weight-semibold);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
 }
 
 .sectionCount {
-  font-size: 13px; font-weight: var(--font-weight-semibold);
+  font-size: 13px;
   color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
 }
 
-/* === Achievements Grid === */
+.achieveSub {
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+/* Earned — grid */
 .achieveGrid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
 }
 
 .achieveCard {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 4px; padding: 14px 8px 12px;
-  background: var(--color-surface); border-radius: 14px;
-  border: 0.5px solid var(--color-border);
-  opacity: 0.45; text-align: center;
-  transition: all var(--transition-fast);
-}
-
-.achieveUnlocked {
-  opacity: 1;
-  border-color: var(--color-brand-lime);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 14px 8px 12px;
   background: var(--color-mastered-bg);
-}
-
-.achieveIcon {
-  width: 44px; height: 44px; position: relative;
-  display: flex; align-items: center; justify-content: center;
-}
-
-.achieveRing {
-  position: absolute; inset: 0;
-}
-
-.achieveTrack {
-  fill: none; stroke: var(--color-border); stroke-width: 2.5;
-}
-
-.achieveProgress {
-  fill: none; stroke: var(--color-brand-lime); stroke-width: 2.5;
-  stroke-linecap: round; transform: rotate(-90deg); transform-origin: center;
-  transition: stroke-dashoffset 0.4s ease;
+  border: 0.5px solid var(--color-brand-lime);
+  border-radius: 14px;
+  text-align: center;
 }
 
 .achieveEmoji {
-  font-size: 16px; font-weight: var(--font-weight-bold);
-  color: var(--color-brand-dark); position: relative; z-index: 1;
-}
-
-.achieveUnlocked .achieveEmoji {
-  color: var(--color-brand-green);
+  font-size: 24px;
+  line-height: 1;
 }
 
 .achieveLabel {
-  font-size: 11px; font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary); line-height: 1.2;
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: 1.2;
 }
 
 .achieveDesc {
-  font-size: 10px; color: var(--color-text-muted); line-height: 1.2;
+  font-size: 10px;
+  color: var(--color-text-muted);
+  line-height: 1.3;
 }
 
-.achieveCount {
-  font-size: 10px; font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-green); margin-top: 1px;
+/* In-progress — list */
+.achieveList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* === Library === */
-.libraryCard {
-  background: var(--color-surface); border-radius: 14px;
+.achieveRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--color-surface);
   border: 0.5px solid var(--color-border);
-  padding: 14px 16px;
+  border-radius: 14px;
+  padding: 14px;
 }
 
-.libRow {
-  display: flex; align-items: center; gap: 8px; padding: 4px 0;
+.achieveRowEmoji {
+  font-size: 22px;
+  line-height: 1;
+  flex-shrink: 0;
+  opacity: 0.5;
 }
 
-.libDot {
-  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+.achieveRowText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
-.libLabel {
-  flex: 1; font-size: 14px; color: var(--color-text-secondary);
+.achieveRowTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }
 
-.libVal {
-  font-size: 14px; font-weight: var(--font-weight-semibold);
+.achieveRowLabel {
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
 
-.libBar {
-  display: flex; height: 6px; border-radius: var(--radius-pill);
-  background: var(--color-bg); overflow: hidden; margin-top: 10px;
+.achieveRowCount {
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
 }
 
-.libBarMastered {
-  height: 100%; background: var(--color-brand-green);
-  transition: width var(--transition-normal);
+.achieveRowDesc {
+  font-size: 12px;
+  color: var(--color-text-secondary);
 }
 
-.libBarLearning {
-  height: 100%; background: var(--color-brand-lime);
-  transition: width var(--transition-normal);
+.achieveRowBar {
+  height: 3px;
+  background: var(--color-border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 6px;
 }
 
-/* === Total Time === */
-.totalTimeCard {
-  display: flex; justify-content: space-between; align-items: center;
-  background: var(--color-surface); border-radius: 14px;
+.achieveRowFill {
+  height: 100%;
+  background: var(--color-brand-lime);
+  border-radius: 2px;
+  min-width: 2px;
+  transition: width 0.4s ease;
+}
+
+/* Show more */
+.showMoreBtn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  font-size: 13px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
   border: 0.5px solid var(--color-border);
-  padding: 14px 16px;
+  border-radius: 12px;
+  text-align: center;
 }
 
-.totalTimeLabel {
-  font-size: 14px; color: var(--color-text-secondary);
-}
-
-.totalTimeVal {
-  font-size: 18px; font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark); font-variant-numeric: tabular-nums;
+.showMoreBtn:active {
+  opacity: 0.7;
 }
