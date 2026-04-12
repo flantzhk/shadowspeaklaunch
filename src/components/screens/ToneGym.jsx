@@ -133,6 +133,10 @@ export default function ToneGym({ onBack, onComplete }) {
         <span className={styles.roundCount}>Round {round + 1}/{TOTAL_ROUNDS}</span>
       </div>
 
+      <div className={styles.progressBar}>
+        <div className={styles.progressFill} style={{ width: `${((round + 1) / TOTAL_ROUNDS) * 100}%` }} />
+      </div>
+
       <div className={styles.playArea}>
         <span className={styles.label}>Listen and pick the correct character</span>
         <button className={styles.listenBtn} onClick={handlePlayTarget} disabled={noAuth}>

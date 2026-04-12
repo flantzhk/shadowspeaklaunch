@@ -170,6 +170,10 @@ export default function PromptDrill({ onBack, onComplete }) {
         <span className={styles.counter}>{index + 1}/{phrases.length}</span>
       </div>
 
+      <div className={styles.progressBar}>
+        <div className={styles.progressFill} style={{ width: `${((index + 1) / phrases.length) * 100}%` }} />
+      </div>
+
       {/* Level up toast */}
       {levelUpToast && (
         <div style={{
