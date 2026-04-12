@@ -4,51 +4,22 @@ import { useState, useEffect } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { getAllLibraryEntries, getAllSessions } from '../../services/storage';
 import { formatTime } from '../../utils/formatters';
+import { getLevel, calcXP } from '../../utils/levels';
 import styles from './StatsScreen.module.css';
 
-/* XP thresholds for each level */
-const LEVELS = [
-  { level: 1, xp: 0, title: 'Beginner' },
-  { level: 2, xp: 50, title: 'Explorer' },
-  { level: 3, xp: 150, title: 'Speaker' },
-  { level: 4, xp: 350, title: 'Conversant' },
-  { level: 5, xp: 600, title: 'Confident' },
-  { level: 6, xp: 1000, title: 'Fluent' },
-  { level: 7, xp: 1500, title: 'Master' },
-  { level: 8, xp: 2500, title: 'Legend' },
-];
-
-function getLevel(totalXP) {
-  let current = LEVELS[0];
-  for (const l of LEVELS) {
-    if (totalXP >= l.xp) current = l;
-    else break;
-  }
-  const next = LEVELS.find(l => l.xp > totalXP) || null;
-  const progress = next
-    ? (totalXP - current.xp) / (next.xp - current.xp)
-    : 1;
-  return { ...current, next, progress, totalXP };
-}
-
-/* XP: 5 per phrase practiced + 10 per session + 2 per mastered phrase */
-function calcXP(stats) {
-  return (stats.totalSessions * 10) + (stats.totalPhrasesPracticed * 5) + (stats.masteredCount * 2);
-}
-
 const ACHIEVEMENTS = [
-  { id: 'first-lesson', icon: '1', label: 'First Lesson', desc: 'Complete your first session', field: 'sessions', threshold: 1 },
-  { id: '5-sessions', icon: '5', label: 'Getting Started', desc: '5 practice sessions', field: 'sessions', threshold: 5 },
-  { id: '10-phrases', icon: '10', label: 'Word Collector', desc: 'Save 10 phrases', field: 'phrases', threshold: 10 },
-  { id: '25-phrases', icon: '25', label: 'Phrase Hunter', desc: 'Save 25 phrases', field: 'phrases', threshold: 25 },
-  { id: '50-phrases', icon: '50', label: 'Vocabulary Builder', desc: 'Save 50 phrases', field: 'phrases', threshold: 50 },
-  { id: '3-streak', icon: '3', label: 'On a Roll', desc: '3 day streak', field: 'streak', threshold: 3 },
-  { id: '7-streak', icon: '7', label: 'Week Warrior', desc: '7 day streak', field: 'streak', threshold: 7 },
-  { id: '14-streak', icon: '14', label: 'Unstoppable', desc: '14 day streak', field: 'streak', threshold: 14 },
-  { id: '30-streak', icon: '30', label: 'Legend', desc: '30 day streak', field: 'streak', threshold: 30 },
-  { id: 'first-master', icon: 'M', label: 'First Mastery', desc: 'Master a phrase', field: 'mastered', threshold: 1 },
-  { id: '25-sessions', icon: '25', label: 'Dedicated', desc: '25 practice sessions', field: 'sessions', threshold: 25 },
-  { id: '10-mastered', icon: 'M', label: 'Sharp Memory', desc: 'Master 10 phrases', field: 'mastered', threshold: 10 },
+  { id: 'first-lesson', icon: '1', label: 'First Lesson', desc: 'Complete 1 practice session', how: 'Start any practice mode', field: 'sessions', threshold: 1 },
+  { id: '5-sessions', icon: '5', label: 'Getting Started', desc: 'Complete 5 practice sessions', how: 'Do 5 sessions in any mode', field: 'sessions', threshold: 5 },
+  { id: '10-phrases', icon: '10', label: 'Word Collector', desc: 'Save 10 phrases to library', how: 'Tap the + button on phrases', field: 'phrases', threshold: 10 },
+  { id: '25-phrases', icon: '25', label: 'Phrase Hunter', desc: 'Save 25 phrases to library', how: 'Keep adding phrases you like', field: 'phrases', threshold: 25 },
+  { id: '50-phrases', icon: '50', label: 'Vocabulary Builder', desc: 'Save 50 phrases to library', how: 'Build a solid phrase collection', field: 'phrases', threshold: 50 },
+  { id: '3-streak', icon: '3', label: 'On a Roll', desc: 'Practice 3 days in a row', how: 'Do at least 1 session per day', field: 'streak', threshold: 3 },
+  { id: '7-streak', icon: '7', label: 'Week Warrior', desc: 'Practice 7 days in a row', how: 'Keep your daily streak alive', field: 'streak', threshold: 7 },
+  { id: '14-streak', icon: '14', label: 'Unstoppable', desc: 'Practice 14 days in a row', how: 'Two full weeks of practice', field: 'streak', threshold: 14 },
+  { id: '30-streak', icon: '30', label: 'Legend', desc: 'Practice 30 days in a row', how: 'A full month, no days missed', field: 'streak', threshold: 30 },
+  { id: 'first-master', icon: 'M', label: 'First Mastery', desc: 'Master your first phrase', how: 'Score 90+ on a phrase multiple times', field: 'mastered', threshold: 1 },
+  { id: '25-sessions', icon: '25', label: 'Dedicated', desc: 'Complete 25 practice sessions', how: 'Keep showing up to practice', field: 'sessions', threshold: 25 },
+  { id: '10-mastered', icon: 'M', label: 'Sharp Memory', desc: 'Master 10 different phrases', how: 'Review phrases until they stick', field: 'mastered', threshold: 10 },
 ];
 
 const DAY_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -284,7 +255,12 @@ export default function StatsScreen({ onBack, onNavigate }) {
                   <span className={styles.achieveEmoji}>{unlocked ? a.icon : a.icon}</span>
                 </div>
                 <span className={styles.achieveLabel}>{a.label}</span>
-                <span className={styles.achieveDesc}>{unlocked ? a.desc : `${val}/${a.threshold}`}</span>
+                <span className={styles.achieveDesc}>
+                  {unlocked ? a.desc : a.how}
+                </span>
+                {!unlocked && (
+                  <span className={styles.achieveCount}>{val}/{a.threshold}</span>
+                )}
               </div>
             );
           })}
