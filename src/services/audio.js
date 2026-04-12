@@ -106,7 +106,7 @@ class AudioEngine {
         return;
       }
 
-      this._audio.playbackRate = speedNum < 1 ? speedNum : 1.0;
+      this._audio.playbackRate = speedNum;
       this._onPhraseChange?.(phrase, this._currentIndex);
     } catch (error) {
       logger.error('Failed to load audio for phrase', phrase.id, ':', error?.message || error);
@@ -186,8 +186,12 @@ class AudioEngine {
 
   _handleEnded() {
     if (this._isRepeatOne) {
-      this._audio.currentTime = 0;
-      this._audio.play().catch(() => {});
+      // Add a pause before repeating so short words have breathing room
+      this._advanceTimer = setTimeout(() => {
+        if (this._destroyed) return;
+        this._audio.currentTime = 0;
+        this._audio.play().catch(() => {});
+      }, 1200);
     } else if (this._autoAdvance && this._currentIndex < this._queue.length - 1) {
       this._onStateChange?.('advancing');
       this._advanceTimer = setTimeout(async () => {

@@ -362,7 +362,7 @@
 
 /* === Add Phrase Button === */
 .addPhraseBtn {
-  margin-top: 10px;
+  margin-bottom: var(--space-xl);
   width: 100%;
   padding: 14px 16px;
   background: var(--color-surface);

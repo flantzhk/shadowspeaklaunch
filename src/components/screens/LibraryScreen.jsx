@@ -1,6 +1,6 @@
 // src/components/screens/LibraryScreen.jsx — Phrases/Vocab toggle, queue, cards
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { getAllLibraryEntries, saveLibraryEntry } from '../../services/storage';
 import { useAudio } from '../../contexts/AudioContext';
 import { useAppContext } from '../../contexts/AppContext';
@@ -68,6 +68,9 @@ export default function LibraryScreen({ onNavigate }) {
     setExpandedId(prev => prev === phraseId ? null : phraseId);
   }, []);
 
+  const [repeatingId, setRepeatingId] = useState(null);
+  const repeatRef = useRef(null);
+
   const handlePlayWord = useCallback((e, chinese) => {
     e.stopPropagation();
     if ('speechSynthesis' in window) {
@@ -78,6 +81,31 @@ export default function LibraryScreen({ onNavigate }) {
       window.speechSynthesis.speak(utterance);
     }
   }, []);
+
+  const handleRepeat = useCallback((e, chinese, entryId) => {
+    e.stopPropagation();
+    if (repeatingId === entryId) {
+      // Stop repeating
+      setRepeatingId(null);
+      if (repeatRef.current) clearTimeout(repeatRef.current);
+      window.speechSynthesis?.cancel();
+      return;
+    }
+    setRepeatingId(entryId);
+    const playLoop = () => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(chinese);
+        utterance.lang = 'zh-HK';
+        utterance.rate = 0.8;
+        utterance.onend = () => {
+          repeatRef.current = setTimeout(playLoop, 1500);
+        };
+        window.speechSynthesis.speak(utterance);
+      }
+    };
+    playLoop();
+  }, [repeatingId]);
 
   const handleMarkKnown = useCallback(async (entry) => {
     const updated = {
@@ -290,12 +318,13 @@ export default function LibraryScreen({ onNavigate }) {
                     )}
 
                     <div className={styles.expandedActions}>
-                      <button className={styles.repeatBtn} onClick={(e) => {
-                        const chinese = isVocab ? displayChinese : phrase?.chinese;
-                        if (chinese) handlePlayWord(e, chinese);
-                        else handlePlayPhrase(e, entry.phraseId);
-                      }}>
-                        Repeat
+                      <button className={`${styles.repeatBtn} ${repeatingId === entry.phraseId ? styles.repeatActive : ''}`}
+                        onClick={(e) => {
+                          const chinese = isVocab ? displayChinese : phrase?.chinese;
+                          if (chinese) handleRepeat(e, chinese, entry.phraseId);
+                          else handlePlayPhrase(e, entry.phraseId);
+                        }}>
+                        {repeatingId === entry.phraseId ? '⏹ Stop' : '🔁 Repeat'}
                       </button>
                       {entry.status !== 'mastered' && (
                         <button className={styles.knowItBtn} onClick={() => handleMarkKnown(entry)}>

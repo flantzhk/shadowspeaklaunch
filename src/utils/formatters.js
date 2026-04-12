@@ -45,9 +45,11 @@ function formatDate(dateStr) {
  * @returns {string}
  */
 function formatReviewStatus(interval, nextReviewAt) {
+  if (!nextReviewAt || isNaN(nextReviewAt)) return 'Due today';
   const now = Date.now();
   if (nextReviewAt <= now) return 'Due today';
   const daysUntil = Math.ceil((nextReviewAt - now) / (24 * 60 * 60 * 1000));
+  if (isNaN(daysUntil) || daysUntil <= 0) return 'Due today';
   if (daysUntil === 1) return 'Review tomorrow';
   return `Review in ${daysUntil} days`;
 }
