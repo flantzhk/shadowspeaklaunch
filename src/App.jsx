@@ -6,6 +6,7 @@ import { AudioProvider } from './contexts/AudioContext';
 import { TopBar } from './components/layout/TopBar';
 import { TabBar } from './components/layout/TabBar';
 import { MiniPlayer } from './components/layout/MiniPlayer';
+import { Sidebar } from './components/layout/Sidebar';
 import { LoadingSpinner } from './components/shared/LoadingSpinner';
 import { useToast } from './components/shared/Toast';
 import { useLibraryActions } from './hooks/useLibraryActions';
@@ -81,6 +82,17 @@ function useRouter() {
   return { route, navigate, goBack };
 }
 
+function useDesktop() {
+  const [isDesktop, setIsDesktop] = useState(() => window.innerWidth >= 900);
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 900px)');
+    const handler = (e) => setIsDesktop(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+  return isDesktop;
+}
+
 const Loader = ({ size = 32 }) => (
   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1, height: '100%' }}>
     <LoadingSpinner size={size} />
@@ -91,6 +103,7 @@ const PUBLIC_ROUTES = [ROUTES.LOGIN, ROUTES.REGISTER, ROUTES.FORGOT_PASSWORD, RO
 
 function MainLayout() {
   const { route, navigate, goBack } = useRouter();
+  const isDesktop = useDesktop();
   const { settings, isLoading, updateSettings } = useAppContext();
   const { showToast, ToastComponent } = useToast();
   const { handleSaveToLibrary, handleMarkKnown } = useLibraryActions(showToast, settings.currentLanguage, () => setShowStorageFull(true));
@@ -213,39 +226,27 @@ function MainLayout() {
   const SESSION_ROUTES = [ROUTES.SHADOW_SESSION, ROUTES.PROMPT_DRILL, ROUTES.SPEED_RUN, ROUTES.TONE_GYM];
   const isSession = SESSION_ROUTES.includes(route.path);
 
-  return (
+  const sidebarProps = {
+    activeTab: route.path,
+    onTabChange: (t) => navigate(t),
+    onMiniPlayerExpand: () => setShowNowPlaying(true),
+    streak: settings.streakCount,
+    language: settings.currentLanguage,
+    userName: settings.name,
+    photoURL: settings.photoURL,
+    onStatsTap: () => navigate(ROUTES.STATS),
+    onProfileTap: () => navigate(ROUTES.PROFILE),
+    onSettingsTap: () => navigate(ROUTES.PROFILE),
+  };
+
+  // Shared overlays rendered in both layouts
+  const overlays = (
     <>
-      <OfflineBanner />
-      {isTab && <TopBar streak={settings.streakCount} language={settings.currentLanguage} userName={settings.name} photoURL={settings.photoURL} onSettingsTap={() => navigate(ROUTES.PROFILE)} onStatsTap={() => navigate(ROUTES.STATS)} onProfileTap={() => navigate(ROUTES.PROFILE)} />}
-
-      {!isSession && (
-        <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          <Suspense fallback={<Loader />}>
-            {renderScreen(route, navigate, goBack, showToast, setActiveScene)}
-          </Suspense>
-        </main>
-      )}
-
-      {isTab && (
-        <>
-          <MiniPlayer onExpand={() => setShowNowPlaying(true)} />
-          <TabBar activeTab={route.path} onTabChange={(t) => navigate(t)} />
-        </>
-      )}
-
       {showNowPlaying && (
         <Suspense fallback={null}>
           <NowPlayingScreen onClose={() => setShowNowPlaying(false)}
             onSaveToLibrary={handleSaveToLibrary} onMarkKnown={handleMarkKnown} />
         </Suspense>
-      )}
-
-      {isSession && !sessionSummary && (
-        <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          <Suspense fallback={<Loader />}>
-            {renderSessionScreen(route.path, () => navigate(ROUTES.HOME), (s) => setSessionSummary(s))}
-          </Suspense>
-        </main>
       )}
 
       {activeScene && (
@@ -300,6 +301,59 @@ function MainLayout() {
       {ToastComponent}
     </>
   );
+
+  // Desktop layout: sidebar + content area
+  if (isDesktop) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'row', height: '100vh', overflow: 'hidden' }}>
+        <Sidebar {...sidebarProps} />
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', background: 'var(--color-bg)' }}>
+          <OfflineBanner />
+          <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+            <Suspense fallback={<Loader />}>
+              {isSession && !sessionSummary
+                ? renderSessionScreen(route.path, () => navigate(ROUTES.HOME), (s) => setSessionSummary(s))
+                : renderScreen(route, navigate, goBack, showToast, setActiveScene)}
+            </Suspense>
+          </main>
+        </div>
+        {overlays}
+      </div>
+    );
+  }
+
+  // Mobile layout
+  return (
+    <>
+      <OfflineBanner />
+      {isTab && <TopBar streak={settings.streakCount} language={settings.currentLanguage} userName={settings.name} photoURL={settings.photoURL} onSettingsTap={() => navigate(ROUTES.PROFILE)} onStatsTap={() => navigate(ROUTES.STATS)} onProfileTap={() => navigate(ROUTES.PROFILE)} />}
+
+      {!isSession && (
+        <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <Suspense fallback={<Loader />}>
+            {renderScreen(route, navigate, goBack, showToast, setActiveScene)}
+          </Suspense>
+        </main>
+      )}
+
+      {isTab && (
+        <>
+          <MiniPlayer onExpand={() => setShowNowPlaying(true)} />
+          <TabBar activeTab={route.path} onTabChange={(t) => navigate(t)} />
+        </>
+      )}
+
+      {isSession && !sessionSummary && (
+        <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <Suspense fallback={<Loader />}>
+            {renderSessionScreen(route.path, () => navigate(ROUTES.HOME), (s) => setSessionSummary(s))}
+          </Suspense>
+        </main>
+      )}
+
+      {overlays}
+    </>
+  );
 }
 
 function renderSessionScreen(path, onBack, onComplete) {
@@ -327,7 +381,7 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
     case ROUTES.CUSTOM_PHRASE: return <CustomPhraseInput onBack={goBack} showToast={showToast} />;
     case ROUTES.AI_CHAT: return <AIConversation onBack={goBack} showToast={showToast} />;
     case ROUTES.STATS: return <StatsScreen onBack={goBack} onNavigate={navigate} />;
-    case ROUTES.SEARCH: return <SearchScreen onBack={goBack} onNavigate={navigate} />;
+    case ROUTES.SEARCH: return <SearchScreen onBack={goBack} onNavigate={navigate} showToast={showToast} />;
     case ROUTES.PRIVACY: return <LegalPages onBack={goBack} />;
     case ROUTES.TERMS: return <TermsPage onBack={goBack} />;
     case ROUTES.PROFILE: return <ProfileScreen onBack={goBack} onNavigate={navigate} showToast={showToast} />;

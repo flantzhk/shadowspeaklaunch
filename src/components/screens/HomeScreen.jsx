@@ -212,21 +212,6 @@ export default function HomeScreen({ onNavigate }) {
         <span className={styles.chevron}>&rsaquo;</span>
       </button>
 
-      {/* What Did They Say Card */}
-      <button className={styles.phraseCard} onClick={() => onNavigate('what-did-they-say')}>
-        <div className={styles.listenCircle}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3a6a1a" strokeWidth="2.5">
-            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-            <line x1="12" y1="19" x2="12" y2="23" />
-          </svg>
-        </div>
-        <div className={styles.phraseCardText}>
-          <span className={styles.phraseCardTitle}>What did they say?</span>
-          <span className={styles.phraseCardDesc}>Look up what you heard</span>
-        </div>
-        <span className={styles.chevron}>&rsaquo;</span>
-      </button>
 
       {/* Library Summary Card */}
       {libraryCount > 0 && (

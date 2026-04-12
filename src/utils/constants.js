@@ -43,7 +43,6 @@ export const ROUTES = {
   AI_CHAT: 'ai',
   AI_SCENARIO: 'ai-scenario',
   CUSTOM_PHRASE: 'custom-phrase',
-  WHAT_DID_THEY_SAY: 'what-did-they-say',
   LOGIN: 'login',
   REGISTER: 'register',
   FORGOT_PASSWORD: 'forgot-password',
