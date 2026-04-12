@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { getAllLibraryEntries, getAllSessions } from '../../services/storage';
 import { formatTime } from '../../utils/formatters';
-import { getLevel, calcXP } from '../../utils/levels';
+import { getLevel, calcXP, LEVELS } from '../../utils/levels';
 import styles from './StatsScreen.module.css';
 
 const ACHIEVEMENTS = [
@@ -186,26 +186,57 @@ export default function StatsScreen({ onBack, onNavigate }) {
         </div>
       </div>
 
-      {/* === Level / XP === */}
+      {/* === Level Roadmap === */}
       <div className={styles.levelCard}>
-        <div className={styles.levelHeader}>
-          <div className={styles.levelBadge}>
-            <span className={styles.levelNum}>{level.level}</span>
-          </div>
-          <div className={styles.levelInfo}>
-            <span className={styles.levelTitle}>{level.title}</span>
-            <span className={styles.xpText}>{xp} XP</span>
-          </div>
-          {level.next && (
-            <span className={styles.levelNext}>Lvl {level.next.level}</span>
-          )}
+        <div className={styles.levelCardHeader}>
+          <span className={styles.levelCardTitle}>Your Level</span>
+          <span className={styles.xpTotal}>{xp} XP</span>
         </div>
-        <div className={styles.xpBar}>
-          <div className={styles.xpFill} style={{ width: `${Math.round(level.progress * 100)}%` }} />
+
+        <div className={styles.roadmap}>
+          {LEVELS.map((l, i) => {
+            const isCurrent = l.level === level.level;
+            const isReached = xp >= l.xp;
+            const isNext = level.next && l.level === level.next.level;
+            return (
+              <div key={l.level} className={`${styles.roadmapRow} ${isCurrent ? styles.roadmapCurrent : ''} ${isReached ? styles.roadmapReached : styles.roadmapLocked}`}>
+                <div className={styles.roadmapLeft}>
+                  <div className={`${styles.roadmapBadge} ${isCurrent ? styles.roadmapBadgeCurrent : ''} ${isReached ? styles.roadmapBadgeReached : ''}`}>
+                    <span className={styles.roadmapNum}>{l.level}</span>
+                  </div>
+                  {i < LEVELS.length - 1 && (
+                    <div className={`${styles.roadmapLine} ${isReached ? styles.roadmapLineReached : ''}`} />
+                  )}
+                </div>
+                <div className={styles.roadmapContent}>
+                  <div className={styles.roadmapTop}>
+                    <span className={styles.roadmapTitle}>{l.title}</span>
+                    <span className={styles.roadmapXp}>{l.xp} XP</span>
+                  </div>
+                  <span className={styles.roadmapDesc}>{l.desc}</span>
+                  {isCurrent && level.next && (
+                    <div className={styles.roadmapProgress}>
+                      <div className={styles.xpBar}>
+                        <div className={styles.xpFill} style={{ width: `${Math.round(level.progress * 100)}%` }} />
+                      </div>
+                      <span className={styles.xpRemaining}>{level.next.xp - xp} XP to next level</span>
+                    </div>
+                  )}
+                  {isNext && (
+                    <span className={styles.roadmapNextLabel}>Next level</span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
-        {level.next && (
-          <span className={styles.xpRemaining}>{level.next.xp - xp} XP to {level.next.title}</span>
-        )}
+
+        <div className={styles.xpExplainer}>
+          <span className={styles.xpExplainerTitle}>How to earn XP</span>
+          <div className={styles.xpRule}><span className={styles.xpAmount}>+10</span> Complete a practice session</div>
+          <div className={styles.xpRule}><span className={styles.xpAmount}>+5</span> Each phrase you practice</div>
+          <div className={styles.xpRule}><span className={styles.xpAmount}>+2</span> Each phrase you master</div>
+        </div>
       </div>
 
       {/* === Quick Stats === */}
