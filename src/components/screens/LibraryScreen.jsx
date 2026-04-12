@@ -282,7 +282,7 @@ export default function LibraryScreen({ onNavigate }) {
                             </div>
                             <button onClick={(e) => { e.stopPropagation(); handleSaveWord(word); }}
                               style={{ fontSize: '10px', color: 'var(--color-brand-dark)', fontWeight: 600, marginTop: '4px', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px', borderTop: '0.5px solid var(--color-border)' }}>
-                              + vocab
+                              + Library
                             </button>
                           </div>
                         ))}
@@ -290,7 +290,11 @@ export default function LibraryScreen({ onNavigate }) {
                     )}
 
                     <div className={styles.expandedActions}>
-                      <button className={styles.repeatBtn} onClick={(e) => handlePlayPhrase(e, entry.phraseId)}>
+                      <button className={styles.repeatBtn} onClick={(e) => {
+                        const chinese = isVocab ? displayChinese : phrase?.chinese;
+                        if (chinese) handlePlayWord(e, chinese);
+                        else handlePlayPhrase(e, entry.phraseId);
+                      }}>
                         Repeat
                       </button>
                       {entry.status !== 'mastered' && (
