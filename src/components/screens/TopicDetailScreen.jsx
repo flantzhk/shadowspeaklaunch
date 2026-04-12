@@ -27,7 +27,7 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
     async function load() {
       const modules = import.meta.glob('../../data/topics/cantonese/*.json', { eager: true });
       const found = Object.values(modules)
-        .map(m => m.default || m)
+        .flatMap(m => m.default || m)
         .find(t => t.id === topicId);
       if (found) {
         setTopic(found);

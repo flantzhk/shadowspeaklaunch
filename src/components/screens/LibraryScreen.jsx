@@ -28,9 +28,12 @@ export default function LibraryScreen({ onNavigate }) {
       const modules = import.meta.glob('../../data/topics/cantonese/*.json', { eager: true });
       const phraseMap = {};
       for (const mod of Object.values(modules)) {
-        const topic = mod.default || mod;
-        for (const p of topic.phrases) {
-          phraseMap[p.id] = p;
+        const raw = mod.default || mod;
+        const topicList = Array.isArray(raw) ? raw : [raw];
+        for (const topic of topicList) {
+          for (const p of topic.phrases) {
+            phraseMap[p.id] = p;
+          }
         }
       }
       setPhrases(phraseMap);

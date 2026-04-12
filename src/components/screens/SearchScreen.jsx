@@ -18,10 +18,13 @@ export default function SearchScreen({ onBack, onNavigate }) {
     const phrases = [];
     const topics = [];
     for (const mod of Object.values(modules)) {
-      const topic = mod.default || mod;
-      topics.push(topic);
-      for (const p of topic.phrases) {
-        phrases.push({ ...p, topicName: topic.name });
+      const raw = mod.default || mod;
+      const topicList = Array.isArray(raw) ? raw : [raw];
+      for (const topic of topicList) {
+        topics.push(topic);
+        for (const p of topic.phrases) {
+          phrases.push({ ...p, topicName: topic.name });
+        }
       }
     }
     setAllPhrases(phrases);

@@ -8,6 +8,14 @@ import { logger } from '../utils/logger';
  * @returns {Promise<Object[]>}
  */
 async function loadDialoguesForTopic(topicId) {
+  // First check inline dialogueScenes on topic data
+  const topicModules = import.meta.glob('../data/topics/cantonese/*.json', { eager: true });
+  const topic = Object.values(topicModules)
+    .flatMap(m => m.default || m)
+    .find(t => t.id === topicId);
+  if (topic?.dialogueScenes?.length) return topic.dialogueScenes;
+
+  // Fallback to separate dialogue files
   const modules = import.meta.glob('../data/dialogues/cantonese/*.json', { eager: true });
   const scenes = [];
   for (const mod of Object.values(modules)) {
