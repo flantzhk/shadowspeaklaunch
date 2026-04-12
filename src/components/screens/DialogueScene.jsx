@@ -32,8 +32,47 @@ export default function DialogueScene({ sceneData, onBack, onComplete, showToast
 
   const scene = sceneData;
   const turn = scene?.turns[turnIndex];
+  const advanceTurnRef = useRef(null);
 
   useEffect(() => { return () => { audioRef.current.pause(); }; }, []);
+
+  const addToLog = useCallback((t, scoreVal) => {
+    setChatLog(prev => [...prev, { ...t, score: scoreVal }]);
+  }, []);
+
+  const advanceTurn = useCallback(() => {
+    const next = turnIndex + 1;
+    if (next >= scene.turns.length) { finishScene(); return; }
+    setTurnIndex(next);
+    setScore(null);
+  }, [turnIndex, scene]);
+
+  // Keep ref in sync so playOtherTurn always calls the latest advanceTurn
+  useEffect(() => { advanceTurnRef.current = advanceTurn; }, [advanceTurn]);
+
+  const playOtherTurn = useCallback(async (t) => {
+    setPhase('playing');
+    addToLog(t, null);
+    if (isAuthenticated()) {
+      try {
+        const blob = await textToSpeech(t.chinese, {
+          language: 'cantonese', speed: 0.9, outputExtension: 'mp3',
+          voiceId: t.voiceId || undefined,
+        });
+        const url = URL.createObjectURL(blob);
+        audioRef.current.src = url;
+        await audioRef.current.play();
+        audioRef.current.onended = () => {
+          URL.revokeObjectURL(url);
+          setTimeout(() => advanceTurnRef.current(), t.pauseAfterMs || 2000);
+        };
+      } catch (err) {
+        setTimeout(() => advanceTurnRef.current(), t.pauseAfterMs || 2000);
+      }
+    } else {
+      setTimeout(() => advanceTurnRef.current(), t.pauseAfterMs || 2000);
+    }
+  }, [addToLog]);
 
   useEffect(() => {
     if (phase === 'intro') return; // Don't auto-play during intro
@@ -52,42 +91,7 @@ export default function DialogueScene({ sceneData, onBack, onComplete, showToast
     if (firstTurn?.speaker === 'other') {
       playOtherTurn(firstTurn);
     }
-  }, [scene]);
-
-  const playOtherTurn = useCallback(async (t) => {
-    setPhase('playing');
-    addToLog(t, null);
-    if (isAuthenticated()) {
-      try {
-        const blob = await textToSpeech(t.chinese, {
-          language: 'cantonese', speed: 0.9, outputExtension: 'mp3',
-          voiceId: t.voiceId || undefined,
-        });
-        const url = URL.createObjectURL(blob);
-        audioRef.current.src = url;
-        await audioRef.current.play();
-        audioRef.current.onended = () => {
-          URL.revokeObjectURL(url);
-          setTimeout(() => advanceTurn(), t.pauseAfterMs || 2000);
-        };
-      } catch (err) {
-        setTimeout(() => advanceTurn(), t.pauseAfterMs || 2000);
-      }
-    } else {
-      setTimeout(() => advanceTurn(), t.pauseAfterMs || 2000);
-    }
-  }, []);
-
-  const addToLog = useCallback((t, scoreVal) => {
-    setChatLog(prev => [...prev, { ...t, score: scoreVal }]);
-  }, []);
-
-  const advanceTurn = useCallback(() => {
-    const next = turnIndex + 1;
-    if (next >= scene.turns.length) { finishScene(); return; }
-    setTurnIndex(next);
-    setScore(null);
-  }, [turnIndex, scene]);
+  }, [scene, playOtherTurn]);
 
   const handleRecord = useCallback(async () => {
     audioRef.current.pause();
