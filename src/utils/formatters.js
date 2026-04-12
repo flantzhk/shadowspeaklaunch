@@ -44,12 +44,14 @@ function formatDate(dateStr) {
  * @param {number} nextReviewAt - Unix timestamp
  * @returns {string}
  */
-function formatReviewStatus(interval, nextReviewAt) {
-  if (!nextReviewAt || isNaN(nextReviewAt)) return 'Due today';
+function formatReviewStatus(interval, nextReviewAt, practiceCount = 0) {
+  // Brand new — never practiced yet
+  if (!practiceCount || practiceCount === 0) return 'New';
+  if (!nextReviewAt || isNaN(nextReviewAt)) return 'Due';
   const now = Date.now();
-  if (nextReviewAt <= now) return 'Due today';
+  if (nextReviewAt <= now) return 'Due';
   const daysUntil = Math.ceil((nextReviewAt - now) / (24 * 60 * 60 * 1000));
-  if (isNaN(daysUntil) || daysUntil <= 0) return 'Due today';
+  if (isNaN(daysUntil) || daysUntil <= 0) return 'Due';
   if (daysUntil === 1) return 'Review tomorrow';
   return `Review in ${daysUntil} days`;
 }

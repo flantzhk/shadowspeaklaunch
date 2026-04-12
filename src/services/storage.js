@@ -106,7 +106,10 @@ async function getDueEntries() {
   return dbOp('Failed to get due entries', async (db) => {
     const now = Date.now();
     const all = await db.getAllFromIndex('library', 'by-next-review');
-    return all.filter(entry => entry.nextReviewAt <= now);
+    // Only return phrases that have been practiced at least once.
+    // New (never-practiced) phrases show as "New" in the library and go into
+    // regular lessons — they don't count as "due for review" yet.
+    return all.filter(entry => (entry.practiceCount ?? 0) > 0 && entry.nextReviewAt <= now);
   }, []);
 }
 

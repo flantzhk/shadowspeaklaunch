@@ -173,7 +173,7 @@ export default function PhraseCard({ phrase, libraryEntry, onPlay, onSaved, show
       {entry && (
         <div className={styles.statusRow}>
           <span className={`${styles.badge} ${entry.status === 'mastered' ? styles.badgeMastered : styles.badgeLearning}`}>
-            {entry.status === 'mastered' ? '✓ Mastered' : formatReviewStatus(entry.interval, entry.nextReviewAt)}
+            {entry.status === 'mastered' ? '✓ Mastered' : formatReviewStatus(entry.interval, entry.nextReviewAt, entry.practiceCount)}
           </span>
           {entry.bestScore != null && (
             <span className={styles.score}>Best: {entry.bestScore}%</span>
