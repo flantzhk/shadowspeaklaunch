@@ -61,10 +61,10 @@ export default function HomeScreen({ onNavigate }) {
     setTopics(loadedTopics);
     getAllLibraryEntries().then(entries => {
       setLibraryCount(entries.length);
-      const savedIds = new Set(entries.map(e => e.phraseId));
+      const masteredIds = new Set(entries.filter(e => e.status === 'mastered').map(e => e.phraseId));
       const progress = {};
       for (const topic of loadedTopics) {
-        progress[topic.id] = topic.phrases.filter(p => savedIds.has(p.id)).length;
+        progress[topic.id] = topic.phrases.filter(p => masteredIds.has(p.id)).length;
       }
       setTopicProgress(progress);
     });

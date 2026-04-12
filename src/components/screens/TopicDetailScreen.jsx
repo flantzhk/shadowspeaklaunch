@@ -102,7 +102,8 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
   }
 
   const savedCount = topic.phrases.filter(p => savedIds.has(p.id)).length;
-  const progressPercent = topic.phrases.length > 0 ? (savedCount / topic.phrases.length) * 100 : 0;
+  const masteredCount = topic.phrases.filter(p => libraryEntries[p.id]?.status === 'mastered').length;
+  const progressPercent = topic.phrases.length > 0 ? (masteredCount / topic.phrases.length) * 100 : 0;
 
   return (
     <div className={styles.screen}>
@@ -147,7 +148,7 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
           <div className={styles.progressBar}>
             <div className={styles.progressFill} style={{ width: `${progressPercent}%` }} />
           </div>
-          <span className={styles.progressLabel}>{savedCount}/{topic.phrases.length}</span>
+          <span className={styles.progressLabel}>{masteredCount}/{topic.phrases.length} mastered</span>
         </div>
       </div>
 

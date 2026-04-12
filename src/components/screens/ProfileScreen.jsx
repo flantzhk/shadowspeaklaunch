@@ -134,6 +134,26 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
       <ToggleRow label="Auto-advance" checked={settings.autoAdvance}
         onChange={(v) => updateSettings({ autoAdvance: v })} />
 
+      {/* Theme */}
+      <div className={styles.themeRow}>
+        <span className={styles.toggleLabel}>Theme</span>
+        <div className={styles.themeSegment}>
+          {[
+            { id: 'system', label: 'Auto' },
+            { id: 'light', label: '☀ Light' },
+            { id: 'dark', label: '☾ Dark' },
+          ].map(opt => (
+            <button
+              key={opt.id}
+              className={`${styles.themeOption} ${(settings.themePreference || 'system') === opt.id ? styles.themeOptionActive : ''}`}
+              onClick={() => updateSettings({ themePreference: opt.id })}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className={styles.divider} />
 
       {/* Playback */}

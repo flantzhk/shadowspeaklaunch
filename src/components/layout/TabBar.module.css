@@ -30,11 +30,12 @@
 }
 
 .label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
-  letter-spacing: var(--letter-spacing-wide);
+  letter-spacing: 0.4px;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .active .label {
@@ -55,16 +56,4 @@
   border-radius: 1px;
 }
 
-/* Home indicator (iOS-style bottom bar) */
-.tabBar::after {
-  content: '';
-  position: absolute;
-  bottom: calc(var(--safe-area-bottom) + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 4px;
-  background: var(--color-text-primary);
-  opacity: 0.15;
-  border-radius: 2px;
-}
+/* Home indicator removed — was overlapping "MY LIBRARY" tab label */

@@ -79,4 +79,6 @@ export const DEFAULT_USER_SETTINGS = {
   streakFreezeUsedWeek: null,
   totalPracticeSeconds: 0,
   onboardingCompleted: false,
+  // 'system' | 'light' | 'dark'
+  themePreference: 'system',
 };

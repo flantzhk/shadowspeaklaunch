@@ -116,6 +116,18 @@ function MainLayout() {
   const [showFirstLaunch, setShowFirstLaunch] = useState(false);
   const [topicMastered, setTopicMastered] = useState(null); // { topicName, phraseCount }
 
+  // Apply forced theme preference to <html> element
+  useEffect(() => {
+    const pref = settings.themePreference || 'system';
+    if (pref === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else if (pref === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  }, [settings.themePreference]);
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setAuthError('Unable to connect. Please check your internet connection and reload.');

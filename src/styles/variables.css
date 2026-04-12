@@ -116,9 +116,10 @@
   --content-padding:  22px;
 }
 
-/* === Dark Mode === */
+/* === Dark token block (shared by media query + [data-theme="dark"]) === */
+/* Applied when: OS is dark AND no forced theme, OR data-theme="dark" is set */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --color-bg:             #121212;
     --color-bg-page:        #0A0A0A;
     --color-surface:        #1E1E1E;
@@ -129,11 +130,8 @@
     --color-text-primary:   #F0F0F0;
     --color-text-secondary: #B0B0B0;
     --color-text-tertiary:  #909090;
-    /* ↑ was #555555 — near-invisible on dark bg. Now readable. */
     --color-text-muted:     #787878;
 
-    /* Semantic badges — light pastel on dark bg is jarring; use
-       translucent tinted surfaces + bright text instead */
     --color-learning-bg:    rgba(232, 160, 48, 0.18);
     --color-learning-text:  #E8A030;
     --color-mastered-bg:    rgba(139, 184, 43, 0.15);
@@ -141,7 +139,6 @@
     --color-streak-bg:      rgba(232, 112, 58, 0.18);
     --color-streak-text:    #E8703A;
 
-    /* Score colours — dark greens are invisible on dark; lighten them */
     --color-score-excellent: #A4D042;
     --color-score-good:      #C5E85A;
     --color-score-fair:      #E8A030;
@@ -150,12 +147,46 @@
     --color-jyutping:        #A4D042;
 
     --color-brand-lime-muted: rgba(197, 232, 90, 0.12);
-    /* In dark mode, brand-dark text becomes primary (near-white) so it's
-       readable on dark surfaces, while button backgrounds stay dark green */
     --color-brand-dark-text: var(--color-text-primary);
 
     --shadow-card:          0 1px 3px rgba(0, 0, 0, 0.3);
     --shadow-raised:        0 4px 12px rgba(0, 0, 0, 0.4);
     --shadow-player:        0 -4px 20px rgba(0, 0, 0, 0.5);
   }
+}
+
+/* Force dark — applies regardless of OS setting */
+:root[data-theme="dark"] {
+  --color-bg:             #121212;
+  --color-bg-page:        #0A0A0A;
+  --color-surface:        #1E1E1E;
+  --color-surface-raised: #252525;
+  --color-border:         rgba(255, 255, 255, 0.10);
+  --color-border-strong:  rgba(255, 255, 255, 0.18);
+
+  --color-text-primary:   #F0F0F0;
+  --color-text-secondary: #B0B0B0;
+  --color-text-tertiary:  #909090;
+  --color-text-muted:     #787878;
+
+  --color-learning-bg:    rgba(232, 160, 48, 0.18);
+  --color-learning-text:  #E8A030;
+  --color-mastered-bg:    rgba(139, 184, 43, 0.15);
+  --color-mastered-text:  #A4D042;
+  --color-streak-bg:      rgba(232, 112, 58, 0.18);
+  --color-streak-text:    #E8703A;
+
+  --color-score-excellent: #A4D042;
+  --color-score-good:      #C5E85A;
+  --color-score-fair:      #E8A030;
+  --color-score-poor:      #E06060;
+
+  --color-jyutping:        #A4D042;
+
+  --color-brand-lime-muted: rgba(197, 232, 90, 0.12);
+  --color-brand-dark-text: var(--color-text-primary);
+
+  --shadow-card:          0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-raised:        0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-player:        0 -4px 20px rgba(0, 0, 0, 0.5);
 }
