@@ -139,6 +139,14 @@ async function textToSpeech(text, options = {}) {
     }
   );
 
+  const contentType = response.headers.get('Content-Type') || '';
+  if (!contentType.includes('audio')) {
+    // API returned non-audio (likely an error response)
+    const text = await response.text();
+    logger.error('TTS returned non-audio response:', contentType, text.slice(0, 200));
+    throw new ApiError('TTS returned invalid audio', 500, `${API_BASE_URL}${API_ENDPOINTS.TTS}`);
+  }
+
   return response.blob();
 }
 

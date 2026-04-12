@@ -95,19 +95,9 @@ class AudioEngine {
 
   async play() {
     try {
-      // Wait for audio to be ready if src is set but not yet loaded
-      if (this._audio.src && this._audio.readyState < 2) {
-        await new Promise((resolve, reject) => {
-          const onReady = () => { cleanup(); resolve(); };
-          const onError = () => { cleanup(); reject(new Error('Audio load failed')); };
-          const cleanup = () => {
-            this._audio.removeEventListener('canplaythrough', onReady);
-            this._audio.removeEventListener('error', onError);
-          };
-          this._audio.addEventListener('canplaythrough', onReady, { once: true });
-          this._audio.addEventListener('error', onError, { once: true });
-          this._audio.load();
-        });
+      if (!this._audio.src) {
+        this._onStateChange?.('error');
+        return;
       }
       await this._audio.play();
     } catch (error) {
