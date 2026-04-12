@@ -151,6 +151,70 @@
   font-size: var(--font-size-md); min-height: 44px; margin-bottom: var(--space-2xl);
 }
 
+/* === Intro screen === */
+.introContent {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 0 24px; text-align: center; gap: 20px;
+}
+.introTitle { font-size: 28px; font-weight: var(--font-weight-bold); color: var(--color-brand-dark); }
+.introDesc { font-size: 15px; color: var(--color-text-secondary); line-height: 1.5; max-width: 320px; }
+.introExample { display: flex; align-items: center; gap: 16px; margin: 8px 0; }
+.introVs { font-size: 14px; color: var(--color-text-muted); font-weight: var(--font-weight-semibold); }
+.introToneBtn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 16px 20px; background: var(--color-surface);
+  border: 1px solid var(--color-border); border-radius: 14px; cursor: pointer;
+  min-width: 100px;
+}
+.introToneBtn:active { transform: scale(0.97); }
+.introChar { font-size: 28px; }
+.introJyut { font-size: 13px; font-weight: var(--font-weight-semibold); color: var(--color-jyutping); }
+.introMeaning { font-size: 12px; color: var(--color-text-muted); }
+.introToneLabel { font-size: 11px; color: var(--color-brand-dark); font-weight: var(--font-weight-semibold); margin-top: 4px; }
+.introHint { font-size: 12px; color: var(--color-text-muted); }
+.startBtn {
+  padding: 16px 40px; background: var(--color-brand-lime);
+  color: var(--color-brand-dark); border-radius: 14px;
+  font-size: 16px; font-weight: var(--font-weight-semibold); margin-top: 12px;
+}
+.startBtn:active { transform: scale(0.97); }
+
+/* === Learn phase === */
+.learnSection {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 24px; padding: 0 8px;
+}
+.learnTitle { font-size: 16px; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); text-align: center; }
+.learnPair { display: flex; gap: 16px; width: 100%; justify-content: center; }
+.learnCard {
+  flex: 1; max-width: 160px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 20px 12px; background: var(--color-surface);
+  border: 1.5px solid var(--color-border); border-radius: 16px; cursor: pointer;
+}
+.learnCard:active { transform: scale(0.97); border-color: var(--color-brand-lime); }
+.learnChar { font-size: 32px; }
+.learnJyut { font-size: 14px; font-weight: var(--font-weight-semibold); color: var(--color-jyutping); }
+.learnDesc { font-size: 11px; color: var(--color-text-muted); font-style: italic; }
+.learnMeaning { font-size: 12px; color: var(--color-text-secondary); }
+.learnPlay { font-size: 12px; color: var(--color-brand-dark); font-weight: var(--font-weight-semibold); margin-top: 4px; }
+.readyBtn {
+  padding: 14px 28px; background: var(--color-brand-dark);
+  color: white; border-radius: 12px;
+  font-size: 14px; font-weight: var(--font-weight-semibold);
+}
+.readyBtn:active { opacity: 0.9; }
+
+/* === Feedback area === */
+.feedbackArea {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 16px; padding: 16px 0 32px;
+}
+.choiceDesc { font-size: 11px; color: var(--color-text-muted); font-style: italic; }
+.choicePlayHint { font-size: 10px; color: var(--color-brand-dark); font-weight: var(--font-weight-medium); }
+
 /* === Done/Summary === */
 .doneCard {
   flex: 1; display: flex; flex-direction: column;
