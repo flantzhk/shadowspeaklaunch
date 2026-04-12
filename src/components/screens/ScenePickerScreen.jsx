@@ -24,10 +24,14 @@ export default function ScenePickerScreen({ onBack, onStartScene }) {
       const modules = import.meta.glob('../../data/topics/cantonese/*.json', { eager: true });
       const allScenes = [];
       for (const mod of Object.values(modules)) {
-        const topic = mod.default || mod;
-        if (topic.dialogues && Array.isArray(topic.dialogues)) {
-          for (const scene of topic.dialogues) {
-            allScenes.push({ ...scene, topicId: topic.id, topicName: topic.name });
+        const raw = mod.default || mod;
+        const topicList = Array.isArray(raw) ? raw : [raw];
+        for (const topic of topicList) {
+          const scenes = topic.dialogueScenes || topic.dialogues || [];
+          if (Array.isArray(scenes)) {
+            for (const scene of scenes) {
+              allScenes.push({ ...scene, topicId: topic.id, topicName: topic.name });
+            }
           }
         }
       }
