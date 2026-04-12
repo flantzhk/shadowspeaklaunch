@@ -5,7 +5,7 @@
   "description": "Specialty coffee, milk alternatives, and modern café ordering",
   "phraseCount": 18,
   "imageGradient": "linear-gradient(135deg, #2A1A0A 0%, #5A3A1A 50%, #C89060 100%)",
-  "imageUrl": null,
+  "imageUrl": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&q=80&auto=format&fit=crop",
   "phrases": [
     {
       "id": "cafe-001",
@@ -16,8 +16,16 @@
       "context": "Order a latte — the most popular specialty coffee order in HK cafés",
       "difficulty": 1,
       "words": [
-        { "chinese": "一杯", "jyutping": "jat1 bui1", "english": "one cup" },
-        { "chinese": "拿鐵", "jyutping": "naap4 tit3", "english": "latte (from Italian)" }
+        {
+          "chinese": "一杯",
+          "jyutping": "jat1 bui1",
+          "english": "one cup"
+        },
+        {
+          "chinese": "拿鐵",
+          "jyutping": "naap4 tit3",
+          "english": "latte (from Italian)"
+        }
       ]
     },
     {
@@ -29,8 +37,16 @@
       "context": "Order a cappuccino — lighter and foamier than a latte",
       "difficulty": 1,
       "words": [
-        { "chinese": "一杯", "jyutping": "jat1 bui1", "english": "one cup" },
-        { "chinese": "卡布奇諾", "jyutping": "kaa1 bu3 kei4 nuo4", "english": "cappuccino (transliteration)" }
+        {
+          "chinese": "一杯",
+          "jyutping": "jat1 bui1",
+          "english": "one cup"
+        },
+        {
+          "chinese": "卡布奇諾",
+          "jyutping": "kaa1 bu3 kei4 nuo4",
+          "english": "cappuccino (transliteration)"
+        }
       ]
     },
     {
@@ -42,8 +58,16 @@
       "context": "Order an Americano — espresso with hot water, the classic black coffee option",
       "difficulty": 1,
       "words": [
-        { "chinese": "一杯", "jyutping": "jat1 bui1", "english": "one cup" },
-        { "chinese": "美式", "jyutping": "mei5 sik1", "english": "Americano (American style)" }
+        {
+          "chinese": "一杯",
+          "jyutping": "jat1 bui1",
+          "english": "one cup"
+        },
+        {
+          "chinese": "美式",
+          "jyutping": "mei5 sik1",
+          "english": "Americano (American style)"
+        }
       ]
     },
     {
@@ -55,8 +79,16 @@
       "context": "The most popular café order in HK — cold Americano over ice",
       "difficulty": 1,
       "words": [
-        { "chinese": "凍", "jyutping": "dung3", "english": "iced / cold" },
-        { "chinese": "美式", "jyutping": "mei5 sik1", "english": "Americano" }
+        {
+          "chinese": "凍",
+          "jyutping": "dung3",
+          "english": "iced / cold"
+        },
+        {
+          "chinese": "美式",
+          "jyutping": "mei5 sik1",
+          "english": "Americano"
+        }
       ]
     },
     {
@@ -68,8 +100,16 @@
       "context": "Cold brew coffee — slow-steeped overnight, smooth and strong",
       "difficulty": 1,
       "words": [
-        { "chinese": "冷", "jyutping": "laang5", "english": "cold" },
-        { "chinese": "萃", "jyutping": "cyut3", "english": "extract / brew" }
+        {
+          "chinese": "冷",
+          "jyutping": "laang5",
+          "english": "cold"
+        },
+        {
+          "chinese": "萃",
+          "jyutping": "cyut3",
+          "english": "extract / brew"
+        }
       ]
     },
     {
@@ -81,8 +121,16 @@
       "context": "A shot of espresso over ice — intense and quick",
       "difficulty": 2,
       "words": [
-        { "chinese": "凍", "jyutping": "dung3", "english": "iced" },
-        { "chinese": "濃縮", "jyutping": "nong4 suk1", "english": "espresso (concentrated)" }
+        {
+          "chinese": "凍",
+          "jyutping": "dung3",
+          "english": "iced"
+        },
+        {
+          "chinese": "濃縮",
+          "jyutping": "nong4 suk1",
+          "english": "espresso (concentrated)"
+        }
       ]
     },
     {
@@ -94,8 +142,16 @@
       "context": "The most popular milk alternative in HK cafés — ask to swap your milk",
       "difficulty": 1,
       "words": [
-        { "chinese": "燕麥", "jyutping": "jin3 mak6", "english": "oats" },
-        { "chinese": "奶", "jyutping": "naai5", "english": "milk" }
+        {
+          "chinese": "燕麥",
+          "jyutping": "jin3 mak6",
+          "english": "oats"
+        },
+        {
+          "chinese": "奶",
+          "jyutping": "naai5",
+          "english": "milk"
+        }
       ]
     },
     {
@@ -107,8 +163,16 @@
       "context": "Soy milk — widely available at HK cafés and cha chaan tengs",
       "difficulty": 1,
       "words": [
-        { "chinese": "豆", "jyutping": "dau6", "english": "bean / soy" },
-        { "chinese": "奶", "jyutping": "naai5", "english": "milk" }
+        {
+          "chinese": "豆",
+          "jyutping": "dau6",
+          "english": "bean / soy"
+        },
+        {
+          "chinese": "奶",
+          "jyutping": "naai5",
+          "english": "milk"
+        }
       ]
     },
     {
@@ -120,8 +184,16 @@
       "context": "Almond milk — less common than oat but available at specialty cafés",
       "difficulty": 2,
       "words": [
-        { "chinese": "杏仁", "jyutping": "haang4 jan4", "english": "almond" },
-        { "chinese": "奶", "jyutping": "naai5", "english": "milk" }
+        {
+          "chinese": "杏仁",
+          "jyutping": "haang4 jan4",
+          "english": "almond"
+        },
+        {
+          "chinese": "奶",
+          "jyutping": "naai5",
+          "english": "milk"
+        }
       ]
     },
     {
@@ -133,9 +205,21 @@
       "context": "Ask to substitute regular milk with oat milk — usually adds $7-10",
       "difficulty": 2,
       "words": [
-        { "chinese": "可唔可以", "jyutping": "ho2 m4 ho2 ji3", "english": "can I / is it possible" },
-        { "chinese": "換", "jyutping": "wun6", "english": "swap / change to" },
-        { "chinese": "燕麥奶", "jyutping": "jin3 mak6 naai5", "english": "oat milk" }
+        {
+          "chinese": "可唔可以",
+          "jyutping": "ho2 m4 ho2 ji3",
+          "english": "can I / is it possible"
+        },
+        {
+          "chinese": "換",
+          "jyutping": "wun6",
+          "english": "swap / change to"
+        },
+        {
+          "chinese": "燕麥奶",
+          "jyutping": "jin3 mak6 naai5",
+          "english": "oat milk"
+        }
       ]
     },
     {
@@ -147,9 +231,21 @@
       "context": "The size question — most HK cafés use small/large rather than Italian sizes",
       "difficulty": 1,
       "words": [
-        { "chinese": "細杯", "jyutping": "sai3 bui1", "english": "small cup" },
-        { "chinese": "定", "jyutping": "ding6", "english": "or (in questions)" },
-        { "chinese": "大杯", "jyutping": "daai6 bui1", "english": "large cup" }
+        {
+          "chinese": "細杯",
+          "jyutping": "sai3 bui1",
+          "english": "small cup"
+        },
+        {
+          "chinese": "定",
+          "jyutping": "ding6",
+          "english": "or (in questions)"
+        },
+        {
+          "chinese": "大杯",
+          "jyutping": "daai6 bui1",
+          "english": "large cup"
+        }
       ]
     },
     {
@@ -161,8 +257,16 @@
       "context": "Order the larger size",
       "difficulty": 1,
       "words": [
-        { "chinese": "大杯", "jyutping": "daai6 bui1", "english": "large cup" },
-        { "chinese": "唔該", "jyutping": "m4 goi1", "english": "please" }
+        {
+          "chinese": "大杯",
+          "jyutping": "daai6 bui1",
+          "english": "large cup"
+        },
+        {
+          "chinese": "唔該",
+          "jyutping": "m4 goi1",
+          "english": "please"
+        }
       ]
     },
     {
@@ -174,8 +278,16 @@
       "context": "Reduce the syrup in your drink — relevant for lattes with flavoured syrup",
       "difficulty": 1,
       "words": [
-        { "chinese": "唔該", "jyutping": "m4 goi1", "english": "please" },
-        { "chinese": "少糖", "jyutping": "siu2 tong4", "english": "less sugar" }
+        {
+          "chinese": "唔該",
+          "jyutping": "m4 goi1",
+          "english": "please"
+        },
+        {
+          "chinese": "少糖",
+          "jyutping": "siu2 tong4",
+          "english": "less sugar"
+        }
       ]
     },
     {
@@ -187,8 +299,16 @@
       "context": "Remove all syrup or sugar from your drink",
       "difficulty": 1,
       "words": [
-        { "chinese": "唔該", "jyutping": "m4 goi1", "english": "please" },
-        { "chinese": "冇糖", "jyutping": "mou5 tong4", "english": "no sugar" }
+        {
+          "chinese": "唔該",
+          "jyutping": "m4 goi1",
+          "english": "please"
+        },
+        {
+          "chinese": "冇糖",
+          "jyutping": "mou5 tong4",
+          "english": "no sugar"
+        }
       ]
     },
     {
@@ -200,8 +320,16 @@
       "context": "Ask for your coffee to go — 走杯 is the universal HK term for a to-go cup",
       "difficulty": 1,
       "words": [
-        { "chinese": "我要", "jyutping": "ngo5 jiu3", "english": "I want" },
-        { "chinese": "走杯", "jyutping": "zau2 bui1", "english": "to-go cup / takeaway cup" }
+        {
+          "chinese": "我要",
+          "jyutping": "ngo5 jiu3",
+          "english": "I want"
+        },
+        {
+          "chinese": "走杯",
+          "jyutping": "zau2 bui1",
+          "english": "to-go cup / takeaway cup"
+        }
       ]
     },
     {
@@ -213,9 +341,21 @@
       "context": "Ask at specialty cafés whether they roast their own beans — a mark of quality",
       "difficulty": 3,
       "words": [
-        { "chinese": "有冇", "jyutping": "jau5 mou5", "english": "do you have" },
-        { "chinese": "自家烘焙", "jyutping": "zi5 ji4 ngaa4", "english": "house-roasted / in-house roasted" },
-        { "chinese": "咖啡", "jyutping": "kaa1 fe1", "english": "coffee" }
+        {
+          "chinese": "有冇",
+          "jyutping": "jau5 mou5",
+          "english": "do you have"
+        },
+        {
+          "chinese": "自家烘焙",
+          "jyutping": "zi5 ji4 ngaa4",
+          "english": "house-roasted / in-house roasted"
+        },
+        {
+          "chinese": "咖啡",
+          "jyutping": "kaa1 fe1",
+          "english": "coffee"
+        }
       ]
     },
     {
@@ -227,8 +367,16 @@
       "context": "Ask about the origin of the single-origin coffee — specialty cafés love this question",
       "difficulty": 3,
       "words": [
-        { "chinese": "呢個月份", "jyutping": "ni1 go3 jyut6 faan3", "english": "this month's (coffee)" },
-        { "chinese": "係邊度嚟㗎", "jyutping": "hai6 bin1 dou6 lei4 ge3", "english": "where is it from" }
+        {
+          "chinese": "呢個月份",
+          "jyutping": "ni1 go3 jyut6 faan3",
+          "english": "this month's (coffee)"
+        },
+        {
+          "chinese": "係邊度嚟㗎",
+          "jyutping": "hai6 bin1 dou6 lei4 ge3",
+          "english": "where is it from"
+        }
       ]
     },
     {
@@ -240,8 +388,16 @@
       "context": "What the barista asks after you order — say 唔使喇多謝 to decline",
       "difficulty": 1,
       "words": [
-        { "chinese": "要唔要", "jyutping": "jiu3 m4 jiu3", "english": "would you like / do you want" },
-        { "chinese": "食嘢", "jyutping": "sik6 je5", "english": "something to eat" }
+        {
+          "chinese": "要唔要",
+          "jyutping": "jiu3 m4 jiu3",
+          "english": "would you like / do you want"
+        },
+        {
+          "chinese": "食嘢",
+          "jyutping": "sik6 je5",
+          "english": "something to eat"
+        }
       ]
     }
   ],

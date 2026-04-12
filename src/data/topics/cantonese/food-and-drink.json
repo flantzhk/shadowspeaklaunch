@@ -6,7 +6,7 @@
     "description": "Cha chaan teng, milk tea, iced drinks",
     "phraseCount": 35,
     "imageGradient": "linear-gradient(135deg, #6F4E37 0%, #A0785D 50%, #E8D4B8 100%)",
-    "imageUrl": null,
+    "imageUrl": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80&auto=format&fit=crop",
     "phrases": [
       {
         "id": "coffee-001",
@@ -1000,7 +1000,7 @@
     "description": "Full restaurant experience from arrival to leaving",
     "phraseCount": 28,
     "imageGradient": "linear-gradient(135deg, #7A1A1A 0%, #C44040 50%, #FFB0A0 100%)",
-    "imageUrl": null,
+    "imageUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80&auto=format&fit=crop",
     "phrases": [
       {
         "id": "rest-001",
@@ -1776,7 +1776,7 @@
     "description": "Buying fresh produce at a HK wet market",
     "phraseCount": 22,
     "imageGradient": "linear-gradient(135deg, #1A4A1A 0%, #3A8A3A 50%, #90C878 100%)",
-    "imageUrl": null,
+    "imageUrl": "https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600&q=80&auto=format&fit=crop",
     "phrases": [
       {
         "id": "market-001",
@@ -2326,7 +2326,7 @@
     "description": "The quintessential HK dining experience",
     "phraseCount": 18,
     "imageGradient": "linear-gradient(135deg, #8A1A1A 0%, #C43030 50%, #FFD0A0 100%)",
-    "imageUrl": null,
+    "imageUrl": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=600&q=80&auto=format&fit=crop",
     "phrases": [
       {
         "id": "dimsum-001",
@@ -2797,7 +2797,7 @@
     "description": "Specialty coffee, milk alternatives, and modern café ordering",
     "phraseCount": 18,
     "imageGradient": "linear-gradient(135deg, #2A1A0A 0%, #5A3A1A 50%, #C89060 100%)",
-    "imageUrl": null,
+    "imageUrl": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&q=80&auto=format&fit=crop",
     "phrases": [
       {
         "id": "cafe-001",

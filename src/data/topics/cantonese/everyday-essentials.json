@@ -6,7 +6,7 @@
     "description": "Security guards, visitors, packages, and building life",
     "phraseCount": 15,
     "imageGradient": "linear-gradient(135deg, #1A1A2A 0%, #2A3A5A 50%, #5A7AAA 100%)",
-    "imageUrl": null,
+    "imageUrl": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80&auto=format&fit=crop",
     "phrases": [
       {
         "id": "lobby-001",
@@ -17,9 +17,21 @@
         "context": "Identify yourself to the security guard — use your own floor number",
         "difficulty": 2,
         "words": [
-          { "chinese": "我係", "jyutping": "ngo5 hai6", "english": "I am" },
-          { "chinese": "十八樓", "jyutping": "sap6 baat3 lau4", "english": "18th floor" },
-          { "chinese": "嘅居民", "jyutping": "ge3 gei1 min4", "english": "the resident of" }
+          {
+            "chinese": "我係",
+            "jyutping": "ngo5 hai6",
+            "english": "I am"
+          },
+          {
+            "chinese": "十八樓",
+            "jyutping": "sap6 baat3 lau4",
+            "english": "18th floor"
+          },
+          {
+            "chinese": "嘅居民",
+            "jyutping": "ge3 gei1 min4",
+            "english": "the resident of"
+          }
         ]
       },
       {
@@ -31,9 +43,21 @@
         "context": "Tell the security guard to expect a visitor for your flat",
         "difficulty": 1,
         "words": [
-          { "chinese": "我有", "jyutping": "ngo5 jau5", "english": "I have" },
-          { "chinese": "朋友", "jyutping": "pang4 jau5", "english": "friend" },
-          { "chinese": "嚟", "jyutping": "lei4", "english": "coming / arriving" }
+          {
+            "chinese": "我有",
+            "jyutping": "ngo5 jau5",
+            "english": "I have"
+          },
+          {
+            "chinese": "朋友",
+            "jyutping": "pang4 jau5",
+            "english": "friend"
+          },
+          {
+            "chinese": "嚟",
+            "jyutping": "lei4",
+            "english": "coming / arriving"
+          }
         ]
       },
       {
@@ -45,7 +69,11 @@
         "context": "Give the guard your visitor's name — follow with the name",
         "difficulty": 1,
         "words": [
-          { "chinese": "佢叫", "jyutping": "keoi5 giu3", "english": "his/her name is" }
+          {
+            "chinese": "佢叫",
+            "jyutping": "keoi5 giu3",
+            "english": "his/her name is"
+          }
         ]
       },
       {
@@ -57,9 +85,21 @@
         "context": "Ask the security desk if there are packages or messages held for you",
         "difficulty": 2,
         "words": [
-          { "chinese": "有冇嘢", "jyutping": "jau5 mou5 je5", "english": "is there anything" },
-          { "chinese": "留低", "jyutping": "lau4 dai2", "english": "left / held" },
-          { "chinese": "俾我", "jyutping": "bei2 ngo5", "english": "for me" }
+          {
+            "chinese": "有冇嘢",
+            "jyutping": "jau5 mou5 je5",
+            "english": "is there anything"
+          },
+          {
+            "chinese": "留低",
+            "jyutping": "lau4 dai2",
+            "english": "left / held"
+          },
+          {
+            "chinese": "俾我",
+            "jyutping": "bei2 ngo5",
+            "english": "for me"
+          }
         ]
       },
       {
@@ -71,9 +111,21 @@
         "context": "Check if a parcel arrived while you were out",
         "difficulty": 1,
         "words": [
-          { "chinese": "有冇", "jyutping": "jau5 mou5", "english": "is there / do you have" },
-          { "chinese": "快遞", "jyutping": "faai3 dei6", "english": "delivery / courier" },
-          { "chinese": "俾我", "jyutping": "bei2 ngo5", "english": "for me" }
+          {
+            "chinese": "有冇",
+            "jyutping": "jau5 mou5",
+            "english": "is there / do you have"
+          },
+          {
+            "chinese": "快遞",
+            "jyutping": "faai3 dei6",
+            "english": "delivery / courier"
+          },
+          {
+            "chinese": "俾我",
+            "jyutping": "bei2 ngo5",
+            "english": "for me"
+          }
         ]
       },
       {
@@ -85,9 +137,21 @@
         "context": "Ask the security desk to sign for a delivery when you're not home",
         "difficulty": 2,
         "words": [
-          { "chinese": "唔該", "jyutping": "m4 goi1", "english": "please" },
-          { "chinese": "幫我", "jyutping": "bong1 ngo5", "english": "for me" },
-          { "chinese": "簽收", "jyutping": "cim1 sau1", "english": "sign for / accept on signature" }
+          {
+            "chinese": "唔該",
+            "jyutping": "m4 goi1",
+            "english": "please"
+          },
+          {
+            "chinese": "幫我",
+            "jyutping": "bong1 ngo5",
+            "english": "for me"
+          },
+          {
+            "chinese": "簽收",
+            "jyutping": "cim1 sau1",
+            "english": "sign for / accept on signature"
+          }
         ]
       },
       {
@@ -99,9 +163,21 @@
         "context": "Ask the guard to buzz your flat — useful when your intercom is broken or you're expecting guests",
         "difficulty": 2,
         "words": [
-          { "chinese": "唔該", "jyutping": "m4 goi1", "english": "please" },
-          { "chinese": "幫我", "jyutping": "bong1 ngo5", "english": "for me" },
-          { "chinese": "打上去", "jyutping": "da2 soeng6 heoi3", "english": "call up / ring upstairs" }
+          {
+            "chinese": "唔該",
+            "jyutping": "m4 goi1",
+            "english": "please"
+          },
+          {
+            "chinese": "幫我",
+            "jyutping": "bong1 ngo5",
+            "english": "for me"
+          },
+          {
+            "chinese": "打上去",
+            "jyutping": "da2 soeng6 heoi3",
+            "english": "call up / ring upstairs"
+          }
         ]
       },
       {
@@ -113,9 +189,21 @@
         "context": "Tell the security guard you've been locked out",
         "difficulty": 2,
         "words": [
-          { "chinese": "我", "jyutping": "ngo5", "english": "I" },
-          { "chinese": "唔記得", "jyutping": "m4 gei3 dak1", "english": "forgot to" },
-          { "chinese": "帶鎖匙", "jyutping": "daai3 so2 si4", "english": "bring my key" }
+          {
+            "chinese": "我",
+            "jyutping": "ngo5",
+            "english": "I"
+          },
+          {
+            "chinese": "唔記得",
+            "jyutping": "m4 gei3 dak1",
+            "english": "forgot to"
+          },
+          {
+            "chinese": "帶鎖匙",
+            "jyutping": "daai3 so2 si4",
+            "english": "bring my key"
+          }
         ]
       },
       {
@@ -127,9 +215,21 @@
         "context": "Ask the guard to let you in — they'll check your ID",
         "difficulty": 2,
         "words": [
-          { "chinese": "可唔可以", "jyutping": "ho2 m4 ho2 ji3", "english": "could you / is it possible" },
-          { "chinese": "幫我", "jyutping": "bong1 ngo5", "english": "for me" },
-          { "chinese": "開門", "jyutping": "hoi1 mun4", "english": "open the door" }
+          {
+            "chinese": "可唔可以",
+            "jyutping": "ho2 m4 ho2 ji3",
+            "english": "could you / is it possible"
+          },
+          {
+            "chinese": "幫我",
+            "jyutping": "bong1 ngo5",
+            "english": "for me"
+          },
+          {
+            "chinese": "開門",
+            "jyutping": "hoi1 mun4",
+            "english": "open the door"
+          }
         ]
       },
       {
@@ -141,9 +241,21 @@
         "context": "Report a parking dispute to the security desk",
         "difficulty": 3,
         "words": [
-          { "chinese": "有人", "jyutping": "jau5 jan4", "english": "someone" },
-          { "chinese": "泊咗", "jyutping": "paak3 zo2", "english": "has parked" },
-          { "chinese": "我個位", "jyutping": "ngo5 go3 wai2", "english": "my space / spot" }
+          {
+            "chinese": "有人",
+            "jyutping": "jau5 jan4",
+            "english": "someone"
+          },
+          {
+            "chinese": "泊咗",
+            "jyutping": "paak3 zo2",
+            "english": "has parked"
+          },
+          {
+            "chinese": "我個位",
+            "jyutping": "ngo5 go3 wai2",
+            "english": "my space / spot"
+          }
         ]
       },
       {
@@ -155,9 +267,21 @@
         "context": "Inform the security desk in advance of a visitor — some buildings require pre-registration",
         "difficulty": 2,
         "words": [
-          { "chinese": "今日", "jyutping": "gam1 jat6", "english": "today" },
-          { "chinese": "有訪客", "jyutping": "jau5 fong2 haak3", "english": "have a visitor" },
-          { "chinese": "嚟", "jyutping": "lei4", "english": "coming" }
+          {
+            "chinese": "今日",
+            "jyutping": "gam1 jat6",
+            "english": "today"
+          },
+          {
+            "chinese": "有訪客",
+            "jyutping": "jau5 fong2 haak3",
+            "english": "have a visitor"
+          },
+          {
+            "chinese": "嚟",
+            "jyutping": "lei4",
+            "english": "coming"
+          }
         ]
       },
       {
@@ -169,9 +293,21 @@
         "context": "Confirm with the security guard whether the lift is out of order",
         "difficulty": 1,
         "words": [
-          { "chinese": "電梯", "jyutping": "din6 tai1", "english": "lift / elevator" },
-          { "chinese": "壞咗", "jyutping": "waai6 zo2", "english": "broken / out of order" },
-          { "chinese": "係唔係", "jyutping": "hai6 m4 hai6", "english": "right? / is that so?" }
+          {
+            "chinese": "電梯",
+            "jyutping": "din6 tai1",
+            "english": "lift / elevator"
+          },
+          {
+            "chinese": "壞咗",
+            "jyutping": "waai6 zo2",
+            "english": "broken / out of order"
+          },
+          {
+            "chinese": "係唔係",
+            "jyutping": "hai6 m4 hai6",
+            "english": "right? / is that so?"
+          }
         ]
       },
       {
@@ -183,8 +319,16 @@
         "context": "Tell the guard where to put something — a package, a message, anything",
         "difficulty": 1,
         "words": [
-          { "chinese": "放喺度", "jyutping": "fong3 hai2 dou3", "english": "put / leave it here" },
-          { "chinese": "得喇", "jyutping": "dak1 laa3", "english": "that's fine / okay" }
+          {
+            "chinese": "放喺度",
+            "jyutping": "fong3 hai2 dou3",
+            "english": "put / leave it here"
+          },
+          {
+            "chinese": "得喇",
+            "jyutping": "dak1 laa3",
+            "english": "that's fine / okay"
+          }
         ]
       },
       {
@@ -196,8 +340,16 @@
         "context": "Ask if surveillance cameras captured an incident",
         "difficulty": 3,
         "words": [
-          { "chinese": "有冇", "jyutping": "jau5 mou5", "english": "is there / do you have" },
-          { "chinese": "CCTV拍到", "jyutping": "CCTV pai3 dou3", "english": "CCTV captured / recorded" }
+          {
+            "chinese": "有冇",
+            "jyutping": "jau5 mou5",
+            "english": "is there / do you have"
+          },
+          {
+            "chinese": "CCTV拍到",
+            "jyutping": "CCTV pai3 dou3",
+            "english": "CCTV captured / recorded"
+          }
         ]
       },
       {
@@ -209,8 +361,16 @@
         "context": "叔叔 (uncle) is the respectful term for an older male security guard — auntie is 姐姐 or 阿姨",
         "difficulty": 1,
         "words": [
-          { "chinese": "多謝", "jyutping": "do1 ze6", "english": "thank you" },
-          { "chinese": "叔叔", "jyutping": "suk1 suk1", "english": "uncle (respectful address for older men)" }
+          {
+            "chinese": "多謝",
+            "jyutping": "do1 ze6",
+            "english": "thank you"
+          },
+          {
+            "chinese": "叔叔",
+            "jyutping": "suk1 suk1",
+            "english": "uncle (respectful address for older men)"
+          }
         ]
       }
     ],
@@ -348,7 +508,7 @@
     "description": "7-Eleven, Circle K — heating food, Octopus top-up, and everyday essentials",
     "phraseCount": 15,
     "imageGradient": "linear-gradient(135deg, #1A3A1A 0%, #2A6A2A 50%, #70C870 100%)",
-    "imageUrl": null,
+    "imageUrl": "https://images.unsplash.com/photo-1535957998253-26ae1ef29506?w=600&q=80&auto=format&fit=crop",
     "phrases": [
       {
         "id": "cvs-001",
@@ -359,8 +519,16 @@
         "context": "叮 is the onomatopoeia for the microwave ping — the most uniquely HK convenience store phrase",
         "difficulty": 1,
         "words": [
-          { "chinese": "幫我", "jyutping": "bong1 ngo5", "english": "for me / help me" },
-          { "chinese": "叮一叮", "jyutping": "ding1 jat1 ding1", "english": "microwave it (from the ping sound)" }
+          {
+            "chinese": "幫我",
+            "jyutping": "bong1 ngo5",
+            "english": "for me / help me"
+          },
+          {
+            "chinese": "叮一叮",
+            "jyutping": "ding1 jat1 ding1",
+            "english": "microwave it (from the ping sound)"
+          }
         ]
       },
       {
@@ -372,9 +540,21 @@
         "context": "Tell the staff how long to heat your food",
         "difficulty": 2,
         "words": [
-          { "chinese": "叮", "jyutping": "ding1", "english": "microwave" },
-          { "chinese": "一分鐘", "jyutping": "jat1 fan1 jung1", "english": "one minute" },
-          { "chinese": "得喇", "jyutping": "dak1 laa3", "english": "that's enough / will do" }
+          {
+            "chinese": "叮",
+            "jyutping": "ding1",
+            "english": "microwave"
+          },
+          {
+            "chinese": "一分鐘",
+            "jyutping": "jat1 fan1 jung1",
+            "english": "one minute"
+          },
+          {
+            "chinese": "得喇",
+            "jyutping": "dak1 laa3",
+            "english": "that's enough / will do"
+          }
         ]
       },
       {
@@ -386,8 +566,16 @@
         "context": "Specify you just want it warm, not piping hot",
         "difficulty": 2,
         "words": [
-          { "chinese": "叮到熱", "jyutping": "ding1 dou3 jit6", "english": "heat until warm" },
-          { "chinese": "得喇", "jyutping": "dak1 laa3", "english": "that's fine" }
+          {
+            "chinese": "叮到熱",
+            "jyutping": "ding1 dou3 jit6",
+            "english": "heat until warm"
+          },
+          {
+            "chinese": "得喇",
+            "jyutping": "dak1 laa3",
+            "english": "that's fine"
+          }
         ]
       },
       {
@@ -399,8 +587,16 @@
         "context": "Ask for a plastic fork with your convenience store meal",
         "difficulty": 1,
         "words": [
-          { "chinese": "有冇", "jyutping": "jau5 mou5", "english": "do you have" },
-          { "chinese": "叉", "jyutping": "caa1", "english": "fork" }
+          {
+            "chinese": "有冇",
+            "jyutping": "jau5 mou5",
+            "english": "do you have"
+          },
+          {
+            "chinese": "叉",
+            "jyutping": "caa1",
+            "english": "fork"
+          }
         ]
       },
       {
@@ -412,8 +608,16 @@
         "context": "Ask for a straw with your drink",
         "difficulty": 1,
         "words": [
-          { "chinese": "有冇", "jyutping": "jau5 mou5", "english": "do you have" },
-          { "chinese": "飲管", "jyutping": "jam2 gun2", "english": "straw (drinking tube)" }
+          {
+            "chinese": "有冇",
+            "jyutping": "jau5 mou5",
+            "english": "do you have"
+          },
+          {
+            "chinese": "飲管",
+            "jyutping": "jam2 gun2",
+            "english": "straw (drinking tube)"
+          }
         ]
       },
       {
@@ -425,9 +629,21 @@
         "context": "Top up your Octopus at the convenience store counter — change the amount as needed",
         "difficulty": 2,
         "words": [
-          { "chinese": "幫我", "jyutping": "bong1 ngo5", "english": "for me" },
-          { "chinese": "八達通", "jyutping": "baat3 daat6 tung1", "english": "Octopus card" },
-          { "chinese": "入五十蚊", "jyutping": "jap6 ng5 sap6 man1", "english": "add $50 / top up fifty dollars" }
+          {
+            "chinese": "幫我",
+            "jyutping": "bong1 ngo5",
+            "english": "for me"
+          },
+          {
+            "chinese": "八達通",
+            "jyutping": "baat3 daat6 tung1",
+            "english": "Octopus card"
+          },
+          {
+            "chinese": "入五十蚊",
+            "jyutping": "jap6 ng5 sap6 man1",
+            "english": "add $50 / top up fifty dollars"
+          }
         ]
       },
       {
@@ -439,9 +655,21 @@
         "context": "Pay utility bills at 7-Eleven — electricity (電費), water (水費), gas (煤氣費)",
         "difficulty": 2,
         "words": [
-          { "chinese": "我想", "jyutping": "ngo5 soeng2", "english": "I want to" },
-          { "chinese": "交", "jyutping": "gaau1", "english": "pay / submit" },
-          { "chinese": "電費", "jyutping": "din6 fai3", "english": "electricity bill" }
+          {
+            "chinese": "我想",
+            "jyutping": "ngo5 soeng2",
+            "english": "I want to"
+          },
+          {
+            "chinese": "交",
+            "jyutping": "gaau1",
+            "english": "pay / submit"
+          },
+          {
+            "chinese": "電費",
+            "jyutping": "din6 fai3",
+            "english": "electricity bill"
+          }
         ]
       },
       {
@@ -453,8 +681,16 @@
         "context": "Many 7-Elevens have printing services — useful for boarding passes, documents",
         "difficulty": 2,
         "words": [
-          { "chinese": "可唔可以", "jyutping": "ho2 m4 ho2 ji3", "english": "can I / is it possible" },
-          { "chinese": "打印", "jyutping": "da2 jan3", "english": "print" }
+          {
+            "chinese": "可唔可以",
+            "jyutping": "ho2 m4 ho2 ji3",
+            "english": "can I / is it possible"
+          },
+          {
+            "chinese": "打印",
+            "jyutping": "da2 jan3",
+            "english": "print"
+          }
         ]
       },
       {
@@ -466,8 +702,16 @@
         "context": "Most HK convenience stores have an ATM inside or nearby",
         "difficulty": 1,
         "words": [
-          { "chinese": "ATM", "jyutping": "ATM", "english": "ATM / cash machine" },
-          { "chinese": "喺邊度", "jyutping": "hai6 bin1 dou6", "english": "where is it" }
+          {
+            "chinese": "ATM",
+            "jyutping": "ATM",
+            "english": "ATM / cash machine"
+          },
+          {
+            "chinese": "喺邊度",
+            "jyutping": "hai6 bin1 dou6",
+            "english": "where is it"
+          }
         ]
       },
       {
@@ -479,8 +723,16 @@
         "context": "Some 7-Elevens have seating areas — ask before standing awkwardly with your noodles",
         "difficulty": 1,
         "words": [
-          { "chinese": "有冇", "jyutping": "jau5 mou5", "english": "are there / do you have" },
-          { "chinese": "座位", "jyutping": "zo5 wai2", "english": "seats / seating" }
+          {
+            "chinese": "有冇",
+            "jyutping": "jau5 mou5",
+            "english": "are there / do you have"
+          },
+          {
+            "chinese": "座位",
+            "jyutping": "zo5 wai2",
+            "english": "seats / seating"
+          }
         ]
       },
       {
@@ -492,8 +744,16 @@
         "context": "Tell the cashier what you're buying",
         "difficulty": 1,
         "words": [
-          { "chinese": "我買", "jyutping": "ngo5 maai5", "english": "I'll buy / take" },
-          { "chinese": "呢啲", "jyutping": "ni1 di1", "english": "these (items)" }
+          {
+            "chinese": "我買",
+            "jyutping": "ngo5 maai5",
+            "english": "I'll buy / take"
+          },
+          {
+            "chinese": "呢啲",
+            "jyutping": "ni1 di1",
+            "english": "these (items)"
+          }
         ]
       },
       {
@@ -505,8 +765,16 @@
         "context": "Ask the total before paying — especially useful if the screen isn't facing you",
         "difficulty": 1,
         "words": [
-          { "chinese": "一共", "jyutping": "jat1 gung6", "english": "in total" },
-          { "chinese": "幾多", "jyutping": "gei2 do1", "english": "how much" }
+          {
+            "chinese": "一共",
+            "jyutping": "jat1 gung6",
+            "english": "in total"
+          },
+          {
+            "chinese": "幾多",
+            "jyutping": "gei2 do1",
+            "english": "how much"
+          }
         ]
       },
       {
@@ -518,8 +786,16 @@
         "context": "Decline the plastic bag — HK charges for them",
         "difficulty": 1,
         "words": [
-          { "chinese": "唔使袋", "jyutping": "m4 sai2 doi2", "english": "no bag needed" },
-          { "chinese": "唔該", "jyutping": "m4 goi1", "english": "thank you / please" }
+          {
+            "chinese": "唔使袋",
+            "jyutping": "m4 sai2 doi2",
+            "english": "no bag needed"
+          },
+          {
+            "chinese": "唔該",
+            "jyutping": "m4 goi1",
+            "english": "thank you / please"
+          }
         ]
       },
       {
@@ -531,8 +807,16 @@
         "context": "Ask if there's a promotion running — convenience stores often have buy-one-get-one deals",
         "difficulty": 1,
         "words": [
-          { "chinese": "有冇折扣", "jyutping": "jau5 mou5 zit3 kau3", "english": "any discount / promotion" },
-          { "chinese": "呀", "jyutping": "aa3", "english": "question particle" }
+          {
+            "chinese": "有冇折扣",
+            "jyutping": "jau5 mou5 zit3 kau3",
+            "english": "any discount / promotion"
+          },
+          {
+            "chinese": "呀",
+            "jyutping": "aa3",
+            "english": "question particle"
+          }
         ]
       },
       {
@@ -544,9 +828,21 @@
         "context": "Ask staff to heat a cup drink or soup — very common for soy milk or instant soup",
         "difficulty": 2,
         "words": [
-          { "chinese": "呢杯", "jyutping": "ni1 bui1", "english": "this cup" },
-          { "chinese": "加熱", "jyutping": "gaa1 jit6", "english": "heat up / warm up" },
-          { "chinese": "唔該", "jyutping": "m4 goi1", "english": "please" }
+          {
+            "chinese": "呢杯",
+            "jyutping": "ni1 bui1",
+            "english": "this cup"
+          },
+          {
+            "chinese": "加熱",
+            "jyutping": "gaa1 jit6",
+            "english": "heat up / warm up"
+          },
+          {
+            "chinese": "唔該",
+            "jyutping": "m4 goi1",
+            "english": "please"
+          }
         ]
       }
     ],
@@ -695,7 +991,7 @@
     "description": "Booking restaurants, salons, and appointments by phone",
     "phraseCount": 15,
     "imageGradient": "linear-gradient(135deg, #3A1A4A 0%, #7A4A9A 50%, #C8A0E0 100%)",
-    "imageUrl": null,
+    "imageUrl": "https://images.unsplash.com/photo-1556742031-c6961e8560b0?w=600&q=80&auto=format&fit=crop",
     "phrases": [
       {
         "id": "res-001",
@@ -706,8 +1002,16 @@
         "context": "Start any booking call with this — for restaurants, salons, clinics",
         "difficulty": 1,
         "words": [
-          { "chinese": "我想", "jyutping": "ngo5 soeng2", "english": "I'd like to" },
-          { "chinese": "訂位", "jyutping": "deng6 wai2", "english": "reserve a seat / make a booking" }
+          {
+            "chinese": "我想",
+            "jyutping": "ngo5 soeng2",
+            "english": "I'd like to"
+          },
+          {
+            "chinese": "訂位",
+            "jyutping": "deng6 wai2",
+            "english": "reserve a seat / make a booking"
+          }
         ]
       },
       {
@@ -719,8 +1023,16 @@
         "context": "The first question they'll ask you — have your number ready",
         "difficulty": 1,
         "words": [
-          { "chinese": "訂幾多", "jyutping": "deng6 gei2 do1", "english": "booking for how many" },
-          { "chinese": "位", "jyutping": "wai2", "english": "people / seats" }
+          {
+            "chinese": "訂幾多",
+            "jyutping": "deng6 gei2 do1",
+            "english": "booking for how many"
+          },
+          {
+            "chinese": "位",
+            "jyutping": "wai2",
+            "english": "people / seats"
+          }
         ]
       },
       {
@@ -732,8 +1044,16 @@
         "context": "State your party size and ask what times are available",
         "difficulty": 1,
         "words": [
-          { "chinese": "四位", "jyutping": "sei3 wai2", "english": "four people" },
-          { "chinese": "幾點", "jyutping": "gei2 dim2", "english": "what time" }
+          {
+            "chinese": "四位",
+            "jyutping": "sei3 wai2",
+            "english": "four people"
+          },
+          {
+            "chinese": "幾點",
+            "jyutping": "gei2 dim2",
+            "english": "what time"
+          }
         ]
       },
       {
@@ -745,7 +1065,11 @@
         "context": "They'll ask for your name to put the booking under",
         "difficulty": 1,
         "words": [
-          { "chinese": "係邊個名", "jyutping": "hai6 bin1 go3 meng2", "english": "under what name / whose name" }
+          {
+            "chinese": "係邊個名",
+            "jyutping": "hai6 bin1 go3 meng2",
+            "english": "under what name / whose name"
+          }
         ]
       },
       {
@@ -757,7 +1081,11 @@
         "context": "Give your surname for the booking — in HK they usually use surnames",
         "difficulty": 1,
         "words": [
-          { "chinese": "我姓", "jyutping": "ngo5 sing3", "english": "my surname is" }
+          {
+            "chinese": "我姓",
+            "jyutping": "ngo5 sing3",
+            "english": "my surname is"
+          }
         ]
       },
       {
@@ -769,8 +1097,16 @@
         "context": "Ask for al fresco seating — pleasant in HK's cooler months",
         "difficulty": 2,
         "words": [
-          { "chinese": "有冇", "jyutping": "jau5 mou5", "english": "do you have" },
-          { "chinese": "戶外座位", "jyutping": "hoi3 oi3 wai2", "english": "outdoor seating" }
+          {
+            "chinese": "有冇",
+            "jyutping": "jau5 mou5",
+            "english": "do you have"
+          },
+          {
+            "chinese": "戶外座位",
+            "jyutping": "hoi3 oi3 wai2",
+            "english": "outdoor seating"
+          }
         ]
       },
       {
@@ -782,8 +1118,16 @@
         "context": "Request a window table for a better view",
         "difficulty": 2,
         "words": [
-          { "chinese": "有冇", "jyutping": "jau5 mou5", "english": "do you have" },
-          { "chinese": "靠窗嘅位", "jyutping": "kaau3 ceong1 ge3 wai2", "english": "window seats" }
+          {
+            "chinese": "有冇",
+            "jyutping": "jau5 mou5",
+            "english": "do you have"
+          },
+          {
+            "chinese": "靠窗嘅位",
+            "jyutping": "kaau3 ceong1 ge3 wai2",
+            "english": "window seats"
+          }
         ]
       },
       {
@@ -795,8 +1139,16 @@
         "context": "Ask for the soonest opening when your preferred time is taken",
         "difficulty": 2,
         "words": [
-          { "chinese": "最快", "jyutping": "zeoi3 faai3", "english": "soonest / earliest" },
-          { "chinese": "幾時有位", "jyutping": "gei2 si4 jau5 wai2", "english": "when is there availability" }
+          {
+            "chinese": "最快",
+            "jyutping": "zeoi3 faai3",
+            "english": "soonest / earliest"
+          },
+          {
+            "chinese": "幾時有位",
+            "jyutping": "gei2 si4 jau5 wai2",
+            "english": "when is there availability"
+          }
         ]
       },
       {
@@ -808,8 +1160,16 @@
         "context": "Change your booking to a different date or time",
         "difficulty": 2,
         "words": [
-          { "chinese": "我想", "jyutping": "ngo5 soeng2", "english": "I'd like to" },
-          { "chinese": "改期", "jyutping": "goi2 kei4", "english": "reschedule / change the date" }
+          {
+            "chinese": "我想",
+            "jyutping": "ngo5 soeng2",
+            "english": "I'd like to"
+          },
+          {
+            "chinese": "改期",
+            "jyutping": "goi2 kei4",
+            "english": "reschedule / change the date"
+          }
         ]
       },
       {
@@ -821,9 +1181,21 @@
         "context": "Cancel a booking — always do this in advance, it's considerate",
         "difficulty": 2,
         "words": [
-          { "chinese": "我想", "jyutping": "ngo5 soeng2", "english": "I'd like to" },
-          { "chinese": "取消", "jyutping": "ceoi1 siu1", "english": "cancel" },
-          { "chinese": "訂位", "jyutping": "deng6 wai2", "english": "the reservation" }
+          {
+            "chinese": "我想",
+            "jyutping": "ngo5 soeng2",
+            "english": "I'd like to"
+          },
+          {
+            "chinese": "取消",
+            "jyutping": "ceoi1 siu1",
+            "english": "cancel"
+          },
+          {
+            "chinese": "訂位",
+            "jyutping": "deng6 wai2",
+            "english": "the reservation"
+          }
         ]
       },
       {
@@ -835,9 +1207,21 @@
         "context": "Ask if a restaurant is full before travelling there",
         "difficulty": 2,
         "words": [
-          { "chinese": "而家", "jyutping": "ji4 gaa1", "english": "right now / currently" },
-          { "chinese": "係唔係", "jyutping": "hai6 m4 hai6", "english": "is it" },
-          { "chinese": "客滿", "jyutping": "haak3 mun5", "english": "fully booked / full house" }
+          {
+            "chinese": "而家",
+            "jyutping": "ji4 gaa1",
+            "english": "right now / currently"
+          },
+          {
+            "chinese": "係唔係",
+            "jyutping": "hai6 m4 hai6",
+            "english": "is it"
+          },
+          {
+            "chinese": "客滿",
+            "jyutping": "haak3 mun5",
+            "english": "fully booked / full house"
+          }
         ]
       },
       {
@@ -849,8 +1233,16 @@
         "context": "Ask if you can be added to the waiting list",
         "difficulty": 1,
         "words": [
-          { "chinese": "有冇", "jyutping": "jau5 mou5", "english": "is there" },
-          { "chinese": "等位", "jyutping": "dang2 wai2", "english": "waitlist / wait for a table" }
+          {
+            "chinese": "有冇",
+            "jyutping": "jau5 mou5",
+            "english": "is there"
+          },
+          {
+            "chinese": "等位",
+            "jyutping": "dang2 wai2",
+            "english": "waitlist / wait for a table"
+          }
         ]
       },
       {
@@ -862,8 +1254,16 @@
         "context": "Confirm opening hours before heading out",
         "difficulty": 1,
         "words": [
-          { "chinese": "你哋", "jyutping": "nei5 dei6", "english": "you (plural) / your place" },
-          { "chinese": "幾點開門", "jyutping": "gei2 dim2 hoi1 mun4", "english": "what time do you open" }
+          {
+            "chinese": "你哋",
+            "jyutping": "nei5 dei6",
+            "english": "you (plural) / your place"
+          },
+          {
+            "chinese": "幾點開門",
+            "jyutping": "gei2 dim2 hoi1 mun4",
+            "english": "what time do you open"
+          }
         ]
       },
       {
@@ -875,8 +1275,16 @@
         "context": "Book a hair appointment, doctor, dentist — follow with the service",
         "difficulty": 2,
         "words": [
-          { "chinese": "我想", "jyutping": "ngo5 soeng2", "english": "I'd like to" },
-          { "chinese": "預約", "jyutping": "jyu6 joek3", "english": "make an appointment / book" }
+          {
+            "chinese": "我想",
+            "jyutping": "ngo5 soeng2",
+            "english": "I'd like to"
+          },
+          {
+            "chinese": "預約",
+            "jyutping": "jyu6 joek3",
+            "english": "make an appointment / book"
+          }
         ]
       },
       {
@@ -888,9 +1296,21 @@
         "context": "Confirm that the staff has recorded your booking details",
         "difficulty": 3,
         "words": [
-          { "chinese": "你自己", "jyutping": "zi6 gei2", "english": "you / yourself" },
-          { "chinese": "記得", "jyutping": "gei3 dak1", "english": "remember to" },
-          { "chinese": "記落我", "jyutping": "gei3 lok3 ngo5", "english": "note me down / record my details" }
+          {
+            "chinese": "你自己",
+            "jyutping": "zi6 gei2",
+            "english": "you / yourself"
+          },
+          {
+            "chinese": "記得",
+            "jyutping": "gei3 dak1",
+            "english": "remember to"
+          },
+          {
+            "chinese": "記落我",
+            "jyutping": "gei3 lok3 ngo5",
+            "english": "note me down / record my details"
+          }
         ]
       }
     ],

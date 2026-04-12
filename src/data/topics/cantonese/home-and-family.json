@@ -6,7 +6,7 @@
     "description": "Helper instructions, deliveries, and building management",
     "phraseCount": 28,
     "imageGradient": "linear-gradient(135deg, #3A2A1A 0%, #7A5A3A 50%, #C8A878 100%)",
-    "imageUrl": null,
+    "imageUrl": "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&q=80&auto=format&fit=crop",
     "phrases": [
       {
         "id": "home-001",
@@ -17,9 +17,21 @@
         "context": "Ask your helper to cook — a daily phrase in many HK households",
         "difficulty": 2,
         "words": [
-          { "chinese": "今日", "jyutping": "gam1 jat6", "english": "today" },
-          { "chinese": "唔該你", "jyutping": "m4 goi1 nei5", "english": "please (asking you)" },
-          { "chinese": "煮飯", "jyutping": "zyu2 faan6", "english": "cook food / make dinner" }
+          {
+            "chinese": "今日",
+            "jyutping": "gam1 jat6",
+            "english": "today"
+          },
+          {
+            "chinese": "唔該你",
+            "jyutping": "m4 goi1 nei5",
+            "english": "please (asking you)"
+          },
+          {
+            "chinese": "煮飯",
+            "jyutping": "zyu2 faan6",
+            "english": "cook food / make dinner"
+          }
         ]
       },
       {
@@ -31,9 +43,21 @@
         "context": "Let your helper know when you're eating out — saves grocery shopping",
         "difficulty": 1,
         "words": [
-          { "chinese": "今日", "jyutping": "gam1 jat6", "english": "today" },
-          { "chinese": "唔使", "jyutping": "m4 sai2", "english": "no need to" },
-          { "chinese": "煮飯", "jyutping": "zyu2 faan6", "english": "cook" }
+          {
+            "chinese": "今日",
+            "jyutping": "gam1 jat6",
+            "english": "today"
+          },
+          {
+            "chinese": "唔使",
+            "jyutping": "m4 sai2",
+            "english": "no need to"
+          },
+          {
+            "chinese": "煮飯",
+            "jyutping": "zyu2 faan6",
+            "english": "cook"
+          }
         ]
       },
       {
@@ -45,8 +69,16 @@
         "context": "Instruct your helper to go to the wet market or supermarket",
         "difficulty": 2,
         "words": [
-          { "chinese": "今日", "jyutping": "gam1 jat6", "english": "today" },
-          { "chinese": "去買餸", "jyutping": "heoi3 maai5 sung3", "english": "go buy groceries / ingredients" }
+          {
+            "chinese": "今日",
+            "jyutping": "gam1 jat6",
+            "english": "today"
+          },
+          {
+            "chinese": "去買餸",
+            "jyutping": "heoi3 maai5 sung3",
+            "english": "go buy groceries / ingredients"
+          }
         ]
       },
       {
@@ -58,9 +90,21 @@
         "context": "Ask your helper to wash clothes",
         "difficulty": 1,
         "words": [
-          { "chinese": "唔該", "jyutping": "m4 goi1", "english": "please" },
-          { "chinese": "幫我", "jyutping": "bong1 ngo5", "english": "for me" },
-          { "chinese": "洗衫", "jyutping": "sai2 saam1", "english": "wash clothes / do laundry" }
+          {
+            "chinese": "唔該",
+            "jyutping": "m4 goi1",
+            "english": "please"
+          },
+          {
+            "chinese": "幫我",
+            "jyutping": "bong1 ngo5",
+            "english": "for me"
+          },
+          {
+            "chinese": "洗衫",
+            "jyutping": "sai2 saam1",
+            "english": "wash clothes / do laundry"
+          }
         ]
       },
       {
@@ -72,8 +116,16 @@
         "context": "Ask your helper to mop the floors",
         "difficulty": 1,
         "words": [
-          { "chinese": "唔該", "jyutping": "m4 goi1", "english": "please" },
-          { "chinese": "拖地", "jyutping": "tok3 dei2", "english": "mop the floor" }
+          {
+            "chinese": "唔該",
+            "jyutping": "m4 goi1",
+            "english": "please"
+          },
+          {
+            "chinese": "拖地",
+            "jyutping": "tok3 dei2",
+            "english": "mop the floor"
+          }
         ]
       },
       {
@@ -85,8 +137,16 @@
         "context": "Ask your helper to dust — HK air can be dusty",
         "difficulty": 2,
         "words": [
-          { "chinese": "唔該", "jyutping": "m4 goi1", "english": "please" },
-          { "chinese": "抹塵", "jyutping": "mat3 can4", "english": "dust / wipe dust" }
+          {
+            "chinese": "唔該",
+            "jyutping": "m4 goi1",
+            "english": "please"
+          },
+          {
+            "chinese": "抹塵",
+            "jyutping": "mat3 can4",
+            "english": "dust / wipe dust"
+          }
         ]
       },
       {
@@ -98,9 +158,21 @@
         "context": "Remind your helper about school pick-up",
         "difficulty": 3,
         "words": [
-          { "chinese": "記得", "jyutping": "gei3 dak1", "english": "remember to" },
-          { "chinese": "按時", "jyutping": "on3 si4", "english": "on time" },
-          { "chinese": "接小朋友", "jyutping": "zip3 siu2 pang4 jau5", "english": "pick up the children" }
+          {
+            "chinese": "記得",
+            "jyutping": "gei3 dak1",
+            "english": "remember to"
+          },
+          {
+            "chinese": "按時",
+            "jyutping": "on3 si4",
+            "english": "on time"
+          },
+          {
+            "chinese": "接小朋友",
+            "jyutping": "zip3 siu2 pang4 jau5",
+            "english": "pick up the children"
+          }
         ]
       },
       {
@@ -112,9 +184,21 @@
         "context": "Leave instructions for your helper when you're out",
         "difficulty": 3,
         "words": [
-          { "chinese": "如果", "jyutping": "jyu4 gwo2", "english": "if" },
-          { "chinese": "有問題", "jyutping": "jau5 man6 tai4", "english": "there's a problem" },
-          { "chinese": "打我電話", "jyutping": "da2 ngo5 din6 waa2", "english": "call my phone" }
+          {
+            "chinese": "如果",
+            "jyutping": "jyu4 gwo2",
+            "english": "if"
+          },
+          {
+            "chinese": "有問題",
+            "jyutping": "jau5 man6 tai4",
+            "english": "there's a problem"
+          },
+          {
+            "chinese": "打我電話",
+            "jyutping": "da2 ngo5 din6 waa2",
+            "english": "call my phone"
+          }
         ]
       },
       {
@@ -126,8 +210,16 @@
         "context": "Let your helper know to accept a parcel when you're at work",
         "difficulty": 3,
         "words": [
-          { "chinese": "有快遞", "jyutping": "jau5 faai3 dei6", "english": "there's a delivery / courier" },
-          { "chinese": "幫我收", "jyutping": "bong1 ngo5 sau1", "english": "accept it for me" }
+          {
+            "chinese": "有快遞",
+            "jyutping": "jau5 faai3 dei6",
+            "english": "there's a delivery / courier"
+          },
+          {
+            "chinese": "幫我收",
+            "jyutping": "bong1 ngo5 sau1",
+            "english": "accept it for me"
+          }
         ]
       },
       {
@@ -139,9 +231,21 @@
         "context": "A safety instruction for your helper when you're not home",
         "difficulty": 2,
         "words": [
-          { "chinese": "唔好", "jyutping": "m4 hou2", "english": "don't" },
-          { "chinese": "俾人", "jyutping": "bei2 jan4", "english": "let people / allow someone" },
-          { "chinese": "入嚟", "jyutping": "jap6 lei4", "english": "come in / enter" }
+          {
+            "chinese": "唔好",
+            "jyutping": "m4 hou2",
+            "english": "don't"
+          },
+          {
+            "chinese": "俾人",
+            "jyutping": "bei2 jan4",
+            "english": "let people / allow someone"
+          },
+          {
+            "chinese": "入嚟",
+            "jyutping": "jap6 lei4",
+            "english": "come in / enter"
+          }
         ]
       },
       {
@@ -153,9 +257,21 @@
         "context": "How to start a call to your building's management office",
         "difficulty": 3,
         "words": [
-          { "chinese": "請問", "jyutping": "cing2 man6", "english": "may I ask / excuse me" },
-          { "chinese": "係唔係", "jyutping": "hai6 m4 hai6", "english": "is this / are you" },
-          { "chinese": "物業管理", "jyutping": "mat6 jip6 gun2 lei5", "english": "building / property management" }
+          {
+            "chinese": "請問",
+            "jyutping": "cing2 man6",
+            "english": "may I ask / excuse me"
+          },
+          {
+            "chinese": "係唔係",
+            "jyutping": "hai6 m4 hai6",
+            "english": "is this / are you"
+          },
+          {
+            "chinese": "物業管理",
+            "jyutping": "mat6 jip6 gun2 lei5",
+            "english": "building / property management"
+          }
         ]
       },
       {
@@ -167,9 +283,21 @@
         "context": "Identify your flat when reporting a problem to management",
         "difficulty": 2,
         "words": [
-          { "chinese": "我係", "jyutping": "ngo5 hai6", "english": "I am in / I'm from" },
-          { "chinese": "座", "jyutping": "zo6", "english": "block / tower" },
-          { "chinese": "室", "jyutping": "sat1", "english": "flat / unit" }
+          {
+            "chinese": "我係",
+            "jyutping": "ngo5 hai6",
+            "english": "I am in / I'm from"
+          },
+          {
+            "chinese": "座",
+            "jyutping": "zo6",
+            "english": "block / tower"
+          },
+          {
+            "chinese": "室",
+            "jyutping": "sat1",
+            "english": "flat / unit"
+          }
         ]
       },
       {
@@ -181,8 +309,16 @@
         "context": "Report a water leak to building management — unfortunately common in HK",
         "difficulty": 2,
         "words": [
-          { "chinese": "我屋企", "jyutping": "ngo5 uk1 kei2", "english": "my home / my flat" },
-          { "chinese": "漏水", "jyutping": "lau6 seoi2", "english": "water leak / leaking water" }
+          {
+            "chinese": "我屋企",
+            "jyutping": "ngo5 uk1 kei2",
+            "english": "my home / my flat"
+          },
+          {
+            "chinese": "漏水",
+            "jyutping": "lau6 seoi2",
+            "english": "water leak / leaking water"
+          }
         ]
       },
       {
@@ -194,8 +330,16 @@
         "context": "A critical report in HK's humid heat — report this immediately",
         "difficulty": 1,
         "words": [
-          { "chinese": "冷氣", "jyutping": "laang5 hei3", "english": "air conditioning" },
-          { "chinese": "壞咗", "jyutping": "waai6 zo2", "english": "broken / out of order" }
+          {
+            "chinese": "冷氣",
+            "jyutping": "laang5 hei3",
+            "english": "air conditioning"
+          },
+          {
+            "chinese": "壞咗",
+            "jyutping": "waai6 zo2",
+            "english": "broken / out of order"
+          }
         ]
       },
       {
@@ -207,8 +351,16 @@
         "context": "Report a blocked toilet to management or call a plumber",
         "difficulty": 2,
         "words": [
-          { "chinese": "廁所", "jyutping": "ci3 so2", "english": "toilet" },
-          { "chinese": "塞咗", "jyutping": "sak1 zo2", "english": "blocked / clogged" }
+          {
+            "chinese": "廁所",
+            "jyutping": "ci3 so2",
+            "english": "toilet"
+          },
+          {
+            "chinese": "塞咗",
+            "jyutping": "sak1 zo2",
+            "english": "blocked / clogged"
+          }
         ]
       },
       {
@@ -220,8 +372,16 @@
         "context": "Ask when a repair person can come — follow up if they say 'later'",
         "difficulty": 2,
         "words": [
-          { "chinese": "幾時", "jyutping": "gei2 si4", "english": "when" },
-          { "chinese": "可以嚟睇", "jyutping": "ho2 ji3 lei4 tai2", "english": "can come to look / check" }
+          {
+            "chinese": "幾時",
+            "jyutping": "gei2 si4",
+            "english": "when"
+          },
+          {
+            "chinese": "可以嚟睇",
+            "jyutping": "ho2 ji3 lei4 tai2",
+            "english": "can come to look / check"
+          }
         ]
       },
       {
@@ -233,9 +393,21 @@
         "context": "Ask the delivery person if a signature is required",
         "difficulty": 2,
         "words": [
-          { "chinese": "請問", "jyutping": "cing2 man6", "english": "may I ask" },
-          { "chinese": "要唔要", "jyutping": "jiu3 m4 jiu3", "english": "do I need to" },
-          { "chinese": "簽名", "jyutping": "cim1 meng2", "english": "sign / signature" }
+          {
+            "chinese": "請問",
+            "jyutping": "cing2 man6",
+            "english": "may I ask"
+          },
+          {
+            "chinese": "要唔要",
+            "jyutping": "jiu3 m4 jiu3",
+            "english": "do I need to"
+          },
+          {
+            "chinese": "簽名",
+            "jyutping": "cim1 meng2",
+            "english": "sign / signature"
+          }
         ]
       },
       {
@@ -247,9 +419,21 @@
         "context": "Tell a delivery person to leave the parcel outside your door",
         "difficulty": 2,
         "words": [
-          { "chinese": "放喺", "jyutping": "fong3 hai2", "english": "leave at / put at" },
-          { "chinese": "門口", "jyutping": "mun4 hau2", "english": "doorway / entrance" },
-          { "chinese": "就好", "jyutping": "zau6 hou2", "english": "that's fine / that will do" }
+          {
+            "chinese": "放喺",
+            "jyutping": "fong3 hai2",
+            "english": "leave at / put at"
+          },
+          {
+            "chinese": "門口",
+            "jyutping": "mun4 hau2",
+            "english": "doorway / entrance"
+          },
+          {
+            "chinese": "就好",
+            "jyutping": "zau6 hou2",
+            "english": "that's fine / that will do"
+          }
         ]
       },
       {
@@ -261,9 +445,21 @@
         "context": "Ask building management if they can send someone to fix something",
         "difficulty": 3,
         "words": [
-          { "chinese": "請問", "jyutping": "cing2 man6", "english": "may I ask" },
-          { "chinese": "有冇", "jyutping": "jau5 mou5", "english": "do you have" },
-          { "chinese": "維修服務", "jyutping": "wai4 sau1 fuk6 mou6", "english": "repair service" }
+          {
+            "chinese": "請問",
+            "jyutping": "cing2 man6",
+            "english": "may I ask"
+          },
+          {
+            "chinese": "有冇",
+            "jyutping": "jau5 mou5",
+            "english": "do you have"
+          },
+          {
+            "chinese": "維修服務",
+            "jyutping": "wai4 sau1 fuk6 mou6",
+            "english": "repair service"
+          }
         ]
       },
       {
@@ -275,8 +471,16 @@
         "context": "Report a burned-out lightbulb",
         "difficulty": 1,
         "words": [
-          { "chinese": "燈泡", "jyutping": "dang1 baau1", "english": "lightbulb" },
-          { "chinese": "壞咗", "jyutping": "waai6 zo2", "english": "broken / blown" }
+          {
+            "chinese": "燈泡",
+            "jyutping": "dang1 baau1",
+            "english": "lightbulb"
+          },
+          {
+            "chinese": "壞咗",
+            "jyutping": "waai6 zo2",
+            "english": "broken / blown"
+          }
         ]
       },
       {
@@ -288,8 +492,16 @@
         "context": "Report a broken lock — a security priority",
         "difficulty": 2,
         "words": [
-          { "chinese": "門鎖", "jyutping": "mun4 so2", "english": "door lock" },
-          { "chinese": "壞咗", "jyutping": "waai6 zo2", "english": "broken" }
+          {
+            "chinese": "門鎖",
+            "jyutping": "mun4 so2",
+            "english": "door lock"
+          },
+          {
+            "chinese": "壞咗",
+            "jyutping": "waai6 zo2",
+            "english": "broken"
+          }
         ]
       },
       {
@@ -301,8 +513,16 @@
         "context": "Report a broken elevator to building management",
         "difficulty": 1,
         "words": [
-          { "chinese": "電梯", "jyutping": "din6 tai1", "english": "elevator / lift" },
-          { "chinese": "壞咗", "jyutping": "waai6 zo2", "english": "broken / out of order" }
+          {
+            "chinese": "電梯",
+            "jyutping": "din6 tai1",
+            "english": "elevator / lift"
+          },
+          {
+            "chinese": "壞咗",
+            "jyutping": "waai6 zo2",
+            "english": "broken / out of order"
+          }
         ]
       },
       {
@@ -314,8 +534,16 @@
         "context": "Specify what dish you'd like for dinner — follow with the dish name",
         "difficulty": 2,
         "words": [
-          { "chinese": "唔該", "jyutping": "m4 goi1", "english": "please" },
-          { "chinese": "今日煮", "jyutping": "gam1 jat6 zyu2", "english": "cook today" }
+          {
+            "chinese": "唔該",
+            "jyutping": "m4 goi1",
+            "english": "please"
+          },
+          {
+            "chinese": "今日煮",
+            "jyutping": "gam1 jat6 zyu2",
+            "english": "cook today"
+          }
         ]
       },
       {
@@ -327,8 +555,16 @@
         "context": "Tell your helper what you'd like to eat — swap for your preference",
         "difficulty": 2,
         "words": [
-          { "chinese": "想食", "jyutping": "soeng2 sik6", "english": "would like to eat" },
-          { "chinese": "燒雞", "jyutping": "siu1 gai1", "english": "roast chicken" }
+          {
+            "chinese": "想食",
+            "jyutping": "soeng2 sik6",
+            "english": "would like to eat"
+          },
+          {
+            "chinese": "燒雞",
+            "jyutping": "siu1 gai1",
+            "english": "roast chicken"
+          }
         ]
       },
       {
@@ -340,8 +576,16 @@
         "context": "Specify cooking preferences for your helper",
         "difficulty": 2,
         "words": [
-          { "chinese": "唔使", "jyutping": "m4 sai2", "english": "no need / don't" },
-          { "chinese": "放醬", "jyutping": "fong3 gaau1", "english": "add sauce" }
+          {
+            "chinese": "唔使",
+            "jyutping": "m4 sai2",
+            "english": "no need / don't"
+          },
+          {
+            "chinese": "放醬",
+            "jyutping": "fong3 gaau1",
+            "english": "add sauce"
+          }
         ]
       },
       {
@@ -353,8 +597,16 @@
         "context": "Give your helper a day off — a very appreciated thing to say",
         "difficulty": 3,
         "words": [
-          { "chinese": "今日冇嘢做", "jyutping": "gam1 jat6 mou5 je5 zou6", "english": "nothing to do today" },
-          { "chinese": "放假喇", "jyutping": "fong3 gaa3 laa3", "english": "day off / holiday" }
+          {
+            "chinese": "今日冇嘢做",
+            "jyutping": "gam1 jat6 mou5 je5 zou6",
+            "english": "nothing to do today"
+          },
+          {
+            "chinese": "放假喇",
+            "jyutping": "fong3 gaa3 laa3",
+            "english": "day off / holiday"
+          }
         ]
       },
       {
@@ -366,8 +618,16 @@
         "context": "Praise your helper — positive feedback goes a long way",
         "difficulty": 2,
         "words": [
-          { "chinese": "你今日", "jyutping": "nei5 gam1 jat6", "english": "you today" },
-          { "chinese": "做得好好", "jyutping": "zou6 dak1 hou2 hou2", "english": "did very well / great job" }
+          {
+            "chinese": "你今日",
+            "jyutping": "nei5 gam1 jat6",
+            "english": "you today"
+          },
+          {
+            "chinese": "做得好好",
+            "jyutping": "zou6 dak1 hou2 hou2",
+            "english": "did very well / great job"
+          }
         ]
       },
       {
@@ -379,8 +639,16 @@
         "context": "A warm thank you to your helper at the end of the day",
         "difficulty": 1,
         "words": [
-          { "chinese": "多謝你", "jyutping": "do1 ze6 nei5", "english": "thank you" },
-          { "chinese": "今日", "jyutping": "gam1 jat6", "english": "today" }
+          {
+            "chinese": "多謝你",
+            "jyutping": "do1 ze6 nei5",
+            "english": "thank you"
+          },
+          {
+            "chinese": "今日",
+            "jyutping": "gam1 jat6",
+            "english": "today"
+          }
         ]
       }
     ],
@@ -529,7 +797,7 @@
     "description": "Morning routines, praise, meals, and bedtime",
     "phraseCount": 20,
     "imageGradient": "linear-gradient(135deg, #1A4A6A 0%, #4A8ABA 50%, #A0D0FF 100%)",
-    "imageUrl": null,
+    "imageUrl": "https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=600&q=80&auto=format&fit=crop",
     "phrases": [
       {
         "id": "kids-001",
@@ -540,8 +808,16 @@
         "context": "The morning battle cry in every HK household",
         "difficulty": 1,
         "words": [
-          { "chinese": "起身", "jyutping": "hei2 san1", "english": "get up / wake up" },
-          { "chinese": "喇", "jyutping": "laa3", "english": "sentence-final (change of state)" }
+          {
+            "chinese": "起身",
+            "jyutping": "hei2 san1",
+            "english": "get up / wake up"
+          },
+          {
+            "chinese": "喇",
+            "jyutping": "laa3",
+            "english": "sentence-final (change of state)"
+          }
         ]
       },
       {
@@ -553,8 +829,16 @@
         "context": "Tell the kids to eat their breakfast before school",
         "difficulty": 1,
         "words": [
-          { "chinese": "食", "jyutping": "sik6", "english": "eat" },
-          { "chinese": "早餐", "jyutping": "zou2 caan1", "english": "breakfast" }
+          {
+            "chinese": "食",
+            "jyutping": "sik6",
+            "english": "eat"
+          },
+          {
+            "chinese": "早餐",
+            "jyutping": "zou2 caan1",
+            "english": "breakfast"
+          }
         ]
       },
       {
@@ -566,7 +850,11 @@
         "context": "The most-used parenting phrase — works on all ages",
         "difficulty": 1,
         "words": [
-          { "chinese": "快啲", "jyutping": "faai3 di1", "english": "faster / hurry up" }
+          {
+            "chinese": "快啲",
+            "jyutping": "faai3 di1",
+            "english": "faster / hurry up"
+          }
         ]
       },
       {
@@ -578,8 +866,16 @@
         "context": "The morning routine command",
         "difficulty": 2,
         "words": [
-          { "chinese": "準備", "jyutping": "zeon2 bei6", "english": "get ready / prepare" },
-          { "chinese": "返學", "jyutping": "faan1 hok6", "english": "go to school" }
+          {
+            "chinese": "準備",
+            "jyutping": "zeon2 bei6",
+            "english": "get ready / prepare"
+          },
+          {
+            "chinese": "返學",
+            "jyutping": "faan1 hok6",
+            "english": "go to school"
+          }
         ]
       },
       {
@@ -591,8 +887,16 @@
         "context": "Morning and bedtime essential",
         "difficulty": 1,
         "words": [
-          { "chinese": "刷", "jyutping": "caat3", "english": "brush" },
-          { "chinese": "牙", "jyutping": "ngaa4", "english": "teeth" }
+          {
+            "chinese": "刷",
+            "jyutping": "caat3",
+            "english": "brush"
+          },
+          {
+            "chinese": "牙",
+            "jyutping": "ngaa4",
+            "english": "teeth"
+          }
         ]
       },
       {
@@ -604,8 +908,16 @@
         "context": "Tell the kids to put their clothes on",
         "difficulty": 1,
         "words": [
-          { "chinese": "著", "jyutping": "zoek3", "english": "put on / wear" },
-          { "chinese": "衫", "jyutping": "saam1", "english": "clothes / shirt" }
+          {
+            "chinese": "著",
+            "jyutping": "zoek3",
+            "english": "put on / wear"
+          },
+          {
+            "chinese": "衫",
+            "jyutping": "saam1",
+            "english": "clothes / shirt"
+          }
         ]
       },
       {
@@ -617,8 +929,16 @@
         "context": "Get the kids ready to leave — the final step before the door",
         "difficulty": 2,
         "words": [
-          { "chinese": "揹", "jyutping": "bui3", "english": "carry on your back" },
-          { "chinese": "書包", "jyutping": "syu1 baau1", "english": "school bag" }
+          {
+            "chinese": "揹",
+            "jyutping": "bui3",
+            "english": "carry on your back"
+          },
+          {
+            "chinese": "書包",
+            "jyutping": "syu1 baau1",
+            "english": "school bag"
+          }
         ]
       },
       {
@@ -630,8 +950,16 @@
         "context": "Tell children to finish their plate — said at every meal",
         "difficulty": 1,
         "words": [
-          { "chinese": "食", "jyutping": "sik6", "english": "eat" },
-          { "chinese": "晒", "jyutping": "saai3", "english": "all / completely" }
+          {
+            "chinese": "食",
+            "jyutping": "sik6",
+            "english": "eat"
+          },
+          {
+            "chinese": "晒",
+            "jyutping": "saai3",
+            "english": "all / completely"
+          }
         ]
       },
       {
@@ -643,9 +971,21 @@
         "context": "The universal mealtime correction",
         "difficulty": 2,
         "words": [
-          { "chinese": "唔好", "jyutping": "m4 hou2", "english": "don't" },
-          { "chinese": "玩", "jyutping": "waan2", "english": "play" },
-          { "chinese": "嘢食", "jyutping": "je5 sik6", "english": "food" }
+          {
+            "chinese": "唔好",
+            "jyutping": "m4 hou2",
+            "english": "don't"
+          },
+          {
+            "chinese": "玩",
+            "jyutping": "waan2",
+            "english": "play"
+          },
+          {
+            "chinese": "嘢食",
+            "jyutping": "je5 sik6",
+            "english": "food"
+          }
         ]
       },
       {
@@ -657,8 +997,16 @@
         "context": "The classic HK parent phrase — said at meals, in the car, everywhere",
         "difficulty": 1,
         "words": [
-          { "chinese": "坐", "jyutping": "co5", "english": "sit" },
-          { "chinese": "定定", "jyutping": "ding6 ding6", "english": "still / properly / without moving" }
+          {
+            "chinese": "坐",
+            "jyutping": "co5",
+            "english": "sit"
+          },
+          {
+            "chinese": "定定",
+            "jyutping": "ding6 ding6",
+            "english": "still / properly / without moving"
+          }
         ]
       },
       {
@@ -670,8 +1018,16 @@
         "context": "Tidy-up time — a daily after-play routine",
         "difficulty": 2,
         "words": [
-          { "chinese": "收拾", "jyutping": "sau1 sap1", "english": "tidy up / put away" },
-          { "chinese": "玩具", "jyutping": "waan4 geoi6", "english": "toys" }
+          {
+            "chinese": "收拾",
+            "jyutping": "sau1 sap1",
+            "english": "tidy up / put away"
+          },
+          {
+            "chinese": "玩具",
+            "jyutping": "waan4 geoi6",
+            "english": "toys"
+          }
         ]
       },
       {
@@ -683,7 +1039,11 @@
         "context": "沖涼 is the uniquely Cantonese word for bathing — don't say 洗澡 which is more Mandarin",
         "difficulty": 1,
         "words": [
-          { "chinese": "沖涼", "jyutping": "cung1 loeng4", "english": "shower / bathe (uniquely Cantonese)" }
+          {
+            "chinese": "沖涼",
+            "jyutping": "cung1 loeng4",
+            "english": "shower / bathe (uniquely Cantonese)"
+          }
         ]
       },
       {
@@ -695,8 +1055,16 @@
         "context": "The bedtime double command — said together as one phrase",
         "difficulty": 2,
         "words": [
-          { "chinese": "刷牙", "jyutping": "caat3 ngaa4", "english": "brush teeth" },
-          { "chinese": "瞓覺", "jyutping": "fan3 gaau3", "english": "sleep / go to bed" }
+          {
+            "chinese": "刷牙",
+            "jyutping": "caat3 ngaa4",
+            "english": "brush teeth"
+          },
+          {
+            "chinese": "瞓覺",
+            "jyutping": "fan3 gaau3",
+            "english": "sleep / go to bed"
+          }
         ]
       },
       {
@@ -708,8 +1076,16 @@
         "context": "Praise a child — 叻仔 for boys, 叻女 for girls, or just 好叻 for either",
         "difficulty": 1,
         "words": [
-          { "chinese": "你好", "jyutping": "nei5 hou2", "english": "you are so" },
-          { "chinese": "叻仔", "jyutping": "leng3 zai2", "english": "clever / smart (boy)" }
+          {
+            "chinese": "你好",
+            "jyutping": "nei5 hou2",
+            "english": "you are so"
+          },
+          {
+            "chinese": "叻仔",
+            "jyutping": "leng3 zai2",
+            "english": "clever / smart (boy)"
+          }
         ]
       },
       {
@@ -721,7 +1097,11 @@
         "context": "Encourage children for any achievement or good behaviour",
         "difficulty": 1,
         "words": [
-          { "chinese": "做得好", "jyutping": "zou6 dak1 hou2", "english": "well done / did well" }
+          {
+            "chinese": "做得好",
+            "jyutping": "zou6 dak1 hou2",
+            "english": "well done / did well"
+          }
         ]
       },
       {
@@ -733,8 +1113,16 @@
         "context": "Comfort a crying child",
         "difficulty": 1,
         "words": [
-          { "chinese": "唔好", "jyutping": "m4 hou2", "english": "don't" },
-          { "chinese": "喊", "jyutping": "haam3", "english": "cry" }
+          {
+            "chinese": "唔好",
+            "jyutping": "m4 hou2",
+            "english": "don't"
+          },
+          {
+            "chinese": "喊",
+            "jyutping": "haam3",
+            "english": "cry"
+          }
         ]
       },
       {
@@ -746,8 +1134,16 @@
         "context": "Reassure a child after a fall or fright",
         "difficulty": 1,
         "words": [
-          { "chinese": "冇事", "jyutping": "mou5 si6", "english": "nothing wrong / it's fine" },
-          { "chinese": "㗎", "jyutping": "ge3", "english": "reassuring particle" }
+          {
+            "chinese": "冇事",
+            "jyutping": "mou5 si6",
+            "english": "nothing wrong / it's fine"
+          },
+          {
+            "chinese": "㗎",
+            "jyutping": "ge3",
+            "english": "reassuring particle"
+          }
         ]
       },
       {
@@ -759,7 +1155,11 @@
         "context": "Teach children to apologise — a very important phrase for kids to learn",
         "difficulty": 1,
         "words": [
-          { "chinese": "對唔住", "jyutping": "deoi3 m4 zyu6", "english": "I'm sorry / I apologise" }
+          {
+            "chinese": "對唔住",
+            "jyutping": "deoi3 m4 zyu6",
+            "english": "I'm sorry / I apologise"
+          }
         ]
       },
       {
@@ -771,8 +1171,16 @@
         "context": "Teach children to say please — use when asking for something",
         "difficulty": 1,
         "words": [
-          { "chinese": "唔該", "jyutping": "m4 goi1", "english": "please / thank you" },
-          { "chinese": "請你", "jyutping": "cing2 nei5", "english": "please (asking)" }
+          {
+            "chinese": "唔該",
+            "jyutping": "m4 goi1",
+            "english": "please / thank you"
+          },
+          {
+            "chinese": "請你",
+            "jyutping": "cing2 nei5",
+            "english": "please (asking)"
+          }
         ]
       },
       {
@@ -784,9 +1192,21 @@
         "context": "Tell your child you love them — increasingly said in HK families",
         "difficulty": 1,
         "words": [
-          { "chinese": "我", "jyutping": "ngo5", "english": "I" },
-          { "chinese": "愛", "jyutping": "oi3", "english": "love" },
-          { "chinese": "你", "jyutping": "nei5", "english": "you" }
+          {
+            "chinese": "我",
+            "jyutping": "ngo5",
+            "english": "I"
+          },
+          {
+            "chinese": "愛",
+            "jyutping": "oi3",
+            "english": "love"
+          },
+          {
+            "chinese": "你",
+            "jyutping": "nei5",
+            "english": "you"
+          }
         ]
       }
     ],
@@ -924,7 +1344,7 @@
     "description": "Symptoms, pain, medicine, and instructions",
     "phraseCount": 18,
     "imageGradient": "linear-gradient(135deg, #1A3A5A 0%, #2A6A8A 50%, #70C0D0 100%)",
-    "imageUrl": null,
+    "imageUrl": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80&auto=format&fit=crop",
     "phrases": [
       {
         "id": "doc-001",
@@ -935,8 +1355,16 @@
         "context": "Tell the doctor or pharmacist you're unwell — a good starting phrase",
         "difficulty": 1,
         "words": [
-          { "chinese": "我", "jyutping": "ngo5", "english": "I" },
-          { "chinese": "唔舒服", "jyutping": "m4 syu1 fuk6", "english": "not well / unwell / uncomfortable" }
+          {
+            "chinese": "我",
+            "jyutping": "ngo5",
+            "english": "I"
+          },
+          {
+            "chinese": "唔舒服",
+            "jyutping": "m4 syu1 fuk6",
+            "english": "not well / unwell / uncomfortable"
+          }
         ]
       },
       {
@@ -948,8 +1376,16 @@
         "context": "Report a headache — 頭 (head) + 痛 (pain) for any head pain",
         "difficulty": 1,
         "words": [
-          { "chinese": "我", "jyutping": "ngo5", "english": "I" },
-          { "chinese": "頭痛", "jyutping": "tau4 tung3", "english": "headache" }
+          {
+            "chinese": "我",
+            "jyutping": "ngo5",
+            "english": "I"
+          },
+          {
+            "chinese": "頭痛",
+            "jyutping": "tau4 tung3",
+            "english": "headache"
+          }
         ]
       },
       {
@@ -961,8 +1397,16 @@
         "context": "Report stomach pain — 肚 is the Cantonese word for stomach",
         "difficulty": 1,
         "words": [
-          { "chinese": "我", "jyutping": "ngo5", "english": "I" },
-          { "chinese": "肚痛", "jyutping": "tou5 tung3", "english": "stomach ache / belly pain" }
+          {
+            "chinese": "我",
+            "jyutping": "ngo5",
+            "english": "I"
+          },
+          {
+            "chinese": "肚痛",
+            "jyutping": "tou5 tung3",
+            "english": "stomach ache / belly pain"
+          }
         ]
       },
       {
@@ -974,8 +1418,16 @@
         "context": "Report a fever — the doctor will take your temperature",
         "difficulty": 1,
         "words": [
-          { "chinese": "我", "jyutping": "ngo5", "english": "I" },
-          { "chinese": "發燒", "jyutping": "faat3 siu1", "english": "fever (lit. emit heat)" }
+          {
+            "chinese": "我",
+            "jyutping": "ngo5",
+            "english": "I"
+          },
+          {
+            "chinese": "發燒",
+            "jyutping": "faat3 siu1",
+            "english": "fever (lit. emit heat)"
+          }
         ]
       },
       {
@@ -987,8 +1439,16 @@
         "context": "Report a cough — very common in HK",
         "difficulty": 1,
         "words": [
-          { "chinese": "我", "jyutping": "ngo5", "english": "I" },
-          { "chinese": "咳嗽", "jyutping": "kat1 sau3", "english": "cough" }
+          {
+            "chinese": "我",
+            "jyutping": "ngo5",
+            "english": "I"
+          },
+          {
+            "chinese": "咳嗽",
+            "jyutping": "kat1 sau3",
+            "english": "cough"
+          }
         ]
       },
       {
@@ -1000,8 +1460,16 @@
         "context": "Report nasal symptoms",
         "difficulty": 2,
         "words": [
-          { "chinese": "我", "jyutping": "ngo5", "english": "I" },
-          { "chinese": "流鼻水", "jyutping": "lau4 pei5 seoi2", "english": "runny nose (lit. flowing nose water)" }
+          {
+            "chinese": "我",
+            "jyutping": "ngo5",
+            "english": "I"
+          },
+          {
+            "chinese": "流鼻水",
+            "jyutping": "lau4 pei5 seoi2",
+            "english": "runny nose (lit. flowing nose water)"
+          }
         ]
       },
       {
@@ -1013,8 +1481,16 @@
         "context": "Report nausea — also useful for seasickness or motion sickness",
         "difficulty": 2,
         "words": [
-          { "chinese": "我", "jyutping": "ngo5", "english": "I" },
-          { "chinese": "作嘔", "jyutping": "zok3 ngau2", "english": "nauseous / feel like vomiting" }
+          {
+            "chinese": "我",
+            "jyutping": "ngo5",
+            "english": "I"
+          },
+          {
+            "chinese": "作嘔",
+            "jyutping": "zok3 ngau2",
+            "english": "nauseous / feel like vomiting"
+          }
         ]
       },
       {
@@ -1026,8 +1502,16 @@
         "context": "Point to where it hurts — essential when you can't name the body part",
         "difficulty": 1,
         "words": [
-          { "chinese": "呢度", "jyutping": "ni1 dou6", "english": "here / this place" },
-          { "chinese": "痛", "jyutping": "tung3", "english": "pain / hurts" }
+          {
+            "chinese": "呢度",
+            "jyutping": "ni1 dou6",
+            "english": "here / this place"
+          },
+          {
+            "chinese": "痛",
+            "jyutping": "tung3",
+            "english": "pain / hurts"
+          }
         ]
       },
       {
@@ -1039,8 +1523,16 @@
         "context": "Communicate severity of pain",
         "difficulty": 1,
         "words": [
-          { "chinese": "好", "jyutping": "hou2", "english": "very" },
-          { "chinese": "痛", "jyutping": "tung3", "english": "pain / hurts" }
+          {
+            "chinese": "好",
+            "jyutping": "hou2",
+            "english": "very"
+          },
+          {
+            "chinese": "痛",
+            "jyutping": "tung3",
+            "english": "pain / hurts"
+          }
         ]
       },
       {
@@ -1052,8 +1544,16 @@
         "context": "The doctor will ask you this — know the answer",
         "difficulty": 2,
         "words": [
-          { "chinese": "痛咗", "jyutping": "tung3 zo2", "english": "been hurting / in pain" },
-          { "chinese": "幾耐", "jyutping": "gei2 noi6", "english": "how long" }
+          {
+            "chinese": "痛咗",
+            "jyutping": "tung3 zo2",
+            "english": "been hurting / in pain"
+          },
+          {
+            "chinese": "幾耐",
+            "jyutping": "gei2 noi6",
+            "english": "how long"
+          }
         ]
       },
       {
@@ -1065,8 +1565,16 @@
         "context": "Report a fall or injury",
         "difficulty": 2,
         "words": [
-          { "chinese": "我", "jyutping": "ngo5", "english": "I" },
-          { "chinese": "跌親", "jyutping": "dit3 can1", "english": "fell / hurt myself in a fall" }
+          {
+            "chinese": "我",
+            "jyutping": "ngo5",
+            "english": "I"
+          },
+          {
+            "chinese": "跌親",
+            "jyutping": "dit3 can1",
+            "english": "fell / hurt myself in a fall"
+          }
         ]
       },
       {
@@ -1078,8 +1586,16 @@
         "context": "Ask the doctor or pharmacist for medication",
         "difficulty": 2,
         "words": [
-          { "chinese": "有冇藥", "jyutping": "jau5 mou5 joek6", "english": "do you have medicine" },
-          { "chinese": "俾我", "jyutping": "bei2 ngo5", "english": "give me / for me" }
+          {
+            "chinese": "有冇藥",
+            "jyutping": "jau5 mou5 joek6",
+            "english": "do you have medicine"
+          },
+          {
+            "chinese": "俾我",
+            "jyutping": "bei2 ngo5",
+            "english": "give me / for me"
+          }
         ]
       },
       {
@@ -1091,8 +1607,16 @@
         "context": "Ask about the dosage",
         "difficulty": 1,
         "words": [
-          { "chinese": "食", "jyutping": "sik6", "english": "take / eat (medicine)" },
-          { "chinese": "幾多", "jyutping": "gei2 do1", "english": "how much" }
+          {
+            "chinese": "食",
+            "jyutping": "sik6",
+            "english": "take / eat (medicine)"
+          },
+          {
+            "chinese": "幾多",
+            "jyutping": "gei2 do1",
+            "english": "how much"
+          }
         ]
       },
       {
@@ -1104,8 +1628,16 @@
         "context": "Ask when to take the medication",
         "difficulty": 1,
         "words": [
-          { "chinese": "幾時", "jyutping": "gei2 si4", "english": "when" },
-          { "chinese": "食", "jyutping": "sik6", "english": "take (medicine)" }
+          {
+            "chinese": "幾時",
+            "jyutping": "gei2 si4",
+            "english": "when"
+          },
+          {
+            "chinese": "食",
+            "jyutping": "sik6",
+            "english": "take (medicine)"
+          }
         ]
       },
       {
@@ -1117,8 +1649,16 @@
         "context": "The most common dosage instruction you'll hear",
         "difficulty": 2,
         "words": [
-          { "chinese": "一日", "jyutping": "jat1 jat6", "english": "one day / per day" },
-          { "chinese": "食三次", "jyutping": "sik6 saam1 ci3", "english": "take three times" }
+          {
+            "chinese": "一日",
+            "jyutping": "jat1 jat6",
+            "english": "one day / per day"
+          },
+          {
+            "chinese": "食三次",
+            "jyutping": "sik6 saam1 ci3",
+            "english": "take three times"
+          }
         ]
       },
       {
@@ -1130,8 +1670,16 @@
         "context": "Instruction to take medicine after eating",
         "difficulty": 2,
         "words": [
-          { "chinese": "食咗飯先", "jyutping": "sik6 zo2 faan6 sin1", "english": "after eating" },
-          { "chinese": "食", "jyutping": "sik6", "english": "take (medicine)" }
+          {
+            "chinese": "食咗飯先",
+            "jyutping": "sik6 zo2 faan6 sin1",
+            "english": "after eating"
+          },
+          {
+            "chinese": "食",
+            "jyutping": "sik6",
+            "english": "take (medicine)"
+          }
         ]
       },
       {
@@ -1143,8 +1691,16 @@
         "context": "What the doctor says at the end of every appointment — be ready to hear this",
         "difficulty": 3,
         "words": [
-          { "chinese": "如果唔好", "jyutping": "jyu4 gwo2 m4 hou2", "english": "if it doesn't improve" },
-          { "chinese": "轉番嚟", "jyutping": "zyun3 faan1 lei4", "english": "come back again" }
+          {
+            "chinese": "如果唔好",
+            "jyutping": "jyu4 gwo2 m4 hou2",
+            "english": "if it doesn't improve"
+          },
+          {
+            "chinese": "轉番嚟",
+            "jyutping": "zyun3 faan1 lei4",
+            "english": "come back again"
+          }
         ]
       },
       {
@@ -1156,8 +1712,16 @@
         "context": "Critical information to tell any doctor or pharmacist",
         "difficulty": 3,
         "words": [
-          { "chinese": "我有", "jyutping": "ngo5 jau5", "english": "I have" },
-          { "chinese": "藥物過敏", "jyutping": "gwok3 joek6 gwo3 man5", "english": "drug / medication allergy" }
+          {
+            "chinese": "我有",
+            "jyutping": "ngo5 jau5",
+            "english": "I have"
+          },
+          {
+            "chinese": "藥物過敏",
+            "jyutping": "gwok3 joek6 gwo3 man5",
+            "english": "drug / medication allergy"
+          }
         ]
       }
     ],
@@ -1317,7 +1881,7 @@
     "description": "Supermarket basics, finding items, and checkout",
     "phraseCount": 14,
     "imageGradient": "linear-gradient(135deg, #2A5A2A 0%, #50A050 50%, #A0D8A0 100%)",
-    "imageUrl": null,
+    "imageUrl": "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80&auto=format&fit=crop",
     "phrases": [
       {
         "id": "groc-001",
@@ -1328,8 +1892,16 @@
         "context": "Ask a staff member where to find an item — follow with the item name",
         "difficulty": 1,
         "words": [
-          { "chinese": "唔該", "jyutping": "m4 goi1", "english": "excuse me" },
-          { "chinese": "喺邊度", "jyutping": "hai6 bin1 dou6", "english": "where is it" }
+          {
+            "chinese": "唔該",
+            "jyutping": "m4 goi1",
+            "english": "excuse me"
+          },
+          {
+            "chinese": "喺邊度",
+            "jyutping": "hai6 bin1 dou6",
+            "english": "where is it"
+          }
         ]
       },
       {
@@ -1341,8 +1913,16 @@
         "context": "The answer you'll get when asking where something is",
         "difficulty": 1,
         "words": [
-          { "chinese": "喺", "jyutping": "hai6", "english": "it's at / in" },
-          { "chinese": "排", "jyutping": "paai4", "english": "aisle / row" }
+          {
+            "chinese": "喺",
+            "jyutping": "hai6",
+            "english": "it's at / in"
+          },
+          {
+            "chinese": "排",
+            "jyutping": "paai4",
+            "english": "aisle / row"
+          }
         ]
       },
       {
@@ -1354,8 +1934,16 @@
         "context": "Check the expiry date — important for fresh products",
         "difficulty": 2,
         "words": [
-          { "chinese": "呢個", "jyutping": "ni1 go3", "english": "this" },
-          { "chinese": "幾時到期", "jyutping": "gei2 si4 dou3 kei4", "english": "when does it expire" }
+          {
+            "chinese": "呢個",
+            "jyutping": "ni1 go3",
+            "english": "this"
+          },
+          {
+            "chinese": "幾時到期",
+            "jyutping": "gei2 si4 dou3 kei4",
+            "english": "when does it expire"
+          }
         ]
       },
       {
@@ -1367,9 +1955,21 @@
         "context": "Ask for organic produce — increasingly available in HK supermarkets",
         "difficulty": 3,
         "words": [
-          { "chinese": "有冇", "jyutping": "jau5 mou5", "english": "do you have" },
-          { "chinese": "有機", "jyutping": "jau1 gei1", "english": "organic" },
-          { "chinese": "蔬菜", "jyutping": "sou3 coi3", "english": "vegetables" }
+          {
+            "chinese": "有冇",
+            "jyutping": "jau5 mou5",
+            "english": "do you have"
+          },
+          {
+            "chinese": "有機",
+            "jyutping": "jau1 gei1",
+            "english": "organic"
+          },
+          {
+            "chinese": "蔬菜",
+            "jyutping": "sou3 coi3",
+            "english": "vegetables"
+          }
         ]
       },
       {
@@ -1381,8 +1981,16 @@
         "context": "Ask for fresher produce when what's on display looks tired",
         "difficulty": 2,
         "words": [
-          { "chinese": "有冇", "jyutping": "jau5 mou5", "english": "do you have" },
-          { "chinese": "新鮮啲", "jyutping": "san1 sin1 di1", "english": "fresher / more fresh" }
+          {
+            "chinese": "有冇",
+            "jyutping": "jau5 mou5",
+            "english": "do you have"
+          },
+          {
+            "chinese": "新鮮啲",
+            "jyutping": "san1 sin1 di1",
+            "english": "fresher / more fresh"
+          }
         ]
       },
       {
@@ -1394,8 +2002,16 @@
         "context": "Ask if an item has a discount",
         "difficulty": 2,
         "words": [
-          { "chinese": "呢個", "jyutping": "ni1 go3", "english": "this" },
-          { "chinese": "有冇折扣", "jyutping": "jau5 mou5 zit3 kau3", "english": "any discount / on sale" }
+          {
+            "chinese": "呢個",
+            "jyutping": "ni1 go3",
+            "english": "this"
+          },
+          {
+            "chinese": "有冇折扣",
+            "jyutping": "jau5 mou5 zit3 kau3",
+            "english": "any discount / on sale"
+          }
         ]
       },
       {
@@ -1407,8 +2023,16 @@
         "context": "Present your coupon at the checkout",
         "difficulty": 2,
         "words": [
-          { "chinese": "我有", "jyutping": "ngo5 jau5", "english": "I have" },
-          { "chinese": "優惠券", "jyutping": "jau1 wai6 hyun3", "english": "coupon / voucher" }
+          {
+            "chinese": "我有",
+            "jyutping": "ngo5 jau5",
+            "english": "I have"
+          },
+          {
+            "chinese": "優惠券",
+            "jyutping": "jau1 wai6 hyun3",
+            "english": "coupon / voucher"
+          }
         ]
       },
       {
@@ -1420,8 +2044,16 @@
         "context": "Ask the total at checkout",
         "difficulty": 1,
         "words": [
-          { "chinese": "一共", "jyutping": "jat1 gung6", "english": "in total" },
-          { "chinese": "幾多錢", "jyutping": "gei2 do1 cin2", "english": "how much" }
+          {
+            "chinese": "一共",
+            "jyutping": "jat1 gung6",
+            "english": "in total"
+          },
+          {
+            "chinese": "幾多錢",
+            "jyutping": "gei2 do1 cin2",
+            "english": "how much"
+          }
         ]
       },
       {
@@ -1433,8 +2065,16 @@
         "context": "Octopus is widely accepted at supermarkets in HK",
         "difficulty": 2,
         "words": [
-          { "chinese": "可唔可以", "jyutping": "ho2 m4 ho2 ji3", "english": "can I" },
-          { "chinese": "用八達通", "jyutping": "jung6 baat3 daat6 tung1", "english": "use Octopus card" }
+          {
+            "chinese": "可唔可以",
+            "jyutping": "ho2 m4 ho2 ji3",
+            "english": "can I"
+          },
+          {
+            "chinese": "用八達通",
+            "jyutping": "jung6 baat3 daat6 tung1",
+            "english": "use Octopus card"
+          }
         ]
       },
       {
@@ -1446,8 +2086,16 @@
         "context": "Ask about loyalty points — most HK supermarkets have schemes",
         "difficulty": 2,
         "words": [
-          { "chinese": "有冇", "jyutping": "jau5 mou5", "english": "can I / is there" },
-          { "chinese": "積分", "jyutping": "zik1 fan1", "english": "loyalty points" }
+          {
+            "chinese": "有冇",
+            "jyutping": "jau5 mou5",
+            "english": "can I / is there"
+          },
+          {
+            "chinese": "積分",
+            "jyutping": "zik1 fan1",
+            "english": "loyalty points"
+          }
         ]
       },
       {
@@ -1459,8 +2107,16 @@
         "context": "Decline the plastic bag — HK charges for plastic bags",
         "difficulty": 1,
         "words": [
-          { "chinese": "唔使袋", "jyutping": "m4 sai2 doi2", "english": "no bag needed" },
-          { "chinese": "多謝", "jyutping": "do1 ze6", "english": "thank you" }
+          {
+            "chinese": "唔使袋",
+            "jyutping": "m4 sai2 doi2",
+            "english": "no bag needed"
+          },
+          {
+            "chinese": "多謝",
+            "jyutping": "do1 ze6",
+            "english": "thank you"
+          }
         ]
       },
       {
@@ -1472,9 +2128,21 @@
         "context": "Ask to return an item — have your receipt ready",
         "difficulty": 2,
         "words": [
-          { "chinese": "我想", "jyutping": "ngo5 soeng2", "english": "I'd like to" },
-          { "chinese": "退", "jyutping": "teoi3", "english": "return / refund" },
-          { "chinese": "呢個", "jyutping": "ni1 go3", "english": "this" }
+          {
+            "chinese": "我想",
+            "jyutping": "ngo5 soeng2",
+            "english": "I'd like to"
+          },
+          {
+            "chinese": "退",
+            "jyutping": "teoi3",
+            "english": "return / refund"
+          },
+          {
+            "chinese": "呢個",
+            "jyutping": "ni1 go3",
+            "english": "this"
+          }
         ]
       },
       {
@@ -1486,9 +2154,21 @@
         "context": "Ask the cashier to put two items in the same transaction",
         "difficulty": 3,
         "words": [
-          { "chinese": "唔該", "jyutping": "m4 goi1", "english": "please" },
-          { "chinese": "埋架", "jyutping": "mai4 gaa3", "english": "together / combine" },
-          { "chinese": "兩個", "jyutping": "loeng5 go3", "english": "these two" }
+          {
+            "chinese": "唔該",
+            "jyutping": "m4 goi1",
+            "english": "please"
+          },
+          {
+            "chinese": "埋架",
+            "jyutping": "mai4 gaa3",
+            "english": "together / combine"
+          },
+          {
+            "chinese": "兩個",
+            "jyutping": "loeng5 go3",
+            "english": "these two"
+          }
         ]
       },
       {
@@ -1500,9 +2180,21 @@
         "context": "Find baby products in a large supermarket",
         "difficulty": 3,
         "words": [
-          { "chinese": "請問", "jyutping": "cing2 man6", "english": "may I ask" },
-          { "chinese": "嬰身院", "jyutping": "ji1 san1 jyun4", "english": "baby section / infant products" },
-          { "chinese": "喺邊度", "jyutping": "hai6 bin1 dou6", "english": "where is" }
+          {
+            "chinese": "請問",
+            "jyutping": "cing2 man6",
+            "english": "may I ask"
+          },
+          {
+            "chinese": "嬰身院",
+            "jyutping": "ji1 san1 jyun4",
+            "english": "baby section / infant products"
+          },
+          {
+            "chinese": "喺邊度",
+            "jyutping": "hai6 bin1 dou6",
+            "english": "where is"
+          }
         ]
       }
     ],
