@@ -42,14 +42,14 @@ async function buildLesson(targetMinutes, language) {
     usedIds.add(entry.phraseId);
   }
 
-  // Priority 3: If library is thin, pull from starter content
+  // Priority 3: Fill with new phrases from topics the user hasn't studied yet
   if (lesson.length < targetPhrases) {
-    const starterPhrases = await getStarterFallback(
+    const newPhrases = await getStarterFallback(
       language,
       targetPhrases - lesson.length,
       usedIds
     );
-    for (const entry of starterPhrases) {
+    for (const entry of newPhrases) {
       if (usedIds.has(entry.phraseId || entry.id)) continue;
       lesson.push(entry);
       usedIds.add(entry.phraseId || entry.id);
