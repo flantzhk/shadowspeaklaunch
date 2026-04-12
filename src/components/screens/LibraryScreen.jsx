@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { getAllLibraryEntries, saveLibraryEntry } from '../../services/storage';
 import { useAudio } from '../../contexts/AudioContext';
 import { useAppContext } from '../../contexts/AppContext';
-import { ROUTES } from '../../utils/constants';
+import { ROUTES, SRS_MAX_INTERVAL } from '../../utils/constants';
 import PhraseCard from '../cards/PhraseCard';
 import styles from './LibraryScreen.module.css';
 
@@ -282,18 +282,17 @@ export default function LibraryScreen({ onNavigate }) {
               words: [],
             } : null;
 
+            const phraseObj = phrase || vocabPhrase;
             return (
               <PhraseCard
                 key={entry.phraseId}
-                phrase={phrase || vocabPhrase}
+                phrase={phraseObj}
                 libraryEntry={entry}
-                onPlay={(chinese) => {
-                  if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                    const u = new SpeechSynthesisUtterance(chinese);
-                    u.lang = 'zh-HK'; u.rate = 0.8;
-                    window.speechSynthesis.speak(u);
-                  }
+                onPlay={() => {
+                  if (!phraseObj) return;
+                  loadQueue([phraseObj], settings.currentLanguage)
+                    .then(() => play())
+                    .catch(() => {});
                 }}
                 showToast={() => {}}
               />
