@@ -17,6 +17,7 @@ import { getDB } from './services/storage';
 import { initOfflineQueueListener } from './services/offlineManager';
 import { logger } from './utils/logger';
 import { OfflineBanner } from './components/shared/OfflineBanner';
+import { PWAUpdateBanner } from './components/shared/PWAUpdateBanner';
 import { StorageFullModal } from './components/shared/StorageFullModal';
 import { TopicMasteredCelebration } from './components/shared/TopicMasteredCelebration';
 import './styles/global.css';
@@ -321,6 +322,7 @@ function MainLayout() {
         <div style={{ display: 'flex', flexDirection: 'row', flex: 1, overflow: 'hidden' }}>
           <Sidebar {...sidebarProps} />
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', background: 'var(--color-bg)' }}>
+            <PWAUpdateBanner />
             <OfflineBanner />
             <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
               <Suspense fallback={<Loader />}>
@@ -340,6 +342,7 @@ function MainLayout() {
   // Mobile layout
   return (
     <>
+      <PWAUpdateBanner />
       <OfflineBanner />
       {isTab && <TopBar streak={settings.streakCount} language={settings.currentLanguage} userName={settings.name} photoURL={settings.photoURL} onSettingsTap={() => navigate(ROUTES.PROFILE)} onStatsTap={() => navigate(ROUTES.STATS)} onProfileTap={() => navigate(ROUTES.PROFILE)} />}
 

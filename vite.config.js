@@ -13,6 +13,11 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icons/*.png'],
       workbox: {
+        // Bump cacheId to force a brand-new service worker that replaces stale installs
+        cacheId: 'shadowspeak-v3',
+        // Explicitly claim clients so iOS Safari PWA picks up updates without a cold restart
+        clientsClaim: true,
+        skipWaiting: true,
         globPatterns: ['**/*.{js,css,html,json,png,svg}'],
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         runtimeCaching: [
