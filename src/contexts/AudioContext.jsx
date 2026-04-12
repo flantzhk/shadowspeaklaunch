@@ -42,7 +42,7 @@ function AudioProvider({ children }) {
     return () => engine.destroy();
   }, []);
 
-  const loadQueue = useCallback(async (phrases, language, defaultSpeed, topicMeta) => {
+  const loadQueue = useCallback(async (phrases, language, defaultSpeed, topicMeta, options = {}) => {
     if (!engineRef.current) return;
     // Apply default speed setting if provided
     if (defaultSpeed) {
@@ -54,7 +54,7 @@ function AudioProvider({ children }) {
     setQueueLength(phrases.length);
     setPlaybackState('loading');
     try {
-      await engineRef.current.loadQueue(phrases, language);
+      await engineRef.current.loadQueue(phrases, language, options);
       // Only set ready if not already in error state
       if (engineRef.current._audio?.src) {
         setPlaybackState('ready');

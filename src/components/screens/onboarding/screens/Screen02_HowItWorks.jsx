@@ -105,7 +105,7 @@ export default function Screen02_HowItWorks({ advance }) {
           fontFamily: 'inherit',
         }}
       >
-        Show me →
+        Hear it →
       </button>
     </div>
   );

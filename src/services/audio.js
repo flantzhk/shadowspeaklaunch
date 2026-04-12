@@ -9,6 +9,11 @@ import { logger } from '../utils/logger';
  * Audio engine with queue management.
  * Handles: play, pause, seek, speed, repeat-one, auto-advance.
  */
+// How long to wait after Chinese phrase for the user to repeat (shadow mode)
+const SHADOW_REPEAT_DELAY_MS = 4500;
+// Gap between English TTS and Chinese audio in shadow mode
+const SHADOW_ENGLISH_GAP_MS = 700;
+
 class AudioEngine {
   constructor() {
     this._audio = new Audio();
@@ -20,6 +25,8 @@ class AudioEngine {
     this._autoAdvance = true;
     this._advanceTimer = null;
     this._currentBlobUrl = null;
+    this._shadowMode = false;      // When true: English → pause → Chinese → long gap
+    this._englishUtterance = null; // Track current SpeechSynthesis utterance
 
     /** @type {((phrase: Object, index: number) => void)|null} */
     this._onPhraseChange = null;
@@ -43,8 +50,13 @@ class AudioEngine {
     });
   }
 
-  /** Load a lesson (ordered list of phrases) into the queue. */
-  async loadQueue(phrases, language) {
+  /** Load a lesson (ordered list of phrases) into the queue.
+   * @param {Object[]} phrases
+   * @param {string} language
+   * @param {{ shadowMode?: boolean }} [options]
+   */
+  async loadQueue(phrases, language, options = {}) {
+    this._shadowMode = options.shadowMode === true;
     this._queue = phrases;
     this._language = language;
     this._currentIndex = 0;
@@ -178,16 +190,66 @@ class AudioEngine {
         this._onStateChange?.('error');
         return;
       }
-      await this._audio.play();
+      if (this._shadowMode) {
+        await this._playShadowSequence();
+      } else {
+        await this._audio.play();
+      }
     } catch (error) {
       logger.error('Play failed', error);
       this._onStateChange?.('error');
     }
   }
 
+  /** Shadow mode: announce English → gap → play Chinese. */
+  async _playShadowSequence() {
+    const phrase = this._queue[this._currentIndex];
+    if (!phrase) return;
+    if (this._destroyed) return;
+
+    // 1. Speak English translation via Web Speech API
+    if (phrase.english) {
+      await this._speakEnglish(phrase.english);
+      if (this._destroyed) return;
+      await this._sleep(SHADOW_ENGLISH_GAP_MS);
+    }
+
+    // 2. Play Chinese audio
+    if (this._destroyed) return;
+    try {
+      await this._audio.play();
+    } catch (e) {
+      logger.error('Shadow Chinese play failed', e);
+    }
+  }
+
+  /** Speak text via Web Speech API. Resolves when done (or on error). */
+  _speakEnglish(text) {
+    return new Promise((resolve) => {
+      if (!('speechSynthesis' in window) || !text) { resolve(); return; }
+      window.speechSynthesis.cancel();
+      const utt = new SpeechSynthesisUtterance(text);
+      utt.lang = 'en-US';
+      utt.rate = 0.88;
+      utt.pitch = 1.0;
+      utt.onend = resolve;
+      utt.onerror = resolve;
+      this._englishUtterance = utt;
+      window.speechSynthesis.speak(utt);
+    });
+  }
+
+  _sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   pause() {
     this._audio.pause();
     this._clearAdvanceTimer();
+    // Cancel any in-progress English TTS
+    if (this._shadowMode && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
   }
 
   async next() {
@@ -265,16 +327,22 @@ class AudioEngine {
       this._advanceTimer = setTimeout(() => {
         if (this._destroyed) return;
         this._audio.currentTime = 0;
-        this._audio.play().catch(() => {});
+        if (this._shadowMode) {
+          this._playShadowSequence().catch(() => {});
+        } else {
+          this._audio.play().catch(() => {});
+        }
       }, 1200);
     } else if (this._autoAdvance && this._currentIndex < this._queue.length - 1) {
       this._onStateChange?.('advancing');
+      // Shadow mode: long gap so the user can repeat the Chinese phrase
+      const delay = this._shadowMode ? SHADOW_REPEAT_DELAY_MS : AUTO_ADVANCE_DELAY_MS;
       this._advanceTimer = setTimeout(async () => {
         if (this._destroyed) return;
         this._currentIndex++;
         await this._loadCurrentPhrase();
         if (!this._destroyed) await this.play();
-      }, AUTO_ADVANCE_DELAY_MS);
+      }, delay);
     } else {
       this._onStateChange?.('ended');
     }

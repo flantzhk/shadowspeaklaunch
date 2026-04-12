@@ -109,7 +109,7 @@ export default function Screen13_PlanReveal({ advance, answers }) {
           marginTop: 8,
           marginBottom: 0,
         }}>
-          {loadingDone ? 'Ready \u2713' : 'Building your first lesson...'}
+          {loadingDone ? 'Ready ✓' : 'Putting your phrases together…'}
         </p>
       </div>
 
@@ -181,7 +181,7 @@ export default function Screen13_PlanReveal({ advance, answers }) {
           fontFamily: 'inherit',
         }}
       >
-        Save my plan →
+        Let's go →
       </button>
     </div>
   );

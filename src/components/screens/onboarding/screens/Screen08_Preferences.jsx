@@ -138,7 +138,7 @@ export default function Screen08_Preferences({ advance, answers, setAnswers, upd
           fontFamily: 'inherit',
         }}
       >
-        Build my plan →
+        I'm ready →
       </button>
     </div>
   );

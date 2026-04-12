@@ -42,7 +42,7 @@ export default function Screen10_MicPermission({ advance, setAnswers }) {
         textAlign: 'center',
         margin: 0,
       }}>
-        ShadowSpeak needs to hear you.
+        To score your pronunciation, we need to hear you.
       </h1>
 
       <p style={{

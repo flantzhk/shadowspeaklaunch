@@ -152,6 +152,14 @@
 }
 .playAllBtn:active { opacity: 0.9; transform: scale(0.99); }
 
+.shadowHint {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin: 6px var(--content-padding) 0;
+  letter-spacing: 0.2px;
+}
+
 .playAllIcon {
   width: 0;
   height: 0;

@@ -70,7 +70,8 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
     if (!topic) return;
     if (isPlaying) { pause(); return; }
     const topicMeta = { name: topic.name, imageUrl: topic.imageUrl, imageGradient: topic.imageGradient };
-    await loadQueue(topic.phrases, settings.currentLanguage, null, topicMeta);
+    // Shadow mode: English → pause → Chinese → 4.5s gap to repeat
+    await loadQueue(topic.phrases, settings.currentLanguage, null, topicMeta, { shadowMode: true });
     await play();
   }, [topic, loadQueue, play, pause, isPlaying, settings.currentLanguage]);
 
@@ -176,9 +177,12 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
       <button className={styles.playAllBtn} onClick={handlePlayTopic}>
         {isPlaying
           ? <><PauseShape />Pause</>
-          : <><span className={styles.playAllIcon} />Play all phrases</>
+          : <><span className={styles.playAllIcon} />Shadow all phrases</>
         }
       </button>
+      {!isPlaying && (
+        <p className={styles.shadowHint}>English → Chinese → 4 sec to repeat</p>
+      )}
 
       {/* Phrase list */}
       <div className={styles.phraseListHeader}>
