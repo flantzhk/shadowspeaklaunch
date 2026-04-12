@@ -75,6 +75,8 @@ class AudioEngine {
             this._audio.src = this._currentBlobUrl;
             this._audio.playbackRate = speedNum < 1 ? speedNum : 1.0;
             this._onPhraseChange?.(phrase, this._currentIndex);
+            this._updateMediaSession();
+            this._prefetchUpcoming(speedNum);
             return;
           }
         }
@@ -113,10 +115,60 @@ class AudioEngine {
       this._audio.playbackRate = speedNum;
       this._onPhraseChange?.(phrase, this._currentIndex);
       this._updateMediaSession();
+      // Silently prefetch upcoming phrases into cache so they load instantly
+      this._prefetchUpcoming(speedNum);
     } catch (error) {
       logger.error('Failed to load audio for phrase', phrase.id, ':', error?.message || error);
       this._onStateChange?.('error');
       this._onPhraseChange?.(phrase, this._currentIndex);
+    }
+  }
+
+  /** Silently pre-fetch and cache the next N phrases. Fire-and-forget. */
+  _prefetchUpcoming(speed) {
+    const AHEAD = 3;
+    for (let i = 1; i <= AHEAD; i++) {
+      const idx = this._currentIndex + i;
+      if (idx >= this._queue.length) break;
+      this._prefetchPhrase(this._queue[idx], speed); // no await — silent
+    }
+  }
+
+  /** Best-effort: check static → cache → TTS. Caches result if fetched. */
+  async _prefetchPhrase(phrase, speed) {
+    if (!phrase?.id) return;
+    try {
+      // Skip if already in browser cache
+      const cached = await getCachedAudio(phrase.id, this._language, speed);
+      if (cached) return;
+
+      // Try static pre-generated file first (no API cost)
+      const basePath = import.meta.env.BASE_URL || '/';
+      const staticUrl = `${basePath}audio/${this._language}/${phrase.id}.mp3`;
+      try {
+        const resp = await fetch(staticUrl);
+        if (resp.ok) {
+          const blob = await resp.blob();
+          if (blob.size > 500) {
+            // Cache the static file so future plays skip the network fetch
+            await cacheAudioBlob(phrase.id, this._language, speed, blob);
+            return;
+          }
+        }
+      } catch (e) { /* static not available */ }
+
+      // Fetch from TTS API and cache
+      if (!isAuthenticated()) return;
+      const blob = await textToSpeech(phrase.chinese, {
+        language: this._language,
+        speed,
+        outputExtension: 'mp3',
+      });
+      if (blob && blob.size > 0) {
+        await cacheAudioBlob(phrase.id, this._language, speed, blob);
+      }
+    } catch (e) {
+      // Prefetch is best-effort — silent fail
     }
   }
 
