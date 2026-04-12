@@ -43,7 +43,7 @@ export { NavBar };
 
 export default function Screen01_Hook({ advance }) {
   return (
-    <div style={{ position: 'relative', height: '100vh', height: '100dvh' }}>
+    <div style={{ position: 'relative', height: '100dvh' }}>
       <NavBar dark />
       <ScenarioCard
         backgroundImage="/images/onboarding/coffee-shop.jpg"

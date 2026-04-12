@@ -26,12 +26,12 @@ const DAY_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
 function streakMessage(streak) {
   if (streak === 0) return { headline: 'Start your streak today', sub: 'Practice once a day to build momentum' };
-  if (streak === 1) return { headline: 'Day 1 — you've begun!', sub: 'Come back tomorrow to keep it going' };
-  if (streak < 3) return { headline: `${streak} days and counting`, sub: 'Building a habit takes consistency — keep going!' };
-  if (streak < 7) return { headline: `${streak} days strong 🔥`, sub: 'You're in the habit zone — don't stop now' };
-  if (streak < 14) return { headline: `${streak} days — impressive!`, sub: 'A full week of practice. You're serious about this.' };
-  if (streak < 30) return { headline: `${streak} days — unstoppable`, sub: 'Most people give up long before this. You haven't.' };
-  return { headline: `${streak} days — legend status`, sub: 'A month of daily practice. You're fluent in dedication.' };
+  if (streak === 1) return { headline: "Day 1 — you've begun!", sub: "Come back tomorrow to keep it going" };
+  if (streak < 3) return { headline: `${streak} days and counting`, sub: "Building a habit takes consistency — keep going!" };
+  if (streak < 7) return { headline: `${streak} days strong 🔥`, sub: "You're in the habit zone — don't stop now" };
+  if (streak < 14) return { headline: `${streak} days — impressive!`, sub: "A full week of practice. You're serious about this." };
+  if (streak < 30) return { headline: `${streak} days — unstoppable`, sub: "Most people give up long before this. You haven't." };
+  return { headline: `${streak} days — legend status`, sub: "A month of daily practice. You're fluent in dedication." };
 }
 
 export default function StatsScreen({ onBack, onNavigate }) {
