@@ -270,9 +270,9 @@ export default function HomeScreen({ onNavigate }) {
                 className={styles.recentCard}
                 style={{
                   background: topic.imageUrl
-                    ? `linear-gradient(160deg, rgba(26,42,24,0.45) 0%, rgba(0,0,0,0.72) 100%), url(${topic.imageUrl}) center/cover`
+                    ? `linear-gradient(170deg, rgba(197,232,90,0.22) 0%, rgba(0,0,0,0.78) 100%), url(${topic.imageUrl}) center/cover`
                     : topic.imageGradient
-                      ? `linear-gradient(160deg, rgba(26,42,24,0.45) 0%, rgba(0,0,0,0.72) 100%), ${topic.imageGradient}`
+                      ? `linear-gradient(170deg, rgba(197,232,90,0.22) 0%, rgba(0,0,0,0.78) 100%), ${topic.imageGradient}`
                       : 'var(--color-brand-dark)'
                 }}
                 onClick={() => handleTopicTap(topic)}
@@ -320,9 +320,10 @@ export default function HomeScreen({ onNavigate }) {
                   <button
                     className={styles.topicImageArea}
                     style={{
-                      background: topic.imageUrl
-                        ? `linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.4) 100%), url(${topic.imageUrl}) center/cover`
-                        : topic.imageGradient
+                      backgroundImage: topic.imageUrl ? `url(${topic.imageUrl})` : undefined,
+                      background: !topic.imageUrl ? topic.imageGradient : undefined,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
                     }}
                     onClick={() => handleTopicTap(topic)}
                   >

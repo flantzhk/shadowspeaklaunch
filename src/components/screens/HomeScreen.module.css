@@ -337,7 +337,7 @@
 
 /* === Recent Topics Section === */
 .recentSection {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 .recentHeader {
@@ -383,10 +383,11 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: rgba(0, 0, 0, 0.42);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  color: rgba(255, 255, 255, 0.88);
+  background: rgba(197, 232, 90, 0.18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--color-brand-lime);
+  border: 0.5px solid rgba(197, 232, 90, 0.35);
   font-size: 9px;
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.3px;
@@ -422,30 +423,33 @@
   border-radius: 1px;
 }
 
-/* === Category Sections === */
+/* === Category Sections — Spotify shelf style === */
 .categorySection {
-  margin-top: 24px;
+  margin-top: 32px;
   margin-bottom: var(--space-lg);
 }
 
 .categoryHeader {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 12px;
+  align-items: center;
+  margin-bottom: 14px;
 }
 
 .categoryTitle {
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-semibold);
+  font-size: 18px;
+  font-weight: 700;
   color: var(--color-text-primary);
-  letter-spacing: -0.2px;
+  letter-spacing: -0.4px;
 }
 
 .categoryCount {
-  font-size: 11px;
-  color: var(--color-text-muted);
-  font-weight: var(--font-weight-medium);
+  font-size: 12px;
+  color: var(--color-brand-lime);
+  font-weight: var(--font-weight-semibold);
+  background: rgba(197, 232, 90, 0.12);
+  padding: 3px 9px;
+  border-radius: 10px;
 }
 
 /* === Topic Row (Horizontal Scroll) === */
@@ -471,10 +475,20 @@
 .topicImageArea {
   width: 160px;
   height: 120px;
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
   position: relative;
   display: block;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Subtle scrim at bottom for badge + play button legibility */
+.topicImageArea::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 45%);
+  pointer-events: none;
 }
 
 .topicImageArea:active {
@@ -483,10 +497,12 @@
 
 .topicBadge {
   position: absolute;
-  top: 8px;
+  bottom: 8px;
   left: 8px;
-  background: rgba(0, 0, 0, 0.55);
-  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 9px;
   font-weight: var(--font-weight-semibold);
   padding: 3px 7px;
@@ -529,10 +545,10 @@
 
 .topicName {
   font-size: 13px;
-  font-weight: var(--font-weight-semibold);
+  font-weight: 700;
   color: var(--color-text-primary);
   line-height: 1.25;
-  margin-top: 8px;
+  margin-top: 9px;
 }
 
 .topicDesc {
