@@ -27,32 +27,28 @@ function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap,
   return (
     <header className={styles.topBar}>
       <div className={styles.logoGroup}>
-        <div className={styles.logoText}>
-          <span className={styles.logoShadow}>Shadow</span>
-          <span className={styles.logoSpeak}>Speak</span>
-        </div>
-        <button className={styles.langHint} onClick={onSettingsTap} aria-label={`Current language: ${langLabel}. Tap to switch.`}>
-          {langLabel} &rsaquo;
+        <span className={styles.logoText}>
+          <span className={styles.logoShadow}>Shadow</span><span className={styles.logoSpeak}>Speak</span>
+        </span>
+        <button className={styles.langPill} onClick={onSettingsTap} aria-label={`Current language: ${langLabel}. Tap to switch.`}>
+          {langLabel}
         </button>
       </div>
 
       <div className={styles.actions}>
         <button
-          className={styles.levelChip}
+          className={styles.levelBtn}
           onClick={onStatsTap}
           aria-label={level ? `Level ${level.level} ${level.title} — view progress` : 'View progress'}
         >
           <div className={styles.levelBadge}>
             <span className={styles.levelNum}>{level?.level ?? '-'}</span>
           </div>
-          <div className={styles.levelText}>
-            <span className={styles.levelTitle}>{level?.title ?? '...'}</span>
-            {level?.next && (
-              <div className={styles.miniBar}>
-                <div className={styles.miniFill} style={{ width: `${Math.round(level.progress * 100)}%` }} />
-              </div>
-            )}
-          </div>
+          {level?.next && (
+            <div className={styles.miniBar}>
+              <div className={styles.miniFill} style={{ width: `${Math.round(level.progress * 100)}%` }} />
+            </div>
+          )}
         </button>
 
         <button

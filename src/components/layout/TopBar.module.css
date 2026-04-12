@@ -13,13 +13,13 @@
 
 .logoGroup {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 8px;
 }
 
 .logoText {
-  font-size: 16px;
-  font-weight: var(--font-weight-semibold);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
   letter-spacing: var(--letter-spacing-tight);
   line-height: 1;
 }
@@ -32,17 +32,17 @@
   color: var(--color-brand-green);
 }
 
-.langHint {
-  font-size: 9px;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted);
-  letter-spacing: var(--letter-spacing-wide);
+.langPill {
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  margin-top: 2px;
-  padding: 0;
-  background: none;
-  border: none;
-  text-align: left;
+  padding: 3px 8px;
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border);
+  border-radius: 6px;
+  line-height: 1.4;
 }
 
 .actions {
@@ -51,26 +51,29 @@
   gap: 10px;
 }
 
-/* === Level Chip === */
-.levelChip {
+/* === Level Button (compact) === */
+.levelBtn {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 6px 12px 6px 6px;
-  background: var(--color-surface);
-  border: 0.5px solid var(--color-border);
-  border-radius: 14px;
+  gap: 4px;
+  padding: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  min-width: 44px;
   min-height: 44px;
+  justify-content: center;
 }
 
-.levelChip:active {
-  transform: scale(0.97);
+.levelBtn:active {
+  opacity: 0.7;
 }
 
 .levelBadge {
-  width: 24px;
-  height: 24px;
-  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
   background: var(--color-brand-dark);
   display: flex;
   align-items: center;
@@ -79,32 +82,18 @@
 }
 
 .levelNum {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: var(--font-weight-bold);
   color: var(--color-brand-lime);
   line-height: 1;
 }
 
-.levelText {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 52px;
-}
-
-.levelTitle {
-  font-size: 11px;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  line-height: 1;
-}
-
 .miniBar {
-  height: 3px;
-  background: var(--color-bg);
+  height: 2px;
+  background: var(--color-border);
   border-radius: 2px;
   overflow: hidden;
-  width: 100%;
+  width: 28px;
 }
 
 .miniFill {

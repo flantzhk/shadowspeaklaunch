@@ -320,10 +320,9 @@ export default function HomeScreen({ onNavigate }) {
                   <button
                     className={styles.topicImageArea}
                     style={{
-                      backgroundImage: topic.imageUrl ? `url(${topic.imageUrl})` : undefined,
-                      background: !topic.imageUrl ? topic.imageGradient : undefined,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
+                      background: topic.imageUrl
+                        ? `url(${topic.imageUrl}) center/cover`
+                        : topic.imageGradient,
                     }}
                     onClick={() => handleTopicTap(topic)}
                   >

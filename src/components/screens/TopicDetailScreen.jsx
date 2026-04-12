@@ -16,14 +16,13 @@ import styles from './TopicDetailScreen.module.css';
  */
 export default function TopicDetailScreen({ topicId, onBack, showToast, onStartScene }) {
   const { settings } = useAppContext();
-  const { loadQueue, play, currentPhrase, isPlaying, pause } = useAudio();
+  const { loadQueue, play, isPlaying, pause } = useAudio();
   const [topic, setTopic] = useState(null);
   const [savedIds, setSavedIds] = useState(new Set());
   const [libraryEntries, setLibraryEntries] = useState({});
   const [dialogues, setDialogues] = useState([]);
-  const [downloadProgress, setDownloadProgress] = useState(null); // null | {done, total}
+  const [downloadProgress, setDownloadProgress] = useState(null);
   const [downloadDone, setDownloadDone] = useState(false);
-  const [expandedPhraseId, setExpandedPhraseId] = useState(null);
   const cancelRef = useRef({ cancelled: false });
 
   useEffect(() => {
@@ -69,55 +68,24 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
 
   const handlePlayTopic = useCallback(async () => {
     if (!topic) return;
-    if (isPlaying) {
-      pause();
-      return;
-    }
+    if (isPlaying) { pause(); return; }
     const topicMeta = { name: topic.name, imageUrl: topic.imageUrl, imageGradient: topic.imageGradient };
     await loadQueue(topic.phrases, settings.currentLanguage, null, topicMeta);
     await play();
   }, [topic, loadQueue, play, pause, isPlaying, settings.currentLanguage]);
 
-  const handlePlayPhrase = useCallback(async (phrase) => {
-    if (!topic) return;
-    const topicMeta = { name: topic.name, imageUrl: topic.imageUrl, imageGradient: topic.imageGradient };
-    await loadQueue([phrase], settings.currentLanguage, null, topicMeta);
-    await play();
-  }, [topic, loadQueue, play, settings.currentLanguage]);
-
-  const handlePlayWord = useCallback((e, chinese) => {
-    e.stopPropagation();
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(chinese);
-      utterance.lang = 'zh-HK';
-      utterance.rate = 0.8;
-      window.speechSynthesis.speak(utterance);
-    }
-  }, []);
-
   const handleSave = useCallback(async (phrase) => {
     try {
       await saveLibraryEntry({
-        phraseId: phrase.id,
-        type: 'phrase',
-        addedAt: Date.now(),
-        source: 'browse',
-        customData: null,
-        interval: 0,
-        easeFactor: SRS_INITIAL_EASE,
-        nextReviewAt: Date.now(),
-        lastPracticedAt: null,
-        practiceCount: 0,
-        status: 'learning',
-        bestScore: null,
-        lastScore: null,
-        scoreHistory: [],
+        phraseId: phrase.id, type: 'phrase', addedAt: Date.now(), source: 'browse',
+        customData: null, interval: 0, easeFactor: SRS_INITIAL_EASE,
+        nextReviewAt: Date.now(), lastPracticedAt: null, practiceCount: 0,
+        status: 'learning', bestScore: null, lastScore: null, scoreHistory: [],
       });
       setSavedIds(prev => new Set([...prev, phrase.id]));
       showToast?.('Saved to library', 'success');
       cacheAudioForPhrase(phrase, settings.currentLanguage).catch(() => {});
-    } catch (error) {
+    } catch {
       showToast?.('Failed to save', 'error');
     }
   }, [showToast, settings.currentLanguage]);
@@ -126,9 +94,7 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
     return (
       <div className={styles.screen}>
         <div className={styles.header}>
-          <button className={styles.backBtn} onClick={onBack} aria-label="Go back">
-            <BackIcon />
-          </button>
+          <button className={styles.backBtn} onClick={onBack} aria-label="Go back"><BackIcon /></button>
         </div>
         <p className={styles.loading}>Loading...</p>
       </div>
@@ -136,27 +102,47 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
   }
 
   const savedCount = topic.phrases.filter(p => savedIds.has(p.id)).length;
-  const progressPercent = topic.phrases.length > 0
-    ? (savedCount / topic.phrases.length) * 100
-    : 0;
+  const progressPercent = topic.phrases.length > 0 ? (savedCount / topic.phrases.length) * 100 : 0;
 
   return (
     <div className={styles.screen}>
+      {/* Header — back left, download icon right, NO title (hero carries it) */}
       <div className={styles.header}>
-        <button className={styles.backBtn} onClick={onBack} aria-label="Go back">
-          <BackIcon />
+        <button className={styles.backBtn} onClick={onBack} aria-label="Go back"><BackIcon /></button>
+        <button
+          className={`${styles.downloadIconBtn} ${downloadDone ? styles.downloadIconBtnDone : ''}`}
+          onClick={handleDownloadTopic}
+          aria-label={downloadDone ? 'Downloaded' : 'Download for offline'}
+          title={downloadDone ? 'Downloaded' : 'Download for offline'}
+        >
+          {downloadProgress
+            ? <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-brand-lime)' }}>{downloadProgress.done}/{downloadProgress.total}</span>
+            : downloadDone
+              ? <DownloadDoneIcon />
+              : <DownloadIcon />
+          }
         </button>
-        <h1 className={styles.title}>{topic.name}</h1>
-        <div style={{ width: 44 }} />
       </div>
 
-      <div className={styles.hero} style={{
-        background: topic.imageUrl
-          ? `linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.5) 100%), url(${topic.imageUrl}) center/cover`
-          : topic.imageGradient
-      }}>
-        <h2 className={styles.heroTitle}>{topic.name}</h2>
-        <p className={styles.heroCount}>{topic.phraseCount} phrases</p>
+      {/* Hero — full bleed image with title + progress overlaid */}
+      <div
+        className={styles.hero}
+        style={{
+          background: topic.imageUrl
+            ? `linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.65) 100%), url(${topic.imageUrl}) center/cover`
+            : topic.imageGradient,
+        }}
+      >
+        <h1 className={styles.heroTitle}>{topic.name}</h1>
+        <div className={styles.heroMeta}>
+          <span className={styles.heroCount}>{topic.phraseCount} phrases</span>
+          {topic.description && (
+            <>
+              <span className={styles.heroDot} />
+              <span className={styles.heroDesc}>{topic.description}</span>
+            </>
+          )}
+        </div>
         <div className={styles.progressRow}>
           <div className={styles.progressBar}>
             <div className={styles.progressFill} style={{ width: `${progressPercent}%` }} />
@@ -165,35 +151,38 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
         </div>
       </div>
 
-      {topic.description && (
-        <p className={styles.description}>{topic.description}</p>
-      )}
-
-      {/* Download progress banner */}
+      {/* Download progress (compact inline banner) */}
       {downloadProgress && (
         <div className={styles.downloadBanner}>
-          <p className={styles.downloadTitle}>Downloading audio for offline...</p>
-          <p className={styles.downloadMeta}>{downloadProgress.done} of {downloadProgress.total} phrases</p>
-          <div className={styles.downloadBarTrack}>
-            <div className={styles.downloadBarFill} style={{ width: `${(downloadProgress.done / downloadProgress.total) * 100}%` }} />
+          <div className={styles.downloadBannerText}>
+            <p className={styles.downloadTitle}>Saving audio for offline…</p>
+            <p className={styles.downloadMeta}>{downloadProgress.done} of {downloadProgress.total} phrases</p>
+            <div className={styles.downloadBarTrack}>
+              <div className={styles.downloadBarFill} style={{ width: `${(downloadProgress.done / downloadProgress.total) * 100}%` }} />
+            </div>
           </div>
-          <button className={styles.cancelDownload} onClick={handleDownloadTopic}>Cancel download</button>
+          <button className={styles.cancelDownload} onClick={handleDownloadTopic}>Cancel</button>
         </div>
       )}
 
       {downloadDone && !downloadProgress && (
         <div className={styles.downloadDone}>
-          <span>✓</span> Downloaded for offline use
+          <span>✓</span> Available offline
         </div>
       )}
 
-      <div className={styles.topicActions}>
-        <button className={styles.downloadBtn} onClick={handleDownloadTopic}>
-          {downloadProgress ? `↓ ${downloadProgress.done}/${downloadProgress.total}` : downloadDone ? '✓ Downloaded' : '↓ Download offline'}
-        </button>
-        <button className={styles.startBtn} onClick={handlePlayTopic}>
-          {isPlaying ? '⏸ Pause' : '▶ Play all phrases'}
-        </button>
+      {/* Primary CTA */}
+      <button className={styles.playAllBtn} onClick={handlePlayTopic}>
+        {isPlaying
+          ? <><PauseShape />Pause</>
+          : <><span className={styles.playAllIcon} />Play all phrases</>
+        }
+      </button>
+
+      {/* Phrase list */}
+      <div className={styles.phraseListHeader}>
+        <span className={styles.phraseListTitle}>Phrases</span>
+        <span className={styles.phraseListCount}>{savedCount} saved</span>
       </div>
 
       <div className={styles.phraseList}>
@@ -220,8 +209,7 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
         <div className={styles.dialogueSection}>
           <h3 className={styles.dialogueTitle}>Dialogue Scenes</h3>
           {dialogues.map(scene => (
-            <button key={scene.id} className={styles.sceneCard}
-              onClick={() => onStartScene?.(scene)}>
+            <button key={scene.id} className={styles.sceneCard} onClick={() => onStartScene?.(scene)}>
               <span className={styles.sceneTitle}>{scene.title}</span>
               <span className={styles.sceneDesc}>{scene.description}</span>
               <span className={styles.sceneTurns}>{scene.turns.length} turns</span>
@@ -234,7 +222,6 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
 }
 
 const BackIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>;
-const PlayIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--color-brand-dark)"><polygon points="5 3 19 12 5 21 5 3" /></svg>;
-const PauseIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--color-brand-dark)"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>;
-const PlusIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>;
-const CheckIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>;
+const DownloadIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>;
+const DownloadDoneIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>;
+const PauseShape = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight:8}}><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>;

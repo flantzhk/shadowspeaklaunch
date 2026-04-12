@@ -109,14 +109,14 @@
 /* === Filter Row === */
 .filterRow {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   margin-bottom: var(--space-lg);
 }
 
 .filterButton {
-  padding: 8px 14px;
+  padding: 9px 18px;
   border-radius: var(--radius-pill);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
   background: var(--color-surface);
