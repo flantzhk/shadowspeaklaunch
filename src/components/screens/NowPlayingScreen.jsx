@@ -11,6 +11,8 @@ import styles from './NowPlayingScreen.module.css';
 export default function NowPlayingScreen({ onClose, onSaveToLibrary, onMarkKnown }) {
   const {
     currentPhrase,
+    currentIndex,
+    queueLength,
     isPlaying,
     play,
     pause,
@@ -20,10 +22,11 @@ export default function NowPlayingScreen({ onClose, onSaveToLibrary, onMarkKnown
     duration,
     speed,
     isRepeat,
-    progress,
     setSpeed,
     toggleRepeat,
   } = useAudio();
+
+  const progress = { current: currentIndex + 1, total: queueLength };
 
   const { settings } = useAppContext();
 
