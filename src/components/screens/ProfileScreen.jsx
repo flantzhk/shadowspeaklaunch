@@ -1,4 +1,4 @@
-// src/components/screens/ProfileScreen.jsx — Combined Profile + Settings
+// src/components/screens/ProfileScreen.jsx — Redesigned profile hero + grouped settings
 
 import { useState } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
@@ -27,9 +27,14 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
   const [downloadInBackground, setDownloadInBackground] = useState(false);
 
   const initial = (settings.name || user?.displayName || user?.email || 'U')[0].toUpperCase();
+  const displayName = settings.name || user?.displayName || user?.email?.split('@')[0] || 'Learner';
   const joinedDate = user?.metadata?.creationTime
     ? new Date(user.metadata.creationTime).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
     : null;
+
+  const totalMinutes = settings.totalPracticeSeconds > 0
+    ? Math.round(settings.totalPracticeSeconds / 60)
+    : 0;
 
   const handleSignOut = async () => {
     await signOut();
@@ -52,166 +57,185 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
 
   return (
     <div className={styles.screen}>
-      {/* Header */}
-      <div className={styles.header}>
+
+      {/* ── Back button ── */}
+      <div className={styles.topBar}>
         <button className={styles.backBtn} onClick={onBack} aria-label="Go back">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
         </button>
-        <h1 className={styles.headerTitle}>Profile & Settings</h1>
       </div>
 
-      {/* Avatar + Identity */}
-      <div className={styles.identity}>
-        <div className={styles.avatarWrap}>
-          {(settings.photoURL || user?.photoURL) ? (
-            <img className={styles.avatar} src={settings.photoURL || user?.photoURL} referrerPolicy="no-referrer" alt="Profile" />
-          ) : (
-            <div className={styles.avatarInitial}>{initial}</div>
-          )}
+      {/* ── Hero card ── */}
+      <div className={styles.hero}>
+        <div className={styles.heroInner}>
+          {/* Avatar */}
+          <div className={styles.avatarWrap}>
+            {(settings.photoURL || user?.photoURL) ? (
+              <img className={styles.avatar} src={settings.photoURL || user?.photoURL} referrerPolicy="no-referrer" alt="Profile" />
+            ) : (
+              <div className={styles.avatarInitial}>{initial}</div>
+            )}
+          </div>
+
+          {/* Identity */}
+          <div className={styles.identity}>
+            <button className={styles.nameBtn} onClick={() => setShowEditName(true)}>
+              <span className={styles.name}>{displayName}</span>
+              <span className={styles.nameEdit}>Edit</span>
+            </button>
+            {user?.email && <p className={styles.email}>{user.email}</p>}
+            {joinedDate && <p className={styles.joined}>Member since {joinedDate}</p>}
+          </div>
+
+          {/* Stats strip inside hero */}
+          <div className={styles.heroStats}>
+            <div className={styles.heroStat}>
+              <span className={styles.heroStatIcon}>🔥</span>
+              <span className={styles.heroStatNum}>{settings.streakCount ?? 0}</span>
+              <span className={styles.heroStatLabel}>day streak</span>
+            </div>
+            <div className={styles.heroStatDivider} />
+            <div className={styles.heroStat}>
+              <span className={styles.heroStatIcon}>⏱</span>
+              <span className={styles.heroStatNum}>{totalMinutes}</span>
+              <span className={styles.heroStatLabel}>min practiced</span>
+            </div>
+          </div>
+
+          <button className={styles.statsLink} onClick={() => onNavigate?.(ROUTES.STATS)}>
+            View detailed stats ›
+          </button>
         </div>
-        <p className={styles.name}>{settings.name || user?.displayName || user?.email?.split('@')[0] || 'Learner'}</p>
-        <p className={styles.email}>{user?.email || settings.email || ''}</p>
-        {joinedDate && <p className={styles.joined}>Joined {joinedDate}</p>}
       </div>
 
-      {/* Quick Stats */}
-      <div className={styles.statsRow}>
-        <StatTile value={settings.streakCount ?? 0} label={['day', 'streak']} />
-        <StatTile value={settings.totalPracticeSeconds > 0 ? Math.round(settings.totalPracticeSeconds / 60) : 0} label={['minutes', 'practiced']} />
-      </div>
-      <button className={styles.statsLink} onClick={() => onNavigate?.(ROUTES.STATS)}>View detailed stats ›</button>
+      {/* ── Learning ── */}
+      <p className={styles.sectionLabel}>LEARNING</p>
+      <div className={styles.card}>
+        {/* Language */}
+        <p className={styles.cardInnerLabel}>Language</p>
+        <div className={styles.langRow}>
+          {languages.map(lang => (
+            <button key={lang.id}
+              className={`${styles.langPill} ${settings.currentLanguage === lang.id ? styles.langActive : ''}`}
+              onClick={() => updateSettings({ currentLanguage: lang.id })}>
+              <span className={styles.langName}>{lang.name}</span>
+              <span className={styles.langNative}>{lang.nativeName}</span>
+            </button>
+          ))}
+        </div>
 
-      <div className={styles.divider} />
+        <div className={styles.cardDivider} />
 
-      {/* Account */}
-      <p className={styles.sectionHeader}>ACCOUNT</p>
-      <button className={styles.row} onClick={() => setShowEditName(true)}>
-        <span className={styles.rowLabel}>Name</span>
-        <span className={styles.rowValue}>{settings.name || '—'} ›</span>
-      </button>
-      <div className={styles.row}>
-        <span className={styles.rowLabel}>Email</span>
-        <span className={styles.rowValue}>{user?.email || '—'}</span>
-      </div>
-
-      <div className={styles.divider} />
-
-      {/* Language */}
-      <p className={styles.sectionHeader}>LANGUAGE</p>
-      <div className={styles.langRow}>
-        {languages.map(lang => (
-          <button key={lang.id}
-            className={`${styles.langPill} ${settings.currentLanguage === lang.id ? styles.langActive : ''}`}
-            onClick={() => updateSettings({ currentLanguage: lang.id })}>
-            <span className={styles.langName}>{lang.name}</span>
-            <span className={styles.langNative}>{lang.nativeName}</span>
-          </button>
-        ))}
-      </div>
-
-      <div className={styles.divider} />
-
-      {/* Daily Goal */}
-      <p className={styles.sectionHeader}>DAILY GOAL</p>
-      <div className={styles.goalRow}>
-        {DAILY_GOAL_OPTIONS.map(mins => (
-          <button key={mins}
-            className={`${styles.goalPill} ${settings.dailyGoalMinutes === mins ? styles.goalActive : ''}`}
-            onClick={() => updateSettings({ dailyGoalMinutes: mins })}>
-            {mins} min
-          </button>
-        ))}
-      </div>
-
-      <div className={styles.divider} />
-
-      {/* Display */}
-      <p className={styles.sectionHeader}>DISPLAY</p>
-      <ToggleRow label="Show characters" checked={settings.showCharacters}
-        onChange={(v) => updateSettings({ showCharacters: v })} />
-      <ToggleRow label="Show English" checked={settings.showEnglish}
-        onChange={(v) => updateSettings({ showEnglish: v })} />
-      <ToggleRow label="Auto-advance" checked={settings.autoAdvance}
-        onChange={(v) => updateSettings({ autoAdvance: v })} />
-
-      {/* Theme */}
-      <div className={styles.themeRow}>
-        <span className={styles.toggleLabel}>Theme</span>
-        <div className={styles.themeSegment}>
-          {[
-            { id: 'system', label: 'Auto' },
-            { id: 'light', label: '☀ Light' },
-            { id: 'dark', label: '☾ Dark' },
-          ].map(opt => (
-            <button
-              key={opt.id}
-              className={`${styles.themeOption} ${(settings.themePreference || 'system') === opt.id ? styles.themeOptionActive : ''}`}
-              onClick={() => updateSettings({ themePreference: opt.id })}
-            >
-              {opt.label}
+        {/* Daily goal */}
+        <p className={styles.cardInnerLabel}>Daily goal</p>
+        <div className={styles.goalRow}>
+          {DAILY_GOAL_OPTIONS.map(mins => (
+            <button key={mins}
+              className={`${styles.goalPill} ${settings.dailyGoalMinutes === mins ? styles.goalActive : ''}`}
+              onClick={() => updateSettings({ dailyGoalMinutes: mins })}>
+              {mins} min
             </button>
           ))}
         </div>
       </div>
 
-      <div className={styles.divider} />
+      {/* ── Display ── */}
+      <p className={styles.sectionLabel}>DISPLAY</p>
+      <div className={styles.card}>
+        <ToggleRow label="Show characters" checked={settings.showCharacters}
+          onChange={(v) => updateSettings({ showCharacters: v })} />
+        <ToggleRow label="Show English translation" checked={settings.showEnglish}
+          onChange={(v) => updateSettings({ showEnglish: v })} />
+        <ToggleRow label="Auto-advance cards" checked={settings.autoAdvance}
+          onChange={(v) => updateSettings({ autoAdvance: v })} />
 
-      {/* Playback */}
-      <p className={styles.sectionHeader}>PLAYBACK</p>
-      <button className={styles.row} onClick={() => setShowSpeedPicker(true)}>
-        <span className={styles.rowLabel}>Default speed</span>
-        <span className={styles.rowValue}>{settings.defaultSpeed === 'slower' ? 'Slower' : 'Natural'} ›</span>
-      </button>
-      <button className={styles.row} onClick={() => setShowReminderPicker(true)}>
-        <span className={styles.rowLabel}>Daily reminder</span>
-        <span className={styles.rowValue}>{settings.reminderTime ? settings.reminderTime : 'Off'} ›</span>
-      </button>
+        {/* Theme */}
+        <div className={styles.themeRow}>
+          <span className={styles.toggleLabel}>Theme</span>
+          <div className={styles.themeSegment}>
+            {[
+              { id: 'system', label: 'Auto' },
+              { id: 'light', label: '☀ Light' },
+              { id: 'dark', label: '☾ Dark' },
+            ].map(opt => (
+              <button
+                key={opt.id}
+                className={`${styles.themeOption} ${(settings.themePreference || 'system') === opt.id ? styles.themeOptionActive : ''}`}
+                onClick={() => updateSettings({ themePreference: opt.id })}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
-      <div className={styles.divider} />
+      {/* ── Playback ── */}
+      <p className={styles.sectionLabel}>PLAYBACK</p>
+      <div className={styles.card}>
+        <button className={styles.cardRow} onClick={() => setShowSpeedPicker(true)}>
+          <span className={styles.rowLabel}>Default speed</span>
+          <span className={styles.rowValue}>{settings.defaultSpeed === 'slower' ? 'Slower' : 'Natural'} ›</span>
+        </button>
+        <div className={styles.cardDivider} />
+        <button className={styles.cardRow} onClick={() => setShowReminderPicker(true)}>
+          <span className={styles.rowLabel}>Daily reminder</span>
+          <span className={styles.rowValue}>{settings.reminderTime || 'Off'} ›</span>
+        </button>
+      </div>
 
-      {/* Offline */}
-      <p className={styles.sectionHeader}>OFFLINE</p>
-      <p className={styles.hint}>Download all audio so lessons work without internet.</p>
-      {downloadInBackground && (
-        <p className={styles.hint} style={{ color: 'var(--color-brand-dark)', fontWeight: 600 }}>Downloading in background…</p>
-      )}
-      <button className={styles.downloadBtn} onClick={() => setShowDownloadModal(true)}>
-        Download all audio
-      </button>
+      {/* ── Offline ── */}
+      <p className={styles.sectionLabel}>OFFLINE</p>
+      <div className={styles.card}>
+        <p className={styles.cardHint}>Download all audio so lessons work without internet.</p>
+        {downloadInBackground && (
+          <p className={styles.cardHint} style={{ color: 'var(--color-brand-dark-text)', fontWeight: 600 }}>
+            Downloading in background…
+          </p>
+        )}
+        <button className={styles.downloadBtn} onClick={() => setShowDownloadModal(true)}>
+          ↓ Download all audio
+        </button>
+      </div>
 
-      <div className={styles.divider} />
-
-      {/* App */}
-      <p className={styles.sectionHeader}>APP</p>
+      {/* ── About ── */}
       {onNavigate && (
         <>
-          <button className={styles.row} onClick={() => onNavigate(ROUTES.ABOUT)}>
-            <span className={styles.rowLabel}>About ShadowSpeak</span>
-            <span className={styles.rowValue}>›</span>
-          </button>
-          <button className={styles.row} onClick={() => onNavigate(ROUTES.FAQ)}>
-            <span className={styles.rowLabel}>FAQ</span>
-            <span className={styles.rowValue}>›</span>
-          </button>
-          <button className={styles.row} onClick={() => onNavigate(ROUTES.CONTACT)}>
-            <span className={styles.rowLabel}>Contact / Support</span>
-            <span className={styles.rowValue}>›</span>
-          </button>
+          <p className={styles.sectionLabel}>APP</p>
+          <div className={styles.card}>
+            <button className={styles.cardRow} onClick={() => onNavigate(ROUTES.ABOUT)}>
+              <span className={styles.rowLabel}>About ShadowSpeak</span>
+              <span className={styles.rowValue}>›</span>
+            </button>
+            <div className={styles.cardDivider} />
+            <button className={styles.cardRow} onClick={() => onNavigate(ROUTES.FAQ)}>
+              <span className={styles.rowLabel}>FAQ</span>
+              <span className={styles.rowValue}>›</span>
+            </button>
+            <div className={styles.cardDivider} />
+            <button className={styles.cardRow} onClick={() => onNavigate(ROUTES.CONTACT)}>
+              <span className={styles.rowLabel}>Contact / Support</span>
+              <span className={styles.rowValue}>›</span>
+            </button>
+          </div>
         </>
       )}
 
-      <div className={styles.divider} />
-
-      {/* Sign out + Delete */}
-      <button className={styles.signOutBtn} onClick={() => setShowSignOutConfirm(true)}>Sign out</button>
-      <button className={styles.deleteSection} onClick={() => setShowDeleteConfirm(true)} style={{ cursor: 'pointer', border: 'none', background: 'none', width: '100%', textAlign: 'left' }}>
-        <p className={styles.deleteTitle}>Delete account</p>
-        <p className={styles.deleteBody}>Permanently delete your account and all data.</p>
-      </button>
+      {/* ── Danger zone ── */}
+      <div className={styles.dangerZone}>
+        <button className={styles.signOutBtn} onClick={() => setShowSignOutConfirm(true)}>
+          Sign out
+        </button>
+        <button className={styles.deleteBtn} onClick={() => setShowDeleteConfirm(true)}>
+          Delete account
+        </button>
+      </div>
 
       <p className={styles.versionLabel}>ShadowSpeak v{APP_VERSION}</p>
 
-      {/* Modals */}
+      {/* ── Modals ── */}
       {showSignOutConfirm && (
         <ConfirmModal
           title="Sign out of ShadowSpeak?"
@@ -233,12 +257,11 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
             setDeleting(true);
             try {
               await deleteAccount();
-              // Clear IndexedDB
               const dbs = await window.indexedDB.databases?.() || [];
               for (const db of dbs) { if (db.name) window.indexedDB.deleteDatabase(db.name); }
               window.location.hash = `#${ROUTES.LOGIN}`;
               window.location.reload();
-            } catch (err) {
+            } catch {
               setDeleting(false);
               showToast?.('Failed to delete account. You may need to sign in again first.', 'error');
               setShowDeleteConfirm(false);
@@ -279,7 +302,8 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
 
       {showReminderPicker && (
         <BottomSheet title="Reminder time" onClose={() => setShowReminderPicker(false)}
-          showConfirm confirmLabel="Save" onConfirm={() => { updateSettings({ reminderTime }); setShowReminderPicker(false); }}>
+          showConfirm confirmLabel="Save"
+          onConfirm={() => { updateSettings({ reminderTime }); setShowReminderPicker(false); }}>
           <p className={styles.fieldHint}>When should we remind you to practice?</p>
           <input type="time" className={styles.timeInput} value={reminderTime} onChange={e => setReminderTime(e.target.value)} />
         </BottomSheet>
@@ -288,15 +312,6 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
       {showDownloadModal && (
         <DownloadAllModal language={settings.currentLanguage} onClose={handleDownloadClose} />
       )}
-    </div>
-  );
-}
-
-function StatTile({ value, label }) {
-  return (
-    <div className={styles.statTile}>
-      <p className={styles.statNum}>{value}</p>
-      <p className={styles.statLabel}>{label[0]}<br />{label[1]}</p>
     </div>
   );
 }
