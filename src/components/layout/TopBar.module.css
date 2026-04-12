@@ -51,97 +51,71 @@
   gap: 10px;
 }
 
-.streakChip {
+/* === Level Chip === */
+.levelChip {
   display: flex;
   align-items: center;
-  gap: var(--space-xs);
-  padding: 5px 10px;
-  background: var(--color-streak-bg);
-  border-radius: 12px;
-  min-height: 28px;
+  gap: 8px;
+  padding: 4px 10px 4px 4px;
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border);
+  border-radius: 14px;
+  min-height: 32px;
 }
 
-.streakInactive {
-  background: #F0F0F0;
+.levelChip:active {
+  transform: scale(0.97);
 }
 
-.streakPulse {
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-}
-
-/* CSS-drawn flame: orange base with yellow inner */
-.flame {
-  width: 14px;
-  height: 14px;
-  position: relative;
+.levelBadge {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: var(--color-brand-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
-.flame::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 1px;
-  width: 12px;
-  height: 14px;
-  background: #E8703A;
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  transform: rotate(-2deg);
-}
-
-.flame::after {
-  content: '';
-  position: absolute;
-  bottom: 1px;
-  left: 4px;
-  width: 6px;
-  height: 8px;
-  background: #FFCC4D;
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-}
-
-.flameGray::before {
-  background: #CCCCCC;
-}
-
-.flameGray::after {
-  background: #E0E0E0;
-}
-
-.flameHot::before {
-  background: #D04030;
-}
-
-.flameHot::after {
-  background: #E8703A;
-}
-
-.streakCount {
-  font-size: 11px;
+.levelNum {
+  font-size: 12px;
   font-weight: var(--font-weight-bold);
-  color: var(--color-streak-text);
+  color: var(--color-brand-lime);
+  line-height: 1;
 }
 
-.streakLabel {
-  font-size: 9px;
-  font-weight: var(--font-weight-medium);
-  color: #B06830;
+.levelText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 52px;
 }
 
-.streakInactive .streakCount,
-.streakInactive .streakLabel {
-  color: #999999;
+.levelTitle {
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: 1;
 }
 
-.streakHot {
-  box-shadow: 0 0 8px rgba(208, 64, 48, 0.3);
+.miniBar {
+  height: 3px;
+  background: var(--color-bg);
+  border-radius: 2px;
+  overflow: hidden;
+  width: 100%;
 }
 
+.miniFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-brand-green), var(--color-brand-lime));
+  border-radius: 2px;
+  min-width: 2px;
+  transition: width 0.4s ease;
+}
+
+/* === Avatar === */
 .avatar {
   width: 32px;
   height: 32px;
@@ -165,19 +139,4 @@
 
 .avatar:active {
   opacity: 0.7;
-}
-
-.gearBtn {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text-muted);
-  border-radius: var(--radius-circle);
-}
-
-.gearBtn:active {
-  opacity: 0.7;
-  background: rgba(0, 0, 0, 0.05);
 }
