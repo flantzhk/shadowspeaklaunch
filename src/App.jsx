@@ -231,7 +231,7 @@ function MainLayout() {
       {isSession && !sessionSummary && (
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <Suspense fallback={<Loader />}>
-            {renderSessionScreen(route.path, () => navigate(ROUTES.HOME), (s) => setSessionSummary(s))}
+            {renderSessionScreen(route.path, () => { window.location.hash = `#${ROUTES.HOME}`; window.location.reload(); }, (s) => setSessionSummary(s))}
           </Suspense>
         </main>
       )}
