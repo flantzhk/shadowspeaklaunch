@@ -57,16 +57,36 @@ class AudioEngine {
     this._clearAdvanceTimer();
 
     try {
-      // Try cache first
       const speedNum = this._speed === 'slower' ? 0.75
         : typeof this._speed === 'number' ? this._speed : 1.0;
+
+      // Try static audio file first (pre-generated)
+      const basePath = import.meta.env.BASE_URL || '/';
+      const staticUrl = `${basePath}audio/${this._language}/${phrase.id}.mp3`;
+
+      try {
+        const resp = await fetch(staticUrl);
+        if (resp.ok) {
+          const blob = await resp.blob();
+          if (blob.size > 500) {
+            this._currentBlobUrl = URL.createObjectURL(blob);
+            this._audio.src = this._currentBlobUrl;
+            this._audio.playbackRate = speedNum < 1 ? speedNum : 1.0;
+            this._onPhraseChange?.(phrase, this._currentIndex);
+            return;
+          }
+        }
+      } catch (e) {
+        // Static file not available, fall through to TTS API
+      }
+
+      // Fallback: try browser cache
       const cached = await getCachedAudio(phrase.id, this._language, speedNum);
       if (cached) {
-        console.log('[SS-AUDIO] Cache hit for', phrase.id);
         this._currentBlobUrl = URL.createObjectURL(cached);
         this._audio.src = this._currentBlobUrl;
       } else if (isAuthenticated()) {
-        console.log('[SS-AUDIO] Fetching TTS for', phrase.id, phrase.chinese);
+        // Fallback: TTS API
         const blob = await textToSpeech(phrase.chinese, {
           language: this._language,
           speed: speedNum,
@@ -78,12 +98,11 @@ class AudioEngine {
           this._onPhraseChange?.(phrase, this._currentIndex);
           return;
         }
-        console.log('[SS-AUDIO] TTS success for', phrase.id, 'blob size:', blob.size);
         this._currentBlobUrl = URL.createObjectURL(blob);
         this._audio.src = this._currentBlobUrl;
         cacheAudioBlob(phrase.id, this._language, speedNum, blob).catch(() => {});
       } else {
-        console.error('[SS-AUDIO] Not authenticated — cannot load audio');
+        logger.error('No audio source available for', phrase.id);
         this._onStateChange?.('error');
         this._onPhraseChange?.(phrase, this._currentIndex);
         return;
