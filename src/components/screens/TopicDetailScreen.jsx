@@ -200,7 +200,12 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
                 window.speechSynthesis.speak(u);
               }
             }}
-            onSaved={(id) => setSavedIds(prev => new Set([...prev, id]))}
+            onSaved={async (id) => {
+              setSavedIds(prev => new Set([...prev, id]));
+              // Refresh entry so mastered count updates live
+              const refreshed = await getLibraryEntry(id);
+              if (refreshed) setLibraryEntries(prev => ({ ...prev, [id]: refreshed }));
+            }}
             showToast={showToast}
           />
         ))}

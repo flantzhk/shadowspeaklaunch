@@ -135,19 +135,34 @@ export default function PhraseCard({ phrase, libraryEntry, onPlay, onSaved, show
   }, [showToast]);
 
   const handleMarkKnown = useCallback(async () => {
-    if (!entry) return;
-    setCelebrated(true);
-    setTimeout(() => setCelebrated(false), 900);
-    const updated = {
-      ...entry,
-      status: 'mastered',
-      interval: SRS_MAX_INTERVAL,
-      nextReviewAt: Date.now() + SRS_MAX_INTERVAL * 24 * 60 * 60 * 1000,
-    };
+    const now = Date.now();
+    let updated;
+    if (!entry) {
+      // Not in library yet — save directly as mastered in one step
+      if (!phrase?.id) return;
+      updated = {
+        phraseId: phrase.id, type: 'phrase', addedAt: now, source: 'browse',
+        customData: null, interval: SRS_MAX_INTERVAL, easeFactor: SRS_INITIAL_EASE,
+        nextReviewAt: now + SRS_MAX_INTERVAL * 24 * 60 * 60 * 1000,
+        lastPracticedAt: null, practiceCount: 0, status: 'mastered',
+        bestScore: null, lastScore: null, scoreHistory: [],
+      };
+      setSaved(true);
+    } else {
+      updated = {
+        ...entry,
+        status: 'mastered',
+        interval: SRS_MAX_INTERVAL,
+        nextReviewAt: now + SRS_MAX_INTERVAL * 24 * 60 * 60 * 1000,
+      };
+    }
     await saveLibraryEntry(updated);
     setEntry(updated);
+    setCelebrated(true);
+    setTimeout(() => setCelebrated(false), 900);
     showToast?.('🎉 Marked as known!', 'success');
-  }, [entry, showToast]);
+    onSaved?.(phrase?.id);
+  }, [entry, phrase, showToast, onSaved]);
 
   return (
     <div className={styles.card}>
@@ -218,7 +233,9 @@ export default function PhraseCard({ phrase, libraryEntry, onPlay, onSaved, show
                 + Library
               </button>
             )}
-            {entry && entry.status !== 'mastered' && (
+            {entry?.status === 'mastered' ? (
+              <span className={styles.masteredBadgeInline}>✓ Known</span>
+            ) : (
               <button
                 className={`${styles.actionBtnPrimary} ${celebrated ? styles.celebrateBtn : ''}`}
                 onClick={handleMarkKnown}

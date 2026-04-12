@@ -211,3 +211,12 @@
   animation: celebratePop 0.55s ease;
   background: var(--color-brand-lime);
 }
+
+.masteredBadgeInline {
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-mastered-text, #5a7a2a);
+  background: var(--color-mastered-bg, rgba(139, 184, 43, 0.12));
+  border-radius: 8px;
+  padding: 6px 12px;
+}
