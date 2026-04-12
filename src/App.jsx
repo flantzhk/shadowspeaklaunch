@@ -26,7 +26,7 @@ const PracticeScreen = lazy(() => import('./components/screens/PracticeScreen'))
 const SettingsScreen = lazy(() => import('./components/screens/SettingsScreen'));
 const NowPlayingScreen = lazy(() => import('./components/screens/NowPlayingScreen'));
 const TopicDetailScreen = lazy(() => import('./components/screens/TopicDetailScreen'));
-const OnboardingScreen = lazy(() => import('./components/screens/OnboardingScreen'));
+const OnboardingFlow = lazy(() => import('./components/screens/onboarding/OnboardingFlow'));
 const ShadowSession = lazy(() => import('./components/screens/ShadowSession'));
 const PromptDrill = lazy(() => import('./components/screens/PromptDrill'));
 const SpeedRun = lazy(() => import('./components/screens/SpeedRun'));
@@ -35,12 +35,11 @@ const DialogueSceneScreen = lazy(() => import('./components/screens/DialogueScen
 const CustomPhraseInput = lazy(() => import('./components/screens/CustomPhraseInput'));
 const AIConversation = lazy(() => import('./components/screens/AIConversation'));
 const StatsScreen = lazy(() => import('./components/screens/StatsScreen'));
-const WhatDidTheySay = lazy(() => import('./components/screens/WhatDidTheySay'));
 const SessionSummary = lazy(() => import('./components/screens/SessionSummary'));
 const LoginScreen = lazy(() => import('./components/screens/LoginScreen'));
 const RegisterScreen = lazy(() => import('./components/screens/RegisterScreen'));
 const ForgotPasswordScreen = lazy(() => import('./components/screens/ForgotPasswordScreen'));
-const WelcomeScreen = lazy(() => import('./components/screens/WelcomeScreen'));
+// WelcomeScreen deleted — replaced by OnboardingFlow
 const SearchScreen = lazy(() => import('./components/screens/SearchScreen'));
 const LegalPages = lazy(() => import('./components/screens/LegalPage').then(m => ({ default: m.PrivacyPolicy })));
 const TermsPage = lazy(() => import('./components/screens/LegalPage').then(m => ({ default: m.TermsOfService })));
@@ -145,31 +144,50 @@ function MainLayout() {
     );
   }
 
-  // Auth guard: unauthenticated users see onboarding first, then login
-  if (!PUBLIC_ROUTES.includes(route.path) && route.path !== ROUTES.WELCOME && !isAuthenticated()) {
-    if (!settings.onboardingCompleted) {
-      // New user — show onboarding before login wall
+  // Unauthenticated users: onboarding or login
+  if (!isAuthenticated()) {
+    // Public routes (login, register, legal, etc.) render without app chrome
+    if (PUBLIC_ROUTES.includes(route.path)) {
       return (
         <Suspense fallback={<Loader size={40} />}>
-          <OnboardingScreen onComplete={() => {
-            updateSettings({ onboardingCompleted: true });
-            window.location.hash = `#${ROUTES.REGISTER}`;
-          }} />
+          {renderScreen(route, navigate, goBack, showToast, () => {})}
+          {ToastComponent}
         </Suspense>
       );
     }
-    window.location.hash = `#${ROUTES.LOGIN}`;
+    // Returning user who already completed onboarding — send to login
+    if (settings.onboardingCompleted) {
+      window.location.hash = `#${ROUTES.LOGIN}`;
+      return null;
+    }
+    // Everyone else — show the onboarding flow
+    return (
+      <Suspense fallback={<Loader size={40} />}>
+        <OnboardingFlow onComplete={(plan) => {
+          updateSettings({ onboardingCompleted: true });
+          const dest = plan === 'trial'
+            ? `#${ROUTES.REGISTER}?plan=trial`
+            : `#${ROUTES.REGISTER}`;
+          window.location.hash = dest;
+        }} />
+      </Suspense>
+    );
+  }
+
+  // Authenticated users who hit welcome route — go home
+  if (route.path === ROUTES.WELCOME) {
+    window.location.hash = `#${ROUTES.HOME}`;
     return null;
   }
 
   // Redirect authenticated users away from login/register
-  if ([ROUTES.LOGIN, ROUTES.REGISTER].includes(route.path) && isAuthenticated()) {
+  if ([ROUTES.LOGIN, ROUTES.REGISTER].includes(route.path)) {
     window.location.hash = `#${ROUTES.HOME}`;
     return null;
   }
 
   // Auth screens render without app chrome
-  if (PUBLIC_ROUTES.includes(route.path) || route.path === ROUTES.WELCOME) {
+  if (PUBLIC_ROUTES.includes(route.path)) {
     return (
       <Suspense fallback={<Loader size={40} />}>
         {renderScreen(route, navigate, goBack, showToast, () => {})}
@@ -179,14 +197,8 @@ function MainLayout() {
   }
 
   if (!settings.onboardingCompleted) {
-    return (
-      <Suspense fallback={<Loader size={40} />}>
-        <OnboardingScreen onComplete={() => {
-          updateSettings({ onboardingCompleted: true });
-          setShowFirstLaunch(true);
-        }} />
-      </Suspense>
-    );
+    // Authenticated user who somehow skipped onboarding — mark complete
+    updateSettings({ onboardingCompleted: true });
   }
 
   if (showFirstLaunch) {
@@ -306,14 +318,13 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
     case ROUTES.LOGIN: return <LoginScreen />;
     case ROUTES.REGISTER: return <RegisterScreen />;
     case ROUTES.FORGOT_PASSWORD: return <ForgotPasswordScreen />;
-    case ROUTES.WELCOME: return <WelcomeScreen />;
+    // WelcomeScreen deleted — handled by redirect above
     case ROUTES.HOME: return <HomeScreen onNavigate={navigate} />;
     case ROUTES.LIBRARY: return <LibraryScreen onNavigate={navigate} />;
     case ROUTES.PRACTICE: return <PracticeScreen onNavigate={navigate} onStartScene={onStartScene} />;
     case ROUTES.SETTINGS: return <ProfileScreen onBack={goBack} onNavigate={navigate} showToast={showToast} />;
     case ROUTES.TOPIC_DETAIL: return <TopicDetailScreen topicId={route.id} onBack={goBack} showToast={showToast} onStartScene={onStartScene} />;
     case ROUTES.CUSTOM_PHRASE: return <CustomPhraseInput onBack={goBack} showToast={showToast} />;
-    case ROUTES.WHAT_DID_THEY_SAY: return <WhatDidTheySay onBack={goBack} showToast={showToast} />;
     case ROUTES.AI_CHAT: return <AIConversation onBack={goBack} showToast={showToast} />;
     case ROUTES.STATS: return <StatsScreen onBack={goBack} onNavigate={navigate} />;
     case ROUTES.SEARCH: return <SearchScreen onBack={goBack} onNavigate={navigate} />;
