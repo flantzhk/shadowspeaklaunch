@@ -11,6 +11,8 @@ import styles from './MiniPlayer.module.css';
 function MiniPlayer({ onExpand }) {
   const {
     currentPhrase,
+    currentIndex,
+    queueLength,
     isPlaying,
     play,
     pause,
@@ -19,10 +21,11 @@ function MiniPlayer({ onExpand }) {
     speed,
     isRepeat,
     hasQueue,
-    progress,
     setSpeed,
     toggleRepeat,
   } = useAudio();
+
+  const progress = { current: currentIndex + 1, total: queueLength };
 
   if (!hasQueue || !currentPhrase) return null;
 

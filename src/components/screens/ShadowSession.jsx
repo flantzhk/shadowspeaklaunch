@@ -13,6 +13,7 @@ import { updateStreak, getTodayString } from '../../services/streak';
 import { buildLesson } from '../../services/lessonBuilder';
 import { blobToBase64 } from '../../services/offlineManager';
 import { ScoreBadge } from '../cards/ScoreBadge';
+import PronunciationFeedback from '../cards/PronunciationFeedback';
 import { RecordButton } from '../shared/RecordButton';
 import { LessonLoader } from '../shared/LessonLoader';
 import { SCORE_THRESHOLDS } from '../../utils/constants';
@@ -30,6 +31,7 @@ export default function ShadowSession({ onBack, onComplete }) {
   const [sessionStart] = useState(Date.now());
   const [results, setResults] = useState([]);
   const [currentScore, setCurrentScore] = useState(null);
+  const [scoreResult, setScoreResult] = useState(null);
   const [isScoring, setIsScoring] = useState(false);
   const [phase, setPhase] = useState('loading'); // loading | ready | listen | record | scored
 
@@ -84,6 +86,7 @@ export default function ShadowSession({ onBack, onComplete }) {
           blob, audio.currentPhrase.chinese, settings.currentLanguage
         );
         setCurrentScore(result.score);
+        setScoreResult(result);
         await updateAfterPractice(audio.currentPhrase.id, result.score);
         addResult(audio.currentPhrase.id, result.score);
       } catch (err) {
@@ -119,6 +122,7 @@ export default function ShadowSession({ onBack, onComplete }) {
 
   const handleNext = useCallback(async () => {
     setCurrentScore(null);
+    setScoreResult(null);
     setPhase('listen');
     if (audio.currentIndex < audio.queueLength - 1) {
       await audio.next();
@@ -235,12 +239,16 @@ export default function ShadowSession({ onBack, onComplete }) {
         {phase === 'scored' && (
           <div className={styles.scoreSection}>
             <ScoreBadge score={isScoring ? null : currentScore} variant="full" />
-            {currentScore !== null && currentScore < SCORE_THRESHOLDS.GOOD && (
-              <p className={styles.tryAgain}>Try again or move on</p>
+            {!isScoring && (
+              <PronunciationFeedback
+                phrase={phrase}
+                scoreResult={scoreResult}
+                onHearPhrase={() => { setScoreResult(null); setCurrentScore(null); setPhase('listen'); audio.play(); }}
+              />
             )}
             <div className={styles.scoreActions}>
-              <button className={styles.retryBtn} onClick={() => { setPhase('listen'); audio.play(); }}>
-                Replay
+              <button className={styles.retryBtn} onClick={() => { setScoreResult(null); setCurrentScore(null); setPhase('listen'); audio.play(); }}>
+                Try again
               </button>
               <button className={styles.nextBtn} onClick={handleNext}>
                 {audio.currentIndex < audio.queueLength - 1 ? 'Next' : 'Finish'}
