@@ -1,0 +1,27 @@
+.card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 18px 16px;
+  border-radius: 12px;
+  border: 1.5px solid #E8E4D8;
+  background: white;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1A2A18;
+  cursor: pointer;
+  transition: all 150ms ease;
+  -webkit-tap-highlight-color: transparent;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+}
+
+.card:active {
+  transform: scale(0.98);
+}
+
+.selected {
+  background: #1A2A18;
+  color: #C5E85A;
+  border-color: #1A2A18;
+  border-left: 3px solid #C5E85A;
+}

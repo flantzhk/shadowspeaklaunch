@@ -3,15 +3,24 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAudio } from '../../contexts/AudioContext';
 import { useAppContext } from '../../contexts/AppContext';
-import { SEARCH_DEBOUNCE_MS } from '../../utils/constants';
+import { SEARCH_DEBOUNCE_MS, SRS_INITIAL_EASE } from '../../utils/constants';
+import { saveLibraryEntry, getLibraryEntry, getAllLibraryEntries } from '../../services/storage';
+import { cacheAudioForPhrase } from '../../services/audio';
 import styles from './SearchScreen.module.css';
 
-export default function SearchScreen({ onBack, onNavigate }) {
+export default function SearchScreen({ onBack, onNavigate, showToast }) {
   const { settings } = useAppContext();
   const { loadQueue, play } = useAudio();
   const [query, setQuery] = useState('');
   const [allPhrases, setAllPhrases] = useState([]);
   const [allTopics, setAllTopics] = useState([]);
+  const [savedIds, setSavedIds] = useState(new Set());
+
+  useEffect(() => {
+    getAllLibraryEntries().then(entries => {
+      setSavedIds(new Set(entries.map(e => e.phraseId)));
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const modules = import.meta.glob('../../data/topics/cantonese/*.json', { eager: true });
@@ -73,6 +82,44 @@ export default function SearchScreen({ onBack, onNavigate }) {
     await loadQueue([phrase], settings.currentLanguage);
     await play();
   }, [loadQueue, play, settings.currentLanguage]);
+
+  const handleSavePhrase = useCallback(async (phrase, e) => {
+    e.stopPropagation();
+    if (savedIds.has(phrase.id)) return;
+    try {
+      await saveLibraryEntry({
+        phraseId: phrase.id, type: 'phrase', addedAt: Date.now(),
+        source: 'search', customData: null, interval: 0,
+        easeFactor: SRS_INITIAL_EASE, nextReviewAt: Date.now(),
+        lastPracticedAt: null, practiceCount: 0, status: 'learning',
+        bestScore: null, lastScore: null, scoreHistory: [],
+      });
+      setSavedIds(prev => new Set([...prev, phrase.id]));
+      showToast?.('Saved to library', 'success');
+      cacheAudioForPhrase(phrase, settings.currentLanguage).catch(() => {});
+    } catch {
+      showToast?.('Failed to save', 'error');
+    }
+  }, [savedIds, showToast, settings.currentLanguage]);
+
+  const handleSaveWord = useCallback(async (word, e) => {
+    e.stopPropagation();
+    const phraseId = `word-${word.chinese}`;
+    if (savedIds.has(phraseId)) return;
+    try {
+      await saveLibraryEntry({
+        phraseId, type: 'phrase', addedAt: Date.now(),
+        source: 'search', customData: { chinese: word.chinese, jyutping: word.jyutping, english: word.english },
+        interval: 0, easeFactor: SRS_INITIAL_EASE, nextReviewAt: Date.now(),
+        lastPracticedAt: null, practiceCount: 0, status: 'learning',
+        bestScore: null, lastScore: null, scoreHistory: [],
+      });
+      setSavedIds(prev => new Set([...prev, phraseId]));
+      showToast?.('Saved to library', 'success');
+    } catch {
+      showToast?.('Failed to save', 'error');
+    }
+  }, [savedIds, showToast]);
 
   const hasResults = results.topics.length + results.phrases.length + results.words.length > 0;
 
