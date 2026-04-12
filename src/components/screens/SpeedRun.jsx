@@ -141,7 +141,15 @@ export default function SpeedRun({ onBack, onComplete }) {
 
       {showAnswer && (
         <div className={`${styles.feedback} ${wasCorrect ? styles.correct : styles.wrong}`}>
-          {wasCorrect ? 'Correct!' : `Answer: ${phrase?.romanization}`}
+          <span className={styles.feedbackAnswer}>
+            {wasCorrect ? 'Correct!' : `Answer: ${phrase?.romanization}`}
+          </span>
+          {phrase && !wasCorrect && (
+            <span style={{ fontSize: '18px', color: 'var(--color-text-secondary)' }} lang="yue">{phrase.chinese}</span>
+          )}
+          <button className={styles.nextBtn} onClick={handleNextRound}>
+            {round + 1 >= TOTAL_ROUNDS ? 'Finish' : 'Next'}
+          </button>
         </div>
       )}
 
@@ -156,12 +164,6 @@ export default function SpeedRun({ onBack, onComplete }) {
           </button>
         ))}
       </div>
-
-      {phase === 'feedback' && (
-        <button className={styles.nextBtn} onClick={handleNextRound}>
-          {round + 1 >= TOTAL_ROUNDS ? 'Finish' : 'Next'}
-        </button>
-      )}
     </div>
   );
 }
