@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
-import { buildLesson } from '../../services/lessonBuilder';
-import { saveSession, getSettings, saveSettings } from '../../services/storage';
+import { getAllLibraryEntries, saveSession, getSettings, saveSettings } from '../../services/storage';
+import { loadAllPhrases } from '../../services/lessonBuilder';
 import { updateStreak, getTodayString } from '../../services/streak';
 import { LessonLoader } from '../shared/LessonLoader';
 import styles from './SpeedRun.module.css';
@@ -30,13 +30,22 @@ export default function SpeedRun({ onBack, onComplete }) {
 
   useEffect(() => {
     (async () => {
-      const lesson = await buildLesson(settings.dailyGoalMinutes, settings.currentLanguage);
-      const shuffled = lesson.sort(() => Math.random() - 0.5).slice(0, TOTAL_ROUNDS);
-      setPhrases(shuffled);
+      // Speed Run only uses phrases the user has saved — no fallback to topic catalogue
+      const libraryEntries = await getAllLibraryEntries();
+      const allPhrases = await loadAllPhrases(settings.currentLanguage);
+      const phraseMap = Object.fromEntries(allPhrases.map(p => [p.id, p]));
+      const pool = libraryEntries
+        .map(e => phraseMap[e.phraseId])
+        .filter(Boolean);
+
       const stored = await getSettings();
       setPersonalBest(stored?.speedRunBest || 0);
-      if (shuffled.length > 0) { setPhase('playing'); startTimer(); generateOptions(shuffled, 0, lesson); }
-      else setPhase('empty');
+
+      if (pool.length < 4) { setPhase('empty'); return; }
+
+      const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, TOTAL_ROUNDS);
+      setPhrases(shuffled);
+      if (shuffled.length > 0) { setPhase('playing'); startTimer(); generateOptions(shuffled, 0, pool); }
     })();
     return () => clearInterval(timerRef.current);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -110,7 +119,7 @@ export default function SpeedRun({ onBack, onComplete }) {
     return (
       <div className={styles.screen} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '24px', gap: '16px' }}>
         <p style={{ fontSize: '17px', fontWeight: 600, color: 'var(--color-text-primary)' }}>No phrases available</p>
-        <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>Add phrases to your library first, then come back to practice.</p>
+        <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>Save at least 4 phrases to your library first — Speed Run only tests what you've learned.</p>
         <button onClick={onBack} style={{ padding: '12px 28px', borderRadius: '10px', background: 'var(--color-brand-dark)', color: 'white', fontWeight: 600, fontSize: '15px' }}>Go back</button>
       </div>
     );

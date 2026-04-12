@@ -335,6 +335,93 @@
   color: var(--color-text-muted);
 }
 
+/* === Recent Topics Section === */
+.recentSection {
+  margin-bottom: 24px;
+}
+
+.recentHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.recentTitle {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  letter-spacing: -0.2px;
+}
+
+.recentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.recentCard {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  background-size: cover;
+  background-position: center;
+  text-align: left;
+  transition: transform var(--transition-fast);
+}
+
+.recentCard:active {
+  transform: scale(0.97);
+}
+
+.recentTimeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 9px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.3px;
+  padding: 3px 7px 3px 5px;
+  border-radius: 20px;
+  align-self: flex-start;
+}
+
+.recentCardBottom {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.recentTopicName {
+  font-size: 13px;
+  font-weight: var(--font-weight-semibold);
+  color: white;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+}
+
+.recentProgressBar {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.recentProgressFill {
+  height: 100%;
+  background: var(--color-brand-lime);
+  border-radius: 1px;
+}
+
 /* === Category Sections === */
 .categorySection {
   margin-top: 24px;

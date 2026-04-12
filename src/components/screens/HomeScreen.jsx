@@ -1,4 +1,4 @@
-// src/components/screens/HomeScreen.jsx — Today's lesson, library summary, categories
+// src/components/screens/HomeScreen.jsx — Today's lesson, recent topics, categories
 
 import { useState, useEffect, useCallback } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
@@ -8,8 +8,39 @@ import { getLanguagePack, getTopicsForLanguage } from '../../services/languageMa
 import { hasPracticedToday } from '../../services/streak';
 import styles from './HomeScreen.module.css';
 
+// === Recent topics helpers (localStorage) ===
+const RECENT_KEY = 'ss_recent_topics';
+
+function saveRecentTopic(topicId) {
+  try {
+    const existing = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+    const filtered = existing.filter(e => e.id !== topicId);
+    const updated = [{ id: topicId, openedAt: Date.now() }, ...filtered].slice(0, 10);
+    localStorage.setItem(RECENT_KEY, JSON.stringify(updated));
+  } catch {}
+}
+
+function loadRecentTopics() {
+  try {
+    return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function relativeTime(ts) {
+  const diff = Date.now() - ts;
+  const mins = Math.floor(diff / 60000);
+  if (mins < 60) return 'Just now';
+  const hours = Math.floor(diff / 3600000);
+  if (hours < 24) return 'Today';
+  const days = Math.floor(diff / 86400000);
+  if (days === 1) return 'Yesterday';
+  return `${days}d ago`;
+}
+
 /**
- * Home screen with today's lesson hero, category rows.
+ * Home screen with today's lesson hero, recent topics, category rows.
  * @param {{ onNavigate: Function }} props
  */
 export default function HomeScreen({ onNavigate }) {
@@ -20,7 +51,8 @@ export default function HomeScreen({ onNavigate }) {
   const [duration, setDuration] = useState(30);
   const [streakAtRisk, setStreakAtRisk] = useState(false);
   const [streakDismissed, setStreakDismissed] = useState(false);
-  const [topicProgress, setTopicProgress] = useState({}); // { topicId: savedCount }
+  const [topicProgress, setTopicProgress] = useState({});
+  const [recentEntries, setRecentEntries] = useState([]); // [{ id, openedAt }]
 
   const langPack = getLanguagePack(settings.currentLanguage);
 
@@ -29,7 +61,6 @@ export default function HomeScreen({ onNavigate }) {
     setTopics(loadedTopics);
     getAllLibraryEntries().then(entries => {
       setLibraryCount(entries.length);
-      // Build a set of saved phrase IDs for fast lookup
       const savedIds = new Set(entries.map(e => e.phraseId));
       const progress = {};
       for (const topic of loadedTopics) {
@@ -37,29 +68,26 @@ export default function HomeScreen({ onNavigate }) {
       }
       setTopicProgress(progress);
     });
+    setRecentEntries(loadRecentTopics().slice(0, 4));
   }, [settings.currentLanguage]);
 
-  // Streak at risk banner: show when streak >= 3, evening hours, no practice today
+  // Streak at risk banner
   useEffect(() => {
     const hour = new Date().getHours();
     if ((settings.streakCount ?? 0) >= 3 && hour >= 18 && hour < 23) {
       hasPracticedToday().then(practiced => {
-        if (!practiced) setStreakAtRisk(true);
-        else setStreakAtRisk(false);
+        setStreakAtRisk(!practiced);
       }).catch(() => {});
     }
   }, [settings.streakCount, settings.streakLastDate]);
 
   const [completedToday, setCompletedToday] = useState(false);
-
-  // Re-check when streakLastDate changes (i.e. after completing a session)
   useEffect(() => {
     hasPracticedToday().then(setCompletedToday).catch(() => {});
   }, [settings.streakLastDate]);
 
   const heroTopic = topics[0] || null;
 
-  // Hero card variant: day1 | completed | streakBroken | noContent | default
   const isDay1 = libraryCount === 0 && !settings.onboardingCompleted;
   const isStreakBroken = settings.streakCount === 0 && settings.streakLastDate !== null;
   const noContent = !heroTopic && libraryCount === 0;
@@ -74,6 +102,11 @@ export default function HomeScreen({ onNavigate }) {
   }, [onNavigate]);
 
   const handleTopicTap = useCallback((topic) => {
+    saveRecentTopic(topic.id);
+    setRecentEntries(prev => {
+      const filtered = prev.filter(e => e.id !== topic.id);
+      return [{ id: topic.id, openedAt: Date.now() }, ...filtered].slice(0, 4);
+    });
     onNavigate('topic', { id: topic.id });
   }, [onNavigate]);
 
@@ -86,6 +119,13 @@ export default function HomeScreen({ onNavigate }) {
   const categories = langPack?.categories || [];
   const greeting = getGreeting();
 
+  // Build recent topic objects from ids
+  const topicMap = Object.fromEntries(topics.map(t => [t.id, t]));
+  const recentTopics = recentEntries
+    .map(e => ({ topic: topicMap[e.id], openedAt: e.openedAt }))
+    .filter(e => !!e.topic)
+    .slice(0, 4);
+
   return (
     <div className={styles.screen}>
       {/* Greeting */}
@@ -93,7 +133,7 @@ export default function HomeScreen({ onNavigate }) {
         <h1 className={styles.greetingText}>
           {greeting}{settings.name ? `, ${settings.name}` : ''}
         </h1>
-        <p className={styles.subtitle}>Your lesson is ready. Just press play.</p>
+        <p className={styles.subtitle}>Pick your time. Press start.</p>
       </div>
 
       {/* Streak at Risk Banner */}
@@ -129,14 +169,12 @@ export default function HomeScreen({ onNavigate }) {
                     : undefined
           }}
         >
-          {/* Day badge */}
           <div className={styles.dayBadge}>
             {heroVariant === 'day1' ? 'Getting started'
               : heroVariant === 'noContent' ? ''
               : `Day ${libraryCount > 0 ? Math.ceil(libraryCount / 5) : 1}`}
           </div>
 
-          {/* Label */}
           <span className={styles.heroLabel}>
             {heroVariant === 'completed' ? (
               <><span className={styles.checkMark}>✓</span> LESSON COMPLETE</>
@@ -151,7 +189,6 @@ export default function HomeScreen({ onNavigate }) {
             )}
           </span>
 
-          {/* Title */}
           <h2 className={styles.heroTitle}>
             {heroVariant === 'completed' ? `Great work today${settings.name ? `, ${settings.name}` : ''}`
               : heroVariant === 'day1' ? 'The Very Basics'
@@ -160,7 +197,6 @@ export default function HomeScreen({ onNavigate }) {
               : heroTopic?.name || 'Daily Basics'}
           </h2>
 
-          {/* Subtitle */}
           <p className={styles.heroSubtitle}>
             {heroVariant === 'completed' ? `Your streak is now ${settings.streakCount} day${settings.streakCount !== 1 ? 's' : ''}`
               : heroVariant === 'day1' ? '5 phrases to get you started'
@@ -171,7 +207,6 @@ export default function HomeScreen({ onNavigate }) {
         </div>
 
         <div className={styles.heroBottom}>
-          {/* Duration picker — hidden for day1 and noContent */}
           {heroVariant !== 'day1' && heroVariant !== 'noContent' && (
             <div className={styles.durationPicker}>
               {[10, 20, 30].map(min => (
@@ -202,7 +237,16 @@ export default function HomeScreen({ onNavigate }) {
         </div>
       </div>
 
-      {/* Custom Phrase Card */}
+      {/* Search Bar — moved up, before categories */}
+      <button className={styles.searchBar} onClick={() => onNavigate('search')}>
+        <svg className={styles.searchIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <span className={styles.searchPlaceholder}>Search phrases, words, topics</span>
+      </button>
+
+      {/* Custom Phrase — compact pill */}
       <button className={styles.phraseCard} onClick={() => onNavigate('custom-phrase')}>
         <div className={styles.plusCircle}>+</div>
         <div className={styles.phraseCardText}>
@@ -212,31 +256,49 @@ export default function HomeScreen({ onNavigate }) {
         <span className={styles.chevron}>&rsaquo;</span>
       </button>
 
+      {/* Recent Topics — 2×2 grid */}
+      {recentTopics.length > 0 && (
+        <section className={styles.recentSection}>
+          <div className={styles.recentHeader}>
+            <h2 className={styles.recentTitle}>Recently visited</h2>
+          </div>
+          <div className={styles.recentGrid}>
+            {recentTopics.map(({ topic, openedAt }) => (
+              <button
+                key={topic.id}
+                className={styles.recentCard}
+                style={{
+                  background: topic.imageUrl
+                    ? `linear-gradient(160deg, rgba(26,42,24,0.45) 0%, rgba(0,0,0,0.72) 100%), url(${topic.imageUrl}) center/cover`
+                    : topic.imageGradient
+                      ? `linear-gradient(160deg, rgba(26,42,24,0.45) 0%, rgba(0,0,0,0.72) 100%), ${topic.imageGradient}`
+                      : 'var(--color-brand-dark)'
+                }}
+                onClick={() => handleTopicTap(topic)}
+              >
+                {/* Time badge */}
+                <span className={styles.recentTimeBadge}>
+                  <ClockIcon />
+                  {relativeTime(openedAt)}
+                </span>
 
-      {/* Library Summary Card */}
-      {libraryCount > 0 && (
-        <button className={styles.librarySummary} onClick={() => onNavigate('library')}>
-          <div className={styles.libraryIconWrap}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3a6a1a" strokeWidth="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-              <polyline points="14 2 14 8 20 8" />
-            </svg>
+                {/* Bottom text */}
+                <div className={styles.recentCardBottom}>
+                  <span className={styles.recentTopicName}>{topic.name}</span>
+                  {(topicProgress[topic.id] || 0) > 0 && (
+                    <div className={styles.recentProgressBar}>
+                      <div
+                        className={styles.recentProgressFill}
+                        style={{ width: `${(topicProgress[topic.id] / topic.phraseCount) * 100}%` }}
+                      />
+                    </div>
+                  )}
+                </div>
+              </button>
+            ))}
           </div>
-          <div className={styles.libraryTextGroup}>
-            <span className={styles.libraryTitle}>My Library</span>
-            <span className={styles.libraryMeta}>{libraryCount} phrases</span>
-          </div>
-        </button>
+        </section>
       )}
-
-      {/* Search Bar */}
-      <button className={styles.searchBar} onClick={() => onNavigate('search')}>
-        <svg className={styles.searchIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
-        <span className={styles.searchPlaceholder}>Search phrases, words, topics</span>
-      </button>
 
       {/* Category Sections */}
       {categories.map(categoryId => {
@@ -284,11 +346,22 @@ export default function HomeScreen({ onNavigate }) {
                   </button>
                 </div>
               ))}
+              {/* Right fade affordance */}
+              <div className={styles.rowFade} aria-hidden="true" />
             </div>
           </section>
         );
       })}
     </div>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
   );
 }
 

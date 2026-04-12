@@ -5,12 +5,13 @@ import styles from './MiniPlayer.module.css';
 
 /**
  * Persistent mini player bar above the tab bar.
- * Shows when audio is loaded. Tap body to open NowPlayingScreen.
- * @param {{ onExpand: () => void }} props
+ * Shows when audio is loaded.
+ * @param {{ onExpand: () => void, desktop?: boolean }} props
  */
 function MiniPlayer({ onExpand, desktop = false }) {
   const {
     currentPhrase,
+    currentTopicMeta,
     currentIndex,
     queueLength,
     isPlaying,
@@ -36,14 +37,24 @@ function MiniPlayer({ onExpand, desktop = false }) {
     return `${m}:${sec.toString().padStart(2, '0')}`;
   };
 
-  // Desktop: full-width horizontal bar at the bottom of the screen
+  // Artwork: use topic image/gradient if available
+  const artworkStyle = currentTopicMeta?.imageUrl
+    ? { backgroundImage: `url(${currentTopicMeta.imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+    : currentTopicMeta?.imageGradient
+      ? { background: currentTopicMeta.imageGradient }
+      : undefined;
+
+  const showArtworkChar = !currentTopicMeta?.imageUrl && !currentTopicMeta?.imageGradient;
+
+  // Desktop: full-width horizontal bar
   if (desktop) {
     return (
       <div className={styles.desktopBar}>
-        {/* Left: artwork + text */}
         <button className={styles.desktopInfo} onClick={onExpand} aria-label="Open full player">
-          <div className={styles.artwork}>
-            <span className={styles.artworkChar}>{currentPhrase.chinese?.[0] || '?'}</span>
+          <div className={styles.artwork} style={artworkStyle}>
+            {showArtworkChar && (
+              <span className={styles.artworkChar}>{currentPhrase.chinese?.[0] || '?'}</span>
+            )}
           </div>
           <div className={styles.textArea}>
             <span className={styles.romanization}>{currentPhrase.romanization}</span>
@@ -51,7 +62,6 @@ function MiniPlayer({ onExpand, desktop = false }) {
           </div>
         </button>
 
-        {/* Centre: progress bar */}
         <div className={styles.desktopProgress}>
           <span className={styles.time}>{formatTime(currentTime)}</span>
           <div className={styles.progressTrack}>
@@ -60,7 +70,6 @@ function MiniPlayer({ onExpand, desktop = false }) {
           <span className={styles.time}>{formatTime(duration)}</span>
         </div>
 
-        {/* Right: controls */}
         <div className={styles.desktopControls}>
           <button
             className={`${styles.repeatBtn} ${isRepeat ? styles.repeatActive : ''}`}
@@ -88,28 +97,33 @@ function MiniPlayer({ onExpand, desktop = false }) {
     );
   }
 
-  // Mobile: compact card above tab bar
+  // Mobile: compact card — artwork | text | play (all in-flow, no absolute positioning)
   return (
     <div className={styles.miniPlayer}>
-      {/* Main row: artwork + text + play button */}
-      <button className={styles.mainRow} onClick={onExpand} aria-label="Open full player">
-        <div className={styles.artwork} style={currentPhrase.imageGradient ? { background: currentPhrase.imageGradient } : undefined}>
-          <span className={styles.artworkChar}>{currentPhrase.chinese?.[0] || '?'}</span>
-        </div>
-        <div className={styles.textArea}>
+      {/* Main row — no nested buttons; artwork+text tap to expand, play button separate */}
+      <div className={styles.mainRow}>
+        <button className={styles.artworkBtn} onClick={onExpand} aria-label="Open full player">
+          <div className={styles.artwork} style={artworkStyle}>
+            {showArtworkChar && (
+              <span className={styles.artworkChar}>{currentPhrase.chinese?.[0] || '?'}</span>
+            )}
+          </div>
+        </button>
+
+        <button className={styles.textBtn} onClick={onExpand} aria-label="Open full player">
           <span className={styles.romanization}>{currentPhrase.romanization}</span>
           <span className={styles.chinese}>{currentPhrase.chinese}</span>
           <span className={styles.english}>{currentPhrase.english}</span>
-        </div>
-      </button>
+        </button>
 
-      <button
-        className={styles.playBtn}
-        onClick={isPlaying ? pause : play}
-        aria-label={isPlaying ? 'Pause' : 'Play'}
-      >
-        {isPlaying ? <PauseIcon /> : <PlayIcon />}
-      </button>
+        <button
+          className={styles.playBtn}
+          onClick={isPlaying ? pause : play}
+          aria-label={isPlaying ? 'Pause' : 'Play'}
+        >
+          {isPlaying ? <PauseIcon /> : <PlayIcon />}
+        </button>
+      </div>
 
       {/* Progress row */}
       <div className={styles.progressRow}>

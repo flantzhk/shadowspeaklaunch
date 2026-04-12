@@ -1,29 +1,32 @@
 // src/components/screens/LibraryScreen.jsx — Phrases/Vocab toggle, queue, cards
 
 import { useState, useEffect, useCallback } from 'react';
-import { getAllLibraryEntries, saveLibraryEntry } from '../../services/storage';
+import { getAllLibraryEntries } from '../../services/storage';
 import { useAudio } from '../../contexts/AudioContext';
 import { useAppContext } from '../../contexts/AppContext';
-import { formatReviewStatus } from '../../utils/formatters';
-import { ROUTES, SRS_MAX_INTERVAL } from '../../utils/constants';
+import { ROUTES } from '../../utils/constants';
+import PhraseCard from '../cards/PhraseCard';
 import styles from './LibraryScreen.module.css';
 
 /**
  * Library screen showing user's saved phrases and vocab.
  */
-export default function LibraryScreen({ onNavigate }) {
+export default function LibraryScreen({ onNavigate, showToast }) {
   const { settings } = useAppContext();
-  const { loadQueue, play, currentPhrase, isPlaying, pause } = useAudio();
+  const { loadQueue, play } = useAudio();
   const [entries, setEntries] = useState([]);
   const [phrases, setPhrases] = useState({});
   const [filter, setFilter] = useState('all');
   const [mode, setMode] = useState('phrases');
-  const [expandedId, setExpandedId] = useState(null);
+
+  const loadEntries = useCallback(async () => {
+    const all = await getAllLibraryEntries();
+    setEntries(all);
+  }, []);
 
   useEffect(() => {
     async function load() {
-      const all = await getAllLibraryEntries();
-      setEntries(all);
+      await loadEntries();
 
       const modules = import.meta.glob('../../data/topics/cantonese/*.json', { eager: true });
       const phraseMap = {};
@@ -41,33 +44,6 @@ export default function LibraryScreen({ onNavigate }) {
     load();
   }, []);
 
-  const handlePlayPhrase = useCallback(async (e, phraseId) => {
-    e.stopPropagation();
-    const phrase = phrases[phraseId];
-    if (!phrase) return;
-    if (currentPhrase?.id === phraseId && isPlaying) {
-      pause();
-      return;
-    }
-    await loadQueue([phrase], settings.currentLanguage);
-    await play();
-  }, [phrases, loadQueue, play, pause, currentPhrase, isPlaying, settings.currentLanguage]);
-
-  const toggleExpand = useCallback((phraseId) => {
-    setExpandedId(prev => prev === phraseId ? null : phraseId);
-  }, []);
-
-  const handleMarkKnown = useCallback(async (entry) => {
-    const updated = {
-      ...entry,
-      status: 'mastered',
-      interval: SRS_MAX_INTERVAL,
-      nextReviewAt: Date.now() + SRS_MAX_INTERVAL * 24 * 60 * 60 * 1000,
-    };
-    await saveLibraryEntry(updated);
-    setEntries(prev => prev.map(e => e.phraseId === entry.phraseId ? updated : e));
-  }, []);
-
   const sorted = [...entries].sort((a, b) => (a.addedAt || 0) - (b.addedAt || 0));
   const byMode = sorted.filter(e => mode === 'phrases' ? e.type !== 'vocab' : e.type === 'vocab');
   const filtered = filter === 'all'
@@ -79,8 +55,16 @@ export default function LibraryScreen({ onNavigate }) {
   const learningCount = byMode.filter(e => e.status === 'learning').length;
   const masteredCount = byMode.filter(e => e.status === 'mastered').length;
   const dueCount = byMode.filter(e => e.nextReviewAt && new Date(e.nextReviewAt) <= new Date()).length;
-  const phraseCount = entries.filter(e => e.type !== 'vocab').length;
-  const vocabCount = entries.filter(e => e.type === 'vocab').length;
+
+  const handlePlayAll = useCallback(async () => {
+    const playable = filtered
+      .map(entry => phrases[entry.phraseId])
+      .filter(Boolean);
+    if (playable.length > 0) {
+      await loadQueue(playable, settings.currentLanguage);
+      await play();
+    }
+  }, [filtered, phrases, loadQueue, play, settings.currentLanguage]);
 
   return (
     <div className={styles.screen}>
@@ -99,6 +83,12 @@ export default function LibraryScreen({ onNavigate }) {
           Vocab
         </button>
       </div>
+
+      {/* Add phrase — top position */}
+      <button className={styles.addPhraseBtn} onClick={() => onNavigate?.(ROUTES.CUSTOM_PHRASE)}>
+        <span className={styles.addPlusCircle}>+</span>
+        <span className={styles.addLabel}>Add a phrase</span>
+      </button>
 
       {/* Queue meter */}
       <div className={styles.queueCard}>
@@ -147,17 +137,8 @@ export default function LibraryScreen({ onNavigate }) {
       </div>
 
       {/* Play all filtered phrases */}
-      {filtered.length > 0 && (
-        <button
-          className={styles.playAllBtn}
-          onClick={async () => {
-            const playable = filtered.map(entry => phrases[entry.phraseId]).filter(Boolean);
-            if (playable.length > 0) {
-              await loadQueue(playable, settings.currentLanguage);
-              await play();
-            }
-          }}
-        >
+      {filtered.length > 0 && mode === 'phrases' && (
+        <button className={styles.playAllBtn} onClick={handlePlayAll}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
             <polygon points="5 3 19 12 5 21 5 3" />
           </svg>
@@ -165,7 +146,7 @@ export default function LibraryScreen({ onNavigate }) {
         </button>
       )}
 
-      {/* Phrase list */}
+      {/* Entry list */}
       {filtered.length === 0 ? (
         <div className={styles.empty}>
           {entries.length === 0 ? (
@@ -176,112 +157,34 @@ export default function LibraryScreen({ onNavigate }) {
                 </svg>
               </div>
               <p className={styles.emptyTitle}>Your library is empty</p>
-              <p className={styles.emptyText}>Browse topics to find phrases you want to learn.</p>
+              <p className={styles.emptyText}>Browse topics to save phrases you want to learn.</p>
             </>
           ) : (
-            <p className={styles.emptyText}>No phrases match this filter.</p>
+            <p className={styles.emptyText}>No entries match this filter.</p>
           )}
         </div>
       ) : (
         <div className={styles.phraseList}>
-          {filtered.map(entry => {
-            const phrase = phrases[entry.phraseId];
-            const isActive = currentPhrase?.id === entry.phraseId;
-            const isExpanded = expandedId === entry.phraseId;
-
-            return (
-              <div key={entry.phraseId} className={`${styles.phraseCard} ${isActive ? styles.activeCard : ''}`}>
-                <button className={styles.cardBody} onClick={() => toggleExpand(entry.phraseId)}>
-                  <div className={styles.phraseInfo}>
-                    <span className={styles.romanization}>
-                      {phrase?.romanization || entry.phraseId}
-                    </span>
-                    {phrase && (
-                      <>
-                        <span className={styles.chinese} lang="yue">{phrase.chinese}</span>
-                        <span className={styles.english}>{phrase.english}</span>
-                      </>
-                    )}
-                  </div>
-
-                  <div className={styles.cardRight}>
-                    <span className={`${styles.status} ${styles[entry.status]}`}>
-                      {entry.status === 'mastered' ? 'Mastered' : formatReviewStatus(entry.interval, entry.nextReviewAt)}
-                    </span>
-                    {entry.bestScore != null && (
-                      <span className={styles.bestScore}>{entry.bestScore}%</span>
-                    )}
-                    <span className={`${styles.chevron} ${isExpanded ? styles.chevronOpen : ''}`}>&rsaquo;</span>
-                  </div>
-                </button>
-
-                <button
-                  className={styles.playBtn}
-                  onClick={(e) => handlePlayPhrase(e, entry.phraseId)}
-                  aria-label={isActive && isPlaying ? 'Pause' : 'Play'}
-                >
-                  {isActive && isPlaying ? <PauseIcon /> : <PlayIcon />}
-                </button>
-
-                {/* Expanded section */}
-                {isExpanded && phrase && (
-                  <div className={styles.expandedSection}>
-                    {phrase.context && (
-                      <p className={styles.contextLine}>{phrase.context}</p>
-                    )}
-
-                    {phrase.words && phrase.words.length > 0 && (
-                      <div className={styles.wordCards}>
-                        {phrase.words.map((word, i) => (
-                          <div key={i} className={styles.wordCard}>
-                            <span className={styles.wordChinese}>{word.chinese}</span>
-                            <span className={styles.wordJyutping}>{word.jyutping}</span>
-                            <span className={styles.wordEnglish}>{word.english}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    <div className={styles.expandedActions}>
-                      <button className={styles.repeatBtn} onClick={(e) => handlePlayPhrase(e, entry.phraseId)}>
-                        Repeat
-                      </button>
-                      {entry.status !== 'mastered' && (
-                        <button className={styles.knowItBtn} onClick={() => handleMarkKnown(entry)}>
-                          I know this!
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {filtered.map(entry => (
+            <PhraseCard
+              key={entry.phraseId}
+              phrase={phrases[entry.phraseId] || null}
+              libraryEntry={entry}
+              onPlay={(chinese) => {
+                if ('speechSynthesis' in window) {
+                  window.speechSynthesis.cancel();
+                  const u = new SpeechSynthesisUtterance(chinese);
+                  u.lang = 'zh-HK';
+                  u.rate = 0.8;
+                  window.speechSynthesis.speak(u);
+                }
+              }}
+              onSaved={loadEntries}
+              showToast={showToast}
+            />
+          ))}
         </div>
       )}
-
-      {/* Add phrase button */}
-      <button className={styles.addPhraseBtn} onClick={() => onNavigate?.(ROUTES.CUSTOM_PHRASE)}>
-        <span className={styles.addPlusCircle}>+</span>
-        <span className={styles.addLabel}>Add a phrase</span>
-      </button>
     </div>
-  );
-}
-
-function PlayIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--color-brand-dark)">
-      <polygon points="5 3 19 12 5 21 5 3" />
-    </svg>
-  );
-}
-
-function PauseIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--color-brand-dark)">
-      <rect x="6" y="4" width="4" height="16" rx="1" />
-      <rect x="14" y="4" width="4" height="16" rx="1" />
-    </svg>
   );
 }

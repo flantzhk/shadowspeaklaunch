@@ -373,7 +373,7 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
     case ROUTES.FORGOT_PASSWORD: return <ForgotPasswordScreen />;
     // WelcomeScreen deleted — handled by redirect above
     case ROUTES.HOME: return <HomeScreen onNavigate={navigate} />;
-    case ROUTES.LIBRARY: return <LibraryScreen onNavigate={navigate} />;
+    case ROUTES.LIBRARY: return <LibraryScreen onNavigate={navigate} showToast={showToast} />;
     case ROUTES.PRACTICE: return <PracticeScreen onNavigate={navigate} onStartScene={onStartScene} />;
     case ROUTES.SETTINGS: return <ProfileScreen onBack={goBack} onNavigate={navigate} showToast={showToast} />;
     case ROUTES.TOPIC_DETAIL: return <TopicDetailScreen topicId={route.id} onBack={goBack} showToast={showToast} onStartScene={onStartScene} />;

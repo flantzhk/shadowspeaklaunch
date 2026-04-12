@@ -9,7 +9,6 @@ const PRACTICE_MODES = [
   { id: 'session', name: 'Shadow Mode', description: 'Listen, repeat, get scored', icon: 'headphones' },
   { id: 'prompt', name: 'Prompt Drill', description: 'See English, speak Cantonese', icon: 'speech' },
   { id: 'speedrun', name: 'Speed Run', description: 'Rapid recall challenge', icon: 'bolt' },
-  { id: 'tonegym', name: 'Tone Gym', description: 'Train your ear for tones', icon: 'wave' },
 ];
 
 function ModeIcon({ name }) {

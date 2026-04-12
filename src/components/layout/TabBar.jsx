@@ -38,7 +38,7 @@ function TabBar({ activeTab, onTabChange }) {
  * @param {{ name: string, isActive: boolean }} props
  */
 function TabIcon({ name, isActive }) {
-  const color = isActive ? 'var(--color-brand-lime)' : 'var(--color-text-muted)';
+  const color = isActive ? 'var(--color-brand-lime)' : 'var(--color-text-secondary)';
 
   if (name === 'home') {
     return (

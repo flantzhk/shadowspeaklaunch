@@ -19,6 +19,7 @@ function AudioProvider({ children }) {
   const [duration, setDuration] = useState(0);
   const [speed, setSpeedState] = useState(1.0);
   const [isRepeat, setIsRepeat] = useState(false);
+  const [currentTopicMeta, setCurrentTopicMeta] = useState(null); // { imageGradient, imageUrl, name }
 
   useEffect(() => {
     const engine = new AudioEngine();
@@ -41,7 +42,7 @@ function AudioProvider({ children }) {
     return () => engine.destroy();
   }, []);
 
-  const loadQueue = useCallback(async (phrases, language, defaultSpeed) => {
+  const loadQueue = useCallback(async (phrases, language, defaultSpeed, topicMeta) => {
     if (!engineRef.current) return;
     // Apply default speed setting if provided
     if (defaultSpeed) {
@@ -49,6 +50,7 @@ function AudioProvider({ children }) {
       engineRef.current._speed = speedNum;
       setSpeedState(speedNum);
     }
+    if (topicMeta) setCurrentTopicMeta(topicMeta);
     setQueueLength(phrases.length);
     setPlaybackState('loading');
     try {
@@ -94,6 +96,10 @@ function AudioProvider({ children }) {
     setIsRepeat(newVal);
   }, []);
 
+  const setAutoAdvance = useCallback((value) => {
+    engineRef.current?.setAutoAdvance(value);
+  }, []);
+
   const value = {
     currentPhrase,
     currentIndex,
@@ -103,6 +109,7 @@ function AudioProvider({ children }) {
     duration,
     speed,
     isRepeat,
+    currentTopicMeta,
     isPlaying: playbackState === 'playing',
     hasQueue: queueLength > 0,
     loadQueue,
@@ -113,6 +120,7 @@ function AudioProvider({ children }) {
     setSpeed,
     toggleRepeat,
     retryCurrentPhrase,
+    setAutoAdvance,
   };
 
   return (

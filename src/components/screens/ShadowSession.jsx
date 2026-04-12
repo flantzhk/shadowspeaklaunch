@@ -25,6 +25,10 @@ import styles from './ShadowSession.module.css';
 export default function ShadowSession({ onBack, onComplete }) {
   const { settings, updateSettings } = useAppContext();
   const audio = useAudio();
+  const handleBack = useCallback(() => {
+    audio.setAutoAdvance(true); // restore for MiniPlayer
+    onBack();
+  }, [audio, onBack]);
   const { isRecording, startRecording, stopRecording, error: micError } = useRecorder();
   const isOnline = useOnlineStatus();
 
@@ -36,6 +40,7 @@ export default function ShadowSession({ onBack, onComplete }) {
   const [phase, setPhase] = useState('loading'); // loading | ready | listen | record | scored
 
   const [lessonPhrases, setLessonPhrases] = useState(null);
+  const [showEnglish, setShowEnglish] = useState(settings.showEnglish ?? true);
 
   useEffect(() => {
     (async () => {
@@ -57,6 +62,8 @@ export default function ShadowSession({ onBack, onComplete }) {
     if (!lessonPhrases) return;
     setPhase('listen');
     try {
+      // Disable auto-advance: shadow mode pauses after each phrase so user can repeat
+      audio.setAutoAdvance(false);
       await audio.loadQueue(lessonPhrases, settings.currentLanguage, settings.defaultSpeed);
       await audio.play();
     } catch (err) {
@@ -65,7 +72,15 @@ export default function ShadowSession({ onBack, onComplete }) {
   }, [audio, lessonPhrases, settings.currentLanguage, settings.defaultSpeed]);
 
   useEffect(() => {
-    if (audio.playbackState === 'ended' && audio.queueLength > 0 && phase === 'listen' && results.length >= audio.queueLength) finishSession();
+    if (audio.playbackState === 'ended' && audio.queueLength > 0 && phase === 'listen') {
+      if (results.length >= audio.queueLength) {
+        finishSession();
+      } else {
+        // Phrase finished — give user 600ms pause then prompt to record
+        const t = setTimeout(() => setPhase('record'), 600);
+        return () => clearTimeout(t);
+      }
+    }
   }, [audio.playbackState]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleStartRecording = useCallback(async () => {
@@ -123,14 +138,14 @@ export default function ShadowSession({ onBack, onComplete }) {
   const handleNext = useCallback(async () => {
     setCurrentScore(null);
     setScoreResult(null);
-    setPhase('listen');
     if (audio.currentIndex < audio.queueLength - 1) {
+      setPhase('listen');
       await audio.next();
       await audio.play();
     } else {
       await finishSession();
     }
-  }, [audio]);
+  }, [audio, finishSession]);
 
   const handleSkip = useCallback(async () => {
     addResult(audio.currentPhrase?.id, null);
@@ -138,6 +153,7 @@ export default function ShadowSession({ onBack, onComplete }) {
   }, [audio, addResult, handleNext]);
 
   const finishSession = useCallback(async () => {
+    audio.setAutoAdvance(true); // restore for MiniPlayer use after session
     audio.pause();
     const dur = Math.round((Date.now() - sessionStart) / 1000);
     const streak = await updateStreak();
@@ -156,7 +172,7 @@ export default function ShadowSession({ onBack, onComplete }) {
   }, [sessionStart, results, audio, updateSettings, settings, onComplete]);
 
   if (phase === 'loading') {
-    return <LessonLoader mode="shadow-session" onCancel={onBack} />;
+    return <LessonLoader mode="shadow-session" onCancel={handleBack} />;
   }
 
   if (phase === 'empty') {
@@ -164,7 +180,7 @@ export default function ShadowSession({ onBack, onComplete }) {
       <div className={styles.screen} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '24px', gap: '16px' }}>
         <p style={{ fontSize: '17px', fontWeight: 600, color: 'var(--color-text-primary)' }}>No phrases available</p>
         <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>Add phrases to your library first, then come back to practice.</p>
-        <button onClick={onBack} style={{ padding: '12px 28px', borderRadius: '10px', background: 'var(--color-brand-dark)', color: 'white', fontWeight: 600, fontSize: '15px' }}>Go back</button>
+        <button onClick={handleBack} style={{ padding: '12px 28px', borderRadius: '10px', background: 'var(--color-brand-dark)', color: 'white', fontWeight: 600, fontSize: '15px' }}>Go back</button>
       </div>
     );
   }
@@ -177,7 +193,7 @@ export default function ShadowSession({ onBack, onComplete }) {
           <span style={{ width: 0, height: 0, borderLeft: '22px solid var(--color-brand-dark)', borderTop: '14px solid transparent', borderBottom: '14px solid transparent', marginLeft: '4px' }} />
         </button>
         <p style={{ fontSize: '17px', fontWeight: 600, color: 'var(--color-text-primary)' }}>Tap to start</p>
-        <button onClick={onBack} style={{ fontSize: '14px', color: 'var(--color-text-muted)', padding: '8px' }}>Cancel</button>
+        <button onClick={handleBack} style={{ fontSize: '14px', color: 'var(--color-text-muted)', padding: '8px' }}>Cancel</button>
       </div>
     );
   }
@@ -191,7 +207,7 @@ export default function ShadowSession({ onBack, onComplete }) {
   return (
     <div className={styles.screen}>
       <div className={styles.header}>
-        <button className={styles.backBtn} onClick={onBack} aria-label="Exit">
+        <button className={styles.backBtn} onClick={handleBack} aria-label="Exit">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
           </svg>
@@ -202,6 +218,13 @@ export default function ShadowSession({ onBack, onComplete }) {
           </div>
           <span className={styles.sessionCount}>{audio.currentIndex + 1}/{totalPhrases}</span>
         </div>
+        <button
+          onClick={() => setShowEnglish(v => !v)}
+          style={{ fontSize: '12px', color: showEnglish ? 'var(--color-brand-lime)' : 'var(--color-text-muted)', padding: '6px 10px', borderRadius: '6px', border: '1px solid currentColor', fontWeight: 600 }}
+          aria-label="Toggle English"
+        >
+          EN
+        </button>
       </div>
 
       {audio.playbackState === 'error' && (
@@ -217,7 +240,7 @@ export default function ShadowSession({ onBack, onComplete }) {
         <div className={styles.phraseDisplay}>
           <p className={styles.romanization}>{phrase.romanization}</p>
           {settings.showCharacters && <p className={styles.chinese} lang="yue">{phrase.chinese}</p>}
-          {settings.showEnglish && <p className={styles.english}>{phrase.english}</p>}
+          {showEnglish && <p className={styles.english}>{phrase.english}</p>}
           {audioLoading && <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '12px' }}>Loading audio…</p>}
         </div>
       )}
