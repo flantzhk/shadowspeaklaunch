@@ -26,8 +26,8 @@ body {
   background: var(--color-bg);
 }
 
-/* Desktop: show phone frame on wider screens */
-@media (min-width: 520px) {
+/* Tablet: show phone frame on mid-width screens */
+@media (min-width: 520px) and (max-width: 899px) {
   body {
     background: var(--color-bg-page);
   }
@@ -36,6 +36,24 @@ body {
     border-left: 1px solid var(--color-border);
     border-right: 1px solid var(--color-border);
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* Desktop: full-width sidebar layout — phone frame removed */
+@media (min-width: 900px) {
+  html {
+    overflow: auto;
+  }
+
+  body {
+    overflow: auto;
+    background: var(--color-bg);
+  }
+
+  #root {
+    max-width: none;
+    height: 100vh;
+    overflow: hidden;
   }
 }
 
