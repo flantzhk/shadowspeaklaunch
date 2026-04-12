@@ -302,21 +302,24 @@ function MainLayout() {
     </>
   );
 
-  // Desktop layout: sidebar + content area
+  // Desktop layout: sidebar + content area, full-width player bar at bottom
   if (isDesktop) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'row', height: '100vh', overflow: 'hidden' }}>
-        <Sidebar {...sidebarProps} />
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', background: 'var(--color-bg)' }}>
-          <OfflineBanner />
-          <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-            <Suspense fallback={<Loader />}>
-              {isSession && !sessionSummary
-                ? renderSessionScreen(route.path, () => navigate(ROUTES.HOME), (s) => setSessionSummary(s))
-                : renderScreen(route, navigate, goBack, showToast, setActiveScene)}
-            </Suspense>
-          </main>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', flex: 1, overflow: 'hidden' }}>
+          <Sidebar {...sidebarProps} />
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', background: 'var(--color-bg)' }}>
+            <OfflineBanner />
+            <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+              <Suspense fallback={<Loader />}>
+                {isSession && !sessionSummary
+                  ? renderSessionScreen(route.path, () => navigate(ROUTES.HOME), (s) => setSessionSummary(s))
+                  : renderScreen(route, navigate, goBack, showToast, setActiveScene)}
+              </Suspense>
+            </main>
+          </div>
         </div>
+        <MiniPlayer onExpand={() => setShowNowPlaying(true)} desktop />
         {overlays}
       </div>
     );
@@ -336,12 +339,8 @@ function MainLayout() {
         </main>
       )}
 
-      {isTab && (
-        <>
-          <MiniPlayer onExpand={() => setShowNowPlaying(true)} />
-          <TabBar activeTab={route.path} onTabChange={(t) => navigate(t)} />
-        </>
-      )}
+      {!isSession && <MiniPlayer onExpand={() => setShowNowPlaying(true)} />}
+      {isTab && <TabBar activeTab={route.path} onTabChange={(t) => navigate(t)} />}
 
       {isSession && !sessionSummary && (
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>

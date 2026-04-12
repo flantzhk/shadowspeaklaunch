@@ -2,6 +2,8 @@
 
 import { useState, useCallback, useRef } from 'react';
 import { saveLibraryEntry, getLibraryEntry } from '../../services/storage';
+import { textToSpeech } from '../../services/api';
+import { isAuthenticated } from '../../services/auth';
 import { SRS_INITIAL_EASE, SRS_MAX_INTERVAL } from '../../utils/constants';
 import { formatReviewStatus } from '../../utils/formatters';
 import styles from './PhraseCard.module.css';
@@ -20,6 +22,7 @@ export default function PhraseCard({ phrase, libraryEntry, onPlay, onSaved, show
   const [repeating, setRepeating] = useState(false);
   const [saved, setSaved] = useState(!!libraryEntry);
   const [entry, setEntry] = useState(libraryEntry);
+  const [celebrated, setCelebrated] = useState(false);
   const repeatRef = useRef(null);
 
   const chinese = phrase?.chinese || entry?.customData?.chinese;
@@ -56,13 +59,27 @@ export default function PhraseCard({ phrase, libraryEntry, onPlay, onSaved, show
     playLoop();
   }, [chinese, repeating]);
 
-  const handlePlayWord = useCallback((e, wordChinese) => {
+  const handlePlayWord = useCallback(async (e, wordChinese) => {
     e?.stopPropagation();
+    // Prefer TTS API (cantonese.ai) for crisp single-word audio
+    if (isAuthenticated()) {
+      try {
+        const blob = await textToSpeech(wordChinese, { language: 'cantonese', speed: 1.0, outputExtension: 'mp3' });
+        if (blob && blob.size > 0) {
+          const url = URL.createObjectURL(blob);
+          const audio = new Audio(url);
+          audio.onended = () => URL.revokeObjectURL(url);
+          await audio.play();
+          return;
+        }
+      } catch (e) { /* fall through */ }
+    }
+    // Fallback: speechSynthesis
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(wordChinese);
       utterance.lang = 'zh-HK';
-      utterance.rate = 0.8;
+      utterance.rate = 0.7;
       window.speechSynthesis.speak(utterance);
     }
   }, []);
@@ -119,6 +136,8 @@ export default function PhraseCard({ phrase, libraryEntry, onPlay, onSaved, show
 
   const handleMarkKnown = useCallback(async () => {
     if (!entry) return;
+    setCelebrated(true);
+    setTimeout(() => setCelebrated(false), 900);
     const updated = {
       ...entry,
       status: 'mastered',
@@ -127,7 +146,7 @@ export default function PhraseCard({ phrase, libraryEntry, onPlay, onSaved, show
     };
     await saveLibraryEntry(updated);
     setEntry(updated);
-    showToast?.('Marked as known', 'success');
+    showToast?.('🎉 Marked as known!', 'success');
   }, [entry, showToast]);
 
   return (
@@ -200,8 +219,11 @@ export default function PhraseCard({ phrase, libraryEntry, onPlay, onSaved, show
               </button>
             )}
             {entry && entry.status !== 'mastered' && (
-              <button className={styles.actionBtnPrimary} onClick={handleMarkKnown}>
-                I know this!
+              <button
+                className={`${styles.actionBtnPrimary} ${celebrated ? styles.celebrateBtn : ''}`}
+                onClick={handleMarkKnown}
+              >
+                {celebrated ? '🎉 Known!' : 'I know this!'}
               </button>
             )}
           </div>

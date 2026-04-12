@@ -119,7 +119,7 @@ async function requestPasswordReset(email) {
 
 /**
  * Get current user info.
- * @returns {{name: string, email: string}|null}
+ * @returns {{name: string, email: string, displayName: string, photoURL: string|null, metadata: Object}|null}
  */
 function getCurrentUser() {
   const user = fbAuth.currentUser;
@@ -127,6 +127,9 @@ function getCurrentUser() {
   return {
     name: user.displayName || '',
     email: user.email || '',
+    displayName: user.displayName || '',
+    photoURL: user.photoURL || null,
+    metadata: user.metadata || {},
   };
 }
 

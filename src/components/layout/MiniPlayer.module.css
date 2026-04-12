@@ -1,5 +1,56 @@
 /* MiniPlayer.module.css */
 
+/* === Desktop full-width bar === */
+.desktopBar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: var(--color-brand-dark);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  height: 72px;
+  padding: 0 24px;
+  flex-shrink: 0;
+  z-index: var(--z-player);
+}
+
+.desktopInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 220px;
+  max-width: 280px;
+  flex-shrink: 0;
+  text-align: left;
+}
+
+.desktopProgress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.desktopControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.playBtnDesktop {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-brand-lime);
+  color: var(--color-brand-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.playBtnDesktop:active { opacity: 0.85; transform: scale(0.95); }
+
+/* === Mobile card === */
 .miniPlayer {
   background: var(--color-brand-dark);
   border-radius: 18px;

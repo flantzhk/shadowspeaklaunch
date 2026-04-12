@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { getAllLibraryEntries, getAllSessions } from '../../services/storage';
 import { getLevel, calcXP } from '../../utils/levels';
-import { MiniPlayer } from './MiniPlayer';
 import { ROUTES } from '../../utils/constants';
 import styles from './Sidebar.module.css';
 
@@ -65,12 +64,8 @@ function Sidebar({ activeTab, onTabChange, onMiniPlayerExpand, streak = 0, langu
         ))}
       </nav>
 
-      {/* Bottom: player + level + profile */}
+      {/* Bottom: level + profile */}
       <div className={styles.bottomSection}>
-        <div className={styles.playerWrapper}>
-          <MiniPlayer onExpand={onMiniPlayerExpand} />
-        </div>
-
         <button className={styles.levelChip} onClick={onStatsTap} aria-label={level ? `Level ${level.level} ${level.title} — view progress` : 'View progress'}>
           <div className={styles.levelBadge}>
             <span className={styles.levelNum}>{level?.level ?? '-'}</span>

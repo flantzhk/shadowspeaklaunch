@@ -26,7 +26,7 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [downloadInBackground, setDownloadInBackground] = useState(false);
 
-  const initial = (settings.name || user?.displayName || 'U')[0].toUpperCase();
+  const initial = (settings.name || user?.displayName || user?.email || 'U')[0].toUpperCase();
   const joinedDate = user?.metadata?.creationTime
     ? new Date(user.metadata.creationTime).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
     : null;
@@ -63,13 +63,13 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
       {/* Avatar + Identity */}
       <div className={styles.identity}>
         <div className={styles.avatarWrap}>
-          {settings.photoURL ? (
-            <img className={styles.avatar} src={settings.photoURL} referrerPolicy="no-referrer" alt="Profile" />
+          {(settings.photoURL || user?.photoURL) ? (
+            <img className={styles.avatar} src={settings.photoURL || user?.photoURL} referrerPolicy="no-referrer" alt="Profile" />
           ) : (
             <div className={styles.avatarInitial}>{initial}</div>
           )}
         </div>
-        <p className={styles.name}>{settings.name || user?.displayName || 'Learner'}</p>
+        <p className={styles.name}>{settings.name || user?.displayName || user?.email?.split('@')[0] || 'Learner'}</p>
         <p className={styles.email}>{user?.email || settings.email || ''}</p>
         {joinedDate && <p className={styles.joined}>Joined {joinedDate}</p>}
       </div>

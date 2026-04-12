@@ -1,11 +1,11 @@
 // src/components/screens/LibraryScreen.jsx — Phrases/Vocab toggle, queue, cards
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getAllLibraryEntries, saveLibraryEntry } from '../../services/storage';
 import { useAudio } from '../../contexts/AudioContext';
 import { useAppContext } from '../../contexts/AppContext';
+import { formatReviewStatus } from '../../utils/formatters';
 import { ROUTES, SRS_MAX_INTERVAL } from '../../utils/constants';
-import PhraseCard from '../cards/PhraseCard';
 import styles from './LibraryScreen.module.css';
 
 /**
@@ -49,63 +49,13 @@ export default function LibraryScreen({ onNavigate }) {
       pause();
       return;
     }
-    try {
-      await loadQueue([phrase], settings.currentLanguage);
-      await play();
-    } catch (err) {
-      // Fallback: use Web Speech API if AudioEngine fails
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(phrase.chinese);
-        utterance.lang = 'zh-HK';
-        utterance.rate = 0.8;
-        window.speechSynthesis.speak(utterance);
-      }
-    }
+    await loadQueue([phrase], settings.currentLanguage);
+    await play();
   }, [phrases, loadQueue, play, pause, currentPhrase, isPlaying, settings.currentLanguage]);
 
   const toggleExpand = useCallback((phraseId) => {
     setExpandedId(prev => prev === phraseId ? null : phraseId);
   }, []);
-
-  const [repeatingId, setRepeatingId] = useState(null);
-  const repeatRef = useRef(null);
-
-  const handlePlayWord = useCallback((e, chinese) => {
-    e.stopPropagation();
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(chinese);
-      utterance.lang = 'zh-HK';
-      utterance.rate = 0.8;
-      window.speechSynthesis.speak(utterance);
-    }
-  }, []);
-
-  const handleRepeat = useCallback((e, chinese, entryId) => {
-    e.stopPropagation();
-    if (repeatingId === entryId) {
-      // Stop repeating
-      setRepeatingId(null);
-      if (repeatRef.current) clearTimeout(repeatRef.current);
-      window.speechSynthesis?.cancel();
-      return;
-    }
-    setRepeatingId(entryId);
-    const playLoop = () => {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(chinese);
-        utterance.lang = 'zh-HK';
-        utterance.rate = 0.8;
-        utterance.onend = () => {
-          repeatRef.current = setTimeout(playLoop, 1500);
-        };
-        window.speechSynthesis.speak(utterance);
-      }
-    };
-    playLoop();
-  }, [repeatingId]);
 
   const handleMarkKnown = useCallback(async (entry) => {
     const updated = {
@@ -118,31 +68,8 @@ export default function LibraryScreen({ onNavigate }) {
     setEntries(prev => prev.map(e => e.phraseId === entry.phraseId ? updated : e));
   }, []);
 
-  const handleSaveWord = useCallback(async (word) => {
-    try {
-      const wordId = `word-${word.chinese}`;
-      await saveLibraryEntry({
-        phraseId: wordId,
-        type: 'vocab',
-        addedAt: Date.now(),
-        source: 'word-card',
-        customData: { chinese: word.chinese, jyutping: word.jyutping, english: word.english },
-        interval: 0,
-        easeFactor: 2.5,
-        nextReviewAt: Date.now(),
-        lastPracticedAt: null,
-        practiceCount: 0,
-        status: 'learning',
-        bestScore: null,
-        lastScore: null,
-        scoreHistory: [],
-      });
-      setEntries(prev => [...prev, { phraseId: wordId, type: 'vocab', status: 'learning', customData: { chinese: word.chinese, jyutping: word.jyutping, english: word.english } }]);
-    } catch (err) { /* duplicate — ignore */ }
-  }, []);
-
-  // Filter by mode (phrases vs vocab), then by status filter
-  const byMode = entries.filter(e => mode === 'phrases' ? e.type !== 'vocab' : e.type === 'vocab');
+  const sorted = [...entries].sort((a, b) => (a.addedAt || 0) - (b.addedAt || 0));
+  const byMode = sorted.filter(e => mode === 'phrases' ? e.type !== 'vocab' : e.type === 'vocab');
   const filtered = filter === 'all'
     ? byMode
     : filter === 'due'
@@ -161,49 +88,16 @@ export default function LibraryScreen({ onNavigate }) {
       <div className={styles.modeToggle}>
         <button
           className={`${styles.modeBtn} ${mode === 'phrases' ? styles.modeActive : ''}`}
-          onClick={() => { setMode('phrases'); setFilter('all'); }}
+          onClick={() => setMode('phrases')}
         >
-          Phrases{phraseCount > 0 ? ` (${phraseCount})` : ''}
+          Phrases
         </button>
         <button
           className={`${styles.modeBtn} ${mode === 'vocab' ? styles.modeActive : ''}`}
-          onClick={() => { setMode('vocab'); setFilter('all'); }}
+          onClick={() => setMode('vocab')}
         >
-          Vocab{vocabCount > 0 ? ` (${vocabCount})` : ''}
+          Vocab
         </button>
-      </div>
-
-      {/* Actions row */}
-      <div className={styles.actionsRow}>
-        <button className={styles.addPhraseBtn} onClick={() => onNavigate?.(ROUTES.CUSTOM_PHRASE)}>
-          <span className={styles.addPlusCircle}>+</span>
-          <span className={styles.addLabel}>Add a phrase</span>
-        </button>
-        {filtered.length > 0 && (
-          <button className={styles.playAllBtn} onClick={async () => {
-            // Build phrase objects for all filtered entries
-            const playable = filtered
-              .map(entry => {
-                const phrase = phrases[entry.phraseId];
-                if (phrase) return phrase;
-                if (entry.customData) return {
-                  id: entry.phraseId,
-                  chinese: entry.customData.chinese,
-                  romanization: entry.customData.jyutping || '',
-                  english: entry.customData.english || '',
-                };
-                return null;
-              })
-              .filter(Boolean);
-            if (playable.length > 0) {
-              await loadQueue(playable, settings.currentLanguage);
-              await play();
-            }
-          }}>
-            <span className={styles.playAllIcon}>▶</span>
-            <span className={styles.playAllLabel}>Play All</span>
-          </button>
-        )}
       </div>
 
       {/* Queue meter */}
@@ -252,6 +146,25 @@ export default function LibraryScreen({ onNavigate }) {
         ))}
       </div>
 
+      {/* Play all filtered phrases */}
+      {filtered.length > 0 && (
+        <button
+          className={styles.playAllBtn}
+          onClick={async () => {
+            const playable = filtered.map(entry => phrases[entry.phraseId]).filter(Boolean);
+            if (playable.length > 0) {
+              await loadQueue(playable, settings.currentLanguage);
+              await play();
+            }
+          }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
+            <polygon points="5 3 19 12 5 21 5 3" />
+          </svg>
+          Play {filter === 'all' ? 'all' : filter} {filtered.length} phrase{filtered.length !== 1 ? 's' : ''}
+        </button>
+      )}
+
       {/* Phrase list */}
       {filtered.length === 0 ? (
         <div className={styles.empty}>
@@ -273,34 +186,85 @@ export default function LibraryScreen({ onNavigate }) {
         <div className={styles.phraseList}>
           {filtered.map(entry => {
             const phrase = phrases[entry.phraseId];
-            // Build a phrase-like object for vocab entries
-            const vocabPhrase = entry.type === 'vocab' && entry.customData ? {
-              id: entry.phraseId,
-              chinese: entry.customData.chinese,
-              romanization: entry.customData.jyutping,
-              english: entry.customData.english,
-              words: [],
-            } : null;
+            const isActive = currentPhrase?.id === entry.phraseId;
+            const isExpanded = expandedId === entry.phraseId;
 
-            const phraseObj = phrase || vocabPhrase;
             return (
-              <PhraseCard
-                key={entry.phraseId}
-                phrase={phraseObj}
-                libraryEntry={entry}
-                onPlay={() => {
-                  if (!phraseObj) return;
-                  loadQueue([phraseObj], settings.currentLanguage)
-                    .then(() => play())
-                    .catch(() => {});
-                }}
-                showToast={() => {}}
-              />
+              <div key={entry.phraseId} className={`${styles.phraseCard} ${isActive ? styles.activeCard : ''}`}>
+                <button className={styles.cardBody} onClick={() => toggleExpand(entry.phraseId)}>
+                  <div className={styles.phraseInfo}>
+                    <span className={styles.romanization}>
+                      {phrase?.romanization || entry.phraseId}
+                    </span>
+                    {phrase && (
+                      <>
+                        <span className={styles.chinese} lang="yue">{phrase.chinese}</span>
+                        <span className={styles.english}>{phrase.english}</span>
+                      </>
+                    )}
+                  </div>
+
+                  <div className={styles.cardRight}>
+                    <span className={`${styles.status} ${styles[entry.status]}`}>
+                      {entry.status === 'mastered' ? 'Mastered' : formatReviewStatus(entry.interval, entry.nextReviewAt)}
+                    </span>
+                    {entry.bestScore != null && (
+                      <span className={styles.bestScore}>{entry.bestScore}%</span>
+                    )}
+                    <span className={`${styles.chevron} ${isExpanded ? styles.chevronOpen : ''}`}>&rsaquo;</span>
+                  </div>
+                </button>
+
+                <button
+                  className={styles.playBtn}
+                  onClick={(e) => handlePlayPhrase(e, entry.phraseId)}
+                  aria-label={isActive && isPlaying ? 'Pause' : 'Play'}
+                >
+                  {isActive && isPlaying ? <PauseIcon /> : <PlayIcon />}
+                </button>
+
+                {/* Expanded section */}
+                {isExpanded && phrase && (
+                  <div className={styles.expandedSection}>
+                    {phrase.context && (
+                      <p className={styles.contextLine}>{phrase.context}</p>
+                    )}
+
+                    {phrase.words && phrase.words.length > 0 && (
+                      <div className={styles.wordCards}>
+                        {phrase.words.map((word, i) => (
+                          <div key={i} className={styles.wordCard}>
+                            <span className={styles.wordChinese}>{word.chinese}</span>
+                            <span className={styles.wordJyutping}>{word.jyutping}</span>
+                            <span className={styles.wordEnglish}>{word.english}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className={styles.expandedActions}>
+                      <button className={styles.repeatBtn} onClick={(e) => handlePlayPhrase(e, entry.phraseId)}>
+                        Repeat
+                      </button>
+                      {entry.status !== 'mastered' && (
+                        <button className={styles.knowItBtn} onClick={() => handleMarkKnown(entry)}>
+                          I know this!
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
             );
           })}
         </div>
       )}
 
+      {/* Add phrase button */}
+      <button className={styles.addPhraseBtn} onClick={() => onNavigate?.(ROUTES.CUSTOM_PHRASE)}>
+        <span className={styles.addPlusCircle}>+</span>
+        <span className={styles.addLabel}>Add a phrase</span>
+      </button>
     </div>
   );
 }
