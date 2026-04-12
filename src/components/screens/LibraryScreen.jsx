@@ -173,11 +173,38 @@ export default function LibraryScreen({ onNavigate }) {
         </button>
       </div>
 
-      {/* Add phrase button */}
-      <button className={styles.addPhraseBtn} onClick={() => onNavigate?.(ROUTES.CUSTOM_PHRASE)}>
-        <span className={styles.addPlusCircle}>+</span>
-        <span className={styles.addLabel}>Add a phrase</span>
-      </button>
+      {/* Actions row */}
+      <div className={styles.actionsRow}>
+        <button className={styles.addPhraseBtn} onClick={() => onNavigate?.(ROUTES.CUSTOM_PHRASE)}>
+          <span className={styles.addPlusCircle}>+</span>
+          <span className={styles.addLabel}>Add a phrase</span>
+        </button>
+        {filtered.length > 0 && (
+          <button className={styles.playAllBtn} onClick={async () => {
+            // Build phrase objects for all filtered entries
+            const playable = filtered
+              .map(entry => {
+                const phrase = phrases[entry.phraseId];
+                if (phrase) return phrase;
+                if (entry.customData) return {
+                  id: entry.phraseId,
+                  chinese: entry.customData.chinese,
+                  romanization: entry.customData.jyutping || '',
+                  english: entry.customData.english || '',
+                };
+                return null;
+              })
+              .filter(Boolean);
+            if (playable.length > 0) {
+              await loadQueue(playable, settings.currentLanguage);
+              await play();
+            }
+          }}>
+            <span className={styles.playAllIcon}>▶</span>
+            <span className={styles.playAllLabel}>Play All</span>
+          </button>
+        )}
+      </div>
 
       {/* Queue meter */}
       <div className={styles.queueCard}>
