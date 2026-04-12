@@ -45,7 +45,14 @@ export default function LibraryScreen({ onNavigate, showToast }) {
   }, []);
 
   const now = new Date();
-  const sorted = [...entries].sort((a, b) => (a.addedAt || 0) - (b.addedAt || 0));
+  const sorted = [...entries].sort((a, b) => {
+    // Mastered always sinks to the bottom
+    const aMastered = a.status === 'mastered' ? 1 : 0;
+    const bMastered = b.status === 'mastered' ? 1 : 0;
+    if (aMastered !== bMastered) return aMastered - bMastered;
+    // Within same status group, sort by when added (oldest first)
+    return (a.addedAt || 0) - (b.addedAt || 0);
+  });
   const byMode = sorted.filter(e => mode === 'phrases' ? e.type !== 'vocab' : e.type === 'vocab');
 
   const learningCount = byMode.filter(e => e.status === 'learning').length;

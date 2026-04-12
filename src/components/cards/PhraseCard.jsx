@@ -234,12 +234,13 @@ export default function PhraseCard({ phrase, libraryEntry, language = 'cantonese
   }, [entry, phrase, showToast, onSaved]);
 
   const isMastered = entry?.status === 'mastered';
+  const hasText = romanization || chinese || english;
 
   return (
     <div className={styles.card}>
       {/* Top row: play | text | [I know this] | expand */}
       <div className={styles.topRow}>
-        <button className={styles.playBtn} onClick={handlePlay} aria-label="Play">
+        <button className={styles.playBtn} onClick={handlePlay} aria-label="Play" disabled={!hasText}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--color-brand-dark)">
             <polygon points="5 3 19 12 5 21 5 3" />
           </svg>
@@ -247,9 +248,15 @@ export default function PhraseCard({ phrase, libraryEntry, language = 'cantonese
 
         <button className={styles.body} onClick={() => setExpanded(!expanded)}>
           <div className={styles.textGroup}>
-            <span className={styles.romanization}>{romanization}</span>
-            {chinese && <span className={styles.chinese} lang="yue">{chinese}</span>}
-            {english && <span className={styles.english}>{english}</span>}
+            {hasText ? (
+              <>
+                <span className={styles.romanization}>{romanization}</span>
+                {chinese && <span className={styles.chinese} lang="yue">{chinese}</span>}
+                {english && <span className={styles.english}>{english}</span>}
+              </>
+            ) : (
+              <span className={styles.missingText}>Phrase data unavailable</span>
+            )}
           </div>
           <span className={`${styles.expandIcon} ${expanded ? styles.expandIconOpen : ''}`}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
