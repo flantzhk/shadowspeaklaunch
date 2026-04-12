@@ -1,22 +1,28 @@
-// src/components/layout/TopBar.jsx — Logo, streak, avatar
+// src/components/layout/TopBar.jsx — Logo, level badge, avatar
 
+import { useState, useEffect } from 'react';
+import { getAllLibraryEntries, getAllSessions } from '../../services/storage';
+import { getLevel, calcXP } from '../../utils/levels';
 import styles from './TopBar.module.css';
 
 /**
- * Top navigation bar with logo, streak counter, and avatar.
- * @param {{ streak: number, language: string, onSettingsTap: () => void, onStatsTap: () => void, userName: string, photoURL: string }} props
+ * Top navigation bar with logo, level indicator, and avatar.
  */
 function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap, onProfileTap, userName = '', photoURL = '' }) {
   const langLabel = language === 'cantonese' ? 'CANTONESE' : 'MANDARIN';
   const initial = userName ? userName.charAt(0).toUpperCase() : '?';
-  const streakPulse = streak >= 7;
-  const streakHot = streak >= 30;
+  const [level, setLevel] = useState(null);
 
-  const flameClass = [
-    styles.flame,
-    streak === 0 ? styles.flameGray : '',
-    streakHot ? styles.flameHot : '',
-  ].filter(Boolean).join(' ');
+  useEffect(() => {
+    (async () => {
+      const entries = await getAllLibraryEntries();
+      const sessions = await getAllSessions();
+      const masteredCount = entries.filter(e => e.status === 'mastered').length;
+      const totalPhrasesPracticed = sessions.reduce((sum, s) => sum + (s.phrasesAttempted || 0), 0);
+      const xp = calcXP({ totalSessions: sessions.length, totalPhrasesPracticed, masteredCount });
+      setLevel(getLevel(xp));
+    })();
+  }, [streak]); // recalc when streak changes (proxy for "user just practiced")
 
   return (
     <header className={styles.topBar}>
@@ -32,13 +38,21 @@ function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap,
 
       <div className={styles.actions}>
         <button
-          className={`${styles.streakChip} ${streak === 0 ? styles.streakInactive : ''} ${streakPulse ? styles.streakPulse : ''} ${streakHot ? styles.streakHot : ''}`}
+          className={styles.levelChip}
           onClick={onStatsTap}
-          aria-label={`${streak} day streak — view stats`}
+          aria-label={level ? `Level ${level.level} ${level.title} — view progress` : 'View progress'}
         >
-          <span className={flameClass} />
-          <span className={styles.streakCount}>{streak}</span>
-          <span className={styles.streakLabel}>days</span>
+          <div className={styles.levelBadge}>
+            <span className={styles.levelNum}>{level?.level ?? '-'}</span>
+          </div>
+          <div className={styles.levelText}>
+            <span className={styles.levelTitle}>{level?.title ?? '...'}</span>
+            {level?.next && (
+              <div className={styles.miniBar}>
+                <div className={styles.miniFill} style={{ width: `${Math.round(level.progress * 100)}%` }} />
+              </div>
+            )}
+          </div>
         </button>
 
         <button
@@ -52,7 +66,6 @@ function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap,
             initial
           )}
         </button>
-
       </div>
     </header>
   );
