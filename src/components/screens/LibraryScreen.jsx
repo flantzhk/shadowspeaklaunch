@@ -49,8 +49,19 @@ export default function LibraryScreen({ onNavigate }) {
       pause();
       return;
     }
-    await loadQueue([phrase], settings.currentLanguage);
-    await play();
+    try {
+      await loadQueue([phrase], settings.currentLanguage);
+      await play();
+    } catch (err) {
+      // Fallback: use Web Speech API if AudioEngine fails
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(phrase.chinese);
+        utterance.lang = 'zh-HK';
+        utterance.rate = 0.8;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
   }, [phrases, loadQueue, play, pause, currentPhrase, isPlaying, settings.currentLanguage]);
 
   const toggleExpand = useCallback((phraseId) => {

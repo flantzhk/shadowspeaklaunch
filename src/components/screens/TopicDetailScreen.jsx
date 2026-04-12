@@ -21,6 +21,7 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
   const [dialogues, setDialogues] = useState([]);
   const [downloadProgress, setDownloadProgress] = useState(null); // null | {done, total}
   const [downloadDone, setDownloadDone] = useState(false);
+  const [expandedPhraseId, setExpandedPhraseId] = useState(null);
   const cancelRef = useRef({ cancelled: false });
 
   useEffect(() => {
@@ -77,6 +78,17 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
     await loadQueue([phrase], settings.currentLanguage);
     await play();
   }, [topic, loadQueue, play, settings.currentLanguage]);
+
+  const handlePlayWord = useCallback((e, chinese) => {
+    e.stopPropagation();
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(chinese);
+      utterance.lang = 'zh-HK';
+      utterance.rate = 0.8;
+      window.speechSynthesis.speak(utterance);
+    }
+  }, []);
 
   const handleSave = useCallback(async (phrase) => {
     try {
@@ -183,6 +195,7 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
           const isSaved = savedIds.has(phrase.id);
           const isActive = currentPhrase?.id === phrase.id;
 
+          const isExpanded = expandedPhraseId === phrase.id;
           return (
             <div key={phrase.id} className={`${styles.phraseRow} ${isActive ? styles.active : ''}`}>
               <button
@@ -197,11 +210,12 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
                 )}
               </button>
 
-              <div className={styles.phraseInfo}>
+              <button className={styles.phraseInfo} onClick={() => setExpandedPhraseId(isExpanded ? null : phrase.id)}
+                style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', flex: 1, padding: 0 }}>
                 <span className={styles.romanization}>{phrase.romanization}</span>
                 <span className={styles.chinese} lang="yue">{phrase.chinese}</span>
                 <span className={styles.english}>{phrase.english}</span>
-              </div>
+              </button>
 
               <button
                 className={`${styles.saveBtn} ${isSaved ? styles.saved : ''}`}
@@ -215,6 +229,23 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
                   <PlusIcon />
                 )}
               </button>
+
+              {isExpanded && phrase.words && phrase.words.length > 0 && (
+                <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap', gap: '8px', padding: '8px 0 4px', borderTop: '0.5px solid var(--color-border)' }}>
+                  {phrase.words.map((word, i) => (
+                    <button key={i} onClick={(e) => handlePlayWord(e, word.chinese)}
+                      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', padding: '10px 14px', background: 'var(--color-surface)', border: '0.5px solid var(--color-border)', borderRadius: '10px', cursor: 'pointer', minWidth: '60px' }}>
+                      <span style={{ fontSize: '18px' }} lang="yue">{word.chinese}</span>
+                      <span style={{ fontSize: '11px', color: 'var(--color-jyutping, #6b8f5e)' }}>{word.jyutping}</span>
+                      <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{word.english}</span>
+                      <span style={{ fontSize: '9px', color: 'var(--color-text-muted)' }}>🔊</span>
+                    </button>
+                  ))}
+                  {phrase.context && (
+                    <p style={{ width: '100%', fontSize: '12px', color: 'var(--color-text-muted)', fontStyle: 'italic', margin: '4px 0 0' }}>{phrase.context}</p>
+                  )}
+                </div>
+              )}
             </div>
           );
         })}
