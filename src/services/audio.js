@@ -60,9 +60,11 @@ class AudioEngine {
         : typeof this._speed === 'number' ? this._speed : 1.0;
       const cached = await getCachedAudio(phrase.id, this._language, speedNum);
       if (cached) {
+        logger.info('Cache hit for', phrase.id);
         this._currentBlobUrl = URL.createObjectURL(cached);
         this._audio.src = this._currentBlobUrl;
       } else if (isAuthenticated()) {
+        logger.info('Fetching TTS for', phrase.id, phrase.chinese);
         const blob = await textToSpeech(phrase.chinese, {
           language: this._language,
           speed: speedNum,
@@ -74,6 +76,7 @@ class AudioEngine {
           this._onPhraseChange?.(phrase, this._currentIndex);
           return;
         }
+        logger.info('TTS success for', phrase.id, 'blob size:', blob.size);
         this._currentBlobUrl = URL.createObjectURL(blob);
         this._audio.src = this._currentBlobUrl;
         cacheAudioBlob(phrase.id, this._language, speedNum, blob).catch(() => {});
@@ -87,7 +90,7 @@ class AudioEngine {
       this._audio.playbackRate = speedNum < 1 ? speedNum : 1.0;
       this._onPhraseChange?.(phrase, this._currentIndex);
     } catch (error) {
-      logger.error('Failed to load audio for phrase', phrase.id, error);
+      logger.error('Failed to load audio for phrase', phrase.id, ':', error?.message || error);
       this._onStateChange?.('error');
       this._onPhraseChange?.(phrase, this._currentIndex);
     }
