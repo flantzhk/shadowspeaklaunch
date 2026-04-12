@@ -160,6 +160,12 @@ function firebaseErrorMessage(error) {
   }
 }
 
+async function deleteAccount() {
+  const user = fbAuth.currentUser;
+  if (!user) throw new Error('Not signed in');
+  await user.delete();
+}
+
 export {
   signUp,
   signIn,
@@ -171,4 +177,5 @@ export {
   requestPasswordReset,
   getCurrentUser,
   waitForAuth,
+  deleteAccount,
 };

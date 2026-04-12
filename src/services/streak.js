@@ -8,7 +8,8 @@ import { logger } from '../utils/logger';
  * @returns {string}
  */
 function getTodayString() {
-  return new Date().toISOString().slice(0, 10);
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
 /**
@@ -20,7 +21,7 @@ function getWeekStart() {
   const day = d.getDay();
   const diff = d.getDate() - day + (day === 0 ? -6 : 1);
   const monday = new Date(d.setDate(diff));
-  return monday.toISOString().slice(0, 10);
+  return `${monday.getFullYear()}-${String(monday.getMonth() + 1).padStart(2, '0')}-${String(monday.getDate()).padStart(2, '0')}`;
 }
 
 /**
@@ -40,7 +41,7 @@ async function updateStreak() {
 
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
-  const yesterdayStr = yesterday.toISOString().slice(0, 10);
+  const yesterdayStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
 
   let newStreak;
   let freezeUsedThisWeek = settings.streakFreezeUsedWeek || '';
@@ -53,7 +54,7 @@ async function updateStreak() {
     // Missed a day — check if streak freeze is available
     const twoDaysAgo = new Date();
     twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-    const twoDaysAgoStr = twoDaysAgo.toISOString().slice(0, 10);
+    const twoDaysAgoStr = `${twoDaysAgo.getFullYear()}-${String(twoDaysAgo.getMonth() + 1).padStart(2, '0')}-${String(twoDaysAgo.getDate()).padStart(2, '0')}`;
     const currentWeek = getWeekStart();
 
     if (settings.streakLastDate === twoDaysAgoStr && freezeUsedThisWeek !== currentWeek) {

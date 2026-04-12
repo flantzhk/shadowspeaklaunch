@@ -43,7 +43,25 @@ export default function EmailVerification({ onVerified, onBack }) {
   };
 
   const handleOpenEmail = () => {
-    window.location.href = 'mailto:';
+    const domain = email.split('@')[1]?.toLowerCase() || '';
+    const webmailUrls = {
+      'gmail.com': 'https://mail.google.com',
+      'googlemail.com': 'https://mail.google.com',
+      'outlook.com': 'https://outlook.live.com',
+      'hotmail.com': 'https://outlook.live.com',
+      'live.com': 'https://outlook.live.com',
+      'yahoo.com': 'https://mail.yahoo.com',
+      'icloud.com': 'https://www.icloud.com/mail',
+      'me.com': 'https://www.icloud.com/mail',
+      'protonmail.com': 'https://mail.proton.me',
+      'proton.me': 'https://mail.proton.me',
+    };
+    const url = webmailUrls[domain];
+    if (url) {
+      window.open(url, '_blank');
+    } else {
+      window.location.href = `mailto:${email}`;
+    }
   };
 
   return (

@@ -38,7 +38,7 @@ function getAllLanguages() {
 function getTopicsForLanguage(languageId) {
   const modules = topicsByLanguage[languageId];
   if (!modules) return [];
-  return Object.values(modules).map(mod => mod.default || mod);
+  return Object.values(modules).flatMap(mod => mod.default || mod);
 }
 
 /**
