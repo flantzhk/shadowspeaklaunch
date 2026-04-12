@@ -13,6 +13,7 @@ import { updateStreak, getTodayString } from '../../services/streak';
 import { buildLesson } from '../../services/lessonBuilder';
 import { blobToBase64 } from '../../services/offlineManager';
 import { ScoreBadge } from '../cards/ScoreBadge';
+import PronunciationFeedback from '../cards/PronunciationFeedback';
 import { RecordButton } from '../shared/RecordButton';
 import { LessonLoader } from '../shared/LessonLoader';
 import { SCORE_THRESHOLDS } from '../../utils/constants';
@@ -30,6 +31,7 @@ export default function ShadowSession({ onBack, onComplete }) {
   const [sessionStart] = useState(Date.now());
   const [results, setResults] = useState([]);
   const [currentScore, setCurrentScore] = useState(null);
+  const [scoreResult, setScoreResult] = useState(null); // full API response
   const [isScoring, setIsScoring] = useState(false);
   const [phase, setPhase] = useState('loading'); // loading | ready | listen | record | scored
 
@@ -84,6 +86,7 @@ export default function ShadowSession({ onBack, onComplete }) {
           blob, audio.currentPhrase.chinese, settings.currentLanguage
         );
         setCurrentScore(result.score);
+        setScoreResult(result);
         await updateAfterPractice(audio.currentPhrase.id, result.score);
         addResult(audio.currentPhrase.id, result.score);
       } catch (err) {
@@ -119,6 +122,7 @@ export default function ShadowSession({ onBack, onComplete }) {
 
   const handleNext = useCallback(async () => {
     setCurrentScore(null);
+    setScoreResult(null);
     setPhase('listen');
     if (audio.currentIndex < audio.queueLength - 1) {
       await audio.next();
@@ -167,12 +171,30 @@ export default function ShadowSession({ onBack, onComplete }) {
 
   if (phase === 'ready') {
     return (
-      <div className={styles.screen} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '24px', gap: '24px' }}>
-        <p style={{ fontSize: '15px', color: 'var(--color-text-muted)' }}>{lessonPhrases?.length || 0} phrases ready</p>
+      <div className={styles.screen} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '24px', gap: '20px' }}>
+        <div>
+          <p style={{ fontSize: '20px', fontWeight: 700, color: 'var(--color-text-primary)', marginBottom: '6px' }}>Quick Review</p>
+          <p style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>{lessonPhrases?.length || 0} phrases</p>
+        </div>
+
+        <div style={{ background: 'var(--color-surface)', border: '0.5px solid var(--color-border)', borderRadius: '14px', padding: '16px 20px', width: '100%', maxWidth: '320px', textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <p style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>How it works</p>
+          {[
+            ['1', 'Listen to a phrase play'],
+            ['2', 'Tap the mic and repeat it'],
+            ['3', 'Get a score and move on'],
+          ].map(([n, text]) => (
+            <div key={n} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--color-brand-lime)', color: 'var(--color-brand-dark)', fontWeight: 700, fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{n}</span>
+              <span style={{ fontSize: '13px', color: 'var(--color-text-secondary)' }}>{text}</span>
+            </div>
+          ))}
+        </div>
+
         <button onClick={handleTapToStart} style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'var(--color-brand-lime)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}>
           <span style={{ width: 0, height: 0, borderLeft: '22px solid var(--color-brand-dark)', borderTop: '14px solid transparent', borderBottom: '14px solid transparent', marginLeft: '4px' }} />
         </button>
-        <p style={{ fontSize: '17px', fontWeight: 600, color: 'var(--color-text-primary)' }}>Tap to start</p>
+        <p style={{ fontSize: '15px', fontWeight: 600, color: 'var(--color-text-primary)' }}>Tap to start</p>
         <button onClick={onBack} style={{ fontSize: '14px', color: 'var(--color-text-muted)', padding: '8px' }}>Cancel</button>
       </div>
     );
@@ -235,12 +257,16 @@ export default function ShadowSession({ onBack, onComplete }) {
         {phase === 'scored' && (
           <div className={styles.scoreSection}>
             <ScoreBadge score={isScoring ? null : currentScore} variant="full" />
-            {currentScore !== null && currentScore < SCORE_THRESHOLDS.GOOD && (
-              <p className={styles.tryAgain}>Try again or move on</p>
+            {!isScoring && (
+              <PronunciationFeedback
+                phrase={phrase}
+                scoreResult={scoreResult}
+                onHearPhrase={() => { setPhase('listen'); audio.play(); }}
+              />
             )}
             <div className={styles.scoreActions}>
-              <button className={styles.retryBtn} onClick={() => { setPhase('listen'); audio.play(); }}>
-                Replay
+              <button className={styles.retryBtn} onClick={() => { setScoreResult(null); setCurrentScore(null); setPhase('listen'); audio.play(); }}>
+                Try again
               </button>
               <button className={styles.nextBtn} onClick={handleNext}>
                 {audio.currentIndex < audio.queueLength - 1 ? 'Next' : 'Finish'}

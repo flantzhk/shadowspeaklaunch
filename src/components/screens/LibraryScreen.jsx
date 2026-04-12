@@ -142,6 +142,25 @@ export default function LibraryScreen({ onNavigate }) {
         ))}
       </div>
 
+      {/* Play all filtered phrases */}
+      {filtered.length > 0 && (
+        <button
+          className={styles.playAllBtn}
+          onClick={async () => {
+            const playable = filtered.map(entry => phrases[entry.phraseId]).filter(Boolean);
+            if (playable.length > 0) {
+              await loadQueue(playable, settings.currentLanguage);
+              await play();
+            }
+          }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
+            <polygon points="5 3 19 12 5 21 5 3" />
+          </svg>
+          Play {filter === 'all' ? 'all' : filter} {filtered.length} phrase{filtered.length !== 1 ? 's' : ''}
+        </button>
+      )}
+
       {/* Phrase list */}
       {filtered.length === 0 ? (
         <div className={styles.empty}>
