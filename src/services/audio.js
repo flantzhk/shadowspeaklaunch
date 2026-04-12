@@ -41,6 +41,7 @@ class AudioEngine {
 
   /** Load a lesson (ordered list of phrases) into the queue. */
   async loadQueue(phrases, language) {
+    console.log('[SS-AUDIO] loadQueue called, phrases:', phrases?.length, 'language:', language);
     this._queue = phrases;
     this._language = language;
     this._currentIndex = 0;
@@ -49,6 +50,7 @@ class AudioEngine {
 
   async _loadCurrentPhrase() {
     const phrase = this._queue[this._currentIndex];
+    console.log('[SS-AUDIO] _loadCurrentPhrase called, phrase:', phrase?.id, 'index:', this._currentIndex, 'queueLen:', this._queue.length);
     if (!phrase) return;
 
     this._revokeBlobUrl();
@@ -60,11 +62,11 @@ class AudioEngine {
         : typeof this._speed === 'number' ? this._speed : 1.0;
       const cached = await getCachedAudio(phrase.id, this._language, speedNum);
       if (cached) {
-        logger.info('Cache hit for', phrase.id);
+        console.log('[SS-AUDIO] Cache hit for', phrase.id);
         this._currentBlobUrl = URL.createObjectURL(cached);
         this._audio.src = this._currentBlobUrl;
       } else if (isAuthenticated()) {
-        logger.info('Fetching TTS for', phrase.id, phrase.chinese);
+        console.log('[SS-AUDIO] Fetching TTS for', phrase.id, phrase.chinese);
         const blob = await textToSpeech(phrase.chinese, {
           language: this._language,
           speed: speedNum,
@@ -76,12 +78,12 @@ class AudioEngine {
           this._onPhraseChange?.(phrase, this._currentIndex);
           return;
         }
-        logger.info('TTS success for', phrase.id, 'blob size:', blob.size);
+        console.log('[SS-AUDIO] TTS success for', phrase.id, 'blob size:', blob.size);
         this._currentBlobUrl = URL.createObjectURL(blob);
         this._audio.src = this._currentBlobUrl;
         cacheAudioBlob(phrase.id, this._language, speedNum, blob).catch(() => {});
       } else {
-        logger.warn('Not authenticated — cannot load audio');
+        console.error('[SS-AUDIO] Not authenticated — cannot load audio');
         this._onStateChange?.('error');
         this._onPhraseChange?.(phrase, this._currentIndex);
         return;
