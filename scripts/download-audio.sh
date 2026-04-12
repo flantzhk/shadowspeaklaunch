@@ -4,7 +4,7 @@
 
 set -e
 
-API_KEY="CANTONESE_AI_KEY_REMOVED"
+API_KEY="sk-3dD2dtv4X8g53a3jx27D3mj9x4xsaw8v"
 VOICE_ID="c09e3009-5aa6-4aab-aa94-a3621032bcc4"
 API_URL="https://cantonese.ai/api/tts"
 OUTPUT_DIR="public/audio/cantonese"

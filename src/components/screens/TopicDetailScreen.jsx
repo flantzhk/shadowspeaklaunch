@@ -63,7 +63,6 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
   }, [topic, downloadProgress, settings.currentLanguage]);
 
   const handlePlayTopic = useCallback(async () => {
-    console.log('[SS-TOPIC] handlePlayTopic called, topic:', topic?.id, 'phrases:', topic?.phrases?.length, 'isPlaying:', isPlaying);
     if (!topic) return;
     if (isPlaying) {
       pause();

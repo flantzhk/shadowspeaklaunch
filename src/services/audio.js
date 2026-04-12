@@ -41,7 +41,6 @@ class AudioEngine {
 
   /** Load a lesson (ordered list of phrases) into the queue. */
   async loadQueue(phrases, language) {
-    console.log('[SS-AUDIO] loadQueue called, phrases:', phrases?.length, 'language:', language);
     this._queue = phrases;
     this._language = language;
     this._currentIndex = 0;
@@ -50,7 +49,6 @@ class AudioEngine {
 
   async _loadCurrentPhrase() {
     const phrase = this._queue[this._currentIndex];
-    console.log('[SS-AUDIO] _loadCurrentPhrase called, phrase:', phrase?.id, 'index:', this._currentIndex, 'queueLen:', this._queue.length);
     if (!phrase) return;
 
     this._revokeBlobUrl();

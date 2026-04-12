@@ -8,7 +8,7 @@ import sys
 import time
 
 API_URL = "https://cantonese.ai/api/tts"
-API_KEY = "CANTONESE_AI_KEY_REMOVED"
+API_KEY = "sk-3dD2dtv4X8g53a3jx27D3mj9x4xsaw8v"
 VOICE_ID = "c09e3009-5aa6-4aab-aa94-a3621032bcc4"
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
@@ -89,7 +89,9 @@ def main():
             print(f"  [{i+1}/{len(phrases)}] {p['id']} FAILED")
 
         if status == "ok":
-            time.sleep(0.3)
+            time.sleep(1.0)
+        elif status == "error":
+            time.sleep(3.0)
 
         # Progress update every 50
         if (i + 1) % 50 == 0:
