@@ -43,7 +43,7 @@
 .title {
   font-size: 18px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 .closeBtn {
@@ -70,7 +70,7 @@
   width: 100%;
   margin-top: 16px;
   background: var(--color-brand-lime);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   border-radius: 14px;
   padding: 16px;
   font-size: 15px;

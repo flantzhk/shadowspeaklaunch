@@ -14,7 +14,7 @@
 .searchInput:focus { border-color: var(--color-brand-lime); }
 .searchBtn {
   padding: var(--space-md) var(--space-base); background: var(--color-brand-lime);
-  color: var(--color-brand-dark); border-radius: var(--radius-md);
+  color: var(--color-brand-dark-text); border-radius: var(--radius-md);
   font-weight: var(--font-weight-semibold); min-height: 44px;
 }
 .searchBtn:disabled { opacity: 0.5; }
@@ -53,6 +53,6 @@
 }
 .saveGenBtn {
   padding: var(--space-md) var(--space-xl); background: var(--color-brand-lime);
-  color: var(--color-brand-dark); border-radius: var(--radius-md);
+  color: var(--color-brand-dark-text); border-radius: var(--radius-md);
   font-weight: var(--font-weight-semibold); min-height: 44px;
 }

@@ -39,7 +39,7 @@
   text-align: center;
 }
 
-.shadow { color: var(--color-brand-dark); }
+.shadow { color: var(--color-brand-dark-text); }
 .speak { color: var(--color-brand-green); }
 
 .version {

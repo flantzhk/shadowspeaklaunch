@@ -40,7 +40,7 @@
 .title {
   font-size: 28px;
   font-weight: var(--font-weight-bold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   text-align: center;
   margin-top: 24px;
 }
@@ -75,7 +75,7 @@
 .statNum {
   font-size: 28px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 .statLabel {

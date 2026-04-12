@@ -37,7 +37,7 @@
 .title {
   font-size: 28px;
   font-weight: var(--font-weight-bold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   margin-top: 28px;
   font-family: 'DM Serif Display', Georgia, serif;
 }
@@ -52,7 +52,7 @@
 .email {
   font-size: 15px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   margin-top: 4px;
 }
 
@@ -66,7 +66,7 @@
 .primaryBtn {
   width: 100%;
   background: var(--color-brand-lime);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   border-radius: 14px;
   padding: 16px;
   font-size: 16px;
@@ -86,7 +86,7 @@
 .link {
   font-size: 13px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   padding: 8px;
 }
 
@@ -97,6 +97,6 @@
 }
 
 .refreshLink {
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   text-decoration: underline;
 }

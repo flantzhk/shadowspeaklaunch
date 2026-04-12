@@ -50,7 +50,7 @@
 
 .reviewButton {
   background: var(--color-brand-lime);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   border-radius: 10px;
   padding: 10px 16px;
   font-weight: var(--font-weight-semibold);

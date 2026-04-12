@@ -19,7 +19,7 @@
 .title {
   font-size: 28px;
   font-weight: var(--font-weight-bold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   font-family: 'DM Serif Display', Georgia, serif;
   margin-bottom: 8px;
 }
@@ -50,7 +50,7 @@
 .typeActive {
   background: var(--color-brand-dark);
   color: var(--color-brand-lime);
-  border-color: var(--color-brand-dark);
+  border-color: var(--color-brand-dark-text);
 }
 
 .fieldLabel {
@@ -95,14 +95,14 @@
 .contactLink {
   font-size: 14px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   text-decoration: underline;
 }
 
 .sendBtn {
   width: 100%;
   background: var(--color-brand-lime);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   border-radius: 14px;
   padding: 16px;
   font-size: 16px;

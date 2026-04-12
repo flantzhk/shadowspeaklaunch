@@ -17,7 +17,7 @@
   width: 44px; height: 44px; color: var(--color-text-secondary);
 }
 
-.score { font-size: 14px; font-weight: var(--font-weight-semibold); color: var(--color-brand-dark); }
+.score { font-size: 14px; font-weight: var(--font-weight-semibold); color: var(--color-brand-dark-text); }
 .roundCount { font-size: 13px; color: var(--color-text-muted); font-weight: var(--font-weight-medium); }
 
 .progressBar { height: 3px; background: rgba(0,0,0,0.08); border-radius: 2px; overflow: hidden; }
@@ -67,7 +67,7 @@
 
 .choiceLetter {
   font-size: 28px; font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 .choicePlayBtn {
@@ -157,7 +157,7 @@
   align-items: center; justify-content: center;
   padding: 0 24px; text-align: center; gap: 20px;
 }
-.introTitle { font-size: 28px; font-weight: var(--font-weight-bold); color: var(--color-brand-dark); }
+.introTitle { font-size: 28px; font-weight: var(--font-weight-bold); color: var(--color-brand-dark-text); }
 .introDesc { font-size: 15px; color: var(--color-text-secondary); line-height: 1.5; max-width: 320px; }
 .introExample { display: flex; align-items: center; gap: 16px; margin: 8px 0; }
 .introVs { font-size: 14px; color: var(--color-text-muted); font-weight: var(--font-weight-semibold); }
@@ -171,11 +171,11 @@
 .introChar { font-size: 28px; }
 .introJyut { font-size: 13px; font-weight: var(--font-weight-semibold); color: var(--color-jyutping); }
 .introMeaning { font-size: 12px; color: var(--color-text-muted); }
-.introToneLabel { font-size: 11px; color: var(--color-brand-dark); font-weight: var(--font-weight-semibold); margin-top: 4px; }
+.introToneLabel { font-size: 11px; color: var(--color-brand-dark-text); font-weight: var(--font-weight-semibold); margin-top: 4px; }
 .introHint { font-size: 12px; color: var(--color-text-muted); }
 .startBtn {
   padding: 16px 40px; background: var(--color-brand-lime);
-  color: var(--color-brand-dark); border-radius: 14px;
+  color: var(--color-brand-dark-text); border-radius: 14px;
   font-size: 16px; font-weight: var(--font-weight-semibold); margin-top: 12px;
 }
 .startBtn:active { transform: scale(0.97); }
@@ -199,7 +199,7 @@
 .learnJyut { font-size: 14px; font-weight: var(--font-weight-semibold); color: var(--color-jyutping); }
 .learnDesc { font-size: 11px; color: var(--color-text-muted); font-style: italic; }
 .learnMeaning { font-size: 12px; color: var(--color-text-secondary); }
-.learnPlay { font-size: 12px; color: var(--color-brand-dark); font-weight: var(--font-weight-semibold); margin-top: 4px; }
+.learnPlay { font-size: 12px; color: var(--color-brand-dark-text); font-weight: var(--font-weight-semibold); margin-top: 4px; }
 .readyBtn {
   padding: 14px 28px; background: var(--color-brand-dark);
   color: white; border-radius: 12px;
@@ -213,7 +213,7 @@
   gap: 16px; padding: 16px 0 32px;
 }
 .choiceDesc { font-size: 11px; color: var(--color-text-muted); font-style: italic; }
-.choicePlayHint { font-size: 10px; color: var(--color-brand-dark); font-weight: var(--font-weight-medium); }
+.choicePlayHint { font-size: 10px; color: var(--color-brand-dark-text); font-weight: var(--font-weight-medium); }
 
 /* === Done/Summary === */
 .doneCard {
@@ -226,6 +226,6 @@
 
 .doneBtn {
   padding: var(--space-base) var(--space-2xl); background: var(--color-brand-lime);
-  color: var(--color-brand-dark); border-radius: 10px;
+  color: var(--color-brand-dark-text); border-radius: 10px;
   font-weight: var(--font-weight-semibold); min-height: 44px;
 }

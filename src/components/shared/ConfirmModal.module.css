@@ -55,7 +55,7 @@
 
 .confirmBtn {
   background: var(--color-brand-lime);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   border-radius: 12px;
   padding: 14px;
   font-size: 15px;

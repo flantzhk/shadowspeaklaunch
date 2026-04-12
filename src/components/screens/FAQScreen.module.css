@@ -19,7 +19,7 @@
 .title {
   font-size: 28px;
   font-weight: var(--font-weight-bold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   padding: 8px 22px 4px;
   font-family: 'DM Serif Display', Georgia, serif;
 }
@@ -81,7 +81,7 @@
   display: block;
   font-size: 15px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   margin-top: 8px;
   text-decoration: underline;
 }

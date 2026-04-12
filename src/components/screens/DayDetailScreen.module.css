@@ -89,7 +89,7 @@
 .summaryNum {
   font-size: 20px;
   font-weight: var(--font-weight-bold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 .summaryLabel {
@@ -173,7 +173,7 @@
 .scoreNum {
   font-size: 20px;
   font-weight: var(--font-weight-bold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 .scorePct {

@@ -23,7 +23,7 @@
 .title {
   font-size: 32px;
   font-weight: var(--font-weight-bold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   padding: 16px 22px 4px;
 }
 
@@ -42,7 +42,7 @@
 .sectionTitle {
   font-size: 18px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   padding: 28px 22px 10px;
 }
 
@@ -71,6 +71,6 @@
 }
 
 .footer strong {
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   font-weight: var(--font-weight-semibold);
 }

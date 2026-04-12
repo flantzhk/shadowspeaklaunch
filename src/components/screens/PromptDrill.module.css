@@ -93,7 +93,7 @@
   text-transform: uppercase; margin-bottom: 6px;
 }
 
-.compJyutping { font-size: 18px; font-weight: var(--font-weight-semibold); color: var(--color-brand-dark); }
+.compJyutping { font-size: 18px; font-weight: var(--font-weight-semibold); color: var(--color-brand-dark-text); }
 .compChinese { font-size: 14px; color: var(--color-text-secondary); margin-top: 4px; }
 
 .compPlayBtn {
@@ -108,7 +108,7 @@
 
 .nextBtn {
   padding: var(--space-md) var(--space-2xl); background: var(--color-brand-lime);
-  color: var(--color-brand-dark); border-radius: 10px;
+  color: var(--color-brand-dark-text); border-radius: 10px;
   font-weight: var(--font-weight-semibold); font-size: var(--font-size-md); min-height: 44px;
   align-self: center;
 }

@@ -22,7 +22,7 @@
 .title {
   font-size: 18px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   text-align: center;
   margin-top: 20px;
 }

@@ -74,7 +74,7 @@
 .statNum {
   font-size: 22px;
   font-weight: var(--font-weight-bold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 .statLabel {
@@ -147,7 +147,7 @@
 .turnRoman {
   font-size: 14px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 .turnChinese {
@@ -187,7 +187,7 @@
   background: var(--color-brand-lime);
   font-size: 16px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   text-align: center;
 }
 
@@ -199,7 +199,7 @@
   border: 0.5px solid var(--color-border);
   font-size: 16px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 .doneBtn {

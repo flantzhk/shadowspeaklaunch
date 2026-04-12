@@ -51,7 +51,7 @@
 .romanization {
   font-size: 15px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 .chinese {
@@ -145,7 +145,7 @@
 .wordSave {
   font-size: 10px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   padding: 4px 8px;
   background: none;
   border: none;
@@ -185,7 +185,7 @@
 .actionActive {
   background: var(--color-brand-dark);
   color: white;
-  border-color: var(--color-brand-dark);
+  border-color: var(--color-brand-dark-text);
 }
 
 .actionBtnPrimary {

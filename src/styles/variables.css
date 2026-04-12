@@ -16,6 +16,10 @@
   --color-text-inverse:   #FFFFFF;
 
   --color-brand-dark:     #1A2A18;
+  /* Use --color-brand-dark-text for any CSS `color:` property.
+     It maps to --color-text-primary in dark mode so text stays readable
+     while button backgrounds (which use --color-brand-dark directly) stay dark. */
+  --color-brand-dark-text: #1A2A18;
   --color-brand-green:    #8BB82B;
   --color-brand-lime:     #C5E85A;
   --color-brand-lime-muted: rgba(197, 232, 90, 0.15);
@@ -146,6 +150,9 @@
     --color-jyutping:        #A4D042;
 
     --color-brand-lime-muted: rgba(197, 232, 90, 0.12);
+    /* In dark mode, brand-dark text becomes primary (near-white) so it's
+       readable on dark surfaces, while button backgrounds stay dark green */
+    --color-brand-dark-text: var(--color-text-primary);
 
     --shadow-card:          0 1px 3px rgba(0, 0, 0, 0.3);
     --shadow-raised:        0 4px 12px rgba(0, 0, 0, 0.4);

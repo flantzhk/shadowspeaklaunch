@@ -27,7 +27,7 @@
 }
 
 .logoShadow {
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 .logoSpeak {
@@ -82,7 +82,7 @@
 
 .navItem.active {
   background: var(--color-brand-lime-muted);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 /* Active accent bar on left edge */
@@ -105,7 +105,7 @@
 
 .active .navLabel {
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 /* === Bottom section === */

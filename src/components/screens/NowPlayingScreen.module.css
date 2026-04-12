@@ -64,7 +64,7 @@
 .romanization {
   font-size: 28px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   margin-top: 32px;
 }
 
@@ -252,7 +252,7 @@
   font-weight: var(--font-weight-semibold);
   text-align: center;
   background: var(--color-brand-lime);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   min-height: 44px;
 }
 

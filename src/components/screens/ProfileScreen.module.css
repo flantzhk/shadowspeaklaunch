@@ -62,7 +62,7 @@
 .name {
   font-size: 20px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   margin-top: 12px;
 }
 
@@ -97,7 +97,7 @@
 .statNum {
   font-size: 22px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 .statLabel {
@@ -111,7 +111,7 @@
   display: block;
   font-size: 14px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   padding: 4px 22px 0;
   text-align: center;
   width: 100%;
@@ -178,7 +178,7 @@
 
 .langActive {
   background: var(--color-brand-dark);
-  border-color: var(--color-brand-dark);
+  border-color: var(--color-brand-dark-text);
 }
 
 .langName {
@@ -219,7 +219,7 @@
 
 .goalActive {
   background: var(--color-brand-dark);
-  border-color: var(--color-brand-dark);
+  border-color: var(--color-brand-dark-text);
   color: white;
 }
 
@@ -372,7 +372,7 @@
   margin-top: 1px;
 }
 
-.pickerSelected .pickerRadio { color: var(--color-brand-dark); }
+.pickerSelected .pickerRadio { color: var(--color-brand-dark-text); }
 
 .pickerText {
   display: flex;

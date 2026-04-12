@@ -42,7 +42,7 @@
   gap: 5px;
   font-size: 12px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   background: var(--color-brand-lime);
   padding: 6px 12px;
   border-radius: var(--radius-pill);

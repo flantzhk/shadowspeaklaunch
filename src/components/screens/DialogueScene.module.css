@@ -52,7 +52,7 @@
 
 .bubbleRoman {
   font-size: 14px; font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 .bubbleChinese {
@@ -152,7 +152,7 @@
 
 .continueBtn, .doneBtn {
   padding: var(--space-md) var(--space-2xl); background: var(--color-brand-lime);
-  color: var(--color-brand-dark); border-radius: 10px;
+  color: var(--color-brand-dark-text); border-radius: 10px;
   font-weight: var(--font-weight-semibold); min-height: 44px;
 }
 

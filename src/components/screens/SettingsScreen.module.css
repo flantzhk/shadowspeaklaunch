@@ -79,7 +79,7 @@
   background: var(--color-surface); border: 0.5px solid var(--color-border-strong);
   min-height: 44px;
 }
-.langActive { background: var(--color-brand-dark); border-color: var(--color-brand-dark); }
+.langActive { background: var(--color-brand-dark); border-color: var(--color-brand-dark-text); }
 .langName { font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
 .langActive .langName { color: var(--color-brand-lime); }
 .langNative { font-size: var(--font-size-sm); color: var(--color-text-muted); }
@@ -104,7 +104,7 @@
 .goalActive {
   background: var(--color-brand-dark);
   color: var(--color-brand-lime);
-  border-color: var(--color-brand-dark);
+  border-color: var(--color-brand-dark-text);
 }
 
 .toggleRow {
@@ -196,7 +196,7 @@
   padding: var(--space-md) 0;
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-medium);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   border-bottom: 0.5px solid var(--color-border);
   margin-bottom: var(--space-md);
 }
@@ -251,7 +251,7 @@
   background: transparent;
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-medium);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   min-height: 44px;
   text-align: center;
 }
@@ -309,7 +309,7 @@
   margin-top: 2px;
 }
 
-.pickerSelected .pickerRadio { color: var(--color-brand-dark); }
+.pickerSelected .pickerRadio { color: var(--color-brand-dark-text); }
 
 .pickerText { display: flex; flex-direction: column; gap: 4px; }
 
@@ -334,7 +334,7 @@
   border-radius: 14px;
   font-size: 22px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   text-align: center;
   margin-bottom: 12px;
 }

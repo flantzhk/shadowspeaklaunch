@@ -63,7 +63,7 @@
 .title {
   font-size: 22px;
   font-weight: var(--font-weight-bold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   margin-bottom: 10px;
 }
 

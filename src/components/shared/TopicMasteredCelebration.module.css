@@ -124,7 +124,7 @@
   padding: 16px;
   border-radius: 14px;
   background: var(--color-brand-lime);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   font-size: 15px;
   font-weight: var(--font-weight-semibold);
 }

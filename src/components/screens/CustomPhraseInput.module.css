@@ -19,7 +19,7 @@
 
 .title {
   font-size: 20px; font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark); letter-spacing: -0.3px;
+  color: var(--color-brand-dark-text); letter-spacing: -0.3px;
 }
 
 .form { display: flex; flex-direction: column; gap: var(--space-lg); }
@@ -51,7 +51,7 @@
 
 .lookupBtn {
   padding: 16px; background: var(--color-brand-lime);
-  color: var(--color-brand-dark); border-radius: 14px;
+  color: var(--color-brand-dark-text); border-radius: 14px;
   font-weight: var(--font-weight-semibold); font-size: 16px;
   min-height: 52px; text-align: center;
 }
@@ -91,7 +91,7 @@
 
 .saveBtn {
   flex: 2; padding: 14px; background: var(--color-brand-lime);
-  color: var(--color-brand-dark); border-radius: 14px;
+  color: var(--color-brand-dark-text); border-radius: 14px;
   font-weight: var(--font-weight-semibold); font-size: 15px;
   min-height: 52px; text-align: center;
 }

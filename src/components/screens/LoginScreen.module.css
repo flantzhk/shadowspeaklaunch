@@ -38,7 +38,7 @@
 }
 
 .logoShadow {
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
 }
 
 .logoSpeak {
@@ -57,7 +57,7 @@
 .title {
   font-size: 28px;
   font-weight: var(--font-weight-bold);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   line-height: var(--line-height-tight);
   margin-bottom: 8px;
 }
@@ -126,7 +126,7 @@
   font-size: 16px;
   font-weight: var(--font-weight-semibold);
   background: var(--color-brand-lime);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   border: none;
   margin-top: 8px;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
@@ -223,7 +223,7 @@
 }
 
 .footerLink a {
-  color: var(--color-brand-dark);
+  color: var(--color-brand-dark-text);
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
 }
