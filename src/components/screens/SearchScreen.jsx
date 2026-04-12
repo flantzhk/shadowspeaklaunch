@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAudio } from '../../contexts/AudioContext';
 import { useAppContext } from '../../contexts/AppContext';
 import { SEARCH_DEBOUNCE_MS, SRS_INITIAL_EASE } from '../../utils/constants';
-import { saveLibraryEntry, getLibraryEntry, getAllLibraryEntries } from '../../services/storage';
+import { saveLibraryEntry, getAllLibraryEntries } from '../../services/storage';
 import { cacheAudioForPhrase } from '../../services/audio';
 import styles from './SearchScreen.module.css';
 
@@ -178,16 +178,37 @@ export default function SearchScreen({ onBack, onNavigate, showToast }) {
         {results.phrases.length > 0 && (
           <section>
             <h3 className={styles.sectionTitle}>Phrases</h3>
-            {results.phrases.map(p => (
-              <button key={p.id} className={styles.resultCard} onClick={() => handlePlayPhrase(p)}>
-                <div className={styles.resultPhraseInfo}>
-                  <span className={styles.resultRoman}>{p.romanization}</span>
-                  <span className={styles.resultChinese}>{p.chinese}</span>
-                  <span className={styles.resultEnglish}>{p.english}</span>
+            {results.phrases.map(p => {
+              const saved = savedIds.has(p.id);
+              return (
+                <div key={p.id} className={styles.phraseRow}>
+                  <button className={styles.phraseRowPlay} onClick={() => handlePlayPhrase(p)}>
+                    <div className={styles.resultPhraseInfo}>
+                      <span className={styles.resultRoman}>{p.romanization}</span>
+                      <span className={styles.resultChinese}>{p.chinese}</span>
+                      <span className={styles.resultEnglish}>{p.english}</span>
+                    </div>
+                    <span className={styles.resultMeta}>{p.topicName}</span>
+                  </button>
+                  <button
+                    className={`${styles.addBtn} ${saved ? styles.addBtnSaved : ''}`}
+                    onClick={(e) => handleSavePhrase(p, e)}
+                    aria-label={saved ? 'Saved to library' : 'Save to library'}
+                    disabled={saved}
+                  >
+                    {saved ? (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    ) : (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                    )}
+                  </button>
                 </div>
-                <span className={styles.resultMeta}>{p.topicName}</span>
-              </button>
-            ))}
+              );
+            })}
           </section>
         )}
 
@@ -195,13 +216,25 @@ export default function SearchScreen({ onBack, onNavigate, showToast }) {
           <section>
             <h3 className={styles.sectionTitle}>Words</h3>
             <div className={styles.wordGrid}>
-              {results.words.map(w => (
-                <div key={w.chinese} className={styles.wordCard}>
-                  <span className={styles.wordChinese}>{w.chinese}</span>
-                  <span className={styles.wordJyutping}>{w.jyutping}</span>
-                  <span className={styles.wordEnglish}>{w.english}</span>
-                </div>
-              ))}
+              {results.words.map(w => {
+                const phraseId = `word-${w.chinese}`;
+                const saved = savedIds.has(phraseId);
+                return (
+                  <div key={w.chinese} className={`${styles.wordCard} ${saved ? styles.wordCardSaved : ''}`}>
+                    <span className={styles.wordChinese}>{w.chinese}</span>
+                    <span className={styles.wordJyutping}>{w.jyutping}</span>
+                    <span className={styles.wordEnglish}>{w.english}</span>
+                    <button
+                      className={`${styles.wordAddBtn} ${saved ? styles.addBtnSaved : ''}`}
+                      onClick={(e) => handleSaveWord(w, e)}
+                      aria-label={saved ? 'Saved' : 'Save to library'}
+                      disabled={saved}
+                    >
+                      {saved ? '✓' : '+'}
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </section>
         )}
