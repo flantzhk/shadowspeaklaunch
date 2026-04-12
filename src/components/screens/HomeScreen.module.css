@@ -234,16 +234,6 @@
   flex-shrink: 0;
 }
 
-.listenCircle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #E8F1D4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
 
 .phraseCardText {
   flex: 1;
