@@ -74,12 +74,7 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
 
   const handlePlayPhrase = useCallback(async (phrase) => {
     if (!topic) return;
-    const idx = topic.phrases.findIndex(p => p.id === phrase.id);
-    const reordered = [
-      ...topic.phrases.slice(idx),
-      ...topic.phrases.slice(0, idx),
-    ];
-    await loadQueue(reordered, settings.currentLanguage);
+    await loadQueue([phrase], settings.currentLanguage);
     await play();
   }, [topic, loadQueue, play, settings.currentLanguage]);
 
