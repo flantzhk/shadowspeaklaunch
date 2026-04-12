@@ -73,14 +73,30 @@ export default function ToneGym({ onBack, onComplete }) {
   }, [sessionPairs]);
 
   const playTone = useCallback(async (toneData) => {
-    if (!isAuthenticated()) { setNoAuth(true); return; }
+    // Try static audio file first
     try {
-      const blob = await textToSpeech(toneData.char, { language: 'cantonese', speed: 0.85, outputExtension: 'mp3' });
-      const url = URL.createObjectURL(blob);
-      audioRef.current.src = url;
-      await audioRef.current.play();
-      audioRef.current.onended = () => URL.revokeObjectURL(url);
-    } catch (err) { /* non-fatal */ }
+      const basePath = import.meta.env.BASE_URL || '/';
+      const resp = await fetch(`${basePath}audio/cantonese/tone-${toneData.jyutping}.mp3`);
+      if (resp.ok) {
+        const blob = await resp.blob();
+        if (blob.size > 500) {
+          const url = URL.createObjectURL(blob);
+          audioRef.current.src = url;
+          await audioRef.current.play();
+          audioRef.current.onended = () => URL.revokeObjectURL(url);
+          return;
+        }
+      }
+    } catch (e) { /* fall through */ }
+
+    // Fallback: Web Speech API
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(toneData.char);
+      utterance.lang = 'zh-HK';
+      utterance.rate = 0.7;
+      window.speechSynthesis.speak(utterance);
+    }
   }, []);
 
   const handlePlayTarget = useCallback(() => {
@@ -139,15 +155,10 @@ export default function ToneGym({ onBack, onComplete }) {
 
       <div className={styles.playArea}>
         <span className={styles.label}>Listen and pick the correct character</span>
-        <button className={styles.listenBtn} onClick={handlePlayTarget} disabled={noAuth}>
+        <button className={styles.listenBtn} onClick={handlePlayTarget}>
           <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
           Play sound
         </button>
-        {noAuth && (
-          <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', textAlign: 'center', marginTop: '8px' }}>
-            Sign in to hear the audio
-          </p>
-        )}
       </div>
 
       <div className={styles.choiceRow}>
@@ -161,7 +172,7 @@ export default function ToneGym({ onBack, onComplete }) {
           }
           return (
             <button key={i} className={`${styles.choiceBtn} ${variant}`}
-              onClick={() => phase === 'choose' && handleChoice(i)} disabled={phase !== 'choose' || noAuth}>
+              onClick={() => phase === 'choose' && handleChoice(i)} disabled={phase !== 'choose'}>
               <span className={styles.choiceChar} lang="yue">{t.char}</span>
               <span className={styles.choiceJyutping}>{t.jyutping}</span>
             </button>
