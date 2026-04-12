@@ -90,15 +90,42 @@ export default function LibraryScreen({ onNavigate }) {
     setEntries(prev => prev.map(e => e.phraseId === entry.phraseId ? updated : e));
   }, []);
 
-  const filtered = filter === 'all'
-    ? entries
-    : filter === 'due'
-      ? entries.filter(e => e.nextReviewAt && new Date(e.nextReviewAt) <= new Date())
-      : entries.filter(e => e.status === filter);
+  const handleSaveWord = useCallback(async (word) => {
+    try {
+      const wordId = `word-${word.chinese}`;
+      await saveLibraryEntry({
+        phraseId: wordId,
+        type: 'vocab',
+        addedAt: Date.now(),
+        source: 'word-card',
+        customData: { chinese: word.chinese, jyutping: word.jyutping, english: word.english },
+        interval: 0,
+        easeFactor: 2.5,
+        nextReviewAt: Date.now(),
+        lastPracticedAt: null,
+        practiceCount: 0,
+        status: 'learning',
+        bestScore: null,
+        lastScore: null,
+        scoreHistory: [],
+      });
+      setEntries(prev => [...prev, { phraseId: wordId, type: 'vocab', status: 'learning', customData: { chinese: word.chinese, jyutping: word.jyutping, english: word.english } }]);
+    } catch (err) { /* duplicate — ignore */ }
+  }, []);
 
-  const learningCount = entries.filter(e => e.status === 'learning').length;
-  const masteredCount = entries.filter(e => e.status === 'mastered').length;
-  const dueCount = entries.filter(e => e.nextReviewAt && new Date(e.nextReviewAt) <= new Date()).length;
+  // Filter by mode (phrases vs vocab), then by status filter
+  const byMode = entries.filter(e => mode === 'phrases' ? e.type !== 'vocab' : e.type === 'vocab');
+  const filtered = filter === 'all'
+    ? byMode
+    : filter === 'due'
+      ? byMode.filter(e => e.nextReviewAt && new Date(e.nextReviewAt) <= new Date())
+      : byMode.filter(e => e.status === filter);
+
+  const learningCount = byMode.filter(e => e.status === 'learning').length;
+  const masteredCount = byMode.filter(e => e.status === 'mastered').length;
+  const dueCount = byMode.filter(e => e.nextReviewAt && new Date(e.nextReviewAt) <= new Date()).length;
+  const phraseCount = entries.filter(e => e.type !== 'vocab').length;
+  const vocabCount = entries.filter(e => e.type === 'vocab').length;
 
   return (
     <div className={styles.screen}>
@@ -106,17 +133,23 @@ export default function LibraryScreen({ onNavigate }) {
       <div className={styles.modeToggle}>
         <button
           className={`${styles.modeBtn} ${mode === 'phrases' ? styles.modeActive : ''}`}
-          onClick={() => setMode('phrases')}
+          onClick={() => { setMode('phrases'); setFilter('all'); }}
         >
-          Phrases
+          Phrases{phraseCount > 0 ? ` (${phraseCount})` : ''}
         </button>
         <button
           className={`${styles.modeBtn} ${mode === 'vocab' ? styles.modeActive : ''}`}
-          onClick={() => setMode('vocab')}
+          onClick={() => { setMode('vocab'); setFilter('all'); }}
         >
-          Vocab
+          Vocab{vocabCount > 0 ? ` (${vocabCount})` : ''}
         </button>
       </div>
+
+      {/* Add phrase button */}
+      <button className={styles.addPhraseBtn} onClick={() => onNavigate?.(ROUTES.CUSTOM_PHRASE)}>
+        <span className={styles.addPlusCircle}>+</span>
+        <span className={styles.addLabel}>Add a phrase</span>
+      </button>
 
       {/* Queue meter */}
       <div className={styles.queueCard}>
@@ -185,20 +218,26 @@ export default function LibraryScreen({ onNavigate }) {
         <div className={styles.phraseList}>
           {filtered.map(entry => {
             const phrase = phrases[entry.phraseId];
+            const vocabData = entry.customData;
+            const isVocab = entry.type === 'vocab';
             const isActive = currentPhrase?.id === entry.phraseId;
             const isExpanded = expandedId === entry.phraseId;
+
+            const displayRoman = isVocab ? vocabData?.jyutping : (phrase?.romanization || entry.phraseId);
+            const displayChinese = isVocab ? vocabData?.chinese : phrase?.chinese;
+            const displayEnglish = isVocab ? vocabData?.english : phrase?.english;
 
             return (
               <div key={entry.phraseId} className={`${styles.phraseCard} ${isActive ? styles.activeCard : ''}`}>
                 <button className={styles.cardBody} onClick={() => toggleExpand(entry.phraseId)}>
                   <div className={styles.phraseInfo}>
                     <span className={styles.romanization}>
-                      {phrase?.romanization || entry.phraseId}
+                      {displayRoman}
                     </span>
-                    {phrase && (
+                    {displayChinese && (
                       <>
-                        <span className={styles.chinese} lang="yue">{phrase.chinese}</span>
-                        <span className={styles.english}>{phrase.english}</span>
+                        <span className={styles.chinese} lang="yue">{displayChinese}</span>
+                        <span className={styles.english}>{displayEnglish}</span>
                       </>
                     )}
                   </div>
@@ -216,7 +255,9 @@ export default function LibraryScreen({ onNavigate }) {
 
                 <button
                   className={styles.playBtn}
-                  onClick={(e) => handlePlayPhrase(e, entry.phraseId)}
+                  onClick={(e) => isVocab && displayChinese
+                    ? handlePlayWord(e, displayChinese)
+                    : handlePlayPhrase(e, entry.phraseId)}
                   aria-label={isActive && isPlaying ? 'Pause' : 'Play'}
                 >
                   {isActive && isPlaying ? <PauseIcon /> : <PlayIcon />}
@@ -232,13 +273,18 @@ export default function LibraryScreen({ onNavigate }) {
                     {phrase.words && phrase.words.length > 0 && (
                       <div className={styles.wordCards}>
                         {phrase.words.map((word, i) => (
-                          <button key={i} className={styles.wordCard} onClick={(e) => handlePlayWord(e, word.chinese)}
-                            style={{ cursor: 'pointer' }}>
-                            <span className={styles.wordChinese}>{word.chinese}</span>
-                            <span className={styles.wordJyutping}>{word.jyutping}</span>
-                            <span className={styles.wordEnglish}>{word.english}</span>
-                            <span style={{ fontSize: '10px', color: 'var(--color-text-muted)', marginTop: '4px' }}>🔊</span>
-                          </button>
+                          <div key={i} className={styles.wordCard} style={{ cursor: 'pointer', position: 'relative' }}>
+                            <div onClick={(e) => handlePlayWord(e, word.chinese)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
+                              <span className={styles.wordChinese}>{word.chinese}</span>
+                              <span className={styles.wordJyutping}>{word.jyutping}</span>
+                              <span className={styles.wordEnglish}>{word.english}</span>
+                              <span style={{ fontSize: '10px', color: 'var(--color-text-muted)' }}>🔊</span>
+                            </div>
+                            <button onClick={(e) => { e.stopPropagation(); handleSaveWord(word); }}
+                              style={{ fontSize: '10px', color: 'var(--color-brand-dark)', fontWeight: 600, marginTop: '4px', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px', borderTop: '0.5px solid var(--color-border)' }}>
+                              + vocab
+                            </button>
+                          </div>
                         ))}
                       </div>
                     )}
@@ -261,11 +307,6 @@ export default function LibraryScreen({ onNavigate }) {
         </div>
       )}
 
-      {/* Add phrase button */}
-      <button className={styles.addPhraseBtn} onClick={() => onNavigate?.(ROUTES.CUSTOM_PHRASE)}>
-        <span className={styles.addPlusCircle}>+</span>
-        <span className={styles.addLabel}>Add a phrase</span>
-      </button>
     </div>
   );
 }
