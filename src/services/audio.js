@@ -33,9 +33,13 @@ class AudioEngine {
     this._audio.addEventListener('timeupdate', () => {
       this._onTimeUpdate?.(this._audio.currentTime, this._audio.duration);
     });
-    this._audio.addEventListener('play', () => this._onStateChange?.('playing'));
+    this._audio.addEventListener('play', () => {
+      this._onStateChange?.('playing');
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+    });
     this._audio.addEventListener('pause', () => {
       if (!this._audio.ended) this._onStateChange?.('paused');
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
     });
   }
 
@@ -108,6 +112,7 @@ class AudioEngine {
 
       this._audio.playbackRate = speedNum;
       this._onPhraseChange?.(phrase, this._currentIndex);
+      this._updateMediaSession();
     } catch (error) {
       logger.error('Failed to load audio for phrase', phrase.id, ':', error?.message || error);
       this._onStateChange?.('error');
@@ -182,6 +187,24 @@ class AudioEngine {
     if (event === 'phraseChange') this._onPhraseChange = callback;
     else if (event === 'stateChange') this._onStateChange = callback;
     else if (event === 'timeUpdate') this._onTimeUpdate = callback;
+  }
+
+  /** Update Media Session API for lock screen / notification controls. */
+  _updateMediaSession() {
+    if (!('mediaSession' in navigator)) return;
+    const phrase = this._queue[this._currentIndex];
+    if (!phrase) return;
+
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: phrase.romanization || phrase.chinese || 'ShadowSpeak',
+      artist: phrase.english || 'Cantonese',
+      album: 'ShadowSpeak',
+    });
+
+    navigator.mediaSession.setActionHandler('play', () => this.play());
+    navigator.mediaSession.setActionHandler('pause', () => this.pause());
+    navigator.mediaSession.setActionHandler('previoustrack', () => this.previous());
+    navigator.mediaSession.setActionHandler('nexttrack', () => this.next());
   }
 
   _handleEnded() {
