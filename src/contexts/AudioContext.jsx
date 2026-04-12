@@ -42,7 +42,8 @@ function AudioProvider({ children }) {
   }, []);
 
   const loadQueue = useCallback(async (phrases, language, defaultSpeed) => {
-    if (!engineRef.current) return;
+    console.log('[SS-CTX] loadQueue called, engine:', !!engineRef.current, 'phrases:', phrases?.length);
+    if (!engineRef.current) { console.error('[SS-CTX] No audio engine!'); return; }
     // Apply default speed setting if provided
     if (defaultSpeed) {
       const speedNum = defaultSpeed === 'slower' ? 0.75 : 1.0;
@@ -53,11 +54,13 @@ function AudioProvider({ children }) {
     setPlaybackState('loading');
     try {
       await engineRef.current.loadQueue(phrases, language);
+      console.log('[SS-CTX] loadQueue resolved, src:', !!engineRef.current._audio?.src);
       // Only set ready if not already in error state
       if (engineRef.current._audio?.src) {
         setPlaybackState('ready');
       }
     } catch (err) {
+      console.error('[SS-CTX] loadQueue error:', err?.message || err);
       setPlaybackState('error');
     }
   }, []);
