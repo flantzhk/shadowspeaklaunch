@@ -42,6 +42,7 @@ function TopBar({ streak = 0, language = 'cantonese', onSettingsTap, onStatsTap,
           aria-label={level ? `Level ${level.level} ${level.title} — view progress` : 'View progress'}
         >
           <div className={styles.levelBadge}>
+            <span className={styles.levelLabel}>LVL</span>
             <span className={styles.levelNum}>{level?.level ?? '-'}</span>
           </div>
           {level?.next && (
