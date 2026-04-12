@@ -191,6 +191,16 @@ class AudioEngine {
         return;
       }
       if (this._shadowMode) {
+        // iOS Safari blocks audio.play() after any async operation (await breaks
+        // the user-gesture chain). Prime the element synchronously right now —
+        // play() + immediate pause — while we are still in the user-gesture frame.
+        // This marks the element as "user-activated" for the rest of the session,
+        // allowing all subsequent async play() calls (including timer callbacks)
+        // to work without a gesture.
+        const primePlay = this._audio.play();
+        this._audio.pause();
+        this._audio.currentTime = 0;
+        primePlay.catch(() => {}); // suppress "interrupted by call to pause()" AbortError
         await this._playShadowSequence();
       } else {
         await this._audio.play();
