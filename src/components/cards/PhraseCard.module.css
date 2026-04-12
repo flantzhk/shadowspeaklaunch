@@ -27,38 +27,34 @@
 }
 .playBtn:active { transform: scale(0.95); }
 
-/* === Always-visible "I know this" checkmark in top row === */
-.knowQuickBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 1.5px solid var(--color-border-strong);
-  color: var(--color-text-muted);
+/* === "I know this" labeled button in status row === */
+.knowBtn {
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  padding: 3px 10px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 10px;
+  background: none;
+  cursor: pointer;
+  transition: background 120ms, color 120ms, border-color 120ms;
+  white-space: nowrap;
   flex-shrink: 0;
-  transition: border-color 150ms, background 150ms, color 150ms;
+  line-height: 1.6;
 }
-.knowQuickBtn:active { transform: scale(0.93); }
-
-.knowQuickBtnDone {
-  border-color: var(--color-brand-lime);
-  background: var(--color-brand-lime);
-  color: var(--color-brand-dark);
+.knowBtn:active {
+  background: var(--color-surface);
+  transform: scale(0.97);
 }
 
 @keyframes knowPop {
   0%   { transform: scale(1); }
-  35%  { transform: scale(1.25); }
-  65%  { transform: scale(0.92); }
+  30%  { transform: scale(1.06); background: var(--color-brand-lime); color: var(--color-brand-dark); border-color: var(--color-brand-lime); }
+  65%  { transform: scale(0.96); }
   100% { transform: scale(1); }
 }
-.knowQuickBtnCelebrate {
-  animation: knowPop 0.45s ease;
-  border-color: var(--color-brand-lime);
-  background: var(--color-brand-lime);
-  color: var(--color-brand-dark);
+.knowBtnCelebrate {
+  animation: knowPop 0.4s ease;
 }
 
 .body {
