@@ -239,11 +239,26 @@ export default function DialogueScene({ sceneData, onBack, onComplete, showToast
       </div>
 
       <div className={styles.controls}>
+        {/* User's turn: show the expected phrase prominently, then record */}
+        {(phase === 'playing' || phase === 'recording') && turn?.speaker === 'user' && (
+          <div className={styles.yourLineCard}>
+            <span className={styles.yourLineLabel}>YOUR LINE</span>
+            <p className={styles.yourLineRoman}>{turn.romanization}</p>
+            <p className={styles.yourLineChinese} lang="yue">{turn.chinese}</p>
+            <p className={styles.yourLineEnglish}>{turn.english}</p>
+          </div>
+        )}
         {phase === 'playing' && turn?.speaker === 'user' && (
           <RecordButton isRecording={false} onStart={handleRecord} onStop={() => {}} error={micError} />
         )}
         {phase === 'recording' && (
           <RecordButton isRecording={isRecording} onStart={handleRecord} onStop={handleStopRecord} error={micError} />
+        )}
+        {phase === 'playing' && turn?.speaker === 'other' && (
+          <div className={styles.waitingPrompt}>
+            <span className={styles.pulseDot} />
+            <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)' }}>Listening…</span>
+          </div>
         )}
         {phase === 'scored' && (
           <div className={styles.scoredControls}>
