@@ -1,4 +1,4 @@
-/* LibraryScreen.module.css */
+/* LibraryScreen.module.css — Redesigned */
 
 .screen {
   flex: 1;
@@ -7,120 +7,232 @@
   padding-bottom: calc(var(--tab-bar-height) + var(--space-2xl));
 }
 
-/* === Phrases / Vocab Toggle === */
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pageTitle {
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+/* Phrases / Vocab Toggle — compact, inline */
 .modeToggle {
   display: flex;
-  background: var(--color-brand-dark);
-  border-radius: 10px;
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border);
+  border-radius: 8px;
   padding: 2px;
-  margin-bottom: var(--space-lg);
+  gap: 2px;
 }
 
 .modeBtn {
-  flex: 1;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 13px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
   font-weight: var(--font-weight-semibold);
-  text-align: center;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--color-text-muted);
+  transition: background 0.15s, color 0.15s;
 }
 
 .modeActive {
+  background: var(--color-brand-dark);
+  color: white;
+}
+
+/* Add button */
+.addBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   background: var(--color-brand-lime);
-  color: var(--color-brand-dark);
-}
-
-/* === Queue Meter Card === */
-.queueCard {
-  background: var(--color-surface);
-  border: 0.5px solid var(--color-border);
-  border-radius: 12px;
-  padding: 14px;
-  margin-bottom: var(--space-lg);
-}
-
-.queueHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 8px;
-}
-
-.queueTitle {
-  font-size: 11px;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-
-.queueCount {
-  font-size: 11px;
-  color: var(--color-text-muted);
-}
-
-.meterBar {
-  height: 6px;
-  background: #EEE8D8;
-  border-radius: 3px;
-  overflow: hidden;
-  display: flex;
-}
-
-.meterFillMastered {
-  height: 100%;
-  background: var(--color-brand-green);
-  transition: width var(--transition-normal);
-}
-
-.meterFillLearning {
-  height: 100%;
-  background: #E8A030;
-  transition: width var(--transition-normal);
-}
-
-.queueLegend {
-  display: flex;
-  gap: 16px;
-  margin-top: 8px;
-}
-
-.legendItem {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 10px;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.addBtn:active {
+  transform: scale(0.93);
+}
+
+.addBtnPlus {
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--color-brand-dark);
+  line-height: 1;
+  margin-top: -1px;
+}
+
+/* ── Stats Row ── */
+.statsRow {
+  display: flex;
+  align-items: stretch;
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border);
+  border-radius: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.statBlock {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 8px;
+  gap: 3px;
+  transition: background 0.12s;
+}
+
+.statBlock:active {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.statNum {
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.statNumLearning {
+  color: #D4830A;
+}
+
+.statNumMastered {
+  color: var(--color-brand-green);
+}
+
+.statLabel {
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+}
+
+.statDivider {
+  width: 0.5px;
+  background: var(--color-border);
+  margin: 12px 0;
+}
+
+/* ── Progress bar ── */
+.progressBarWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.progressBarTrack {
+  flex: 1;
+  height: 4px;
+  background: var(--color-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-brand-green), var(--color-brand-lime));
+  border-radius: 2px;
+  min-width: 4px;
+  transition: width 0.5s ease;
+}
+
+.progressBarLabel {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Due-now CTA ── */
+.dueCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, rgba(197,232,90,0.18) 0%, rgba(197,232,90,0.08) 100%);
+  border: 1px solid rgba(197, 232, 90, 0.4);
+  border-radius: 14px;
+  text-align: left;
+  transition: transform 0.12s;
+}
+
+.dueCard:active {
+  transform: scale(0.98);
+}
+
+.dueDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-brand-lime);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(197,232,90,0.25);
+}
+
+.dueText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dueTitle {
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+.dueSubtitle {
+  font-size: 12px;
   color: var(--color-text-muted);
 }
 
-.legendDotMastered {
-  width: 6px;
-  height: 6px;
-  border-radius: 2px;
-  background: var(--color-brand-green);
+.dueArrow {
+  font-size: 22px;
+  color: var(--color-brand-dark);
+  font-weight: 300;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
-.legendDotLearning {
-  width: 6px;
-  height: 6px;
-  border-radius: 2px;
-  background: #E8A030;
-}
-
-/* === Filter Row === */
+/* ── Filter Row ── */
 .filterRow {
   display: flex;
   gap: 8px;
-  margin-bottom: var(--space-lg);
+  margin-bottom: 12px;
 }
 
 .filterButton {
-  padding: 9px 18px;
+  padding: 8px 16px;
   border-radius: var(--radius-pill);
   font-size: 13px;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
   background: var(--color-surface);
   border: 0.5px solid var(--color-border);
+  white-space: nowrap;
+  transition: background 0.12s, color 0.12s;
 }
 
 .filterActive {
@@ -130,23 +242,69 @@
   font-weight: var(--font-weight-semibold);
 }
 
-/* === Empty State === */
+/* ── Play All ── */
+.playAllBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px 16px;
+  margin-bottom: 14px;
+  background: var(--color-brand-dark);
+  color: white;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: var(--font-weight-semibold);
+  transition: transform 0.12s;
+}
+
+.playAllBtn:active {
+  transform: scale(0.98);
+}
+
+/* ── Phrase list ── */
+.phraseList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Card wrap with topic pill */
+.cardWrap {
+  position: relative;
+}
+
+.topicPill {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0 4px;
+  margin-bottom: 4px;
+}
+
+/* ── Empty State ── */
 .empty {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 200px;
-  gap: 8px;
+  min-height: 220px;
+  gap: 10px;
   padding: var(--space-2xl) 0;
+  text-align: center;
 }
 
 .emptyIcon {
-  margin-bottom: 8px;
+  margin-bottom: 4px;
+  opacity: 0.5;
 }
 
 .emptyTitle {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
@@ -154,265 +312,21 @@
 .emptyText {
   font-size: 14px;
   color: var(--color-text-muted);
-  text-align: center;
-  max-width: 240px;
+  max-width: 250px;
+  line-height: 1.5;
 }
 
-/* === Phrase List === */
-.phraseList {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-/* === Phrase Card === */
-.phraseCard {
-  position: relative;
-  background: var(--color-surface);
-  border-radius: 14px;
-  border: 0.5px solid var(--color-border);
-  overflow: hidden;
-}
-
-.activeCard {
-  border-color: var(--color-brand-lime);
-  background: var(--color-brand-lime-muted);
-}
-
-.cardBody {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-  padding-right: 52px;
-  width: 100%;
-  text-align: left;
-  min-height: 44px;
-}
-
-.phraseInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-.romanization {
-  font-size: 15px;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
-}
-
-.chinese {
-  font-size: 13px;
-  color: var(--color-text-secondary);
-}
-
-.english {
-  font-size: 12px;
-  color: var(--color-text-muted);
-}
-
-.cardRight {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.status {
-  font-size: 10px;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted);
-  white-space: nowrap;
-}
-
-.bestScore {
-  font-size: 12px;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-green);
-}
-
-.learning {
-  background: var(--color-learning-bg);
-  color: var(--color-learning-text);
-}
-
-.mastered {
-  background: var(--color-mastered-bg);
-  color: var(--color-mastered-text);
-}
-
-.chevron {
-  font-size: 18px;
-  color: var(--color-text-muted);
-  transition: transform var(--transition-normal);
-  display: inline-block;
-}
-
-.chevronOpen {
-  transform: rotate(90deg);
-}
-
-.playBtn {
-  position: absolute;
-  right: 16px;
-  top: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: rgba(0, 0, 0, 0.04);
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.playBtn:active {
-  transform: scale(0.95);
-}
-
-/* === Expanded Section === */
-.expandedSection {
-  padding: 0 16px 16px;
-  margin-top: 0;
-  border-top: 0.5px solid var(--color-border);
-  padding-top: 14px;
-  animation: expandIn 250ms ease;
-}
-
-@keyframes expandIn {
-  from { opacity: 0; max-height: 0; }
-  to { opacity: 1; max-height: 500px; }
-}
-
-.contextLine {
-  font-size: 11px;
-  font-style: italic;
-  color: var(--color-text-muted);
-  margin-bottom: 12px;
-}
-
-.wordCards {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
-}
-
-.wordCard {
-  background: var(--color-bg);
-  border: 0.5px solid rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  min-width: 58px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-
-.wordChinese {
-  font-size: 18px;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-  line-height: 1.3;
-}
-
-.wordJyutping {
-  font-size: 10px;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-jyutping);
-  margin-top: 3px;
-}
-
-.wordEnglish {
-  font-size: 10px;
-  color: var(--color-text-secondary);
-  margin-top: 2px;
-}
-
-.expandedActions {
-  display: flex;
-  gap: 6px;
-}
-
-.repeatBtn {
-  flex: 1;
-  padding: 11px 8px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: var(--font-weight-semibold);
-  text-align: center;
-  background: var(--color-brand-dark);
-  color: white;
-}
-
-.knowItBtn {
-  flex: 1;
-  padding: 11px 8px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: var(--font-weight-semibold);
-  text-align: center;
-  background: var(--color-brand-lime);
-  color: var(--color-brand-dark);
-}
-
-/* === Play All Button === */
-.playAllBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 12px 16px;
-  margin-bottom: var(--space-md);
+.emptyAction {
+  margin-top: 8px;
+  padding: 12px 24px;
   background: var(--color-brand-dark);
   color: white;
   border-radius: 12px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: var(--font-weight-semibold);
+  transition: transform 0.12s;
 }
 
-.playAllBtn:active {
-  transform: scale(0.98);
-}
-
-/* === Add Phrase Button === */
-.addPhraseBtn {
-  margin-top: 10px;
-  width: 100%;
-  padding: 14px 16px;
-  background: var(--color-surface);
-  border: 1.5px dashed rgba(0, 0, 0, 0.12);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.addPhraseBtn:active {
-  transform: scale(0.98);
-}
-
-.addPlusCircle {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--color-brand-lime);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-brand-dark);
-}
-
-.addLabel {
-  font-size: 13px;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
+.emptyAction:active {
+  transform: scale(0.97);
 }

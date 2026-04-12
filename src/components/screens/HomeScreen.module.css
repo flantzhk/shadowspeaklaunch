@@ -445,9 +445,10 @@
 
 .categoryCount {
   font-size: 12px;
-  color: var(--color-brand-lime);
-  font-weight: var(--font-weight-semibold);
-  background: rgba(197, 232, 90, 0.12);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border);
   padding: 3px 9px;
   border-radius: 10px;
 }
