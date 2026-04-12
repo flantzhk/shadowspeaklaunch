@@ -57,6 +57,17 @@ export default function LibraryScreen({ onNavigate }) {
     setExpandedId(prev => prev === phraseId ? null : phraseId);
   }, []);
 
+  const handlePlayWord = useCallback((e, chinese) => {
+    e.stopPropagation();
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(chinese);
+      utterance.lang = 'zh-HK';
+      utterance.rate = 0.8;
+      window.speechSynthesis.speak(utterance);
+    }
+  }, []);
+
   const handleMarkKnown = useCallback(async (entry) => {
     const updated = {
       ...entry,
@@ -210,11 +221,13 @@ export default function LibraryScreen({ onNavigate }) {
                     {phrase.words && phrase.words.length > 0 && (
                       <div className={styles.wordCards}>
                         {phrase.words.map((word, i) => (
-                          <div key={i} className={styles.wordCard}>
+                          <button key={i} className={styles.wordCard} onClick={(e) => handlePlayWord(e, word.chinese)}
+                            style={{ cursor: 'pointer' }}>
                             <span className={styles.wordChinese}>{word.chinese}</span>
                             <span className={styles.wordJyutping}>{word.jyutping}</span>
                             <span className={styles.wordEnglish}>{word.english}</span>
-                          </div>
+                            <span style={{ fontSize: '10px', color: 'var(--color-text-muted)', marginTop: '4px' }}>🔊</span>
+                          </button>
                         ))}
                       </div>
                     )}
