@@ -4,8 +4,8 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { getAllLibraryEntries, saveLibraryEntry } from '../../services/storage';
 import { useAudio } from '../../contexts/AudioContext';
 import { useAppContext } from '../../contexts/AppContext';
-import { formatReviewStatus } from '../../utils/formatters';
-import { ROUTES, SRS_MAX_INTERVAL } from '../../utils/constants';
+import { ROUTES } from '../../utils/constants';
+import PhraseCard from '../cards/PhraseCard';
 import styles from './LibraryScreen.module.css';
 
 /**
@@ -246,95 +246,30 @@ export default function LibraryScreen({ onNavigate }) {
         <div className={styles.phraseList}>
           {filtered.map(entry => {
             const phrase = phrases[entry.phraseId];
-            const vocabData = entry.customData;
-            const isVocab = entry.type === 'vocab';
-            const isActive = currentPhrase?.id === entry.phraseId;
-            const isExpanded = expandedId === entry.phraseId;
-
-            const displayRoman = isVocab ? vocabData?.jyutping : (phrase?.romanization || entry.phraseId);
-            const displayChinese = isVocab ? vocabData?.chinese : phrase?.chinese;
-            const displayEnglish = isVocab ? vocabData?.english : phrase?.english;
+            // Build a phrase-like object for vocab entries
+            const vocabPhrase = entry.type === 'vocab' && entry.customData ? {
+              id: entry.phraseId,
+              chinese: entry.customData.chinese,
+              romanization: entry.customData.jyutping,
+              english: entry.customData.english,
+              words: [],
+            } : null;
 
             return (
-              <div key={entry.phraseId} className={`${styles.phraseCard} ${isActive ? styles.activeCard : ''}`}>
-                <button className={styles.cardBody} onClick={() => toggleExpand(entry.phraseId)}>
-                  <div className={styles.phraseInfo}>
-                    <span className={styles.romanization}>
-                      {displayRoman}
-                    </span>
-                    {displayChinese && (
-                      <>
-                        <span className={styles.chinese} lang="yue">{displayChinese}</span>
-                        <span className={styles.english}>{displayEnglish}</span>
-                      </>
-                    )}
-                  </div>
-
-                  <div className={styles.cardRight}>
-                    <span className={`${styles.status} ${styles[entry.status]}`}>
-                      {entry.status === 'mastered' ? 'Mastered' : formatReviewStatus(entry.interval, entry.nextReviewAt)}
-                    </span>
-                    {entry.bestScore != null && (
-                      <span className={styles.bestScore}>{entry.bestScore}%</span>
-                    )}
-                    <span className={`${styles.chevron} ${isExpanded ? styles.chevronOpen : ''}`}>&rsaquo;</span>
-                  </div>
-                </button>
-
-                <button
-                  className={styles.playBtn}
-                  onClick={(e) => isVocab && displayChinese
-                    ? handlePlayWord(e, displayChinese)
-                    : handlePlayPhrase(e, entry.phraseId)}
-                  aria-label={isActive && isPlaying ? 'Pause' : 'Play'}
-                >
-                  {isActive && isPlaying ? <PauseIcon /> : <PlayIcon />}
-                </button>
-
-                {/* Expanded section */}
-                {isExpanded && phrase && (
-                  <div className={styles.expandedSection}>
-                    {phrase.context && (
-                      <p className={styles.contextLine}>{phrase.context}</p>
-                    )}
-
-                    {phrase.words && phrase.words.length > 0 && (
-                      <div className={styles.wordCards}>
-                        {phrase.words.map((word, i) => (
-                          <div key={i} className={styles.wordCard} style={{ cursor: 'pointer', position: 'relative' }}>
-                            <div onClick={(e) => handlePlayWord(e, word.chinese)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-                              <span className={styles.wordChinese}>{word.chinese}</span>
-                              <span className={styles.wordJyutping}>{word.jyutping}</span>
-                              <span className={styles.wordEnglish}>{word.english}</span>
-                              <span style={{ fontSize: '10px', color: 'var(--color-text-muted)' }}>🔊</span>
-                            </div>
-                            <button onClick={(e) => { e.stopPropagation(); handleSaveWord(word); }}
-                              style={{ fontSize: '10px', color: 'var(--color-brand-dark)', fontWeight: 600, marginTop: '4px', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px', borderTop: '0.5px solid var(--color-border)' }}>
-                              + Library
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    <div className={styles.expandedActions}>
-                      <button className={`${styles.repeatBtn} ${repeatingId === entry.phraseId ? styles.repeatActive : ''}`}
-                        onClick={(e) => {
-                          const chinese = isVocab ? displayChinese : phrase?.chinese;
-                          if (chinese) handleRepeat(e, chinese, entry.phraseId);
-                          else handlePlayPhrase(e, entry.phraseId);
-                        }}>
-                        {repeatingId === entry.phraseId ? '⏹ Stop' : '🔁 Repeat'}
-                      </button>
-                      {entry.status !== 'mastered' && (
-                        <button className={styles.knowItBtn} onClick={() => handleMarkKnown(entry)}>
-                          I know this!
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
+              <PhraseCard
+                key={entry.phraseId}
+                phrase={phrase || vocabPhrase}
+                libraryEntry={entry}
+                onPlay={(chinese) => {
+                  if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const u = new SpeechSynthesisUtterance(chinese);
+                    u.lang = 'zh-HK'; u.rate = 0.8;
+                    window.speechSynthesis.speak(u);
+                  }
+                }}
+                showToast={() => {}}
+              />
             );
           })}
         </div>

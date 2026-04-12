@@ -179,15 +179,38 @@
   background: var(--color-brand-lime-muted);
 }
 
+.cardTopRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px 8px;
+}
+
 .cardBody {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
-  padding-right: 52px;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   text-align: left;
-  min-height: 44px;
+  gap: 8px;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px 12px 64px;
+}
+
+.expandIcon {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.expandIconOpen {
+  transform: rotate(180deg);
 }
 
 .phraseInfo {
@@ -222,13 +245,16 @@
 
 .status {
   font-size: 10px;
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   white-space: nowrap;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .bestScore {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-green);
 }
@@ -255,15 +281,12 @@
 }
 
 .playBtn {
-  position: absolute;
-  right: 16px;
-  top: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: rgba(0, 0, 0, 0.04);
+  width: 40px;
+  height: 40px;
+  background: var(--color-brand-lime);
   border-radius: 50%;
   flex-shrink: 0;
 }

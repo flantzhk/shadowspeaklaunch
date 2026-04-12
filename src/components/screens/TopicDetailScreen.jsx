@@ -7,6 +7,7 @@ import { getLibraryEntry, saveLibraryEntry } from '../../services/storage';
 import { cacheAudioForPhrase } from '../../services/audio';
 import { SRS_INITIAL_EASE } from '../../utils/constants';
 import { loadDialoguesForTopic } from '../../services/dialogueLoader';
+import PhraseCard from '../cards/PhraseCard';
 import styles from './TopicDetailScreen.module.css';
 
 /**
@@ -18,6 +19,7 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
   const { loadQueue, play, currentPhrase, isPlaying, pause } = useAudio();
   const [topic, setTopic] = useState(null);
   const [savedIds, setSavedIds] = useState(new Set());
+  const [libraryEntries, setLibraryEntries] = useState({});
   const [dialogues, setDialogues] = useState([]);
   const [downloadProgress, setDownloadProgress] = useState(null); // null | {done, total}
   const [downloadDone, setDownloadDone] = useState(false);
@@ -33,11 +35,13 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
       if (found) {
         setTopic(found);
         const saved = new Set();
+        const entries = {};
         for (const phrase of found.phrases) {
           const entry = await getLibraryEntry(phrase.id);
-          if (entry) saved.add(phrase.id);
+          if (entry) { saved.add(phrase.id); entries[phrase.id] = entry; }
         }
         setSavedIds(saved);
+        setLibraryEntries(entries);
         loadDialoguesForTopic(topicId).then(setDialogues);
       }
     }
@@ -191,65 +195,23 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
       </div>
 
       <div className={styles.phraseList}>
-        {topic.phrases.map(phrase => {
-          const isSaved = savedIds.has(phrase.id);
-          const isActive = currentPhrase?.id === phrase.id;
-
-          const isExpanded = expandedPhraseId === phrase.id;
-          return (
-            <div key={phrase.id} className={`${styles.phraseRow} ${isActive ? styles.active : ''}`}
-              style={{ flexWrap: 'wrap' }}>
-              <button
-                className={styles.playBtn}
-                onClick={() => isActive && isPlaying ? pause() : handlePlayPhrase(phrase)}
-                aria-label={isActive && isPlaying ? 'Pause' : `Play ${phrase.english}`}
-              >
-                {isActive && isPlaying ? (
-                  <PauseIcon />
-                ) : (
-                  <PlayIcon />
-                )}
-              </button>
-
-              <button className={styles.phraseInfo} onClick={() => setExpandedPhraseId(isExpanded ? null : phrase.id)}
-                style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', flex: 1, padding: 0, minWidth: 0 }}>
-                <span className={styles.romanization}>{phrase.romanization}</span>
-                <span className={styles.chinese} lang="yue">{phrase.chinese}</span>
-                <span className={styles.english}>{phrase.english}</span>
-              </button>
-
-              <button
-                className={`${styles.saveBtn} ${isSaved ? styles.saved : ''}`}
-                onClick={() => !isSaved && handleSave(phrase)}
-                disabled={isSaved}
-                aria-label={isSaved ? 'Already saved' : 'Save to library'}
-              >
-                {isSaved ? (
-                  <CheckIcon />
-                ) : (
-                  <PlusIcon />
-                )}
-              </button>
-
-              {isExpanded && phrase.words && phrase.words.length > 0 && (
-                <div style={{ flexBasis: '100%', display: 'flex', flexWrap: 'wrap', gap: '8px', padding: '12px 0 4px', marginTop: '8px', borderTop: '0.5px solid var(--color-border)' }}>
-                  {phrase.words.map((word, i) => (
-                    <button key={i} onClick={(e) => handlePlayWord(e, word.chinese)}
-                      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', padding: '10px 14px', background: 'var(--color-bg)', border: '0.5px solid var(--color-border)', borderRadius: '10px', cursor: 'pointer', minWidth: '60px' }}>
-                      <span style={{ fontSize: '18px' }} lang="yue">{word.chinese}</span>
-                      <span style={{ fontSize: '11px', color: 'var(--color-jyutping, #6b8f5e)' }}>{word.jyutping}</span>
-                      <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{word.english}</span>
-                      <span style={{ fontSize: '9px', color: 'var(--color-text-muted)' }}>🔊</span>
-                    </button>
-                  ))}
-                  {phrase.context && (
-                    <p style={{ flexBasis: '100%', fontSize: '12px', color: 'var(--color-text-muted)', fontStyle: 'italic', margin: '4px 0 0' }}>{phrase.context}</p>
-                  )}
-                </div>
-              )}
-            </div>
-          );
-        })}
+        {topic.phrases.map(phrase => (
+          <PhraseCard
+            key={phrase.id}
+            phrase={phrase}
+            libraryEntry={libraryEntries[phrase.id] || null}
+            onPlay={(chinese) => {
+              if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(chinese);
+                u.lang = 'zh-HK'; u.rate = 0.8;
+                window.speechSynthesis.speak(u);
+              }
+            }}
+            onSaved={(id) => setSavedIds(prev => new Set([...prev, id]))}
+            showToast={showToast}
+          />
+        ))}
       </div>
 
       {dialogues.length > 0 && (
