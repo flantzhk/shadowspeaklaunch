@@ -75,17 +75,9 @@ function useRouter() {
     window.location.hash = params.id ? `#${path}/${params.id}` : `#${path}`;
   }, []);
   const goBack = useCallback(() => {
-    // Check if there's a previous hash-based route in history
-    // history.length is unreliable (counts external pages too)
-    const currentHash = window.location.hash;
-    window.history.back();
-    // If after 100ms the hash hasn't changed (e.g. no in-app history),
-    // navigate to home as fallback
-    setTimeout(() => {
-      if (window.location.hash === currentHash || !window.location.hash) {
-        window.location.hash = `#${ROUTES.HOME}`;
-      }
-    }, 100);
+    // Navigate to home directly — history.back() is unreliable for
+    // hash-based routing (can leave the app or go to a blank page)
+    window.location.hash = `#${ROUTES.HOME}`;
   }, []);
   return { route, navigate, goBack };
 }
