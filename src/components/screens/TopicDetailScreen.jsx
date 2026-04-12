@@ -73,13 +73,15 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
       pause();
       return;
     }
-    await loadQueue(topic.phrases, settings.currentLanguage);
+    const topicMeta = { name: topic.name, imageUrl: topic.imageUrl, imageGradient: topic.imageGradient };
+    await loadQueue(topic.phrases, settings.currentLanguage, null, topicMeta);
     await play();
   }, [topic, loadQueue, play, pause, isPlaying, settings.currentLanguage]);
 
   const handlePlayPhrase = useCallback(async (phrase) => {
     if (!topic) return;
-    await loadQueue([phrase], settings.currentLanguage);
+    const topicMeta = { name: topic.name, imageUrl: topic.imageUrl, imageGradient: topic.imageGradient };
+    await loadQueue([phrase], settings.currentLanguage, null, topicMeta);
     await play();
   }, [topic, loadQueue, play, settings.currentLanguage]);
 

@@ -465,12 +465,12 @@
 /* === Topic Card === */
 .topicCard {
   flex-shrink: 0;
-  width: 140px;
+  width: 160px;
 }
 
 .topicImageArea {
-  width: 140px;
-  height: 100px;
+  width: 160px;
+  height: 120px;
   border-radius: 12px;
   overflow: hidden;
   position: relative;

@@ -112,7 +112,8 @@ export default function HomeScreen({ onNavigate }) {
 
   const handleTopicPlay = useCallback(async (e, topic) => {
     e.stopPropagation();
-    await loadQueue(topic.phrases, settings.currentLanguage);
+    const topicMeta = { name: topic.name, imageUrl: topic.imageUrl, imageGradient: topic.imageGradient };
+    await loadQueue(topic.phrases, settings.currentLanguage, null, topicMeta);
     await play();
   }, [loadQueue, play, settings.currentLanguage]);
 
