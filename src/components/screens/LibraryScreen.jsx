@@ -203,15 +203,7 @@ export default function LibraryScreen({ onNavigate, showToast }) {
               <PhraseCard
                 phrase={phrases[entry.phraseId] || null}
                 libraryEntry={entry}
-                onPlay={(chinese) => {
-                  if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                    const u = new SpeechSynthesisUtterance(chinese);
-                    u.lang = 'zh-HK';
-                    u.rate = 0.8;
-                    window.speechSynthesis.speak(u);
-                  }
-                }}
+                language={settings.currentLanguage}
                 onSaved={loadEntries}
                 showToast={showToast}
               />

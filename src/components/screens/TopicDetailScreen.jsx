@@ -196,14 +196,7 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
             key={phrase.id}
             phrase={phrase}
             libraryEntry={libraryEntries[phrase.id] || null}
-            onPlay={(chinese) => {
-              if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const u = new SpeechSynthesisUtterance(chinese);
-                u.lang = 'zh-HK'; u.rate = 0.8;
-                window.speechSynthesis.speak(u);
-              }
-            }}
+            language={settings.currentLanguage}
             onSaved={async (id) => {
               setSavedIds(prev => new Set([...prev, id]));
               // Refresh entry so mastered count updates live
