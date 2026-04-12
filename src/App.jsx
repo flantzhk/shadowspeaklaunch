@@ -1,6 +1,6 @@
 // src/App.jsx — Root: router, context providers, layout shell
 
-import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense, Component } from 'react';
 import { AppProvider, useAppContext } from './contexts/AppContext';
 import { AudioProvider } from './contexts/AudioContext';
 import { TopBar } from './components/layout/TopBar';
@@ -20,7 +20,7 @@ import { StorageFullModal } from './components/shared/StorageFullModal';
 import { TopicMasteredCelebration } from './components/shared/TopicMasteredCelebration';
 import './styles/global.css';
 
-import HomeScreen from './components/screens/HomeScreen';
+const HomeScreen = lazy(() => import('./components/screens/HomeScreen'));
 const LibraryScreen = lazy(() => import('./components/screens/LibraryScreen'));
 const PracticeScreen = lazy(() => import('./components/screens/PracticeScreen'));
 const SettingsScreen = lazy(() => import('./components/screens/SettingsScreen'));
@@ -333,6 +333,26 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
   }
 }
 
+class ErrorBoundary extends Component {
+  constructor(props) { super(props); this.state = { hasError: false, error: null }; }
+  static getDerivedStateFromError(error) { return { hasError: true, error }; }
+  componentDidCatch(error, info) { console.error('React error boundary caught:', error, info); }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', padding: '24px', textAlign: 'center', gap: '16px' }}>
+          <p style={{ fontSize: '15px', color: '#666' }}>Something went wrong.</p>
+          <button onClick={() => { this.setState({ hasError: false }); window.location.hash = '#home'; window.location.reload(); }}
+            style={{ padding: '12px 28px', borderRadius: '10px', background: '#1a2a18', color: 'white', fontWeight: 600, fontSize: '15px' }}>
+            Reload
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function App() {
   useEffect(() => {
     async function init() {
@@ -343,7 +363,7 @@ function App() {
   }, []);
 
   return (
-    <AppProvider><AudioProvider><MainLayout /></AudioProvider></AppProvider>
+    <ErrorBoundary><AppProvider><AudioProvider><MainLayout /></AudioProvider></AppProvider></ErrorBoundary>
   );
 }
 
