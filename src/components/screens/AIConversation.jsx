@@ -50,7 +50,7 @@ export default function AIConversation({ onBack, showToast }) {
 
   const handleSelectScenario = useCallback(async (s) => {
     setScenario(s); setPhase('chat'); setMessages([]);
-    setIsThinking(true);
+    setIsThinking(true); // Shows thinking bubble immediately
     try {
       const reply = await sendMessage([], s);
       const blob = await generateResponseAudio(reply.chinese);
@@ -240,7 +240,16 @@ export default function AIConversation({ onBack, showToast }) {
             {msg.english && <p className={styles.bubbleEnglish}>{msg.english}</p>}
           </div>
         ))}
-        {isThinking && <div className={styles.thinking}>Thinking...</div>}
+        {isThinking && (
+          <div className={styles.thinkingBubble}>
+            <div className={styles.thinkingDots}>
+              <span className={styles.dot} />
+              <span className={styles.dot} />
+              <span className={styles.dot} />
+            </div>
+            <span className={styles.thinkingLabel}>AI is thinking...</span>
+          </div>
+        )}
       </div>
 
       <div className={styles.inputArea}>
@@ -274,7 +283,11 @@ export default function AIConversation({ onBack, showToast }) {
           </>
         ) : (
           <>
-            {phase === 'recording' ? (
+            {isThinking ? (
+              <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', textAlign: 'center', padding: '16px' }}>
+                Waiting for AI response...
+              </p>
+            ) : phase === 'recording' ? (
               <RecordButton isRecording={isRecording} onStart={handleRecord} onStop={handleStopRecord} error={micError} />
             ) : (
               <RecordButton isRecording={false} onStart={handleRecord} onStop={() => {}} error={micError} />
