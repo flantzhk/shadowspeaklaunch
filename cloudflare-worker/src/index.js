@@ -19,6 +19,7 @@ export default {
       'https://flantzhk.github.io',
       'http://localhost:3000',
       'http://localhost:5173',
+      'http://localhost:5174',
     ];
     const corsOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
 
