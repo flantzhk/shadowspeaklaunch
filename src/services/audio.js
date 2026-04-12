@@ -121,6 +121,11 @@ class AudioEngine {
     }
   }
 
+  async retryCurrentPhrase() {
+    await this._loadCurrentPhrase();
+    await this.play();
+  }
+
   async setSpeed(speed) {
     this._speed = speed;
     const wasPlaying = !this._audio.paused;

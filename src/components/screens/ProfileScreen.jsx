@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { getAllLanguages } from '../../services/languageManager';
-import { getCurrentUser, signOut } from '../../services/auth';
+import { getCurrentUser, signOut, deleteAccount } from '../../services/auth';
 import { DAILY_GOAL_OPTIONS, ROUTES, APP_VERSION } from '../../utils/constants';
 import { ConfirmModal } from '../shared/ConfirmModal';
 import { BottomSheet } from '../shared/BottomSheet';
@@ -16,6 +16,8 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
   const languages = getAllLanguages();
 
   const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [showEditName, setShowEditName] = useState(false);
   const [editNameValue, setEditNameValue] = useState(settings.name || '');
   const [showSpeedPicker, setShowSpeedPicker] = useState(false);
@@ -182,10 +184,10 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
 
       {/* Sign out + Delete */}
       <button className={styles.signOutBtn} onClick={() => setShowSignOutConfirm(true)}>Sign out</button>
-      <div className={styles.deleteSection}>
+      <button className={styles.deleteSection} onClick={() => setShowDeleteConfirm(true)} style={{ cursor: 'pointer', border: 'none', background: 'none', width: '100%', textAlign: 'left' }}>
         <p className={styles.deleteTitle}>Delete account</p>
         <p className={styles.deleteBody}>Permanently delete your account and all data.</p>
-      </div>
+      </button>
 
       <p className={styles.versionLabel}>ShadowSpeak v{APP_VERSION}</p>
 
@@ -198,6 +200,31 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
           destructive
           onConfirm={handleSignOut}
           onCancel={() => setShowSignOutConfirm(false)}
+        />
+      )}
+
+      {showDeleteConfirm && (
+        <ConfirmModal
+          title="Delete your account?"
+          body="This will permanently delete your account, progress, and all saved data. This cannot be undone."
+          confirmLabel={deleting ? 'Deleting…' : 'Delete account'}
+          destructive
+          onConfirm={async () => {
+            setDeleting(true);
+            try {
+              await deleteAccount();
+              // Clear IndexedDB
+              const dbs = await window.indexedDB.databases?.() || [];
+              for (const db of dbs) { if (db.name) window.indexedDB.deleteDatabase(db.name); }
+              window.location.hash = `#${ROUTES.LOGIN}`;
+              window.location.reload();
+            } catch (err) {
+              setDeleting(false);
+              showToast?.('Failed to delete account. You may need to sign in again first.', 'error');
+              setShowDeleteConfirm(false);
+            }
+          }}
+          onCancel={() => setShowDeleteConfirm(false)}
         />
       )}
 

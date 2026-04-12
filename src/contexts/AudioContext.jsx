@@ -84,6 +84,10 @@ function AudioProvider({ children }) {
     await engineRef.current.setSpeed(newSpeed);
   }, []);
 
+  const retryCurrentPhrase = useCallback(async () => {
+    await engineRef.current?.retryCurrentPhrase();
+  }, []);
+
   const toggleRepeat = useCallback(() => {
     if (!engineRef.current) return;
     const newVal = engineRef.current.toggleRepeat();
@@ -108,6 +112,7 @@ function AudioProvider({ children }) {
     previous,
     setSpeed,
     toggleRepeat,
+    retryCurrentPhrase,
   };
 
   return (

@@ -88,7 +88,7 @@ export default function RegisterScreen() {
 
       <div className={styles.terms}>
         By creating an account, you agree to our{' '}
-        <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
+        <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a>.
       </div>
 
       <div className={styles.divider}>
