@@ -20,7 +20,7 @@ import { StorageFullModal } from './components/shared/StorageFullModal';
 import { TopicMasteredCelebration } from './components/shared/TopicMasteredCelebration';
 import './styles/global.css';
 
-const HomeScreen = lazy(() => import('./components/screens/HomeScreen'));
+import HomeScreen from './components/screens/HomeScreen';
 const LibraryScreen = lazy(() => import('./components/screens/LibraryScreen'));
 const PracticeScreen = lazy(() => import('./components/screens/PracticeScreen'));
 const SettingsScreen = lazy(() => import('./components/screens/SettingsScreen'));
@@ -231,7 +231,7 @@ function MainLayout() {
       {isSession && !sessionSummary && (
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <Suspense fallback={<Loader />}>
-            {renderSessionScreen(route.path, () => { window.location.hash = `#${ROUTES.HOME}`; window.location.reload(); }, (s) => setSessionSummary(s))}
+            {renderSessionScreen(route.path, () => navigate(ROUTES.HOME), (s) => setSessionSummary(s))}
           </Suspense>
         </main>
       )}
