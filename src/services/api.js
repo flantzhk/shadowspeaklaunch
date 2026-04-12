@@ -60,12 +60,14 @@ async function fetchWithRetry(url, options, maxRetries = MAX_RETRIES) {
 async function fetchWithAuth(url, options = {}) {
   const isValid = await refreshTokenIfNeeded();
   if (!isValid) {
+    logger.error('fetchWithAuth: token refresh failed, signing out');
     signOut();
     throw new ApiError('Session expired. Please sign in again.', 401, url);
   }
 
   const token = await getAuthToken();
   if (!token) {
+    logger.error('fetchWithAuth: no token available, signing out');
     signOut();
     throw new ApiError('Session expired. Please sign in again.', 401, url);
   }
@@ -138,14 +140,6 @@ async function textToSpeech(text, options = {}) {
       body: JSON.stringify(body),
     }
   );
-
-  const contentType = response.headers.get('Content-Type') || '';
-  if (!contentType.includes('audio')) {
-    // API returned non-audio (likely an error response)
-    const text = await response.text();
-    logger.error('TTS returned non-audio response:', contentType, text.slice(0, 200));
-    throw new ApiError('TTS returned invalid audio', 500, `${API_BASE_URL}${API_ENDPOINTS.TTS}`);
-  }
 
   return response.blob();
 }
