@@ -22,7 +22,7 @@
 }
 
 .pageTitle {
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   line-height: 1;
@@ -41,7 +41,7 @@
 .modeBtn {
   padding: 5px 10px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   transition: background 0.15s, color 0.15s;
@@ -69,7 +69,7 @@
 }
 
 .addBtnPlus {
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: 300;
   color: var(--color-brand-dark);
   line-height: 1;
@@ -103,7 +103,7 @@
 }
 
 .statNum {
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   line-height: 1;
@@ -118,7 +118,7 @@
 }
 
 .statLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-muted);
   letter-spacing: 0.02em;
@@ -155,7 +155,7 @@
 }
 
 .progressBarLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--color-text-muted);
   white-space: nowrap;
   flex-shrink: 0;
@@ -197,19 +197,19 @@
 }
 
 .dueTitle {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
   line-height: 1.2;
 }
 
 .dueSubtitle {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
 }
 
 .dueArrow {
-  font-size: 22px;
+  font-size: 1.375rem;
   color: var(--color-brand-dark-text);
   font-weight: 300;
   line-height: 1;
@@ -226,7 +226,7 @@
 .filterButton {
   padding: 8px 16px;
   border-radius: var(--radius-pill);
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
   background: var(--color-surface);
@@ -254,7 +254,7 @@
   background: var(--color-brand-dark);
   color: white;
   border-radius: 12px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-semibold);
   transition: transform 0.12s;
 }
@@ -277,7 +277,7 @@
 
 .topicPill {
   display: inline-block;
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   text-transform: uppercase;
@@ -304,13 +304,13 @@
 }
 
 .emptyTitle {
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
 
 .emptyText {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-muted);
   max-width: 250px;
   line-height: 1.5;
@@ -322,7 +322,7 @@
   background: var(--color-brand-dark);
   color: white;
   border-radius: 12px;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
   transition: transform 0.12s;
 }

@@ -32,7 +32,7 @@
 
 .onlineIndicator {
   display: flex; align-items: center; gap: 4px;
-  font-size: 11px; color: var(--color-text-muted);
+  font-size: 0.6875rem; color: var(--color-text-muted);
 }
 
 .onlineDot {
@@ -47,7 +47,7 @@
 
 .scenarioBar {
   background: rgba(0,0,0,0.03); padding: 10px var(--content-padding);
-  font-size: 12px; color: var(--color-text-secondary);
+  font-size: 0.75rem; color: var(--color-text-secondary);
 }
 
 .scenarioLabel {
@@ -100,9 +100,9 @@
   border-radius: 14px 14px 14px 4px;
 }
 
-.bubbleRoman { font-size: 14px; font-weight: var(--font-weight-semibold); color: var(--color-brand-dark-text); }
-.bubbleChinese { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
-.bubbleEnglish { font-size: 11px; color: var(--color-text-muted); margin-top: 2px; }
+.bubbleRoman { font-size: 0.875rem; font-weight: var(--font-weight-semibold); color: var(--color-brand-dark-text); }
+.bubbleChinese { font-size: 0.75rem; color: var(--color-text-secondary); margin-top: 2px; }
+.bubbleEnglish { font-size: 0.6875rem; color: var(--color-text-muted); margin-top: 2px; }
 
 /* Thinking bubble */
 .thinkingBubble {
@@ -132,7 +132,7 @@
 .dot:nth-child(3) { animation-delay: 0.4s; }
 
 .thinkingLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--color-text-muted);
 }
 
@@ -155,7 +155,7 @@
   color: white;
   border-radius: 14px;
   padding: 16px;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
   text-align: center;
 }
@@ -177,7 +177,7 @@
 .textFallback {
   text-align: center;
   margin-top: 8px;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
 }
 
@@ -232,7 +232,7 @@
   background: var(--color-bg);
   border: 0.5px solid var(--color-border);
   border-radius: 22px;
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--color-text-primary);
   outline: none;
 }
@@ -257,7 +257,7 @@
 }
 
 .switchModeBtn {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-muted);
   text-align: center;
@@ -283,7 +283,7 @@
 }
 
 .reviewTitle {
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   text-align: center;
@@ -291,7 +291,7 @@
 }
 
 .reviewScenario {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
   text-align: center;
   font-style: italic;
@@ -318,18 +318,18 @@
 }
 
 .reviewStatNum {
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-brand-dark-text);
 }
 
 .reviewStatLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--color-text-muted);
 }
 
 .reviewSectionLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   letter-spacing: 0.05em;
@@ -355,7 +355,7 @@
 }
 
 .reviewSpeaker {
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   text-transform: uppercase;
@@ -365,7 +365,7 @@
 }
 
 .saveMsgBtn {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-dark-text);
   margin-top: 8px;
@@ -377,7 +377,7 @@
 }
 
 .savedLabel {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-brand-green);
   margin-top: 8px;
   display: block;
@@ -397,7 +397,7 @@
   border-radius: 14px;
   background: var(--color-brand-dark);
   color: white;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-semibold);
 }
 
@@ -407,6 +407,6 @@
   border-radius: 14px;
   border: 0.5px solid var(--color-border);
   color: var(--color-text-secondary);
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-medium);
 }

@@ -36,7 +36,7 @@ export default function Screen10_MicPermission({ advance, setAnswers }) {
       </svg>
 
       <h1 style={{
-        fontSize: 24,
+        fontSize: "1.5rem",
         fontWeight: 800,
         color: '#1A2A18',
         textAlign: 'center',
@@ -46,7 +46,7 @@ export default function Screen10_MicPermission({ advance, setAnswers }) {
       </h1>
 
       <p style={{
-        fontSize: 15,
+        fontSize: "0.9375rem",
         color: '#555',
         lineHeight: 1.7,
         textAlign: 'center',
@@ -59,7 +59,7 @@ export default function Screen10_MicPermission({ advance, setAnswers }) {
       </p>
 
       <p style={{
-        fontSize: 13,
+        fontSize: "0.8125rem",
         color: '#AAA',
         lineHeight: 1.5,
         textAlign: 'center',
@@ -81,7 +81,7 @@ export default function Screen10_MicPermission({ advance, setAnswers }) {
           border: 'none',
           background: '#C5E85A',
           color: '#1A2A18',
-          fontSize: 16,
+          fontSize: "1rem",
           fontWeight: 700,
           cursor: 'pointer',
           fontFamily: 'inherit',
@@ -96,7 +96,7 @@ export default function Screen10_MicPermission({ advance, setAnswers }) {
         style={{
           background: 'none',
           border: 'none',
-          fontSize: 14,
+          fontSize: "0.875rem",
           color: '#BBB',
           marginTop: 16,
           cursor: 'pointer',

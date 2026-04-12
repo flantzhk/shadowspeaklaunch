@@ -22,7 +22,7 @@
 }
 
 .title {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
   text-align: center;
@@ -30,7 +30,7 @@
 }
 
 .body {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-secondary);
   text-align: center;
   line-height: 1.5;
@@ -49,7 +49,7 @@
   color: var(--color-text-secondary);
   border-radius: 12px;
   padding: 14px;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-semibold);
 }
 
@@ -58,7 +58,7 @@
   color: var(--color-brand-dark-text);
   border-radius: 12px;
   padding: 14px;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-semibold);
 }
 

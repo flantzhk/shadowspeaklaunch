@@ -58,7 +58,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: var(--font-weight-semibold);
   color: #fff;
 }
@@ -77,27 +77,27 @@
 }
 
 .name {
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: var(--font-weight-semibold);
   color: #fff;
   line-height: 1.2;
 }
 
 .nameEdit {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-lime);
   letter-spacing: 0.2px;
 }
 
 .email {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: rgba(255,255,255,0.55);
   margin-top: 3px;
 }
 
 .joined {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: rgba(255,255,255,0.4);
   margin-top: 2px;
 }
@@ -125,19 +125,19 @@
 }
 
 .heroStatIcon {
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 1;
 }
 
 .heroStatNum {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: var(--font-weight-semibold);
   color: #fff;
   line-height: 1.1;
 }
 
 .heroStatLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: rgba(255,255,255,0.5);
   white-space: nowrap;
 }
@@ -150,7 +150,7 @@
 }
 
 .statsLink {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-lime);
   margin-top: 12px;
@@ -159,7 +159,7 @@
 
 /* ── Section label ── */
 .sectionLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   letter-spacing: 1.2px;
@@ -176,7 +176,7 @@
 }
 
 .cardInnerLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   letter-spacing: 1px;
@@ -190,7 +190,7 @@
 }
 
 .cardHint {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
   padding: 12px 16px 4px;
   line-height: 1.5;
@@ -233,14 +233,14 @@
 }
 
 .langName {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
 .langActive .langName { color: #fff; }
 
 .langNative {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--color-text-muted);
 }
 .langActive .langNative { color: #A8C878; }
@@ -258,7 +258,7 @@
   background: var(--color-bg);
   border: 1.5px solid var(--color-border);
   border-radius: 10px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
   text-align: center;
@@ -284,7 +284,7 @@
 .toggleRow:last-of-type { border-bottom: none; }
 
 .toggleLabel {
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--color-text-primary);
 }
 
@@ -331,7 +331,7 @@
 
 .themeOption {
   padding: 7px 12px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
   border-right: 1px solid var(--color-border);
@@ -347,12 +347,12 @@
 
 /* ── Row label/value (reused in card rows) ── */
 .rowLabel {
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--color-text-primary);
 }
 
 .rowValue {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-muted);
 }
 
@@ -363,7 +363,7 @@
   background: var(--color-bg);
   border: 1.5px solid var(--color-border);
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
   width: calc(100% - 32px);
@@ -384,7 +384,7 @@
   display: block;
   width: 100%;
   text-align: center;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-error, #c44);
   padding: 15px 16px;
@@ -395,7 +395,7 @@
   display: block;
   width: 100%;
   text-align: center;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-muted);
   padding: 15px 16px;
@@ -404,7 +404,7 @@
 /* ── Version ── */
 .versionLabel {
   text-align: center;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
   padding: 16px 0 8px;
 }
@@ -412,7 +412,7 @@
 /* ── Bottom sheet pickers ── */
 .fieldLabel {
   display: block;
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   letter-spacing: 1.2px;
@@ -425,7 +425,7 @@
   background: var(--color-surface);
   border: 1.5px solid var(--color-border-strong, var(--color-border));
   border-radius: 12px;
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--color-text-primary);
   box-sizing: border-box;
 }
@@ -435,7 +435,7 @@
 }
 
 .fieldHint {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
   margin-top: 8px;
   line-height: 1.5;
@@ -453,7 +453,7 @@
 .pickerSelected { background: rgba(139, 184, 43, 0.06); }
 
 .pickerRadio {
-  font-size: 18px;
+  font-size: 1.125rem;
   color: var(--color-text-muted);
   flex-shrink: 0;
   margin-top: 1px;
@@ -467,13 +467,13 @@
 }
 
 .pickerLabel {
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
 
 .pickerDesc {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
   line-height: 1.4;
 }
@@ -484,7 +484,7 @@
   background: var(--color-surface);
   border: 1.5px solid var(--color-border);
   border-radius: 12px;
-  font-size: 18px;
+  font-size: 1.125rem;
   color: var(--color-text-primary);
   text-align: center;
   margin-top: 8px;

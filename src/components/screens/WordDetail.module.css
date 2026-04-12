@@ -1,7 +1,7 @@
 /* WordDetail.module.css */
 
 .phonetic {
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-jyutping);
   margin-bottom: 8px;
@@ -12,13 +12,13 @@
 }
 
 .chinese {
-  font-size: 32px;
+  font-size: 2rem;
   color: var(--color-text-primary);
   margin-bottom: 8px;
 }
 
 .english {
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--color-text-secondary);
   margin-bottom: 20px;
 }
@@ -39,7 +39,7 @@
   color: white;
   border-radius: 12px;
   padding: 14px;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-semibold);
 }
 
@@ -50,7 +50,7 @@
   color: var(--color-text-secondary);
   border-radius: 12px;
   padding: 14px;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-semibold);
 }
 
@@ -60,7 +60,7 @@
 }
 
 .examplesLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   letter-spacing: 1.2px;
@@ -75,18 +75,18 @@
 }
 
 .exChinese {
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--color-text-primary);
 }
 
 .exRoman {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-jyutping);
   margin-top: 3px;
 }
 
 .exEnglish {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
   margin-top: 2px;
 }

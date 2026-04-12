@@ -30,23 +30,23 @@
   margin-bottom: 20px;
 }
 
-.iconEmoji { font-size: 36px; }
+.iconEmoji { font-size: 2.25rem; }
 
 .title {
-  font-size: 26px;
+  font-size: 1.625rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   margin-bottom: 4px;
 }
 
 .sceneLabel {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
   margin-bottom: 4px;
 }
 
 .subtitle {
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--color-text-secondary);
   margin-bottom: 28px;
 }
@@ -72,13 +72,13 @@
 }
 
 .statNum {
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-brand-dark-text);
 }
 
 .statLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--color-text-muted);
   font-weight: var(--font-weight-medium);
 }
@@ -96,10 +96,10 @@
   margin-bottom: 24px;
 }
 
-.streakFlame { font-size: 18px; }
+.streakFlame { font-size: 1.125rem; }
 
 .streakText {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
   color: #B45309;
 }
@@ -111,7 +111,7 @@
 }
 
 .sectionTitle {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   letter-spacing: 0.05em;
@@ -145,29 +145,29 @@
 }
 
 .turnRoman {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-dark-text);
 }
 
 .turnChinese {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
 }
 
 .turnEnglish {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--color-text-muted);
 }
 
 .turnScore {
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-bold);
   flex-shrink: 0;
 }
 
 .turnSkipped {
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--color-text-muted);
   flex-shrink: 0;
 }
@@ -185,7 +185,7 @@
   padding: 16px;
   border-radius: 14px;
   background: var(--color-brand-lime);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-dark-text);
   text-align: center;
@@ -197,7 +197,7 @@
   border-radius: 14px;
   background: var(--color-surface);
   border: 0.5px solid var(--color-border);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-dark-text);
 }
@@ -207,7 +207,7 @@
   padding: 16px;
   border-radius: 14px;
   background: var(--color-brand-dark);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: var(--font-weight-semibold);
   color: white;
   text-align: center;

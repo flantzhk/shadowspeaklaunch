@@ -27,7 +27,7 @@ export default function Screen05_Pain({ advance, answers, setAnswers }) {
       padding: '48px 24px 120px',
       fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     }}>
-      <h1 style={{ fontSize: 26, fontWeight: 800, color: '#1A2A18', margin: 0, lineHeight: 1.2 }}>
+      <h1 style={{ fontSize: "1.625rem", fontWeight: 800, color: '#1A2A18', margin: 0, lineHeight: 1.2 }}>
         What's held you back until now?
       </h1>
 
@@ -56,7 +56,7 @@ export default function Screen05_Pain({ advance, answers, setAnswers }) {
             border: 'none',
             background: '#C5E85A',
             color: '#1A2A18',
-            fontSize: 16,
+            fontSize: "1rem",
             fontWeight: 700,
             cursor: 'pointer',
             fontFamily: 'inherit',

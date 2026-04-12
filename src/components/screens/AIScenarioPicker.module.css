@@ -24,13 +24,13 @@
 }
 
 .onlineIndicator {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: var(--font-weight-medium);
   color: var(--color-brand-green);
 }
 
 .title {
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-brand-dark-text);
   font-family: 'DM Serif Display', Georgia, serif;
@@ -39,7 +39,7 @@
 }
 
 .subtitle {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-secondary);
   padding: 0 22px 20px;
   line-height: 1.5;
@@ -52,7 +52,7 @@
 }
 
 .sectionLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   letter-spacing: 1.2px;
@@ -86,7 +86,7 @@
 }
 
 .emoji {
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 .cardContent {
@@ -94,19 +94,19 @@
 }
 
 .cardTitle {
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
 
 .cardRole {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
   margin-top: 4px;
 }
 
 .cardMeta {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
   margin-top: 6px;
 }

@@ -23,7 +23,7 @@
   position: absolute;
   top: 12px;
   right: 16px;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: #BBB;
   line-height: 1;
   transform: translateY(-100%);

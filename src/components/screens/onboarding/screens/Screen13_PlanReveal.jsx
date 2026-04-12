@@ -52,7 +52,7 @@ export default function Screen13_PlanReveal({ advance, answers }) {
       padding: '48px 24px 48px',
       fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     }}>
-      <h1 style={{ fontSize: 26, fontWeight: 800, color: '#1A2A18', margin: 0 }}>
+      <h1 style={{ fontSize: "1.625rem", fontWeight: 800, color: '#1A2A18', margin: 0 }}>
         Your plan is ready.
       </h1>
 
@@ -75,8 +75,8 @@ export default function Screen13_PlanReveal({ advance, answers }) {
             padding: '8px 0',
             borderBottom: '1px solid #F4F1E8',
           }}>
-            <span style={{ fontSize: 13, color: '#999' }}>{label}</span>
-            <span style={{ fontSize: 13, fontWeight: 700, color: '#1A2A18' }}>{value}</span>
+            <span style={{ fontSize: "0.8125rem", color: '#999' }}>{label}</span>
+            <span style={{ fontSize: "0.8125rem", fontWeight: 700, color: '#1A2A18' }}>{value}</span>
           </div>
         ))}
       </div>
@@ -103,7 +103,7 @@ export default function Screen13_PlanReveal({ advance, answers }) {
           }} />
         </div>
         <p style={{
-          fontSize: 13,
+          fontSize: "0.8125rem",
           color: loadingDone ? '#3A6A1A' : '#888',
           fontWeight: loadingDone ? 600 : 400,
           marginTop: 8,
@@ -115,7 +115,7 @@ export default function Screen13_PlanReveal({ advance, answers }) {
 
       {/* Projection */}
       <p style={{
-        fontSize: 15,
+        fontSize: "0.9375rem",
         color: '#555',
         lineHeight: 1.6,
         textAlign: 'center',
@@ -152,14 +152,14 @@ export default function Screen13_PlanReveal({ advance, answers }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: 11,
+              fontSize: "0.6875rem",
               color: '#1A2A18',
               fontWeight: 700,
               flexShrink: 0,
             }}>
               ✓
             </div>
-            <span style={{ fontSize: 13, fontWeight: 600, color: '#1A2A18' }}>{item}</span>
+            <span style={{ fontSize: "0.8125rem", fontWeight: 600, color: '#1A2A18' }}>{item}</span>
           </div>
         ))}
       </div>
@@ -175,7 +175,7 @@ export default function Screen13_PlanReveal({ advance, answers }) {
           border: 'none',
           background: '#C5E85A',
           color: '#1A2A18',
-          fontSize: 16,
+          fontSize: "1rem",
           fontWeight: 700,
           cursor: 'pointer',
           fontFamily: 'inherit',

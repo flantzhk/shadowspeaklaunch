@@ -38,7 +38,7 @@
 
 /* === Title === */
 .title {
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-brand-dark-text);
   text-align: center;
@@ -46,7 +46,7 @@
 }
 
 .subtitle {
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--color-text-secondary);
   text-align: center;
   margin-top: 4px;
@@ -73,13 +73,13 @@
 }
 
 .statNum {
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-dark-text);
 }
 
 .statLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--color-text-muted);
   letter-spacing: 0.2px;
 }
@@ -126,7 +126,7 @@
 }
 
 .streakText {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-streak-text);
 }
@@ -146,7 +146,7 @@
 
 /* === Phrase breakdown === */
 .sectionLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   letter-spacing: 1.2px;
@@ -176,20 +176,20 @@
 
 .phraseText {
   flex: 1;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);
 }
 
 .phraseScore {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-semibold);
   flex-shrink: 0;
 }
 
 .star {
   color: var(--color-brand-green);
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 /* === Action buttons === */
@@ -207,7 +207,7 @@
   color: white;
   border-radius: 14px;
   padding: 16px;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-semibold);
   text-align: center;
   min-height: 52px;
@@ -224,7 +224,7 @@
   color: var(--color-text-secondary);
   border-radius: 14px;
   padding: 16px;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-semibold);
   text-align: center;
   min-height: 52px;

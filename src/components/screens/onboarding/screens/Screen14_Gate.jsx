@@ -18,7 +18,7 @@ export default function Screen14_Gate({ onComplete }) {
       padding: '48px 24px 48px',
       fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     }}>
-      <h1 style={{ fontSize: 26, fontWeight: 800, color: '#1A2A18', margin: 0 }}>
+      <h1 style={{ fontSize: "1.625rem", fontWeight: 800, color: '#1A2A18', margin: 0 }}>
         Save your plan and keep going.
       </h1>
 
@@ -30,7 +30,7 @@ export default function Screen14_Gate({ onComplete }) {
           left: 16,
           background: '#C5E85A',
           color: '#1A2A18',
-          fontSize: 11,
+          fontSize: "0.6875rem",
           fontWeight: 700,
           textTransform: 'uppercase',
           borderRadius: 6,
@@ -45,13 +45,13 @@ export default function Screen14_Gate({ onComplete }) {
           borderRadius: 16,
           padding: 20,
         }}>
-          <div style={{ fontSize: 17, fontWeight: 800, color: '#1A2A18' }}>
+          <div style={{ fontSize: "1.0625rem", fontWeight: 800, color: '#1A2A18' }}>
             ★ Start free trial
           </div>
-          <div style={{ fontSize: 15, color: '#1A2A18', marginTop: 6 }}>
+          <div style={{ fontSize: "0.9375rem", color: '#1A2A18', marginTop: 6 }}>
             7 days free, then $59.99/year
           </div>
-          <div style={{ fontSize: 13, fontWeight: 600, color: '#8BB82B' }}>
+          <div style={{ fontSize: "0.8125rem", fontWeight: 600, color: '#8BB82B' }}>
             Just $5/month — cancel any time
           </div>
           <button
@@ -65,7 +65,7 @@ export default function Screen14_Gate({ onComplete }) {
               border: 'none',
               background: '#C5E85A',
               color: '#1A2A18',
-              fontSize: 15,
+              fontSize: "0.9375rem",
               fontWeight: 700,
               cursor: 'pointer',
               fontFamily: 'inherit',
@@ -79,7 +79,7 @@ export default function Screen14_Gate({ onComplete }) {
       {/* Divider */}
       <div style={{
         textAlign: 'center',
-        fontSize: 13,
+        fontSize: "0.8125rem",
         color: '#CCC',
         margin: '16px 0',
       }}>
@@ -93,10 +93,10 @@ export default function Screen14_Gate({ onComplete }) {
         borderRadius: 16,
         padding: 20,
       }}>
-        <div style={{ fontSize: 15, fontWeight: 700, color: '#1A2A18' }}>
+        <div style={{ fontSize: "0.9375rem", fontWeight: 700, color: '#1A2A18' }}>
           Continue with free access
         </div>
-        <div style={{ fontSize: 13, color: '#888', marginTop: 4 }}>
+        <div style={{ fontSize: "0.8125rem", color: '#888', marginTop: 4 }}>
           Core features. No payment required.
         </div>
         <button
@@ -110,7 +110,7 @@ export default function Screen14_Gate({ onComplete }) {
             background: 'transparent',
             border: '1.5px solid #1A2A18',
             color: '#1A2A18',
-            fontSize: 14,
+            fontSize: "0.875rem",
             fontWeight: 600,
             cursor: 'pointer',
             fontFamily: 'inherit',
@@ -134,8 +134,8 @@ export default function Screen14_Gate({ onComplete }) {
             gap: 10,
             padding: '6px 0',
           }}>
-            <span style={{ color: '#C5E85A', fontSize: 14 }}>✓</span>
-            <span style={{ fontSize: 13, color: '#1A2A18' }}>{feature}</span>
+            <span style={{ color: '#C5E85A', fontSize: "0.875rem" }}>✓</span>
+            <span style={{ fontSize: "0.8125rem", color: '#1A2A18' }}>{feature}</span>
           </div>
         ))}
       </div>
@@ -148,7 +148,7 @@ export default function Screen14_Gate({ onComplete }) {
           style={{
             background: 'none',
             border: 'none',
-            fontSize: 13,
+            fontSize: "0.8125rem",
             color: '#AAA',
             cursor: 'pointer',
             fontFamily: 'inherit',

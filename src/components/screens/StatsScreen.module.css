@@ -76,7 +76,7 @@
 }
 
 .streakNum {
-  font-size: 42px;
+  font-size: 2.625rem;
   font-weight: var(--font-weight-bold);
   color: white;
   line-height: 1;
@@ -84,7 +84,7 @@
 }
 
 .streakUnit {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-medium);
   color: rgba(255, 255, 255, 0.55);
   text-transform: uppercase;
@@ -102,20 +102,20 @@
 }
 
 .streakHeadline {
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-semibold);
   color: white;
   line-height: 1.3;
 }
 
 .streakSub {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.55);
   line-height: 1.4;
 }
 
 .bestStreak {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--color-brand-lime);
   margin-top: 4px;
   font-weight: var(--font-weight-semibold);
@@ -129,7 +129,7 @@
 }
 
 .cardLabel {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   text-transform: uppercase;
@@ -183,13 +183,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
 }
 
 .todayGoalLabel {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-secondary);
   text-align: center;
@@ -197,7 +197,7 @@
 }
 
 .todayTime {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--color-text-muted);
   margin-top: 3px;
   text-align: center;
@@ -220,7 +220,7 @@
 }
 
 .weekCount {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-brand-green);
 }
@@ -260,7 +260,7 @@
 }
 
 .weekLabel {
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-muted);
 }
@@ -289,7 +289,7 @@
 }
 
 .statNum {
-  font-size: 26px;
+  font-size: 1.625rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   line-height: 1;
@@ -301,7 +301,7 @@
 }
 
 .statLabel {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
   font-weight: var(--font-weight-medium);
 }
@@ -334,7 +334,7 @@
 }
 
 .levelBadgeNum {
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-brand-lime);
   line-height: 1;
@@ -348,20 +348,20 @@
 }
 
 .levelTitle {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   line-height: 1;
 }
 
 .levelDesc {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-secondary);
   line-height: 1.3;
 }
 
 .xpChip {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-brand-green);
   background: var(--color-mastered-bg);
@@ -397,13 +397,13 @@
 }
 
 .levelProgressLabel {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
   font-weight: var(--font-weight-medium);
 }
 
 .xpRemaining {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
 }
 
@@ -414,7 +414,7 @@
 }
 
 .xpRulesTitle {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-secondary);
   display: block;
@@ -422,7 +422,7 @@
 }
 
 .xpRuleRow {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-secondary);
   display: flex;
   align-items: center;
@@ -431,7 +431,7 @@
 }
 
 .xpAmount {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-brand-green);
   min-width: 30px;
@@ -450,19 +450,19 @@
 }
 
 .sectionTitle {
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
 }
 
 .sectionCount {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
   font-weight: var(--font-weight-medium);
 }
 
 .achieveSub {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   text-transform: uppercase;
@@ -490,19 +490,19 @@
 }
 
 .achieveEmoji {
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 1;
 }
 
 .achieveLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
   line-height: 1.2;
 }
 
 .achieveDesc {
-  font-size: 10px;
+  font-size: 0.625rem;
   color: var(--color-text-muted);
   line-height: 1.3;
 }
@@ -525,7 +525,7 @@
 }
 
 .achieveRowEmoji {
-  font-size: 22px;
+  font-size: 1.375rem;
   line-height: 1;
   flex-shrink: 0;
   opacity: 0.5;
@@ -545,19 +545,19 @@
 }
 
 .achieveRowLabel {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
 
 .achieveRowCount {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
 }
 
 .achieveRowDesc {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
 }
 
@@ -582,7 +582,7 @@
   width: 100%;
   margin-top: 10px;
   padding: 12px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-secondary);
   background: var(--color-surface);

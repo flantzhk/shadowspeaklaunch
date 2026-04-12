@@ -57,7 +57,7 @@
 }
 
 .sessionCount {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
   font-weight: var(--font-weight-medium);
   white-space: nowrap;
@@ -76,7 +76,7 @@
 }
 
 .romanization {
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-dark-text);
   letter-spacing: -0.5px;
@@ -84,13 +84,13 @@
 }
 
 .chinese {
-  font-size: 20px;
+  font-size: 1.25rem;
   color: var(--color-text-secondary);
   margin-top: 6px;
 }
 
 .english {
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--color-text-muted);
   margin-top: 4px;
 }
@@ -130,7 +130,7 @@
 }
 
 .tryAgain {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-score-fair);
   margin-top: 12px;
@@ -176,7 +176,7 @@
   align-self: center;
   padding: var(--space-md) var(--space-xl);
   color: var(--color-text-muted);
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-medium);
   text-decoration: underline;
   min-height: 44px;

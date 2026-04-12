@@ -3,7 +3,7 @@ const pillBase = {
   padding: '14px 0',
   borderRadius: 12,
   border: 'none',
-  fontSize: 14,
+  fontSize: "0.875rem",
   fontWeight: 700,
   cursor: 'pointer',
   fontFamily: 'inherit',
@@ -43,13 +43,13 @@ export default function Screen08_Preferences({ advance, answers, setAnswers, upd
       padding: '48px 24px 48px',
       fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     }}>
-      <h1 style={{ fontSize: 24, fontWeight: 800, color: '#1A2A18', margin: 0 }}>
+      <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: '#1A2A18', margin: 0 }}>
         Let's set up your plan.
       </h1>
 
       {/* Language selector */}
       <div style={{ marginTop: 28 }}>
-        <label style={{ fontSize: 13, fontWeight: 600, color: '#666', display: 'block', marginBottom: 10 }}>
+        <label style={{ fontSize: "0.8125rem", fontWeight: 600, color: '#666', display: 'block', marginBottom: 10 }}>
           Which language?
         </label>
         <div style={{ display: 'flex', gap: 10 }}>
@@ -62,7 +62,7 @@ export default function Screen08_Preferences({ advance, answers, setAnswers, upd
             }}
           >
             <div>Cantonese</div>
-            <div style={{ fontSize: 11, color: '#8BB82B', marginTop: 2 }}>廣東話</div>
+            <div style={{ fontSize: "0.6875rem", color: '#8BB82B', marginTop: 2 }}>廣東話</div>
           </button>
           <button
             type="button"
@@ -77,15 +77,15 @@ export default function Screen08_Preferences({ advance, answers, setAnswers, upd
             }}
           >
             <div>Mandarin</div>
-            <div style={{ fontSize: 10, color: '#CCC', marginTop: 2 }}>Coming soon</div>
-            <div style={{ fontSize: 11, color: '#CCC', marginTop: 1 }}>普通話</div>
+            <div style={{ fontSize: "0.625rem", color: '#CCC', marginTop: 2 }}>Coming soon</div>
+            <div style={{ fontSize: "0.6875rem", color: '#CCC', marginTop: 1 }}>普通話</div>
           </button>
         </div>
       </div>
 
       {/* Daily goal selector */}
       <div style={{ marginTop: 24 }}>
-        <label style={{ fontSize: 13, fontWeight: 600, color: '#666', display: 'block', marginBottom: 10 }}>
+        <label style={{ fontSize: "0.8125rem", fontWeight: 600, color: '#666', display: 'block', marginBottom: 10 }}>
           How much time per day?
         </label>
         <div style={{ display: 'flex', gap: 10 }}>
@@ -103,8 +103,8 @@ export default function Screen08_Preferences({ advance, answers, setAnswers, upd
                     : { background: 'white', color: '#1A2A18' }),
                 }}
               >
-                <div style={{ fontSize: 20, fontWeight: 800 }}>{min}</div>
-                <div style={{ fontSize: 10, fontWeight: 600, marginTop: 2, opacity: 0.7 }}>MIN</div>
+                <div style={{ fontSize: "1.25rem", fontWeight: 800 }}>{min}</div>
+                <div style={{ fontSize: "0.625rem", fontWeight: 600, marginTop: 2, opacity: 0.7 }}>MIN</div>
               </button>
             );
           })}
@@ -112,7 +112,7 @@ export default function Screen08_Preferences({ advance, answers, setAnswers, upd
       </div>
 
       <p style={{
-        fontSize: 13,
+        fontSize: "0.8125rem",
         color: '#AAA',
         fontStyle: 'italic',
         textAlign: 'center',
@@ -132,7 +132,7 @@ export default function Screen08_Preferences({ advance, answers, setAnswers, upd
           border: 'none',
           background: '#C5E85A',
           color: '#1A2A18',
-          fontSize: 16,
+          fontSize: "1rem",
           fontWeight: 700,
           cursor: 'pointer',
           fontFamily: 'inherit',

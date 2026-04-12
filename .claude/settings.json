@@ -58,10 +58,10 @@
         "matcher": "",
         "hooks": [
           {
-            "type": "agent",
-            "timeout": 120,
+            "type": "command",
+            "timeout": 30,
             "statusMessage": "Logging progress to vault...",
-            "prompt": "You are the progress logger for the ShadowSpeakLaunch project.\n\nINFO FILE: /tmp/shadowspeak-progress-info.txt\nVAULT PROGRESS LOG: /Users/faithkayiwa/Documents/Faith Second Brain 2026/Progress Log.md\n\n## Steps\n\n1. Read /tmp/shadowspeak-progress-info.txt\n   - If the file does not exist or is empty, do nothing and stop.\n   - The file contains DATE, COMMITS, and DIFF_STAT sections pre-gathered from git.\n\n2. Read the current Progress Log: /Users/faithkayiwa/Documents/Faith Second Brain 2026/Progress Log.md\n\n3. Check if a `## YYYY-MM-DD` header for today's date (from the DATE field) already exists.\n\n4. Write a progress entry. Rules:\n   - If today's date header EXISTS: append a `### ShadowSpeakLaunch — ...` section under it\n   - If it DOES NOT exist: prepend `## YYYY-MM-DD` then the section at the bottom\n   - Section heading: `### ShadowSpeakLaunch — [one-line summary of what moved]`\n   - Each bullet: `- ✅ [tight description of what was done]`\n   - Base bullets on the COMMITS and DIFF_STAT — be specific\n   - Do NOT log: failed tests, config tweaks, dependency installs with no code change\n   - Max 6 bullets — keep it scannable\n\n5. Write the full updated Progress Log content back to the file."
+            "command": "INFO=/tmp/shadowspeak-progress-info.txt; LOG=\"/Users/faithkayiwa/Documents/Faith Second Brain 2026/Progress Log.md\"; [ -s \"$INFO\" ] || exit 0; TODAY=$(grep '^DATE:' \"$INFO\" | sed 's/^DATE: //'); COMMITS=$(awk '/^COMMITS:/{found=1;next} /^DIFF_STAT:/{found=0} found{print}' \"$INFO\"); DIFF=$(awk '/^DIFF_STAT:/{found=1;next} found{print}' \"$INFO\"); SUMMARY=$(echo \"$COMMITS\" | head -1 | sed 's/^[a-f0-9]* //'); BULLETS=$(echo \"$COMMITS\" | while IFS= read -r line; do MSG=$(echo \"$line\" | sed 's/^[a-f0-9]* //'); [ -n \"$MSG\" ] && echo \"- ✅ $MSG\"; done | head -6); ENTRY=\"\\n### ShadowSpeakLaunch — ${SUMMARY}\\n\\n${BULLETS}\\n\"; if grep -q \"^## ${TODAY}\" \"$LOG\"; then awk -v date=\"## ${TODAY}\" -v entry=\"$ENTRY\" 'found && /^## /{print entry; found=0} /^## /{if($0==date)found=1} {print}' \"$LOG\" > /tmp/ss-log-tmp.md && mv /tmp/ss-log-tmp.md \"$LOG\"; else printf \"\\n## %s\\n%s\" \"$TODAY\" \"$ENTRY\" >> \"$LOG\"; fi; rm -f \"$INFO\""
           }
         ]
       }

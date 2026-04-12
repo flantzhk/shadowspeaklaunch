@@ -15,7 +15,7 @@ function NavBar({ dark }) {
       alignItems: 'center',
       padding: '18px 24px',
     }}>
-      <div style={{ fontSize: 20, fontWeight: 800 }}>
+      <div style={{ fontSize: "1.25rem", fontWeight: 800 }}>
         <span style={{ color: textColor || '#1A2A18' }}>Shadow</span>
         <span style={{ color: textColor || '#8BB82B' }}>Speak</span>
       </div>
@@ -25,7 +25,7 @@ function NavBar({ dark }) {
         style={{
           background: 'none',
           border: 'none',
-          fontSize: 14,
+          fontSize: "0.875rem",
           fontWeight: 600,
           color: textColor || '#1A2A18',
           cursor: 'pointer',
@@ -50,7 +50,7 @@ export default function Screen01_Hook({ advance }) {
         fallbackGradient="linear-gradient(160deg, #0A1A08 0%, #1A2A18 50%, #2A4A20 100%)"
       >
         <h1 style={{
-          fontSize: 28,
+          fontSize: "1.75rem",
           fontWeight: 800,
           color: '#1A2A18',
           lineHeight: 1.2,
@@ -59,7 +59,7 @@ export default function Screen01_Hook({ advance }) {
           The barista stops trying to speak English the moment you open your mouth.
         </h1>
         <p style={{
-          fontSize: 15,
+          fontSize: "0.9375rem",
           color: '#666',
           lineHeight: 1.6,
           marginTop: 12,
@@ -76,7 +76,7 @@ export default function Screen01_Hook({ advance }) {
             gap: 6,
             background: '#1A2A18',
             color: '#C5E85A',
-            fontSize: 12,
+            fontSize: "0.75rem",
             fontWeight: 600,
             borderRadius: 20,
             padding: '7px 14px',
@@ -95,7 +95,7 @@ export default function Screen01_Hook({ advance }) {
             gap: 6,
             background: '#E8E4D8',
             color: '#AAA',
-            fontSize: 12,
+            fontSize: "0.75rem",
             fontWeight: 600,
             borderRadius: 20,
             padding: '7px 14px',
@@ -122,7 +122,7 @@ export default function Screen01_Hook({ advance }) {
             border: 'none',
             background: '#C5E85A',
             color: '#1A2A18',
-            fontSize: 16,
+            fontSize: "1rem",
             fontWeight: 700,
             cursor: 'pointer',
             fontFamily: 'inherit',

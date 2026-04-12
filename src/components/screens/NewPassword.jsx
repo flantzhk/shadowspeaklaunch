@@ -124,13 +124,13 @@ export default function NewPassword({ onBack, showToast }) {
 
 function Req({ met, label }) {
   return (
-    <li style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 6 }}>
+    <li style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: "0.75rem", color: 'var(--color-text-muted)', marginBottom: 6 }}>
       <span style={{
         width: 14, height: 14, borderRadius: '50%',
         border: met ? 'none' : '1.5px solid var(--color-border-strong)',
         background: met ? 'var(--color-success)' : 'transparent',
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        flexShrink: 0, fontSize: 10, color: 'white'
+        flexShrink: 0, fontSize: "0.625rem", color: 'white'
       }}>
         {met ? '✓' : ''}
       </span>

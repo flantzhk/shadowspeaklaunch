@@ -38,7 +38,7 @@ export default function Screen06_SocialProof({ advance, answers }) {
       padding: '48px 24px 48px',
       fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     }}>
-      <h1 style={{ fontSize: 24, fontWeight: 800, color: '#1A2A18', margin: 0 }}>
+      <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: '#1A2A18', margin: 0 }}>
         They felt exactly the same way.
       </h1>
 
@@ -50,7 +50,7 @@ export default function Screen06_SocialProof({ advance, answers }) {
         marginTop: 24,
       }}>
         <p style={{
-          fontSize: 15,
+          fontSize: "0.9375rem",
           fontStyle: 'italic',
           fontWeight: 500,
           color: '#1A2A18',
@@ -69,14 +69,14 @@ export default function Screen06_SocialProof({ advance, answers }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: 13,
+            fontSize: "0.8125rem",
             fontWeight: 700,
           }}>
             {testimonial.initials}
           </div>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#1A2A18' }}>{testimonial.name}</div>
-            <div style={{ fontSize: 12, color: '#999' }}>{testimonial.role}</div>
+            <div style={{ fontSize: "0.8125rem", fontWeight: 700, color: '#1A2A18' }}>{testimonial.name}</div>
+            <div style={{ fontSize: "0.75rem", color: '#999' }}>{testimonial.role}</div>
           </div>
         </div>
       </div>
@@ -89,11 +89,11 @@ export default function Screen06_SocialProof({ advance, answers }) {
         padding: 14,
         marginTop: 12,
       }}>
-        <div style={{ fontSize: 14, color: '#C5E85A', letterSpacing: 2 }}>★★★★★</div>
-        <div style={{ fontSize: 13, fontWeight: 600, color: '#1A2A18', marginTop: 4 }}>
+        <div style={{ fontSize: "0.875rem", color: '#C5E85A', letterSpacing: 2 }}>★★★★★</div>
+        <div style={{ fontSize: "0.8125rem", fontWeight: 600, color: '#1A2A18', marginTop: 4 }}>
           The only app that taught me to actually speak
         </div>
-        <div style={{ fontSize: 11, color: '#999', marginTop: 2 }}>App Store review</div>
+        <div style={{ fontSize: "0.6875rem", color: '#999', marginTop: 2 }}>App Store review</div>
       </div>
 
       <button
@@ -107,7 +107,7 @@ export default function Screen06_SocialProof({ advance, answers }) {
           border: 'none',
           background: '#C5E85A',
           color: '#1A2A18',
-          fontSize: 16,
+          fontSize: "1rem",
           fontWeight: 700,
           cursor: 'pointer',
           fontFamily: 'inherit',

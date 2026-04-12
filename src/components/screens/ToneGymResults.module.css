@@ -28,10 +28,10 @@
   margin-bottom: 16px;
 }
 
-.iconEmoji { font-size: 36px; }
+.iconEmoji { font-size: 2.25rem; }
 
 .title {
-  font-size: 26px;
+  font-size: 1.625rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   margin-bottom: 24px;
@@ -58,13 +58,13 @@
 }
 
 .statNum {
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-brand-dark-text);
 }
 
 .statLabel {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--color-text-muted);
   font-weight: var(--font-weight-medium);
 }
@@ -76,7 +76,7 @@
 }
 
 .sectionTitle {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted);
   letter-spacing: 0.05em;
@@ -108,14 +108,14 @@
 
 .toneName {
   display: block;
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
 
 .toneDesc {
   display: block;
-  font-size: 10px;
+  font-size: 0.625rem;
   color: var(--color-text-muted);
   margin-top: 1px;
 }
@@ -137,7 +137,7 @@
 .tonePct {
   width: 38px;
   text-align: right;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: var(--font-weight-semibold);
   flex-shrink: 0;
 }
@@ -148,7 +148,7 @@
 }
 
 .confusionItem {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-secondary);
   padding: 8px 0;
   border-bottom: 0.5px solid var(--color-border);
@@ -157,7 +157,7 @@
 .confusionItem:last-child { border-bottom: none; }
 
 .practiceNote {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
   font-style: italic;
   margin-top: 8px;
@@ -176,10 +176,10 @@
   margin-bottom: 20px;
 }
 
-.perfectEmoji { font-size: 22px; }
+.perfectEmoji { font-size: 1.375rem; }
 
 .perfectText {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
   color: #8A6A00;
 }
@@ -198,7 +198,7 @@
   border-radius: 14px;
   background: var(--color-surface);
   border: 0.5px solid var(--color-border);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-dark-text);
 }
@@ -208,7 +208,7 @@
   padding: 16px;
   border-radius: 14px;
   background: var(--color-brand-dark);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: var(--font-weight-semibold);
   color: white;
 }

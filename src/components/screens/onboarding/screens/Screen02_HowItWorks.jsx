@@ -19,7 +19,7 @@ const numberCircle = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: 14,
+  fontSize: "0.875rem",
   fontWeight: 800,
 };
 
@@ -34,10 +34,10 @@ export default function Screen02_HowItWorks({ advance }) {
     }}>
       <NavBar />
 
-      <h1 style={{ fontSize: 24, fontWeight: 800, color: '#1A2A18', margin: 0 }}>
+      <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: '#1A2A18', margin: 0 }}>
         This is how it works
       </h1>
-      <p style={{ fontSize: 14, color: '#888', marginTop: 6, marginBottom: 0 }}>
+      <p style={{ fontSize: "0.875rem", color: '#888', marginTop: 6, marginBottom: 0 }}>
         No account needed. Just try it.
       </p>
 
@@ -46,10 +46,10 @@ export default function Screen02_HowItWorks({ advance }) {
         <div style={stepCardStyle}>
           <div style={numberCircle}>1</div>
           <div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: '#1A2A18' }}>Press play</div>
-            <div style={{ fontSize: 14, color: '#8BB82B', marginTop: 4 }}>Dung³ naai⁵ caa⁴</div>
-            <div style={{ fontSize: 13, color: '#999', marginTop: 2 }}>凍奶茶</div>
-            <div style={{ fontSize: 12, color: '#BBB', marginTop: 1 }}>Iced milk tea</div>
+            <div style={{ fontSize: "0.9375rem", fontWeight: 700, color: '#1A2A18' }}>Press play</div>
+            <div style={{ fontSize: "0.875rem", color: '#8BB82B', marginTop: 4 }}>Dung³ naai⁵ caa⁴</div>
+            <div style={{ fontSize: "0.8125rem", color: '#999', marginTop: 2 }}>凍奶茶</div>
+            <div style={{ fontSize: "0.75rem", color: '#BBB', marginTop: 1 }}>Iced milk tea</div>
           </div>
         </div>
 
@@ -57,7 +57,7 @@ export default function Screen02_HowItWorks({ advance }) {
         <div style={stepCardStyle}>
           <div style={numberCircle}>2</div>
           <div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: '#1A2A18', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ fontSize: "0.9375rem", fontWeight: 700, color: '#1A2A18', display: 'flex', alignItems: 'center', gap: 8 }}>
               Say it back
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3Z" fill="#C5E85A"/>
@@ -72,17 +72,17 @@ export default function Screen02_HowItWorks({ advance }) {
         <div style={stepCardStyle}>
           <div style={numberCircle}>3</div>
           <div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: '#1A2A18' }}>Get your score</div>
+            <div style={{ fontSize: "0.9375rem", fontWeight: 700, color: '#1A2A18' }}>Get your score</div>
             <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
               <span style={{
                 background: '#C5E85A',
                 borderRadius: 8,
                 padding: '4px 12px',
-                fontSize: 14,
+                fontSize: "0.875rem",
                 fontWeight: 800,
                 color: '#1A2A18',
               }}>87</span>
-              <span style={{ fontSize: 12, color: '#3A6A1A', fontWeight: 600 }}>Great!</span>
+              <span style={{ fontSize: "0.75rem", color: '#3A6A1A', fontWeight: 600 }}>Great!</span>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@ export default function Screen02_HowItWorks({ advance }) {
           border: 'none',
           background: '#C5E85A',
           color: '#1A2A18',
-          fontSize: 16,
+          fontSize: "1rem",
           fontWeight: 700,
           cursor: 'pointer',
           fontFamily: 'inherit',

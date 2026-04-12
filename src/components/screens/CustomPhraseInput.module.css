@@ -18,7 +18,7 @@
 }
 
 .title {
-  font-size: 20px; font-weight: var(--font-weight-semibold);
+  font-size: 1.25rem; font-weight: var(--font-weight-semibold);
   color: var(--color-brand-dark-text); letter-spacing: -0.3px;
 }
 
@@ -26,7 +26,7 @@
 .field { display: flex; flex-direction: column; gap: 8px; }
 
 .label {
-  font-size: 11px; font-weight: var(--font-weight-semibold);
+  font-size: 0.6875rem; font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted); letter-spacing: 1.2px;
   text-transform: uppercase;
 }
@@ -34,7 +34,7 @@
 .input {
   padding: 14px 16px; background: var(--color-surface);
   border: 1.5px solid var(--color-border-strong); border-radius: 12px;
-  font-size: 16px; color: var(--color-text-primary);
+  font-size: 1rem; color: var(--color-text-primary);
 }
 
 .input:focus {
@@ -46,13 +46,13 @@
 .input:disabled { opacity: 0.6; }
 
 .inputHint {
-  font-size: 11px; color: var(--color-text-muted); margin-top: 4px;
+  font-size: 0.6875rem; color: var(--color-text-muted); margin-top: 4px;
 }
 
 .lookupBtn {
   padding: 16px; background: var(--color-brand-lime);
   color: var(--color-brand-dark-text); border-radius: 14px;
-  font-weight: var(--font-weight-semibold); font-size: 16px;
+  font-weight: var(--font-weight-semibold); font-size: 1rem;
   min-height: 52px; text-align: center;
 }
 
@@ -68,10 +68,10 @@
   position: relative;
 }
 
-.previewRoman { font-size: 15px; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-.previewJyutping { font-size: 13px; font-weight: var(--font-weight-semibold); color: var(--color-jyutping); margin-top: 4px; }
-.previewChinese { font-size: 15px; color: var(--color-text-primary); }
-.previewEnglish { font-size: 13px; color: var(--color-text-secondary); margin-top: 3px; }
+.previewRoman { font-size: 0.9375rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+.previewJyutping { font-size: 0.8125rem; font-weight: var(--font-weight-semibold); color: var(--color-jyutping); margin-top: 4px; }
+.previewChinese { font-size: 0.9375rem; color: var(--color-text-primary); }
+.previewEnglish { font-size: 0.8125rem; color: var(--color-text-secondary); margin-top: 3px; }
 
 .playBtn {
   position: absolute; top: 14px; right: 14px;
@@ -85,14 +85,14 @@
 .editBtn {
   flex: 1; padding: 14px; border: 1.5px solid var(--color-border-strong);
   border-radius: 14px; color: var(--color-text-secondary);
-  font-weight: var(--font-weight-semibold); font-size: 15px;
+  font-weight: var(--font-weight-semibold); font-size: 0.9375rem;
   min-height: 52px; text-align: center;
 }
 
 .saveBtn {
   flex: 2; padding: 14px; background: var(--color-brand-lime);
   color: var(--color-brand-dark-text); border-radius: 14px;
-  font-weight: var(--font-weight-semibold); font-size: 15px;
+  font-weight: var(--font-weight-semibold); font-size: 0.9375rem;
   min-height: 52px; text-align: center;
 }
 
@@ -108,5 +108,5 @@
 .addAnother {
   padding: 14px 24px; border: 1.5px solid var(--color-border-strong);
   border-radius: 14px; color: var(--color-text-primary);
-  font-weight: var(--font-weight-semibold); font-size: 15px; min-height: 44px;
+  font-weight: var(--font-weight-semibold); font-size: 0.9375rem; min-height: 44px;
 }

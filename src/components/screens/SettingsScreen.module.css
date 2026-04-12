@@ -215,7 +215,7 @@
 
 .appChevron {
   color: var(--color-text-muted);
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 /* Download section */
@@ -271,18 +271,18 @@
 .settingsRow:last-child { border-bottom: none; }
 
 .rowLabel {
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--color-text-primary);
 }
 
 .rowValue {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-muted);
 }
 
 /* === Picker Bottom Sheet === */
 .pickerHint {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-muted);
   margin-bottom: 16px;
   line-height: 1.5;
@@ -303,7 +303,7 @@
 .pickerSelected { border-color: var(--color-brand-lime); background: var(--color-brand-lime-muted); }
 
 .pickerRadio {
-  font-size: 18px;
+  font-size: 1.125rem;
   color: var(--color-text-muted);
   flex-shrink: 0;
   margin-top: 2px;
@@ -314,13 +314,13 @@
 .pickerText { display: flex; flex-direction: column; gap: 4px; }
 
 .pickerLabel {
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
 
 .pickerDesc {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-secondary);
   line-height: 1.5;
 }
@@ -332,7 +332,7 @@
   background: var(--color-bg);
   border: 1.5px solid var(--color-border);
   border-radius: 14px;
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-dark-text);
   text-align: center;
@@ -340,13 +340,13 @@
 }
 
 .reminderPreview {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-secondary);
   text-align: center;
 }
 
 .versionLabel {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
   text-align: center;
   padding: 12px 0 0;

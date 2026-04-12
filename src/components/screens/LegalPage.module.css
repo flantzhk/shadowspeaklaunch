@@ -9,7 +9,7 @@
 }
 
 .backBtn {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
   padding: 0 22px;
@@ -21,14 +21,14 @@
 }
 
 .title {
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-brand-dark-text);
   padding: 16px 22px 4px;
 }
 
 .updated {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
   padding: 0 22px 24px;
 }
@@ -40,14 +40,14 @@
 }
 
 .sectionTitle {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-dark-text);
   padding: 28px 22px 10px;
 }
 
 .body {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-secondary);
   line-height: 1.7;
   padding: 0 22px 16px;
@@ -58,14 +58,14 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-secondary);
   line-height: 1.6;
 }
 
 .footer {
   padding: 32px 22px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
   line-height: 1.6;
 }

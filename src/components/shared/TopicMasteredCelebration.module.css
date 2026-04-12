@@ -59,21 +59,21 @@
 
 /* === Text === */
 .title {
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   margin-bottom: 6px;
 }
 
 .topicName {
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-green);
   margin-bottom: 14px;
 }
 
 .body {
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--color-text-secondary);
   line-height: 1.6;
   max-width: 280px;
@@ -90,12 +90,12 @@
 }
 
 .calloutText {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-secondary);
 }
 
 .challengeLabel {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
   margin-bottom: 14px;
@@ -115,7 +115,7 @@
   border-radius: 14px;
   background: var(--color-brand-dark);
   color: white;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-semibold);
 }
 
@@ -125,7 +125,7 @@
   border-radius: 14px;
   background: var(--color-brand-lime);
   color: var(--color-brand-dark-text);
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-semibold);
 }
 
@@ -135,7 +135,7 @@
   border-radius: 14px;
   background: transparent;
   color: var(--color-text-secondary);
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-medium);
   border: 0.5px solid var(--color-border);
 }

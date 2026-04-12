@@ -16,9 +16,9 @@ function PhraseCard() {
       borderRadius: 16,
       padding: '20px 18px',
     }}>
-      <div style={{ fontSize: 22, fontWeight: 700, color: '#1A2A18' }}>{PHRASE_DISPLAY}</div>
-      <div style={{ fontSize: 16, color: '#666', marginTop: 6 }}>{PHRASE_CHINESE}</div>
-      <div style={{ fontSize: 13, color: '#999', marginTop: 4 }}>{PHRASE_ENGLISH}</div>
+      <div style={{ fontSize: "1.375rem", fontWeight: 700, color: '#1A2A18' }}>{PHRASE_DISPLAY}</div>
+      <div style={{ fontSize: "1rem", color: '#666', marginTop: 6 }}>{PHRASE_CHINESE}</div>
+      <div style={{ fontSize: "0.8125rem", color: '#999', marginTop: 4 }}>{PHRASE_ENGLISH}</div>
     </div>
   );
 }
@@ -99,9 +99,9 @@ function ScoreCircle({ score, visible }) {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-        <span style={{ fontSize: 42, fontWeight: 800, color: textColor }}>{score}</span>
+        <span style={{ fontSize: "2.625rem", fontWeight: 800, color: textColor }}>{score}</span>
       </div>
-      <div style={{ fontSize: 14, fontWeight: 600, color: bg, marginTop: 8 }}>
+      <div style={{ fontSize: "0.875rem", fontWeight: 600, color: bg, marginTop: 8 }}>
         {getLabel(score)}
       </div>
     </div>
@@ -222,20 +222,20 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
         padding: '48px 24px 48px',
         fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
       }}>
-        <h2 style={{ fontSize: 20, fontWeight: 700, color: '#1A2A18', margin: 0 }}>
+        <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: '#1A2A18', margin: 0 }}>
           Now try it yourself.
         </h2>
         <div style={{ marginTop: 20 }}><PhraseCard /></div>
 
         <div style={{ marginTop: 24, textAlign: 'center' }}>
-          <p style={{ fontSize: 13, color: '#888', marginBottom: 12 }}>
+          <p style={{ fontSize: "0.8125rem", color: '#888', marginBottom: 12 }}>
             This is what your score looks like
           </p>
           <ScoreCircle score={FALLBACK_SCORE} visible />
         </div>
 
         <p style={{
-          fontSize: 15,
+          fontSize: "0.9375rem",
           fontWeight: 600,
           color: '#1A2A18',
           textAlign: 'center',
@@ -259,7 +259,7 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
             border: 'none',
             background: '#C5E85A',
             color: '#1A2A18',
-            fontSize: 16,
+            fontSize: "1rem",
             fontWeight: 700,
             cursor: 'pointer',
             fontFamily: 'inherit',
@@ -278,7 +278,7 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
       padding: '48px 24px 48px',
       fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     }}>
-      <h2 style={{ fontSize: 20, fontWeight: 700, color: '#1A2A18', margin: 0 }}>
+      <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: '#1A2A18', margin: 0 }}>
         Now try it yourself.
       </h2>
 
@@ -287,7 +287,7 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
       {/* Listen state */}
       {state === 'listen' && (
         <div style={{ textAlign: 'center', marginTop: 24 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: '#8BB82B' }}>
+          <div style={{ fontSize: "0.8125rem", fontWeight: 600, color: '#8BB82B' }}>
             Step 1 — Listen
           </div>
           <div style={{ marginTop: 16, display: 'flex', justifyContent: 'center' }}>
@@ -318,7 +318,7 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
       {/* Record state */}
       {state === 'record' && (
         <div style={{ textAlign: 'center', marginTop: 24 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: '#8BB82B' }}>
+          <div style={{ fontSize: "0.8125rem", fontWeight: 600, color: '#8BB82B' }}>
             Step 2 — Say it back
           </div>
           <div style={{ marginTop: 16, display: 'flex', justifyContent: 'center' }}>
@@ -374,7 +374,7 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
             </div>
           </div>
           <p style={{
-            fontSize: 15,
+            fontSize: "0.9375rem",
             fontWeight: 600,
             color: isRecording ? '#E8703A' : '#1A2A18',
             marginTop: 20,
@@ -393,7 +393,7 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
               {scoreVisible && (
                 <>
                   <div style={{
-                    fontSize: 13,
+                    fontSize: "0.8125rem",
                     color: '#666',
                     fontFamily: '"SF Mono", Menlo, monospace',
                     marginTop: 16,
@@ -404,7 +404,7 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
                   </div>
 
                   <p style={{
-                    fontSize: 15,
+                    fontSize: "0.9375rem",
                     fontWeight: 600,
                     color: '#1A2A18',
                     textAlign: 'center',
@@ -425,7 +425,7 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
                       border: 'none',
                       background: '#C5E85A',
                       color: '#1A2A18',
-                      fontSize: 16,
+                      fontSize: "1rem",
                       fontWeight: 700,
                       cursor: 'pointer',
                       fontFamily: 'inherit',
@@ -438,7 +438,7 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
             </>
           )}
           {score === null && (
-            <p style={{ fontSize: 14, color: '#888', marginTop: 20 }}>Scoring your pronunciation...</p>
+            <p style={{ fontSize: "0.875rem", color: '#888', marginTop: 20 }}>Scoring your pronunciation...</p>
           )}
         </div>
       )}

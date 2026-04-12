@@ -34,13 +34,13 @@
 
 .searchInput {
   flex: 1; border: none; background: none; outline: none;
-  font-size: 14px; color: var(--color-text-primary);
+  font-size: 0.875rem; color: var(--color-text-primary);
 }
 
 .searchInput::placeholder { color: var(--color-text-muted); }
 
 .clearBtn {
-  font-size: 18px; color: var(--color-text-muted);
+  font-size: 1.125rem; color: var(--color-text-muted);
   width: 24px; height: 24px;
   display: flex; align-items: center; justify-content: center;
 }
@@ -53,7 +53,7 @@
 
 .hint {
   text-align: center; color: var(--color-text-muted);
-  font-size: 14px; padding: var(--space-3xl) 0;
+  font-size: 0.875rem; padding: var(--space-3xl) 0;
 }
 
 .noResults {
@@ -61,16 +61,16 @@
 }
 
 .noResultsText {
-  font-size: 16px; font-weight: var(--font-weight-semibold);
+  font-size: 1rem; font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary); margin-bottom: 4px;
 }
 
 .noResultsHint {
-  font-size: 13px; color: var(--color-text-muted);
+  font-size: 0.8125rem; color: var(--color-text-muted);
 }
 
 .sectionTitle {
-  font-size: 11px; font-weight: var(--font-weight-semibold);
+  font-size: 0.6875rem; font-weight: var(--font-weight-semibold);
   color: var(--color-text-muted); text-transform: uppercase;
   letter-spacing: 1px; margin: 16px 0 8px;
 }
@@ -110,7 +110,7 @@
 .addBtnSaved { color: var(--color-brand-green); }
 
 .resultTitle {
-  font-size: 14px; font-weight: var(--font-weight-semibold);
+  font-size: 0.875rem; font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
 
@@ -119,15 +119,15 @@
 }
 
 .resultRoman {
-  font-size: 14px; font-weight: var(--font-weight-semibold);
+  font-size: 0.875rem; font-weight: var(--font-weight-semibold);
   color: var(--color-jyutping);
 }
 
-.resultChinese { font-size: 12px; color: var(--color-text-secondary); }
-.resultEnglish { font-size: 11px; color: var(--color-text-muted); }
+.resultChinese { font-size: 0.75rem; color: var(--color-text-secondary); }
+.resultEnglish { font-size: 0.6875rem; color: var(--color-text-muted); }
 
 .resultMeta {
-  font-size: 11px; color: var(--color-text-muted); flex-shrink: 0;
+  font-size: 0.6875rem; color: var(--color-text-muted); flex-shrink: 0;
 }
 
 /* === Word grid === */
@@ -143,17 +143,17 @@
 }
 
 .wordChinese {
-  font-size: 18px; font-weight: var(--font-weight-medium);
+  font-size: 1.125rem; font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);
 }
 
 .wordJyutping {
-  font-size: 10px; font-weight: var(--font-weight-semibold);
+  font-size: 0.625rem; font-weight: var(--font-weight-semibold);
   color: var(--color-jyutping);
 }
 
 .wordEnglish {
-  font-size: 10px; color: var(--color-text-secondary);
+  font-size: 0.625rem; color: var(--color-text-secondary);
 }
 
 .wordCardSaved {
@@ -162,7 +162,7 @@
 }
 
 .wordAddBtn {
-  font-size: 13px; font-weight: var(--font-weight-bold);
+  font-size: 0.8125rem; font-weight: var(--font-weight-bold);
   color: var(--color-text-muted); margin-top: 4px;
   width: 22px; height: 22px;
   display: flex; align-items: center; justify-content: center;

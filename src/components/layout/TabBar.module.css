@@ -30,7 +30,7 @@
 }
 
 .label {
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
   letter-spacing: 0.4px;
