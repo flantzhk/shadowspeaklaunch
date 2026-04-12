@@ -55,7 +55,8 @@
 
 /* === Hero === */
 .hero {
-  height: 220px;
+  /* min-height lets the hero expand at large font sizes; overflow hidden clips the image only */
+  min-height: 220px;
   margin: 0 var(--content-padding);
   border-radius: 18px;
   padding: var(--space-base) var(--space-lg);

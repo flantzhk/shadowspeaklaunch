@@ -39,7 +39,7 @@
 }
 
 .heroImage {
-  height: 200px;
+  min-height: 200px;
   background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.65) 100%),
     var(--color-brand-dark);
   background-size: cover;

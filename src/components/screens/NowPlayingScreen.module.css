@@ -62,20 +62,20 @@
 }
 
 .romanization {
-  font-size: 1.75rem;
+  font-size: clamp(24px, 1.75rem, 48px);
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-dark-text);
   margin-top: 32px;
 }
 
 .chinese {
-  font-size: 1.25rem;
+  font-size: clamp(16px, 1.25rem, 30px);
   color: var(--color-text-secondary);
   margin-top: 8px;
 }
 
 .english {
-  font-size: 1rem;
+  font-size: clamp(14px, 1rem, 24px);
   color: var(--color-text-muted);
   margin-top: 6px;
 }

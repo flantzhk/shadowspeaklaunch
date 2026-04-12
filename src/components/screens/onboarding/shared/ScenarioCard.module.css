@@ -26,5 +26,8 @@
   z-index: 1;
   background: white;
   border-radius: 24px 24px 0 0;
-  padding: 32px 24px 48px;
+  padding: 32px 24px max(48px, env(safe-area-inset-bottom));
+  /* Scrollable at large Dynamic Type sizes so CTA is always reachable */
+  max-height: 80dvh;
+  overflow-y: auto;
 }

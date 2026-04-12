@@ -76,7 +76,8 @@
 }
 
 .romanization {
-  font-size: 2rem;
+  /* Scales with Dynamic Type but px cap keeps controls on-screen at huge sizes */
+  font-size: clamp(28px, 2rem, 54px);
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-dark-text);
   letter-spacing: -0.5px;
@@ -84,13 +85,13 @@
 }
 
 .chinese {
-  font-size: 1.25rem;
+  font-size: clamp(16px, 1.25rem, 32px);
   color: var(--color-text-secondary);
   margin-top: 6px;
 }
 
 .english {
-  font-size: 0.9375rem;
+  font-size: clamp(13px, 0.9375rem, 22px);
   color: var(--color-text-muted);
   margin-top: 4px;
 }

@@ -4,9 +4,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: var(--top-bar-height);
-  padding: 14px var(--content-padding) 0;
-  padding-top: calc(var(--safe-area-top) + 14px);
+  /* height: auto lets the bar grow; min-height ensures minimum tap area */
+  height: auto;
+  min-height: var(--top-bar-height);
+  padding: 10px var(--content-padding);
+  padding-top: calc(var(--safe-area-top) + 10px);
   background: var(--color-bg);
   flex-shrink: 0;
 }
@@ -18,7 +20,8 @@
 }
 
 .logoText {
-  font-size: 1.0625rem;
+  /* clamp: grows slightly with Dynamic Type but never dwarfs the chrome */
+  font-size: clamp(15px, 1.0625rem, 21px);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--letter-spacing-tight);
   line-height: 1;
@@ -33,7 +36,7 @@
 }
 
 .langPill {
-  font-size: 0.625rem;
+  font-size: clamp(8px, 0.625rem, 10px);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-secondary);
   letter-spacing: 0.04em;

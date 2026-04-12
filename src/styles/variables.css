@@ -111,8 +111,10 @@
   --safe-area-top:    env(safe-area-inset-top, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --player-height:    140px;
-  --tab-bar-height:   56px;
-  --top-bar-height:   52px;
+  /* These heights are used for scroll padding calculations.
+     Set generous so content is never hidden at large Dynamic Type sizes. */
+  --tab-bar-height:   72px;
+  --top-bar-height:   64px;
   --content-padding:  22px;
 }
 
