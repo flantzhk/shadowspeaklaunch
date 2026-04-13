@@ -100,6 +100,15 @@ function AudioProvider({ children }) {
     engineRef.current?.setAutoAdvance(value);
   }, []);
 
+  const stop = useCallback(() => {
+    engineRef.current?.stop();
+    setQueueLength(0);
+    setCurrentPhrase(null);
+    setPlaybackState('idle');
+    setCurrentTime(0);
+    setDuration(0);
+  }, []);
+
   const value = {
     currentPhrase,
     currentIndex,
@@ -115,6 +124,7 @@ function AudioProvider({ children }) {
     loadQueue,
     play,
     pause,
+    stop,
     next,
     previous,
     setSpeed,
