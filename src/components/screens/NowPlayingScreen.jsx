@@ -36,9 +36,14 @@ export default function NowPlayingScreen({ onClose, onSaveToLibrary, onMarkKnown
 
   return (
     <div className={styles.overlay}>
-      {/* Drag handle */}
+      {/* Header: drag handle + close button */}
       <div className={styles.handleBar}>
         <div className={styles.handle} />
+        <button className={styles.closeBtn} onClick={onClose} aria-label="Close player">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
       </div>
 
       {/* Artwork */}

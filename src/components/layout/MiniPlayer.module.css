@@ -163,6 +163,31 @@
   transform: scale(0.95);
 }
 
+.stopBtn {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stopBtn:active { opacity: 0.7; }
+
+.stopBtnDesktop {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stopBtnDesktop:active { opacity: 0.7; }
+
 /* === Progress row === */
 .progressRow {
   display: flex;

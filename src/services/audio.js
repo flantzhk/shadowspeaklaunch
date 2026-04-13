@@ -81,8 +81,9 @@ class AudioEngine {
       try {
         const resp = await fetch(staticUrl);
         if (resp.ok) {
-          const blob = await resp.blob();
+          let blob = await resp.blob();
           if (blob.size > 500) {
+            blob = await padAudioBlob(blob);
             this._currentBlobUrl = URL.createObjectURL(blob);
             this._audio.src = this._currentBlobUrl;
             this._audio.playbackRate = speedNum < 1 ? speedNum : 1.0;
@@ -99,11 +100,12 @@ class AudioEngine {
       // Fallback: try browser cache
       const cached = await getCachedAudio(phrase.id, this._language, speedNum);
       if (cached) {
-        this._currentBlobUrl = URL.createObjectURL(cached);
+        const paddedCached = await padAudioBlob(cached);
+        this._currentBlobUrl = URL.createObjectURL(paddedCached);
         this._audio.src = this._currentBlobUrl;
       } else if (isAuthenticated()) {
         // Fallback: TTS API
-        const blob = await textToSpeech(phrase.chinese, {
+        let blob = await textToSpeech(phrase.chinese, {
           language: this._language,
           speed: speedNum,
           outputExtension: 'mp3',
@@ -114,9 +116,10 @@ class AudioEngine {
           this._onPhraseChange?.(phrase, this._currentIndex);
           return;
         }
+        cacheAudioBlob(phrase.id, this._language, speedNum, blob).catch(() => {});
+        blob = await padAudioBlob(blob);
         this._currentBlobUrl = URL.createObjectURL(blob);
         this._audio.src = this._currentBlobUrl;
-        cacheAudioBlob(phrase.id, this._language, speedNum, blob).catch(() => {});
       } else {
         logger.error('No audio source available for', phrase.id);
         this._onStateChange?.('error');
@@ -377,6 +380,22 @@ class AudioEngine {
     }
   }
 
+  /** Stop playback and clear the queue (dismisses MiniPlayer). */
+  stop() {
+    this._clearAdvanceTimer();
+    this._audio.pause();
+    this._audio.removeAttribute('src');
+    this._revokeBlobUrl();
+    this._queue = [];
+    this._currentIndex = 0;
+    this._onPhraseChange?.(null, 0);
+    this._onStateChange?.('idle');
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.playbackState = 'none';
+      navigator.mediaSession.metadata = null;
+    }
+  }
+
   destroy() {
     this._destroyed = true;
     this._clearAdvanceTimer();
@@ -458,6 +477,73 @@ async function cacheAudioForPhrase(phrase, language) {
  */
 function buildCacheKey(phraseId, language, speed) {
   return `audio/${language}/${phraseId}/${speed}`;
+}
+
+/**
+ * Pad a short audio blob with silence before and after.
+ * Only applies to audio shorter than 2 seconds.
+ * @param {Blob} blob
+ * @param {number} [leadMs=400]
+ * @param {number} [trailMs=400]
+ * @returns {Promise<Blob>}
+ */
+async function padAudioBlob(blob, leadMs = 400, trailMs = 400) {
+  try {
+    const arrayBuffer = await blob.arrayBuffer();
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let decoded;
+    try {
+      decoded = await audioCtx.decodeAudioData(arrayBuffer);
+    } finally {
+      audioCtx.close().catch(() => {});
+    }
+
+    // Only pad short clips
+    if (decoded.duration >= 2.0) return blob;
+
+    const { sampleRate, numberOfChannels: channels, length } = decoded;
+    const leadFrames = Math.floor(sampleRate * leadMs / 1000);
+    const trailFrames = Math.floor(sampleRate * trailMs / 1000);
+    const totalFrames = leadFrames + length + trailFrames;
+
+    const padded = new AudioBuffer({ numberOfChannels: channels, length: totalFrames, sampleRate });
+    for (let c = 0; c < channels; c++) {
+      padded.getChannelData(c).set(decoded.getChannelData(c), leadFrames);
+    }
+
+    return _audioBufferToWav(padded);
+  } catch {
+    return blob; // silently fall back to original
+  }
+}
+
+/** Encode an AudioBuffer as a WAV Blob. */
+function _audioBufferToWav(buffer) {
+  const channels = buffer.numberOfChannels;
+  const sampleRate = buffer.sampleRate;
+  const frames = buffer.length;
+  const dataSize = frames * channels * 2;
+  const ab = new ArrayBuffer(44 + dataSize);
+  const v = new DataView(ab);
+  const ws = (off, s) => { for (let i = 0; i < s.length; i++) v.setUint8(off + i, s.charCodeAt(i)); };
+
+  ws(0, 'RIFF'); v.setUint32(4, 36 + dataSize, true);
+  ws(8, 'WAVE'); ws(12, 'fmt ');
+  v.setUint32(16, 16, true); v.setUint16(20, 1, true);
+  v.setUint16(22, channels, true); v.setUint32(24, sampleRate, true);
+  v.setUint32(28, sampleRate * channels * 2, true);
+  v.setUint16(32, channels * 2, true); v.setUint16(34, 16, true);
+  ws(36, 'data'); v.setUint32(40, dataSize, true);
+
+  let offset = 44;
+  for (let i = 0; i < frames; i++) {
+    for (let c = 0; c < channels; c++) {
+      const s = Math.max(-1, Math.min(1, buffer.getChannelData(c)[i]));
+      v.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+      offset += 2;
+    }
+  }
+  return new Blob([ab], { type: 'audio/wav' });
 }
 
 export { AudioEngine, getCachedAudio, cacheAudioForPhrase, cacheAudioBlob };

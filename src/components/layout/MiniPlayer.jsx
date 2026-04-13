@@ -17,6 +17,7 @@ function MiniPlayer({ onExpand, desktop = false }) {
     isPlaying,
     play,
     pause,
+    stop,
     currentTime,
     duration,
     speed,
@@ -92,6 +93,9 @@ function MiniPlayer({ onExpand, desktop = false }) {
           >
             {isPlaying ? <PauseIcon /> : <PlayIcon />}
           </button>
+          <button className={styles.stopBtnDesktop} onClick={stop} aria-label="Stop and dismiss">
+            <StopIcon />
+          </button>
         </div>
       </div>
     );
@@ -122,6 +126,10 @@ function MiniPlayer({ onExpand, desktop = false }) {
           aria-label={isPlaying ? 'Pause' : 'Play'}
         >
           {isPlaying ? <PauseIcon /> : <PlayIcon />}
+        </button>
+
+        <button className={styles.stopBtn} onClick={stop} aria-label="Stop and dismiss">
+          <StopIcon />
         </button>
       </div>
 
@@ -179,6 +187,14 @@ function PauseIcon() {
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
       <rect x="5" y="4" width="5" height="16" rx="1" />
       <rect x="14" y="4" width="5" height="16" rx="1" />
+    </svg>
+  );
+}
+
+function StopIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+      <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
     </svg>
   );
 }
