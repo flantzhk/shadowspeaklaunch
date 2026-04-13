@@ -57,10 +57,6 @@ async function signIn(email, password) {
  * Sign in with Google popup.
  * @returns {Promise<{user: Object|null, error: string|null}>}
  */
-/**
- * Sign in with Google popup.
- * @returns {Promise<{user: Object|null, error: string|null}>}
- */
 async function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
   try {
@@ -85,6 +81,46 @@ async function signInWithGoogle() {
     logger.error('Google sign-in failed', error);
     if (error.code === 'auth/popup-closed-by-user') {
       return { user: null, error: null };
+    }
+    return { user: null, error: firebaseErrorMessage(error) };
+  }
+}
+
+/**
+ * Sign in with Apple popup via Firebase OAuthProvider.
+ * Requires Apple Sign In configured in the Firebase console:
+ *   Authentication > Sign-in method > Apple > Enable
+ *   (Needs Apple Developer account + Service ID + OAuth redirect domain)
+ * @returns {Promise<{user: Object|null, error: string|null}>}
+ */
+async function signInWithApple() {
+  const provider = new firebase.auth.OAuthProvider('apple.com');
+  provider.addScope('email');
+  provider.addScope('name');
+  try {
+    const cred = await fbAuth.signInWithPopup(provider);
+    if (cred.additionalUserInfo?.isNewUser) {
+      try {
+        await fbDb.collection('users').doc(cred.user.uid).set({
+          uid: cred.user.uid,
+          email: cred.user.email || '',
+          name: cred.user.displayName || '',
+          signUpDate: new Date().toISOString(),
+          platform: 'web',
+          onboardingCompleted: false,
+        }, { merge: true });
+      } catch (dbErr) {
+        logger.error('Failed to write Apple user doc', dbErr);
+      }
+    }
+    return { user: cred.user, error: null };
+  } catch (error) {
+    logger.error('Apple sign-in failed', error);
+    if (error.code === 'auth/popup-closed-by-user') {
+      return { user: null, error: null };
+    }
+    if (error.code === 'auth/operation-not-allowed') {
+      return { user: null, error: 'Apple Sign In is not enabled yet. Please use email or Google.' };
     }
     return { user: null, error: firebaseErrorMessage(error) };
   }
@@ -202,6 +238,7 @@ export {
   signUp,
   signIn,
   signInWithGoogle,
+  signInWithApple,
   signOut,
   isAuthenticated,
   getAuthToken,

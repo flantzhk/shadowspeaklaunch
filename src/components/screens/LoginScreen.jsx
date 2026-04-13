@@ -1,7 +1,7 @@
 // src/components/screens/LoginScreen.jsx — Sign in screen
 
 import { useState, useCallback } from 'react';
-import { signIn, signInWithGoogle } from '../../services/auth';
+import { signIn, signInWithGoogle, signInWithApple } from '../../services/auth';
 import { ROUTES } from '../../utils/constants';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import styles from './LoginScreen.module.css';
@@ -100,7 +100,14 @@ export default function LoginScreen() {
           <div className={`${styles.socialIcon} ${styles.socialG}`}>G</div>
           Google
         </button>
-        <button className={styles.socialBtn} type="button" disabled>
+        <button className={styles.socialBtn} type="button" onClick={async () => {
+          setError('');
+          setLoading(true);
+          const { error: authError } = await signInWithApple();
+          setLoading(false);
+          if (authError) { setError(authError); return; }
+          window.location.hash = `#${ROUTES.HOME}`;
+        }}>
           <div className={`${styles.socialIcon} ${styles.socialA}`}>&#xF8FF;</div>
           Apple
         </button>
