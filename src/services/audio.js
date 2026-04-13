@@ -1,6 +1,6 @@
 // src/services/audio.js — Audio playback engine, recording, caching
 
-import { textToSpeech } from './api';
+import { textToSpeech, englishTTS } from './api';
 import { isAuthenticated } from './auth';
 import { AUDIO_CACHE_NAME, AUTO_ADVANCE_DELAY_MS } from '../utils/constants';
 import { logger } from '../utils/logger';
@@ -25,8 +25,10 @@ class AudioEngine {
     this._autoAdvance = true;
     this._advanceTimer = null;
     this._currentBlobUrl = null;
-    this._shadowMode = false;      // When true: English → pause → Chinese → long gap
-    this._englishUtterance = null; // Track current SpeechSynthesis utterance
+    this._shadowMode = false;        // When true: English → pause → Chinese → long gap
+    this._englishUtterance = null;   // Track current SpeechSynthesis utterance
+    this._englishAudio = new Audio(); // Separate element for English TTS (primed once)
+    this._englishBlobUrl = null;      // Blob URL for current English clip
 
     /** @type {((phrase: Object, index: number) => void)|null} */
     this._onPhraseChange = null;
@@ -195,15 +197,17 @@ class AudioEngine {
       }
       if (this._shadowMode) {
         // iOS Safari blocks audio.play() after any async operation (await breaks
-        // the user-gesture chain). Prime the element synchronously right now —
-        // play() + immediate pause — while we are still in the user-gesture frame.
-        // This marks the element as "user-activated" for the rest of the session,
-        // allowing all subsequent async play() calls (including timer callbacks)
-        // to work without a gesture.
+        // the user-gesture chain). Prime both audio elements synchronously right
+        // now — play() + immediate pause — while we are still in the user-gesture
+        // frame. This marks them as "user-activated" for the rest of the session.
         const primePlay = this._audio.play();
         this._audio.pause();
         this._audio.currentTime = 0;
         primePlay.catch(() => {}); // suppress "interrupted by call to pause()" AbortError
+        // Prime the English audio element too
+        const primeEnglish = this._englishAudio.play();
+        this._englishAudio.pause();
+        primeEnglish.catch(() => {});
         await this._playShadowSequence();
       } else {
         await this._audio.play();
@@ -236,8 +240,45 @@ class AudioEngine {
     }
   }
 
-  /** Speak text via Web Speech API. Resolves when done (or on error). */
-  _speakEnglish(text) {
+  /**
+   * Speak English text — tries ElevenLabs first, falls back to Web Speech API.
+   * @param {string} text
+   */
+  async _speakEnglish(text) {
+    if (!text) return;
+    try {
+      const blob = await englishTTS(text);
+      if (blob && blob.size > 0) {
+        await this._playEnglishBlob(blob);
+        return;
+      }
+    } catch (e) {
+      logger.warn('ElevenLabs English TTS failed, falling back to Web Speech', e);
+    }
+    // Fallback: browser Web Speech API
+    await this._speakEnglishWebSpeech(text);
+  }
+
+  /**
+   * Play an English audio blob through the dedicated English audio element.
+   * @param {Blob} blob
+   */
+  _playEnglishBlob(blob) {
+    return new Promise((resolve) => {
+      if (this._englishBlobUrl) {
+        URL.revokeObjectURL(this._englishBlobUrl);
+        this._englishBlobUrl = null;
+      }
+      this._englishBlobUrl = URL.createObjectURL(blob);
+      this._englishAudio.src = this._englishBlobUrl;
+      this._englishAudio.onended = () => resolve();
+      this._englishAudio.onerror = () => resolve();
+      this._englishAudio.play().catch(() => resolve());
+    });
+  }
+
+  /** Speak text via Web Speech API (fallback). Resolves when done (or on error). */
+  _speakEnglishWebSpeech(text) {
     return new Promise((resolve) => {
       if (!('speechSynthesis' in window) || !text) { resolve(); return; }
       window.speechSynthesis.cancel();
@@ -260,8 +301,9 @@ class AudioEngine {
     this._audio.pause();
     this._clearAdvanceTimer();
     // Cancel any in-progress English TTS
-    if (this._shadowMode && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+    if (this._shadowMode) {
+      this._englishAudio.pause();
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     }
   }
 
@@ -386,6 +428,12 @@ class AudioEngine {
     this._audio.pause();
     this._audio.removeAttribute('src');
     this._revokeBlobUrl();
+    this._englishAudio.pause();
+    if (this._englishBlobUrl) {
+      URL.revokeObjectURL(this._englishBlobUrl);
+      this._englishBlobUrl = null;
+    }
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     this._queue = [];
     this._currentIndex = 0;
     this._onPhraseChange?.(null, 0);
@@ -402,6 +450,12 @@ class AudioEngine {
     this._audio.pause();
     this._audio.removeAttribute('src');
     this._revokeBlobUrl();
+    this._englishAudio.pause();
+    if (this._englishBlobUrl) {
+      URL.revokeObjectURL(this._englishBlobUrl);
+      this._englishBlobUrl = null;
+    }
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     this._queue = [];
   }
 }

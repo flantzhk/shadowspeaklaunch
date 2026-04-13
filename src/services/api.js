@@ -179,9 +179,27 @@ async function textToJyutping(text, outputType = 'list') {
   return response.json();
 }
 
+/**
+ * Generate English speech via ElevenLabs (proxied through Cloudflare Worker).
+ * @param {string} text - English text to speak
+ * @returns {Promise<Blob>} MP3 audio blob
+ */
+async function englishTTS(text) {
+  const response = await fetchWithAuth(
+    `${API_BASE_URL}${API_ENDPOINTS.TTS_ENGLISH}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+    }
+  );
+  return response.blob();
+}
+
 export {
   scorePronunciation,
   textToSpeech,
+  englishTTS,
   speechToText,
   textToJyutping,
   fetchWithAuth,

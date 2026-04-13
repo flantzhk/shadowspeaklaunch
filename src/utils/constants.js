@@ -1,6 +1,6 @@
 // src/utils/constants.js — App-wide constants
 
-export const APP_VERSION = '1.15.28';
+export const APP_VERSION = '1.15.29';
 export const MAX_LIBRARY_SIZE = 50;
 export const SECONDS_PER_PHRASE = 40;
 export const PRONUNCIATION_PASS_THRESHOLD = { cantonese: 90, mandarin: 70, english: 70 };
@@ -15,6 +15,7 @@ export const API_BASE_URL = 'https://shadowspeak-api.faith-lantz-ee8.workers.dev
 export const API_ENDPOINTS = {
   SCORE_PRONUNCIATION: '/score-pronunciation',
   TTS: '/tts',
+  TTS_ENGLISH: '/tts-english',
   STT: '/stt',
   TEXT_TO_JYUTPING: '/text-to-jyutping',
   AI_CHAT: '/ai-chat',
