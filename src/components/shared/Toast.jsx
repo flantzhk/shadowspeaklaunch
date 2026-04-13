@@ -23,6 +23,7 @@ function Toast({ message, type = 'info', onDismiss }) {
       className={`${styles.toast} ${styles[type]} ${isVisible ? styles.visible : styles.hidden}`}
       role="alert"
       aria-live="polite"
+      aria-atomic="true"
     >
       <span className={styles.message}>{message}</span>
     </div>

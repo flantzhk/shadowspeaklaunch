@@ -283,9 +283,15 @@ class AudioEngine {
       }
       this._englishBlobUrl = URL.createObjectURL(blob);
       this._englishAudio.src = this._englishBlobUrl;
-      this._englishAudio.onended = () => resolve();
-      this._englishAudio.onerror = () => resolve();
-      this._englishAudio.play().catch(() => resolve());
+      const cleanup = () => {
+        if (this._englishBlobUrl) {
+          URL.revokeObjectURL(this._englishBlobUrl);
+          this._englishBlobUrl = null;
+        }
+      };
+      this._englishAudio.onended = () => { cleanup(); resolve(); };
+      this._englishAudio.onerror = () => { cleanup(); resolve(); };
+      this._englishAudio.play().catch(() => { cleanup(); resolve(); });
     });
   }
 

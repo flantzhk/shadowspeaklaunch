@@ -81,7 +81,7 @@ export default function ShadowSession({ onBack, onComplete }) {
         return () => clearTimeout(t);
       }
     }
-  }, [audio.playbackState]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [audio.playbackState, audio.queueLength, phase, results.length, finishSession]);
 
   const handleStartRecording = useCallback(async () => {
     audio.pause(); await startRecording(); setPhase('record');
@@ -138,20 +138,25 @@ export default function ShadowSession({ onBack, onComplete }) {
   const finishSession = useCallback(async () => {
     audio.setAutoAdvance(true); // restore for MiniPlayer use after session
     audio.pause();
-    const dur = Math.round((Date.now() - sessionStart) / 1000);
-    const streak = await updateStreak();
-    const scores = results.filter(r => r.score !== null).map(r => r.score);
-    const avg = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : null;
-    await updateSettings({ streakCount: streak, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
-    const rec = {
-      id: crypto.randomUUID(), date: getTodayString(),
-      startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
-      mode: 'shadow', phrasesAttempted: results.length,
-      phrasesMastered: results.filter(r => r.mastered).length, averageScore: avg,
-      phraseResults: results.map(r => ({ phraseId: r.phraseId, romanization: r.romanization, english: r.english, score: r.score, replays: 0, markedKnown: false })),
-    };
-    await saveSession(rec);
-    onComplete?.({ ...rec, streakCount: streak });
+    try {
+      const dur = Math.round((Date.now() - sessionStart) / 1000);
+      const streak = await updateStreak();
+      const scores = results.filter(r => r.score !== null).map(r => r.score);
+      const avg = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : null;
+      await updateSettings({ streakCount: streak, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
+      const rec = {
+        id: crypto.randomUUID(), date: getTodayString(),
+        startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
+        mode: 'shadow', phrasesAttempted: results.length,
+        phrasesMastered: results.filter(r => r.mastered).length, averageScore: avg,
+        phraseResults: results.map(r => ({ phraseId: r.phraseId, romanization: r.romanization, english: r.english, score: r.score, replays: 0, markedKnown: false })),
+      };
+      await saveSession(rec);
+      onComplete?.({ ...rec, streakCount: streak });
+    } catch (err) {
+      // Storage failure — still navigate away so user isn't stuck
+      onComplete?.({ mode: 'shadow', phrasesAttempted: results.length, averageScore: null, streakCount: 0 });
+    }
   }, [sessionStart, results, audio, updateSettings, settings, onComplete]);
 
   const handleNext = useCallback(async () => {

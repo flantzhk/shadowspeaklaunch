@@ -13,7 +13,10 @@ import {
  * @returns {Object} Updated SRS fields to merge into entry
  */
 function calculateNextReview(entry, quality, pronunciationScore = null) {
-  let { interval, easeFactor, practiceCount } = entry;
+  let { interval = 0, easeFactor = 2.5, practiceCount = 0 } = entry;
+
+  // Validate quality parameter
+  if (!['correct', 'hard', 'forgot'].includes(quality)) quality = 'hard';
 
   if (pronunciationScore !== null) {
     if (pronunciationScore >= 90) quality = 'correct';

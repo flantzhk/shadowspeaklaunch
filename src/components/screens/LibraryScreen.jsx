@@ -18,8 +18,13 @@ export default function LibraryScreen({ onNavigate, showToast }) {
   const [mode, setMode] = useState('phrases');
 
   const loadEntries = useCallback(async () => {
-    const all = await getAllLibraryEntries();
-    setEntries(all);
+    try {
+      const all = await getAllLibraryEntries();
+      setEntries(all);
+    } catch (err) {
+      console.error('Failed to load library entries:', err);
+      setEntries([]);
+    }
   }, []);
 
   useEffect(() => {

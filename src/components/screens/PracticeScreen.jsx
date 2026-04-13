@@ -43,8 +43,8 @@ export default function PracticeScreen({ onNavigate, onStartScene }) {
   const [scenes, setScenes] = useState([]);
 
   useEffect(() => {
-    getDueEntries().then(due => setDueCount(due.length));
-    loadAllDialogues().then(setScenes);
+    getDueEntries().then(due => setDueCount(due.length)).catch(() => setDueCount(0));
+    loadAllDialogues().then(setScenes).catch(() => setScenes([]));
   }, []);
 
   return (

@@ -58,17 +58,28 @@ export default function PromptDrill({ onBack, onComplete }) {
   // Level 3: play audio cue when entering prompt phase
   useEffect(() => {
     if (phase === 'prompt' && level === 3 && phrase && isAuthenticated()) {
+      let blobUrl = null;
+      let isMounted = true;
       (async () => {
         try {
           const blob = await textToSpeech(phrase.chinese, {
             language: settings.currentLanguage, speed: 0.85, outputExtension: 'mp3',
           });
-          const url = URL.createObjectURL(blob);
-          audioRef.current.src = url;
+          if (!isMounted) return;
+          blobUrl = URL.createObjectURL(blob);
+          audioRef.current.src = blobUrl;
           await audioRef.current.play();
-          audioRef.current.onended = () => URL.revokeObjectURL(url);
-        } catch (err) { /* non-fatal */ }
+          audioRef.current.onended = () => {
+            if (blobUrl) { URL.revokeObjectURL(blobUrl); blobUrl = null; }
+          };
+        } catch (err) {
+          if (blobUrl) { URL.revokeObjectURL(blobUrl); blobUrl = null; }
+        }
       })();
+      return () => {
+        isMounted = false;
+        if (blobUrl) { URL.revokeObjectURL(blobUrl); blobUrl = null; }
+      };
     }
   }, [phase, level, phrase, settings.currentLanguage]);
 

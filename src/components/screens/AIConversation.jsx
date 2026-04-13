@@ -48,24 +48,29 @@ export default function AIConversation({ onBack, showToast }) {
     );
   }
 
-  const handleSelectScenario = useCallback(async (s) => {
-    setScenario(s); setPhase('chat'); setMessages([]);
-    setIsThinking(true); // Shows thinking bubble immediately
-    try {
-      const reply = await sendMessage([], s);
-      const blob = await generateResponseAudio(reply.chinese);
-      setMessages([{ role: 'assistant', ...reply }]);
-      if (blob) playAudio(blob);
-    } catch (err) { showToast?.('Failed to start', 'error'); }
-    setIsThinking(false);
-  }, [showToast]);
-
   const playAudio = useCallback((blob) => {
     const url = URL.createObjectURL(blob);
     audioRef.current.src = url;
     audioRef.current.play().catch(() => {});
     audioRef.current.onended = () => URL.revokeObjectURL(url);
+    audioRef.current.onerror = () => URL.revokeObjectURL(url);
   }, []);
+
+  const handleSelectScenario = useCallback(async (s) => {
+    setScenario(s); setPhase('chat'); setMessages([]);
+    setIsThinking(true); // Shows thinking bubble immediately
+    try {
+      const reply = await sendMessage([], s);
+      // Show message immediately — don't wait for audio fetch to unblock UI
+      setMessages([{ role: 'assistant', ...reply }]);
+      setIsThinking(false);
+      const blob = await generateResponseAudio(reply.chinese);
+      if (blob) playAudio(blob);
+    } catch (err) {
+      setIsThinking(false);
+      showToast?.('Failed to start', 'error');
+    }
+  }, [showToast, playAudio]);
 
   const handleRecord = useCallback(async () => {
     audioRef.current.pause();
