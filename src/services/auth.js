@@ -129,8 +129,8 @@ async function signInWithApple() {
 /**
  * Sign out the current user.
  */
-function signOut() {
-  fbAuth.signOut();
+async function signOut() {
+  await fbAuth.signOut();
   window.location.hash = '#login';
 }
 

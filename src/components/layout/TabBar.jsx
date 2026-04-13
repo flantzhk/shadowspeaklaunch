@@ -38,7 +38,8 @@ function TabBar({ activeTab, onTabChange }) {
  * @param {{ name: string, isActive: boolean }} props
  */
 function TabIcon({ name, isActive }) {
-  const color = isActive ? 'var(--color-brand-lime)' : 'var(--color-text-secondary)';
+  // Active icons use primary ink (not lime) — lime fails contrast on cream background
+  const color = isActive ? 'var(--color-text-primary)' : 'var(--color-text-secondary)';
 
   if (name === 'home') {
     return (

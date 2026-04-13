@@ -109,7 +109,11 @@ async function getDueEntries() {
     // Only return phrases that have been practiced at least once.
     // New (never-practiced) phrases show as "New" in the library and go into
     // regular lessons — they don't count as "due for review" yet.
-    return all.filter(entry => (entry.practiceCount ?? 0) > 0 && entry.nextReviewAt <= now);
+    return all.filter(entry => {
+      const count = entry.practiceCount ?? 0;
+      const reviewAt = typeof entry.nextReviewAt === 'number' ? entry.nextReviewAt : NaN;
+      return count > 0 && reviewAt <= now;
+    });
   }, []);
 }
 

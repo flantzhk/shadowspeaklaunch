@@ -67,6 +67,9 @@ export default function HomeScreen({ onNavigate }) {
         progress[topic.id] = topic.phrases.filter(p => masteredIds.has(p.id)).length;
       }
       setTopicProgress(progress);
+    }).catch(() => {
+      setLibraryCount(0);
+      setTopicProgress({});
     });
     setRecentEntries(loadRecentTopics().slice(0, 4));
   }, [settings.currentLanguage]);
