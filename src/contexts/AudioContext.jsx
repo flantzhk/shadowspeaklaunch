@@ -55,10 +55,7 @@ function AudioProvider({ children }) {
     setPlaybackState('loading');
     try {
       await engineRef.current.loadQueue(phrases, language, options);
-      // Only set ready if not already in error state
-      if (engineRef.current._audio?.src) {
-        setPlaybackState('ready');
-      }
+      setPlaybackState('ready');
     } catch (err) {
       setPlaybackState('error');
     }

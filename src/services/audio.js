@@ -69,6 +69,12 @@ class AudioEngine {
     this._language = language;
     this._currentIndex = 0;
     await this._loadCurrentPhrase();
+    // If the first phrase failed to load (no auth, no cache, no static file),
+    // _audio.src will be empty. Throw so callers (AudioContext, ShadowSession)
+    // hit their catch block and set a visible error state instead of hanging.
+    if (!this._audio.src) {
+      throw new Error('Failed to load audio: no source available for first phrase');
+    }
   }
 
   async _loadCurrentPhrase() {
