@@ -1,7 +1,7 @@
 {
   "name": "shadowspeak",
   "private": true,
-  "version": "1.15.28",
+  "version": "1.15.34",
   "type": "module",
   "scripts": {
     "dev": "vite",

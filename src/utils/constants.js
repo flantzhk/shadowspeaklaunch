@@ -1,6 +1,6 @@
 // src/utils/constants.js — App-wide constants
 
-export const APP_VERSION = '1.15.33';
+export const APP_VERSION = '1.15.34';
 export const MAX_LIBRARY_SIZE = 50;
 export const SECONDS_PER_PHRASE = 40;
 export const PRONUNCIATION_PASS_THRESHOLD = { cantonese: 90, mandarin: 70, english: 70 };
