@@ -32,7 +32,12 @@ export default function AIConversation({ onBack, showToast }) {
   const chatRef = useRef(null);
   const audioRef = useRef(new Audio());
 
-  useEffect(() => { return () => audioRef.current.pause(); }, []);
+  useEffect(() => {
+    return () => {
+      audioRef.current.pause();
+      audioRef.current.src = ''; // release blob URL reference
+    };
+  }, []);
   useEffect(() => {
     chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages]);

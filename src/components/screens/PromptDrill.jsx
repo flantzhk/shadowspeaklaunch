@@ -219,8 +219,9 @@ export default function PromptDrill({ onBack, onComplete }) {
                   });
                   const url = URL.createObjectURL(blob);
                   audioRef.current.src = url;
-                  await audioRef.current.play();
                   audioRef.current.onended = () => URL.revokeObjectURL(url);
+                  audioRef.current.onerror = () => URL.revokeObjectURL(url);
+                  await audioRef.current.play();
                 } catch (err) { /* non-fatal */ }
               })();
             }} style={{
