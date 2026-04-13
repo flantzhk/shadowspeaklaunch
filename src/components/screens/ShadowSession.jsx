@@ -135,23 +135,6 @@ export default function ShadowSession({ onBack, onComplete }) {
     }]);
   }, [audio]);
 
-  const handleNext = useCallback(async () => {
-    setCurrentScore(null);
-    setScoreResult(null);
-    if (audio.currentIndex < audio.queueLength - 1) {
-      setPhase('listen');
-      await audio.next();
-      await audio.play();
-    } else {
-      await finishSession();
-    }
-  }, [audio, finishSession]);
-
-  const handleSkip = useCallback(async () => {
-    addResult(audio.currentPhrase?.id, null);
-    await handleNext();
-  }, [audio, addResult, handleNext]);
-
   const finishSession = useCallback(async () => {
     audio.setAutoAdvance(true); // restore for MiniPlayer use after session
     audio.pause();
@@ -170,6 +153,23 @@ export default function ShadowSession({ onBack, onComplete }) {
     await saveSession(rec);
     onComplete?.({ ...rec, streakCount: streak });
   }, [sessionStart, results, audio, updateSettings, settings, onComplete]);
+
+  const handleNext = useCallback(async () => {
+    setCurrentScore(null);
+    setScoreResult(null);
+    if (audio.currentIndex < audio.queueLength - 1) {
+      setPhase('listen');
+      await audio.next();
+      await audio.play();
+    } else {
+      await finishSession();
+    }
+  }, [audio, finishSession]);
+
+  const handleSkip = useCallback(async () => {
+    addResult(audio.currentPhrase?.id, null);
+    await handleNext();
+  }, [audio, addResult, handleNext]);
 
   if (phase === 'loading') {
     return <LessonLoader mode="shadow-session" onCancel={handleBack} />;

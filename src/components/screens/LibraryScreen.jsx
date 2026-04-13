@@ -25,7 +25,7 @@ export default function LibraryScreen({ onNavigate, showToast }) {
   useEffect(() => {
     async function load() {
       await loadEntries();
-      const modules = import.meta.glob('../../data/topics/cantonese/*.json', { eager: true });
+      const modules = import.meta.glob('../../data/topics/**/*.json', { eager: true });
       const phraseMap = {};
       const topicMap = {};
       for (const mod of Object.values(modules)) {
