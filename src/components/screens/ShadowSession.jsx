@@ -251,12 +251,20 @@ export default function ShadowSession({ onBack, onComplete }) {
             <button className={styles.playPauseBtn} onClick={audio.isPlaying ? audio.pause : audio.play}>
               {audio.isPlaying ? <PauseIcon /> : <PlayIcon />}
             </button>
+            <p className={styles.phaseHint}>
+              {audio.isPlaying ? 'Listen, then tap the mic to record yourself' : 'Tap play to hear the phrase'}
+            </p>
             <RecordButton isRecording={false} onStart={handleStartRecording} onStop={() => {}} error={micError} />
           </>
         )}
 
         {phase === 'record' && (
-          <RecordButton isRecording={isRecording} onStart={handleStartRecording} onStop={handleStopRecording} error={micError} />
+          <>
+            <p className={styles.phaseHint} style={{ color: 'var(--color-brand-dark-text)', fontWeight: 600 }}>
+              Now say the phrase above
+            </p>
+            <RecordButton isRecording={isRecording} onStart={handleStartRecording} onStop={handleStopRecording} error={micError} />
+          </>
         )}
 
         {phase === 'scored' && (

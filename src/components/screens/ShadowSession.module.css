@@ -173,6 +173,15 @@
   opacity: 0.9;
 }
 
+/* Contextual hint text shown during listen/record phases */
+.phaseHint {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  line-height: 1.4;
+  padding: 0 16px;
+}
+
 .skipBtn {
   align-self: center;
   padding: var(--space-md) var(--space-xl);

@@ -12,7 +12,12 @@ import { logger } from '../utils/logger';
 // How long to wait after Chinese phrase for the user to repeat (shadow mode)
 const SHADOW_REPEAT_DELAY_MS = 4500;
 // Gap between English TTS and Chinese audio in shadow mode
-const SHADOW_ENGLISH_GAP_MS = 700;
+const SHADOW_ENGLISH_GAP_MS = 1200;
+
+// Minimal valid silent WAV (44 bytes, 0 samples) for priming audio elements on iOS.
+// iOS Safari requires at least one successful .play() call during a user gesture before
+// async .play() calls are allowed. Setting this as the initial src makes priming work.
+const SILENT_AUDIO_URI = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
 
 class AudioEngine {
   constructor() {
@@ -28,6 +33,7 @@ class AudioEngine {
     this._shadowMode = false;        // When true: English → pause → Chinese → long gap
     this._englishUtterance = null;   // Track current SpeechSynthesis utterance
     this._englishAudio = new Audio(); // Separate element for English TTS (primed once)
+    this._englishAudio.src = SILENT_AUDIO_URI; // Needs valid src so iOS priming succeeds
     this._englishBlobUrl = null;      // Blob URL for current English clip
 
     /** @type {((phrase: Object, index: number) => void)|null} */
