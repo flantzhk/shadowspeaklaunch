@@ -1,7 +1,9 @@
 // cloudflare-worker/src/index.js — ShadowSpeak API Proxy
 // Validates Firebase ID tokens, injects cantonese.ai API key, rate limits per user.
 
-const ALLOWED_PATHS = ['/tts', '/stt', '/score-pronunciation'];
+const ALLOWED_PATHS = ['/tts', '/stt', '/score-pronunciation', '/ai-chat'];
+const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
+const AI_CHAT_RATE_LIMIT = 20; // per hour, separate from cantonese.ai endpoints
 const GOOGLE_CERTS_URL = 'https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com';
 const FIREBASE_PROJECT_ID = 'shadowspeak-22f04';
 
@@ -61,7 +63,32 @@ export default {
     }
     await env.RATE_LIMIT.put(hourKey, String(count + 1), { expirationTtl: 3600 });
 
-    // Clone request body and inject API key
+    // Route /ai-chat separately — calls Anthropic, not cantonese.ai
+    if (path === '/ai-chat') {
+      const aiHourKey = `rate:ai:${user.sub}:${Math.floor(Date.now() / 3600000)}`;
+      const aiCount = parseInt(await env.RATE_LIMIT.get(aiHourKey) || '0');
+      if (aiCount >= AI_CHAT_RATE_LIMIT) {
+        return new Response('Rate limit exceeded', { status: 429, headers: corsHeaders });
+      }
+      await env.RATE_LIMIT.put(aiHourKey, String(aiCount + 1), { expirationTtl: 3600 });
+
+      try {
+        const body = await request.json();
+        const result = await handleAiChat(body, env);
+        return new Response(JSON.stringify(result), {
+          status: 200,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      } catch (err) {
+        console.error('AI chat error:', err);
+        return new Response(JSON.stringify({ error: 'AI chat failed' }), {
+          status: 502,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+    }
+
+    // Clone request body and inject cantonese.ai API key
     const contentType = request.headers.get('Content-Type') || '';
     let forwardBody;
     const forwardHeaders = new Headers();
@@ -92,6 +119,83 @@ export default {
     });
   },
 };
+
+/**
+ * Call Anthropic Claude to generate a Cantonese conversation response.
+ * @param {{ messages: Object[], scenario: Object }} body
+ * @param {Object} env - Worker env bindings
+ * @returns {Promise<{chinese: string, english: string}>}
+ */
+async function handleAiChat(body, env) {
+  const { messages = [], scenario = {} } = body;
+
+  const systemPrompt = [
+    scenario.systemContext || 'You are a friendly Cantonese speaker in Hong Kong.',
+    'RULES:',
+    '- Respond ONLY in colloquial Cantonese (written Cantonese, not standard written Chinese).',
+    '- Keep each response to 1-2 short sentences maximum.',
+    '- Use everyday vocabulary appropriate for a beginner learner.',
+    '- Be natural, warm, and encouraging.',
+    '- If the user makes a mistake, gently continue the conversation without correcting.',
+    '- You MUST respond with ONLY a JSON object in exactly this format (no other text):',
+    '  {"chinese": "<Cantonese response>", "english": "<English translation>"}',
+  ].join('\n');
+
+  // Convert app message format to Claude's format
+  const claudeMessages = messages.map(msg => {
+    if (msg.role === 'user') {
+      const content = msg.chinese
+        ? msg.chinese
+        : `[User typed in English]: ${msg.english}`;
+      return { role: 'user', content };
+    }
+    // Reconstruct assistant turns in the JSON format Claude expects to continue with
+    return {
+      role: 'assistant',
+      content: JSON.stringify({ chinese: msg.chinese || '', english: msg.english || '' }),
+    };
+  });
+
+  // Seed an opening turn if this is the start of conversation
+  if (claudeMessages.length === 0) {
+    claudeMessages.push({
+      role: 'user',
+      content: '[Start the conversation — greet me naturally as your character would]',
+    });
+  }
+
+  const anthropicRes = await fetch(ANTHROPIC_API_URL, {
+    method: 'POST',
+    headers: {
+      'x-api-key': env.ANTHROPIC_KEY,
+      'anthropic-version': '2023-06-01',
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 256,
+      system: systemPrompt,
+      messages: claudeMessages,
+    }),
+  });
+
+  if (!anthropicRes.ok) {
+    const errText = await anthropicRes.text();
+    throw new Error(`Anthropic API ${anthropicRes.status}: ${errText}`);
+  }
+
+  const data = await anthropicRes.json();
+  const text = data.content?.[0]?.text || '{}';
+
+  // Strip any markdown code fences Claude might wrap around the JSON
+  const cleaned = text.replace(/^```[a-z]*\n?/i, '').replace(/\n?```$/, '').trim();
+  const parsed = JSON.parse(cleaned);
+
+  return {
+    chinese: parsed.chinese || '',
+    english: parsed.english || '',
+  };
+}
 
 /**
  * Fetch Google's public signing keys (cached with TTL from headers).
