@@ -1,7 +1,8 @@
 // src/services/aiChat.js — AI conversation partner service
 
-import { textToSpeech, textToJyutping } from './api';
+import { textToSpeech, textToJyutping, fetchWithAuth } from './api';
 import { isAuthenticated } from './auth';
+import { API_BASE_URL, API_ENDPOINTS } from '../utils/constants';
 import { jyutpingToDisplay } from '../utils/jyutping';
 import { logger } from '../utils/logger';
 
@@ -49,20 +50,36 @@ function buildSystemPrompt(scenario) {
  * @returns {Promise<{chinese: string, jyutping: string, romanization: string, english: string}>}
  */
 async function sendMessage(messages, scenario) {
-  // For now, use a simple rule-based response system
-  // In production, this would call Claude API or cantonese.ai chatbot
-  const response = generateLocalResponse(messages, scenario);
+  let response;
+
+  try {
+    const res = await fetchWithAuth(
+      `${API_BASE_URL}${API_ENDPOINTS.AI_CHAT}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages, scenario }),
+      }
+    );
+    response = await res.json();
+    if (!response.chinese) throw new Error('Empty response from AI');
+  } catch (err) {
+    logger.warn('AI chat API failed, using local fallback', err);
+    response = generateLocalResponse(messages, scenario);
+  }
 
   // Generate Jyutping for the response
-  try {
-    const jpResult = await textToJyutping(response.chinese);
-    if (jpResult.success && jpResult.result) {
-      const jp = jpResult.result.map(r => r.jyutping).join(' ');
-      response.jyutping = jp;
-      response.romanization = jyutpingToDisplay(jp);
+  if (response.chinese) {
+    try {
+      const jpResult = await textToJyutping(response.chinese);
+      if (jpResult.success && jpResult.result) {
+        const jp = jpResult.result.map(r => r.jyutping).join(' ');
+        response.jyutping = jp;
+        response.romanization = jyutpingToDisplay(jp);
+      }
+    } catch (err) {
+      logger.warn('Failed to get jyutping for AI response', err);
     }
-  } catch (err) {
-    logger.warn('Failed to get jyutping for AI response', err);
   }
 
   return response;

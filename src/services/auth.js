@@ -1,6 +1,6 @@
 // src/services/auth.js — Authentication service (Firebase)
 
-import { firebase, fbAuth } from './firebase';
+import { firebase, fbAuth, fbDb } from './firebase';
 import { logger } from '../utils/logger';
 
 /**
@@ -15,6 +15,20 @@ async function signUp(email, password, name) {
     const cred = await fbAuth.createUserWithEmailAndPassword(email, password);
     if (cred.user && name) {
       await cred.user.updateProfile({ displayName: name });
+    }
+    // Track user registration in Firestore
+    try {
+      await fbDb.collection('users').doc(cred.user.uid).set({
+        uid: cred.user.uid,
+        email,
+        name: name || '',
+        signUpDate: new Date().toISOString(),
+        platform: 'web',
+        onboardingCompleted: false,
+      }, { merge: true });
+    } catch (dbErr) {
+      logger.error('Failed to write user doc', dbErr);
+      // Non-fatal — auth still succeeded
     }
     return { user: cred.user, error: null };
   } catch (error) {
@@ -51,6 +65,21 @@ async function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
   try {
     const cred = await fbAuth.signInWithPopup(provider);
+    // Track first-time Google sign-ups in Firestore
+    if (cred.additionalUserInfo?.isNewUser) {
+      try {
+        await fbDb.collection('users').doc(cred.user.uid).set({
+          uid: cred.user.uid,
+          email: cred.user.email || '',
+          name: cred.user.displayName || '',
+          signUpDate: new Date().toISOString(),
+          platform: 'web',
+          onboardingCompleted: false,
+        }, { merge: true });
+      } catch (dbErr) {
+        logger.error('Failed to write Google user doc', dbErr);
+      }
+    }
     return { user: cred.user, error: null };
   } catch (error) {
     logger.error('Google sign-in failed', error);
