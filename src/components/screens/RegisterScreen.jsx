@@ -1,7 +1,7 @@
 // src/components/screens/RegisterScreen.jsx — Create account screen
 
 import { useState, useCallback, useMemo } from 'react';
-import { signUp, signInWithGoogle } from '../../services/auth';
+import { signUp, signInWithGoogle, signInWithApple } from '../../services/auth';
 import { ROUTES } from '../../utils/constants';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import styles from './RegisterScreen.module.css';
@@ -109,7 +109,14 @@ export default function RegisterScreen() {
           <div className={`${styles.socialIcon} ${styles.socialG}`}>G</div>
           Google
         </button>
-        <button className={styles.socialBtn} type="button" disabled>
+        <button className={styles.socialBtn} type="button" onClick={async () => {
+          setError('');
+          setLoading(true);
+          const { error: authError } = await signInWithApple();
+          setLoading(false);
+          if (authError) { setError(authError); return; }
+          window.location.hash = `#${ROUTES.WELCOME}`;
+        }}>
           <div className={`${styles.socialIcon} ${styles.socialA}`}>&#xF8FF;</div>
           Apple
         </button>

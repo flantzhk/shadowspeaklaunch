@@ -10,27 +10,14 @@ export default defineConfig({
     // CSP removed — Firebase Auth popup requires access to multiple Google domains.
     // Re-add once hosting domain is finalized.
     VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.js',
       registerType: 'autoUpdate',
       includeAssets: ['icons/*.png'],
-      workbox: {
-        // Bump cacheId to force a brand-new service worker that replaces stale installs
-        cacheId: 'shadowspeak-v3',
-        // Explicitly claim clients so iOS Safari PWA picks up updates without a cold restart
-        clientsClaim: true,
-        skipWaiting: true,
+      injectManifest: {
         globPatterns: ['**/*.{js,css,html,json,png,svg}'],
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
-        runtimeCaching: [
-          {
-            urlPattern: ({ url }) => url.origin === 'https://shadowspeak-api.faith-lantz-ee8.workers.dev' && url.pathname.startsWith('/tts'),
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'shadowspeak-audio-v2',
-              expiration: { maxEntries: 1000, maxAgeSeconds: 90 * 24 * 60 * 60 },
-              cacheableResponse: { statuses: [0, 200] },
-            },
-          },
-        ],
       },
       manifest: {
         name: 'ShadowSpeak — Learn to Speak Cantonese',

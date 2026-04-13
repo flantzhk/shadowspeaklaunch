@@ -256,6 +256,18 @@
   text-align: center;
 }
 
+.primaryActionBtn {
+  width: 100%;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--color-brand-lime);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-dark-text);
+  min-height: 44px;
+  text-align: center;
+}
+
 /* === Settings Row with value === */
 .settingsRow {
   display: flex;

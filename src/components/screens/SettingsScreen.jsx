@@ -1,10 +1,17 @@
 // src/components/screens/SettingsScreen.jsx
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { getAllLanguages } from '../../services/languageManager';
 import { getCurrentUser, signOut } from '../../services/auth';
 import { DAILY_GOAL_OPTIONS, ROUTES, APP_VERSION } from '../../utils/constants';
+import {
+  subscribeToPushNotifications,
+  unsubscribeFromPushNotifications,
+  getNotificationPermission,
+  isPushSubscribed,
+  showTestNotification,
+} from '../../services/notifications';
 import { ConfirmModal } from '../shared/ConfirmModal';
 import { BottomSheet } from '../shared/BottomSheet';
 import DownloadAllModal from '../shared/DownloadAllModal';
@@ -22,6 +29,30 @@ export default function SettingsScreen({ onBack, onNavigate }) {
   const [reminderTime, setReminderTime] = useState(settings.reminderTime || '09:00');
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [downloadInBackground, setDownloadInBackground] = useState(false);
+  const [pushSubscribed, setPushSubscribed] = useState(false);
+  const [pushLoading, setPushLoading] = useState(false);
+  const [pushStatus, setPushStatus] = useState(''); // feedback message
+
+  useEffect(() => {
+    isPushSubscribed().then(setPushSubscribed);
+  }, []);
+
+  const handleTogglePush = async () => {
+    setPushLoading(true);
+    setPushStatus('');
+    if (pushSubscribed) {
+      const ok = await unsubscribeFromPushNotifications();
+      if (ok) { setPushSubscribed(false); setPushStatus('Reminders turned off.'); }
+      else setPushStatus('Could not unsubscribe. Try again.');
+    } else {
+      const result = await subscribeToPushNotifications(settings.reminderTime || null);
+      if (result === 'granted') { setPushSubscribed(true); setPushStatus('Reminders on! You can send a test below.'); }
+      else if (result === 'denied') setPushStatus('Permission denied. Enable notifications in your browser settings.');
+      else if (result === 'unsupported') setPushStatus('Your browser does not support push notifications.');
+      else setPushStatus('Could not subscribe. Try again.');
+    }
+    setPushLoading(false);
+  };
 
   const handleSignOut = async () => {
     await signOut();
@@ -97,9 +128,33 @@ export default function SettingsScreen({ onBack, onNavigate }) {
           <span className={styles.rowValue}>{settings.defaultSpeed === 'slower' ? 'Slower' : 'Natural'} ›</span>
         </button>
         <button className={styles.settingsRow} onClick={() => setShowReminderPicker(true)}>
-          <span className={styles.rowLabel}>Daily reminder</span>
+          <span className={styles.rowLabel}>Daily reminder time</span>
           <span className={styles.rowValue}>{settings.reminderTime ? settings.reminderTime : 'Off'} ›</span>
         </button>
+      </div>
+
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Notifications</h2>
+        <p className={styles.hint}>
+          {pushSubscribed
+            ? 'Push reminders are on. We\'ll ping you at your reminder time.'
+            : 'Get a daily push reminder to keep your streak alive.'}
+        </p>
+        <button
+          className={pushSubscribed ? styles.downloadBtn : styles.primaryActionBtn}
+          onClick={handleTogglePush}
+          disabled={pushLoading}
+          style={{ marginBottom: 8 }}
+        >
+          {pushLoading ? 'Working...' : pushSubscribed ? 'Turn off reminders' : 'Turn on reminders'}
+        </button>
+        {pushSubscribed && (
+          <button className={styles.settingsRow} onClick={() => showTestNotification()}>
+            <span className={styles.rowLabel}>Send a test notification</span>
+            <span className={styles.rowValue}>›</span>
+          </button>
+        )}
+        {pushStatus ? <p className={styles.hint} style={{ color: 'var(--color-brand-dark)', fontWeight: 600 }}>{pushStatus}</p> : null}
       </div>
 
       <div className={styles.section}>
@@ -190,7 +245,14 @@ export default function SettingsScreen({ onBack, onNavigate }) {
           onClose={() => setShowReminderPicker(false)}
           showConfirm
           confirmLabel="Save"
-          onConfirm={() => { updateSettings({ reminderTime }); setShowReminderPicker(false); }}
+          onConfirm={async () => {
+            updateSettings({ reminderTime });
+            setShowReminderPicker(false);
+            // If already subscribed, re-register with the new reminder time
+            if (pushSubscribed) {
+              await subscribeToPushNotifications(reminderTime);
+            }
+          }}
         >
           <p className={styles.pickerHint}>When should we remind you to practice?</p>
           <input
