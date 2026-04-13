@@ -10,7 +10,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-lg) var(--content-padding) var(--space-md);
+  padding: var(--space-lg) var(--content-padding) var(--space-sm);
 }
 
 .backBtn {
@@ -28,35 +28,54 @@
   color: var(--color-text-primary);
 }
 
-/* === Filter Row === */
-.filterRow {
-  display: flex;
-  gap: 6px;
+.subtitle {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
   padding: 0 var(--content-padding) var(--space-lg);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+  line-height: 1.45;
 }
 
-.filterRow::-webkit-scrollbar { display: none; }
-
-.filterBtn {
-  padding: 8px 14px;
-  border-radius: var(--radius-pill);
-  font-size: 0.75rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
+/* === Search === */
+.searchWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 var(--content-padding) var(--space-xl);
   background: var(--color-surface);
   border: 0.5px solid var(--color-border);
-  white-space: nowrap;
-  flex-shrink: 0;
+  border-radius: 12px;
+  padding: 0 12px;
 }
 
-.filterActive {
-  background: var(--color-brand-dark);
-  color: white;
-  border-color: var(--color-brand-dark-text);
-  font-weight: var(--font-weight-semibold);
+.searchIcon {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+.searchInput {
+  flex: 1;
+  padding: 11px 8px;
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: var(--color-text-muted);
+}
+
+.searchClear {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  border-radius: 50%;
+  background: var(--color-bg);
 }
 
 /* === Empty === */
@@ -90,7 +109,23 @@
   padding: 0 var(--content-padding);
   display: flex;
   flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
   gap: 8px;
+}
+
+.groupLabel {
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--color-text-muted);
+  padding: 0 4px;
+  margin-bottom: 2px;
 }
 
 .sceneCard {
@@ -103,11 +138,13 @@
   gap: 12px;
   width: 100%;
   text-align: left;
+  transition: background 0.1s;
 }
 
-.sceneCard:active { transform: scale(0.98); }
-
-.sceneLeft { flex-shrink: 0; }
+.sceneCard:active {
+  background: var(--color-bg);
+  transform: scale(0.98);
+}
 
 .sceneIconWrap {
   width: 44px;
@@ -117,15 +154,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .sceneEmoji { font-size: 1.375rem; }
 
-.sceneBody { flex: 1; min-width: 0; }
+.sceneBody {
+  flex: 1;
+  min-width: 0;
+}
 
-.sceneTopRow {
+.sceneTitleRow {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   margin-bottom: 4px;
 }
@@ -141,45 +183,26 @@
   white-space: nowrap;
 }
 
-.diffBadge {
-  font-size: 0.625rem;
-  font-weight: var(--font-weight-semibold);
+.lineCount {
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-medium);
   color: var(--color-brand-dark-text);
-  padding: 2px 7px;
+  background: var(--color-brand-lime);
+  padding: 2px 8px;
   border-radius: var(--radius-pill);
   flex-shrink: 0;
 }
 
-.sceneDesc {
+.scenePreview {
   font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-  line-height: 1.4;
-  margin-bottom: 6px;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.sceneFooter {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.sceneTopic,
-.sceneTurns,
-.sceneDuration {
-  font-size: 0.6875rem;
   color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
 }
 
-.sceneTopic::after {
-  content: '·';
-  margin-left: 8px;
-}
-
-.sceneChevron {
+.chevron {
   flex-shrink: 0;
   color: var(--color-text-muted);
 }

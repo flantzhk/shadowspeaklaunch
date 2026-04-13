@@ -67,7 +67,12 @@ export default function PronunciationFeedback({ phrase, scoreResult, onHearPhras
 
   if (!scoreResult || wordData.length === 0) return null;
 
-  const hasFailed = sorted.some(w => w.score !== null && w.score < SCORE_THRESHOLDS.GOOD);
+  // Use the overall score (not just word scores) to decide if something failed.
+  // This prevents "All correct" showing when overall score is low but word-level
+  // scores came back null (API didn't return per-word data).
+  const overallScore = scoreResult?.score ?? null;
+  const hasFailed = (overallScore !== null && overallScore < SCORE_THRESHOLDS.GOOD) ||
+    sorted.some(w => w.score !== null && w.score < SCORE_THRESHOLDS.GOOD);
 
   return (
     <div className={styles.container}>
@@ -92,17 +97,20 @@ export default function PronunciationFeedback({ phrase, scoreResult, onHearPhras
       {/* Word grid */}
       <div className={styles.wordGrid}>
         {sorted.map((word, i) => {
-          const isPassed = word.score === null || word.score >= SCORE_THRESHOLDS.GOOD;
+          // null score = API gave no word-level data; treat as neutral (not "passed")
+          const isPassed = word.score !== null && word.score >= SCORE_THRESHOLDS.GOOD;
+          const isFailed = word.score !== null && word.score < SCORE_THRESHOLDS.GOOD;
+          const isNeutral = word.score === null;
           const isPlaying = playingWord === i;
           return (
             <button
               key={i}
-              className={`${styles.wordCard} ${isPassed ? styles.wordPassed : styles.wordFailed}`}
+              className={`${styles.wordCard} ${isFailed ? styles.wordFailed : isPassed ? styles.wordPassed : styles.wordNeutral}`}
               onClick={() => handlePlayWord(word, i)}
               aria-label={`Hear ${word.chinese}`}
             >
               <span className={styles.wordStatus}>
-                {isPassed ? <TickIcon /> : <CrossIcon />}
+                {isPassed ? <TickIcon /> : isFailed ? <CrossIcon /> : null}
               </span>
               <span className={styles.wordChinese}>{word.chinese}</span>
               <span className={styles.wordJyutping}>

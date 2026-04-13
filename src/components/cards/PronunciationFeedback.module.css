@@ -83,6 +83,12 @@
   border-color: rgba(240, 90, 58, 0.25);
 }
 
+/* Neutral: API returned no per-word score (word.score === null) */
+.wordNeutral {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
 .wordStatus {
   width: 20px;
   height: 20px;
