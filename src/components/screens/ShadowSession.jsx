@@ -71,6 +71,40 @@ export default function ShadowSession({ onBack, onComplete }) {
     }
   }, [audio, lessonPhrases, settings.currentLanguage, settings.defaultSpeed]);
 
+  const addResult = useCallback((phraseId, score) => {
+    const phrase = audio.currentPhrase;
+    setResults(prev => [...prev, {
+      phraseId, score,
+      romanization: phrase?.romanization || phraseId,
+      english: phrase?.english || '',
+      mastered: score !== null && score >= SCORE_THRESHOLDS.EXCELLENT,
+    }]);
+  }, [audio]);
+
+  const finishSession = useCallback(async () => {
+    audio.setAutoAdvance(true); // restore for MiniPlayer use after session
+    audio.pause();
+    try {
+      const dur = Math.round((Date.now() - sessionStart) / 1000);
+      const streak = await updateStreak();
+      const scores = results.filter(r => r.score !== null).map(r => r.score);
+      const avg = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : null;
+      await updateSettings({ streakCount: streak, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
+      const rec = {
+        id: crypto.randomUUID(), date: getTodayString(),
+        startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
+        mode: 'shadow', phrasesAttempted: results.length,
+        phrasesMastered: results.filter(r => r.mastered).length, averageScore: avg,
+        phraseResults: results.map(r => ({ phraseId: r.phraseId, romanization: r.romanization, english: r.english, score: r.score, replays: 0, markedKnown: false })),
+      };
+      await saveSession(rec);
+      onComplete?.({ ...rec, streakCount: streak });
+    } catch (err) {
+      // Storage failure — still navigate away so user isn't stuck
+      onComplete?.({ mode: 'shadow', phrasesAttempted: results.length, averageScore: null, streakCount: 0 });
+    }
+  }, [sessionStart, results, audio, updateSettings, settings, onComplete]);
+
   useEffect(() => {
     if (audio.playbackState === 'ended' && audio.queueLength > 0 && phase === 'listen') {
       if (results.length >= audio.queueLength) {
@@ -124,40 +158,6 @@ export default function ShadowSession({ onBack, onComplete }) {
     }
     setIsScoring(false);
   }, [stopRecording, audio, isOnline, settings.currentLanguage]);
-
-  const addResult = useCallback((phraseId, score) => {
-    const phrase = audio.currentPhrase;
-    setResults(prev => [...prev, {
-      phraseId, score,
-      romanization: phrase?.romanization || phraseId,
-      english: phrase?.english || '',
-      mastered: score !== null && score >= SCORE_THRESHOLDS.EXCELLENT,
-    }]);
-  }, [audio]);
-
-  const finishSession = useCallback(async () => {
-    audio.setAutoAdvance(true); // restore for MiniPlayer use after session
-    audio.pause();
-    try {
-      const dur = Math.round((Date.now() - sessionStart) / 1000);
-      const streak = await updateStreak();
-      const scores = results.filter(r => r.score !== null).map(r => r.score);
-      const avg = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : null;
-      await updateSettings({ streakCount: streak, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
-      const rec = {
-        id: crypto.randomUUID(), date: getTodayString(),
-        startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
-        mode: 'shadow', phrasesAttempted: results.length,
-        phrasesMastered: results.filter(r => r.mastered).length, averageScore: avg,
-        phraseResults: results.map(r => ({ phraseId: r.phraseId, romanization: r.romanization, english: r.english, score: r.score, replays: 0, markedKnown: false })),
-      };
-      await saveSession(rec);
-      onComplete?.({ ...rec, streakCount: streak });
-    } catch (err) {
-      // Storage failure — still navigate away so user isn't stuck
-      onComplete?.({ mode: 'shadow', phrasesAttempted: results.length, averageScore: null, streakCount: 0 });
-    }
-  }, [sessionStart, results, audio, updateSettings, settings, onComplete]);
 
   const handleNext = useCallback(async () => {
     setCurrentScore(null);

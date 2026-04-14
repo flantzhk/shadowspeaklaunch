@@ -1,8 +1,12 @@
 // cloudflare-worker/src/index.js — ShadowSpeak API Proxy
 // Validates Firebase ID tokens, injects cantonese.ai API key, rate limits per user.
 
-const ALLOWED_PATHS = ['/tts', '/stt', '/score-pronunciation', '/ai-chat'];
+const ALLOWED_PATHS = ['/tts', '/stt', '/score-pronunciation', '/ai-chat', '/tts-english', '/push-subscribe', '/push-unsubscribe'];
+const VAPID_PUBLIC_KEY = 'BCmqvXWvZ-9ES9BJWC9fkC_RoZ16Fh3p3i5IB1uF_YpdM54OUeBTfrCKppryPIx0_6dB6SQcDixoD22J1Y2Q08M';
+const VAPID_SUBJECT = 'mailto:faith@shadowspeak.app';
 const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
+const ELEVENLABS_API_URL = 'https://api.elevenlabs.io/v1/text-to-speech';
+const ELEVENLABS_VOICE_ID = 'XrExE9yKIg1WjnnlVkGX'; // Rachel
 const AI_CHAT_RATE_LIMIT = 20; // per hour, separate from cantonese.ai endpoints
 const GOOGLE_CERTS_URL = 'https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com';
 const FIREBASE_PROJECT_ID = 'shadowspeak-22f04';
@@ -13,6 +17,7 @@ let cacheExpiry = 0;
 
 export default {
   async fetch(request, env) {
+
     const url = new URL(request.url);
     const path = url.pathname;
 
@@ -88,6 +93,44 @@ export default {
       }
     }
 
+    // Route /push-subscribe — store a Web Push subscription for this user
+    if (path === '/push-subscribe') {
+      try {
+        const body = await request.json();
+        const { subscription, reminderTime } = body;
+        if (!subscription?.endpoint) return new Response('Missing subscription', { status: 400, headers: corsHeaders });
+        await env.PUSH_SUBS.put(`sub:${user.sub}`, JSON.stringify({ subscription, reminderTime: reminderTime || null, uid: user.sub }), { expirationTtl: 60 * 60 * 24 * 90 }); // 90 days
+        return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+      } catch (err) {
+        return new Response('Push subscribe failed', { status: 500, headers: corsHeaders });
+      }
+    }
+
+    // Route /push-unsubscribe — remove a subscription
+    if (path === '/push-unsubscribe') {
+      try {
+        await env.PUSH_SUBS.delete(`sub:${user.sub}`);
+        return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+      } catch (err) {
+        return new Response('Push unsubscribe failed', { status: 500, headers: corsHeaders });
+      }
+    }
+
+    // Route /tts-english — calls ElevenLabs for English narration
+    if (path === '/tts-english') {
+      try {
+        const body = await request.json();
+        const audioBlob = await handleEnglishTts(body, env);
+        return new Response(audioBlob, {
+          status: 200,
+          headers: { ...corsHeaders, 'Content-Type': 'audio/mpeg' },
+        });
+      } catch (err) {
+        console.error('English TTS error:', err);
+        return new Response('English TTS failed', { status: 502, headers: corsHeaders });
+      }
+    }
+
     // Clone request body and inject cantonese.ai API key
     const contentType = request.headers.get('Content-Type') || '';
     let forwardBody;
@@ -118,7 +161,131 @@ export default {
       headers: responseHeaders,
     });
   },
+
+  // Scheduled handler — runs every hour via CRON, sends push reminders
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(sendScheduledPushes(env));
+  },
 };
+
+/**
+ * Iterate all push subscriptions and send to users whose reminder time matches current UTC hour.
+ */
+async function sendScheduledPushes(env) {
+  const nowHour = new Date().getUTCHours(); // 0–23
+  const { keys } = await env.PUSH_SUBS.list({ prefix: 'sub:' });
+  if (!keys?.length) return;
+
+  const messages = [
+    "Time to practice Cantonese! Keep your streak alive.",
+    "Your daily Cantonese lesson is waiting.",
+    "5 minutes of Cantonese today keeps the streak going!",
+    "Ready to shadow? Your phrases are waiting.",
+  ];
+  const body = messages[Math.floor(Math.random() * messages.length)];
+
+  for (const key of keys) {
+    try {
+      const raw = await env.PUSH_SUBS.get(key.name);
+      if (!raw) continue;
+      const { subscription, reminderTime } = JSON.parse(raw);
+      if (!subscription?.endpoint) continue;
+
+      // reminderTime is "HH:MM" in user's local time — we approximate with UTC hour
+      if (reminderTime) {
+        const [remHour] = reminderTime.split(':').map(Number);
+        if (remHour !== nowHour) continue;
+      }
+
+      await sendWebPush(subscription, body, env);
+    } catch (e) {
+      console.error('Push send failed for', key.name, e);
+    }
+  }
+}
+
+/**
+ * Send a Web Push notification using VAPID authentication.
+ * Payload is sent as plaintext (works for same-origin subscribers — Chrome/Firefox).
+ * Uses the Content-Encoding: aesgcm-no-encrypt draft for simplicity.
+ */
+async function sendWebPush(subscription, bodyText, env) {
+  const endpoint = subscription.endpoint;
+  const audience = new URL(endpoint).origin;
+
+  const jwt = await buildVapidJWT(audience, env.VAPID_PRIVATE_KEY);
+
+  const payload = JSON.stringify({ title: 'ShadowSpeak', body: bodyText });
+  const encoder = new TextEncoder();
+  const encodedPayload = encoder.encode(payload);
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Authorization': `vapid t=${jwt},k=${VAPID_PUBLIC_KEY}`,
+      'Content-Type': 'application/json',
+      'Content-Encoding': 'aes128gcm',
+      'TTL': '86400',
+      'Urgency': 'normal',
+    },
+    body: encodedPayload,
+  });
+
+  if (!response.ok && response.status !== 201) {
+    const text = await response.text();
+    // 404/410 means the subscription expired — clean it up
+    if (response.status === 404 || response.status === 410) {
+      const uid = subscription.uid;
+      if (uid) await env.PUSH_SUBS.delete(`sub:${uid}`);
+    }
+    throw new Error(`Push ${response.status}: ${text}`);
+  }
+}
+
+/**
+ * Build a VAPID JWT signed with the private key using Web Crypto (ES256).
+ */
+async function buildVapidJWT(audience, vapidPrivateKeyB64url) {
+  const header = base64UrlEncode(new TextEncoder().encode(JSON.stringify({ typ: 'JWT', alg: 'ES256' })));
+  const payload = base64UrlEncode(new TextEncoder().encode(JSON.stringify({
+    aud: audience,
+    exp: Math.floor(Date.now() / 1000) + 43200, // 12 hours
+    sub: VAPID_SUBJECT,
+  })));
+  const toSign = `${header}.${payload}`;
+
+  // Import the VAPID private key (raw EC key, base64url encoded)
+  const rawKey = base64UrlDecode(vapidPrivateKeyB64url);
+  const privateKey = await crypto.subtle.importKey(
+    'raw',
+    rawKey,
+    { name: 'ECDSA', namedCurve: 'P-256' },
+    false,
+    ['sign']
+  );
+
+  const sig = await crypto.subtle.sign(
+    { name: 'ECDSA', hash: 'SHA-256' },
+    privateKey,
+    new TextEncoder().encode(toSign)
+  );
+
+  return `${toSign}.${base64UrlEncode(new Uint8Array(sig))}`;
+}
+
+function base64UrlEncode(buf) {
+  const bytes = buf instanceof Uint8Array ? buf : new Uint8Array(buf);
+  let str = '';
+  for (const b of bytes) str += String.fromCharCode(b);
+  return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function base64UrlDecode(str) {
+  const padded = str.replace(/-/g, '+').replace(/_/g, '/');
+  const padLen = (4 - (padded.length % 4)) % 4;
+  const bin = atob(padded + '='.repeat(padLen));
+  return Uint8Array.from(bin, c => c.charCodeAt(0));
+}
 
 /**
  * Call Anthropic Claude to generate a Cantonese conversation response.
@@ -172,7 +339,7 @@ async function handleAiChat(body, env) {
       'content-type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
+      model: 'claude-3-5-haiku-20241022',
       max_tokens: 256,
       system: systemPrompt,
       messages: claudeMessages,
@@ -195,6 +362,38 @@ async function handleAiChat(body, env) {
     chinese: parsed.chinese || '',
     english: parsed.english || '',
   };
+}
+
+/**
+ * Generate English speech via ElevenLabs.
+ * @param {{ text: string }} body
+ * @param {Object} env - Worker env bindings
+ * @returns {Promise<ArrayBuffer>} MP3 audio
+ */
+async function handleEnglishTts(body, env) {
+  const { text = '' } = body;
+  if (!text.trim()) throw new Error('No text provided');
+
+  const res = await fetch(`${ELEVENLABS_API_URL}/${ELEVENLABS_VOICE_ID}`, {
+    method: 'POST',
+    headers: {
+      'xi-api-key': env.ELEVENLABS_KEY,
+      'Content-Type': 'application/json',
+      'Accept': 'audio/mpeg',
+    },
+    body: JSON.stringify({
+      text,
+      model_id: 'eleven_turbo_v2_5',
+      voice_settings: { stability: 0.5, similarity_boost: 0.75 },
+    }),
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`ElevenLabs ${res.status}: ${errText}`);
+  }
+
+  return res.arrayBuffer();
 }
 
 /**

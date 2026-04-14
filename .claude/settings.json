@@ -22,49 +22,7 @@
   "permissions": {
     "additionalDirectories": [
       "/Users/faithkayiwa/Documents/Faith Second Brain 2026"
-    ],
-    "allow": [
-      "Write(/Users/faithkayiwa/Documents/Faith Second Brain 2026/Progress Log.md)",
-      "Edit(/Users/faithkayiwa/Documents/Faith Second Brain 2026/Progress Log.md)",
-      "Read(/tmp/shadowspeak-progress-info.txt)",
-      "Bash(rm -f /tmp/shadowspeak-progress-info.txt)"
     ]
   },
-  "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "touch /tmp/claudian-session-start",
-            "async": true
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "timeout": 15,
-            "command": "REPO=\"/Users/faithkayiwa/Documents/ShadowSpeak Launch\"; OUT=\"/tmp/shadowspeak-progress-info.txt\"; SINCE=$(date -r /tmp/claudian-session-start '+%Y-%m-%dT%H:%M:%S' 2>/dev/null || date -v-2H '+%Y-%m-%dT%H:%M:%S'); COMMITS=$(cd \"$REPO\" && git log --oneline --since=\"$SINCE\" 2>/dev/null); DIFF=$(cd \"$REPO\" && git diff --stat HEAD 2>/dev/null); if [ -z \"$COMMITS\" ] && [ -z \"$DIFF\" ]; then rm -f \"$OUT\"; exit 0; fi; { echo \"DATE: $(date '+%Y-%m-%d')\"; echo \"COMMITS:\"; echo \"$COMMITS\"; echo \"DIFF_STAT:\"; echo \"$DIFF\"; } > \"$OUT\""
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "timeout": 30,
-            "statusMessage": "Logging progress to vault...",
-            "command": "INFO=/tmp/shadowspeak-progress-info.txt; LOG=\"/Users/faithkayiwa/Documents/Faith Second Brain 2026/Progress Log.md\"; [ -s \"$INFO\" ] || exit 0; TODAY=$(grep '^DATE:' \"$INFO\" | sed 's/^DATE: //'); COMMITS=$(awk '/^COMMITS:/{found=1;next} /^DIFF_STAT:/{found=0} found{print}' \"$INFO\"); DIFF=$(awk '/^DIFF_STAT:/{found=1;next} found{print}' \"$INFO\"); SUMMARY=$(echo \"$COMMITS\" | head -1 | sed 's/^[a-f0-9]* //'); BULLETS=$(echo \"$COMMITS\" | while IFS= read -r line; do MSG=$(echo \"$line\" | sed 's/^[a-f0-9]* //'); [ -n \"$MSG\" ] && echo \"- ✅ $MSG\"; done | head -6); ENTRY=\"\\n### ShadowSpeakLaunch — ${SUMMARY}\\n\\n${BULLETS}\\n\"; if grep -q \"^## ${TODAY}\" \"$LOG\"; then awk -v date=\"## ${TODAY}\" -v entry=\"$ENTRY\" 'found && /^## /{print entry; found=0} /^## /{if($0==date)found=1} {print}' \"$LOG\" > /tmp/ss-log-tmp.md && mv /tmp/ss-log-tmp.md \"$LOG\"; else printf \"\\n## %s\\n%s\" \"$TODAY\" \"$ENTRY\" >> \"$LOG\"; fi; rm -f \"$INFO\""
-          }
-        ]
-      }
-    ]
-  }
+  "hooks": {}
 }

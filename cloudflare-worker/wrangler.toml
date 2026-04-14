@@ -11,3 +11,10 @@ CANTONESE_AI_BASE = "https://cantonese.ai/api"
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
 id = "4a14059ca271485ca6985a22beb66077"
+
+[[kv_namespaces]]
+binding = "PUSH_SUBS"
+id = "084e4c7689684d1a96c531e42a26e0cf"
+
+[triggers]
+crons = ["0 * * * *"]
