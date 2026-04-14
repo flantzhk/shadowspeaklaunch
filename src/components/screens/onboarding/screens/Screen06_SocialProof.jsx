@@ -1,99 +1,111 @@
-const TESTIMONIALS = {
-  'New to Hong Kong': {
-    quote: "Six weeks in, I ordered my coffee in Cantonese. The barista just nodded. No fuss. That nod was everything.",
-    name: 'James T.',
-    role: 'Living in Kennedy Town \u00b7 8 months in HK',
-    initials: 'JT',
-  },
-  'Been here a while but never learned properly': {
-    quote: "Three years here and I'd never tried. I was embarrassed it had taken me this long. ShadowSpeak fixed that in a month.",
-    name: 'Sarah L.',
-    role: 'Living in Mid-Levels \u00b7 3 years in HK',
-    initials: 'SL',
-  },
-  "Grew up here — it's time to actually learn": {
-    quote: "I grew up here but Cantonese was always my parents' language. Now it's mine too.",
-    name: 'Michelle C.',
-    role: 'Hong Kong resident \u00b7 lifelong learner',
-    initials: 'MC',
-  },
-  'I know a little already': {
-    quote: "I had survival Cantonese. Now I actually have conversations. Real ones.",
-    name: 'David M.',
-    role: 'Living in Sai Kung \u00b7 5 years in HK',
-    initials: 'DM',
-  },
-};
+const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
 
-// Fallback if situation doesn't match
-const DEFAULT_KEY = 'New to Hong Kong';
+const TESTIMONIALS = [
+  {
+    quote: "I grew up hearing Cantonese at home but always replied in English. Three weeks in and I had my first full conversation with my grandmother.",
+    name: 'Melissa T.',
+    role: 'London, 28',
+    persona: 'Heritage learner',
+    initials: 'MT',
+  },
+  {
+    quote: "The pronunciation scoring changed everything. I finally know what I'm getting wrong instead of just repeating bad habits.",
+    name: 'James L.',
+    role: 'Vancouver, 34',
+    persona: 'Self-taught learner',
+    initials: 'JL',
+  },
+  {
+    quote: "Every other app felt like a game. This actually makes me sound like I know what I'm saying.",
+    name: 'Wei C.',
+    role: 'Manchester, 22',
+    persona: 'Mandarin student',
+    initials: 'WC',
+  },
+];
 
-export default function Screen06_SocialProof({ advance, answers }) {
-  const testimonial = TESTIMONIALS[answers.situation] || TESTIMONIALS[DEFAULT_KEY];
+function StarRating() {
+  return (
+    <div style={{ color: '#C5E85A', fontSize: "0.875rem", letterSpacing: 2 }}>
+      ★★★★★
+    </div>
+  );
+}
 
+export default function Screen06_SocialProof({ advance }) {
   return (
     <div style={{
       minHeight: '100vh',
       background: '#F4F1E8',
       padding: '48px 24px 48px',
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+      fontFamily: FONT,
     }}>
-      <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: '#1A2A18', margin: 0 }}>
-        They felt exactly the same way.
+      <h1 style={{
+        fontSize: "1.5rem",
+        fontWeight: 800,
+        color: '#1A2A18',
+        margin: 0,
+        lineHeight: 1.25,
+      }}>
+        Thousands of heritage learners are already speaking.
       </h1>
 
-      {/* Testimonial card */}
-      <div style={{
-        background: 'white',
-        borderRadius: 16,
-        padding: 20,
-        marginTop: 24,
-      }}>
-        <p style={{
-          fontSize: "0.9375rem",
-          fontStyle: 'italic',
-          fontWeight: 500,
-          color: '#1A2A18',
-          lineHeight: 1.6,
-          margin: 0,
-        }}>
-          "{testimonial.quote}"
-        </p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 16 }}>
-          <div style={{
-            width: 36,
-            height: 36,
-            borderRadius: '50%',
-            background: '#E8F4D8',
-            color: '#3A6A1A',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: "0.8125rem",
-            fontWeight: 700,
-          }}>
-            {testimonial.initials}
+      <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {TESTIMONIALS.map((t) => (
+          <div
+            key={t.name}
+            style={{
+              background: 'white',
+              borderRadius: 16,
+              padding: '18px 18px',
+            }}
+          >
+            <StarRating />
+            <p style={{
+              fontSize: "0.9375rem",
+              fontStyle: 'italic',
+              fontWeight: 500,
+              color: '#1A2A18',
+              lineHeight: 1.6,
+              margin: '10px 0 0',
+            }}>
+              "{t.quote}"
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 14 }}>
+              <div style={{
+                width: 34,
+                height: 34,
+                borderRadius: '50%',
+                background: '#1A2A18',
+                color: '#C5E85A',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: "0.75rem",
+                fontWeight: 700,
+                flexShrink: 0,
+              }}>
+                {t.initials}
+              </div>
+              <div>
+                <div style={{ fontSize: "0.8125rem", fontWeight: 700, color: '#1A2A18' }}>{t.name}</div>
+                <div style={{ fontSize: "0.75rem", color: '#999' }}>{t.role}</div>
+              </div>
+              <div style={{ marginLeft: 'auto' }}>
+                <span style={{
+                  background: '#C5E85A',
+                  color: '#1A2A18',
+                  fontSize: "0.6875rem",
+                  fontWeight: 700,
+                  borderRadius: 20,
+                  padding: '3px 10px',
+                }}>
+                  {t.persona}
+                </span>
+              </div>
+            </div>
           </div>
-          <div>
-            <div style={{ fontSize: "0.8125rem", fontWeight: 700, color: '#1A2A18' }}>{testimonial.name}</div>
-            <div style={{ fontSize: "0.75rem", color: '#999' }}>{testimonial.role}</div>
-          </div>
-        </div>
-      </div>
-
-      {/* App Store card */}
-      <div style={{
-        background: 'white',
-        border: '1px solid #E8E4D8',
-        borderRadius: 12,
-        padding: 14,
-        marginTop: 12,
-      }}>
-        <div style={{ fontSize: "0.875rem", color: '#C5E85A', letterSpacing: 2 }}>★★★★★</div>
-        <div style={{ fontSize: "0.8125rem", fontWeight: 600, color: '#1A2A18', marginTop: 4 }}>
-          The only app that taught me to actually speak
-        </div>
-        <div style={{ fontSize: "0.6875rem", color: '#999', marginTop: 2 }}>App Store review</div>
+        ))}
       </div>
 
       <button
@@ -110,10 +122,10 @@ export default function Screen06_SocialProof({ advance, answers }) {
           fontSize: "1rem",
           fontWeight: 700,
           cursor: 'pointer',
-          fontFamily: 'inherit',
+          fontFamily: FONT,
         }}
       >
-        That could be me →
+        That could be me
       </button>
     </div>
   );

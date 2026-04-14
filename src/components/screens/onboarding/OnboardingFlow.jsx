@@ -2,45 +2,47 @@ import { useState, useCallback, useRef } from 'react';
 import { useAppContext } from '../../../contexts/AppContext';
 import { OnboardingProgressBar } from './shared/OnboardingProgressBar';
 import Screen01_Hook from './screens/Screen01_Hook';
-import Screen02_HowItWorks from './screens/Screen02_HowItWorks';
-import Screen03_Goal from './screens/Screen03_Goal';
-import Screen04_Situation from './screens/Screen04_Situation';
+import Screen02_LanguageSelect from './screens/Screen02_LanguageSelect';
+import Screen03_Why from './screens/Screen03_Why';
 import Screen05_Pain from './screens/Screen05_Pain';
 import Screen06_SocialProof from './screens/Screen06_SocialProof';
-import Screen07_TaxiScenario from './screens/Screen07_TaxiScenario';
-import Screen08_Preferences from './screens/Screen08_Preferences';
-import Screen09_RestaurantScenario from './screens/Screen09_RestaurantScenario';
+import Screen06_SwipeCards from './screens/Screen06_SwipeCards';
+import Screen07_SolutionReveal from './screens/Screen07_SolutionReveal';
+import Screen08_Comparison from './screens/Screen08_Comparison';
+import Screen09_Personalisation from './screens/Screen09_Personalisation';
 import Screen10_MicPermission from './screens/Screen10_MicPermission';
-import Screen11_LiveDemo from './screens/Screen11_LiveDemo';
-import Screen12_FriendScenario from './screens/Screen12_FriendScenario';
+import Screen11_NotifPermission from './screens/Screen11_NotifPermission';
 import Screen13_PlanReveal from './screens/Screen13_PlanReveal';
-import Screen14_Gate from './screens/Screen14_Gate';
+import Screen11_LiveDemo from './screens/Screen11_LiveDemo';
+import Screen14_ScoreCard from './screens/Screen14_ScoreCard';
+import Screen15_AccountCreation from './screens/Screen15_AccountCreation';
+import Screen16_Paywall from './screens/Screen16_Paywall';
 import styles from './OnboardingFlow.module.css';
 
 const SCREENS = [
-  Screen01_Hook,       // 0
-  Screen02_HowItWorks, // 1
-  Screen03_Goal,       // 2
-  Screen04_Situation,  // 3
-  Screen05_Pain,       // 4
-  Screen06_SocialProof,// 5
-  Screen07_TaxiScenario,// 6
-  Screen08_Preferences,// 7
-  Screen09_RestaurantScenario, // 8
-  Screen10_MicPermission, // 9
-  Screen11_LiveDemo,   // 10
-  Screen12_FriendScenario, // 11
-  Screen13_PlanReveal, // 12
-  Screen14_Gate,       // 13
+  Screen01_Hook,            // 0  — Welcome/Hook
+  Screen02_LanguageSelect,  // 1  — Language selection
+  Screen03_Why,             // 2  — Why learning
+  Screen05_Pain,            // 3  — Pain points
+  Screen06_SocialProof,     // 4  — Social proof
+  Screen06_SwipeCards,      // 5  — Swipe cards
+  Screen07_SolutionReveal,  // 6  — Solution reveal
+  Screen08_Comparison,      // 7  — Comparison table
+  Screen09_Personalisation, // 8  — Topic picker
+  Screen10_MicPermission,   // 9  — Mic permission
+  Screen11_NotifPermission, // 10 — Notification permission
+  Screen13_PlanReveal,      // 11 — Processing/loading
+  Screen11_LiveDemo,        // 12 — Demo (speak + score)
+  Screen14_ScoreCard,       // 13 — Viral score card
+  Screen15_AccountCreation, // 14 — Account creation
+  Screen16_Paywall,         // 15 — Paywall
 ];
 
-// Screen indices (0-based) that show the progress bar
-// Screens 3,4,5,6,8,10,13,14 in spec → indices 2,3,4,5,7,9,12,13
-const PROGRESS_SCREENS = new Set([2, 3, 4, 5, 7, 9, 12, 13]);
+// Screen indices that show the progress bar
+const PROGRESS_SCREENS = new Set([2, 3, 4, 5, 7, 8, 11, 12, 13]);
 
-// Screen indices that show back button
-// No back on: 1,2,7,9,12 (spec) → indices 0,1,6,8,10,11
-const NO_BACK_SCREENS = new Set([0, 1, 6, 8, 10, 11]);
+// Screen indices with no back button
+const NO_BACK_SCREENS = new Set([0, 1, 5, 10]);
 
 export default function OnboardingFlow({ onComplete }) {
   const { updateSettings } = useAppContext();
@@ -50,12 +52,14 @@ export default function OnboardingFlow({ onComplete }) {
   const containerRef = useRef(null);
 
   const [answers, setAnswers] = useState({
-    goals: [],
-    situation: null,
+    language: null,          // 'cantonese' | 'mandarin'
+    whyLearning: null,
     painPoints: [],
-    language: 'cantonese',
+    swipeCards: [],
+    topics: [],
     dailyGoalMinutes: 20,
     micGranted: false,
+    notifGranted: false,
     demoScore: null,
     plan: 'free',
   });
@@ -78,7 +82,7 @@ export default function OnboardingFlow({ onComplete }) {
 
   const writeAllAnswersToSettings = useCallback(async () => {
     await updateSettings({
-      currentLanguage: answers.language,
+      currentLanguage: answers.language || 'cantonese',
       dailyGoalMinutes: answers.dailyGoalMinutes,
       onboardingCompleted: true,
     });
@@ -92,7 +96,6 @@ export default function OnboardingFlow({ onComplete }) {
   const CurrentScreen = SCREENS[screenIndex];
   const showProgress = PROGRESS_SCREENS.has(screenIndex);
   const showBack = !NO_BACK_SCREENS.has(screenIndex);
-  // Progress bar step is 1-indexed: index 0 = screen 1
   const progressStep = screenIndex + 1;
 
   return (
@@ -109,7 +112,7 @@ export default function OnboardingFlow({ onComplete }) {
       )}
       {showProgress && (
         <div className={styles.progressWrapper}>
-          <OnboardingProgressBar currentStep={progressStep} totalSteps={14} />
+          <OnboardingProgressBar currentStep={progressStep} totalSteps={16} />
         </div>
       )}
       <div

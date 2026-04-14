@@ -1,11 +1,15 @@
 import { OptionCard } from '../shared/OptionCard';
 
+const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
+
 const OPTIONS = [
-  'I never know where to start',
-  'The tones feel impossible',
-  "I've tried apps but they teach reading, not speaking",
-  "I don't have time",
-  'Honestly, I just never tried',
+  'My tones are wrong but I don\'t know how to fix them',
+  'I can understand it, but I can\'t produce it',
+  'Apps feel gamified but I\'m not actually speaking',
+  'I don\'t know if I\'m saying it right — nobody\'s correcting me',
+  'I\'ve tried apps before and quit within a week',
+  'I\'m embarrassed to practice out loud',
+  'I can read characters but pronunciation is a wall',
 ];
 
 export default function Screen05_Pain({ advance, answers, setAnswers }) {
@@ -25,13 +29,16 @@ export default function Screen05_Pain({ advance, answers, setAnswers }) {
       minHeight: '100vh',
       background: '#F4F1E8',
       padding: '48px 24px 120px',
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+      fontFamily: FONT,
     }}>
       <h1 style={{ fontSize: "1.625rem", fontWeight: 800, color: '#1A2A18', margin: 0, lineHeight: 1.2 }}>
-        What's held you back until now?
+        What's made it difficult until now?
       </h1>
+      <p style={{ fontSize: "0.875rem", color: '#888', marginTop: 8 }}>
+        Pick all that apply.
+      </p>
 
-      <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
         {OPTIONS.map((option) => (
           <OptionCard
             key={option}
@@ -59,10 +66,10 @@ export default function Screen05_Pain({ advance, answers, setAnswers }) {
             fontSize: "1rem",
             fontWeight: 700,
             cursor: 'pointer',
-            fontFamily: 'inherit',
+            fontFamily: FONT,
           }}
         >
-          Next →
+          This is exactly it
         </button>
       )}
     </div>

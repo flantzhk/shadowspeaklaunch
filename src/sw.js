@@ -21,7 +21,7 @@ registerRoute(
     url.origin === 'https://shadowspeak-api.faith-lantz-ee8.workers.dev' &&
     url.pathname.startsWith('/tts'),
   new CacheFirst({
-    cacheName: 'shadowspeak-audio-v2',
+    cacheName: 'shadowspeak-audio-v3',
     plugins: [
       new ExpirationPlugin({ maxEntries: 1000, maxAgeSeconds: 90 * 24 * 60 * 60 }),
       new CacheableResponsePlugin({ statuses: [0, 200] }),

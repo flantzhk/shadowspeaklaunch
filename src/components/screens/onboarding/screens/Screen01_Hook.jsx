@@ -33,7 +33,7 @@ function NavBar({ dark }) {
           padding: '8px 0',
         }}
       >
-        Sign in →
+        Sign in
       </button>
     </div>
   );
@@ -56,19 +56,19 @@ export default function Screen01_Hook({ advance }) {
           lineHeight: 1.2,
           margin: 0,
         }}>
-          The barista stops trying to speak English the moment you open your mouth.
+          Speak Chinese the way it was meant to sound.
         </h1>
         <p style={{
           fontSize: "0.9375rem",
-          color: '#666',
+          color: '#555',
           lineHeight: 1.6,
           marginTop: 12,
           marginBottom: 0,
         }}>
-          ShadowSpeak teaches you to speak Cantonese. Not read it. Not write it. Speak it.
+          Real pronunciation. Real feedback. The AI coaching app built for Chinese learners who are done guessing.
         </p>
 
-        {/* Language pills */}
+        {/* Language pills — both active */}
         <div style={{ display: 'flex', gap: 8, marginTop: 20 }}>
           <span style={{
             display: 'inline-flex',
@@ -81,33 +81,22 @@ export default function Screen01_Hook({ advance }) {
             borderRadius: 20,
             padding: '7px 14px',
           }}>
-            <span style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: '#C5E85A',
-            }} />
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#C5E85A' }} />
             Cantonese
           </span>
           <span style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: 6,
-            background: '#E8E4D8',
-            color: '#AAA',
+            background: '#1A2A18',
+            color: '#C5E85A',
             fontSize: "0.75rem",
             fontWeight: 600,
             borderRadius: 20,
             padding: '7px 14px',
-            opacity: 0.6,
           }}>
-            <span style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: '#AAA',
-            }} />
-            Mandarin — coming soon
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#C5E85A' }} />
+            Mandarin
           </span>
         </div>
 
@@ -128,7 +117,7 @@ export default function Screen01_Hook({ advance }) {
             fontFamily: 'inherit',
           }}
         >
-          I want that →
+          Start learning
         </button>
       </ScenarioCard>
     </div>

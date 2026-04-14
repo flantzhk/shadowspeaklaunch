@@ -2,23 +2,34 @@ import { useState, useEffect, useRef } from 'react';
 import { useRecorder } from '../../../../hooks/useRecorder';
 import { textToSpeech, scorePronunciation } from '../../../../services/api';
 
-const PHRASE_CHINESE = '凍奶茶，少甜';
-const PHRASE_JYUTPING = 'dung3 naai5 caa4 siu2 tim4';
-const PHRASE_DISPLAY = 'Dung³ naai⁵ caa⁴, siu² tim⁴';
-const PHRASE_ENGLISH = 'Iced milk tea, less sweet';
+const PHRASES = {
+  cantonese: {
+    chinese: '你食咗飯未呀？',
+    romanisation: 'nei5 sik6 zo2 faan6 mei6 aa3',
+    english: 'Have you eaten yet?',
+    apiLanguage: 'cantonese',
+  },
+  mandarin: {
+    chinese: '你吃饭了吗？',
+    romanisation: 'nǐ chī fàn le ma',
+    english: 'Have you eaten?',
+    apiLanguage: 'mandarin',
+  },
+};
+
 const FALLBACK_SCORE = 84;
 const MAX_RECORD_MS = 5000;
 
-function PhraseCard() {
+function PhraseCard({ phrase }) {
   return (
     <div style={{
       background: 'white',
       borderRadius: 16,
       padding: '20px 18px',
     }}>
-      <div style={{ fontSize: "1.375rem", fontWeight: 700, color: '#1A2A18' }}>{PHRASE_DISPLAY}</div>
-      <div style={{ fontSize: "1rem", color: '#666', marginTop: 6 }}>{PHRASE_CHINESE}</div>
-      <div style={{ fontSize: "0.8125rem", color: '#999', marginTop: 4 }}>{PHRASE_ENGLISH}</div>
+      <div style={{ fontSize: "1.75rem", fontWeight: 700, color: '#1A2A18', lineHeight: 1.2 }}>{phrase.chinese}</div>
+      <div style={{ fontSize: "0.9375rem", color: '#8F6AE8', marginTop: 8, fontWeight: 600 }}>{phrase.romanisation}</div>
+      <div style={{ fontSize: "0.8125rem", color: '#999', marginTop: 4 }}>{phrase.english}</div>
     </div>
   );
 }
@@ -109,6 +120,9 @@ function ScoreCircle({ score, visible }) {
 }
 
 export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
+  const phrase = PHRASES[answers.language] || PHRASES.cantonese;
+  const langLabel = answers.language === 'mandarin' ? 'Mandarin' : 'Cantonese';
+
   const [state, setState] = useState('listen'); // 'listen' | 'record' | 'score' | 'static'
   const [isPlaying, setIsPlaying] = useState(false);
   const [score, setScore] = useState(null);
@@ -132,8 +146,8 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
 
     const playAudio = async () => {
       try {
-        const blob = await textToSpeech(PHRASE_CHINESE, {
-          language: 'cantonese',
+        const blob = await textToSpeech(phrase.chinese, {
+          language: phrase.apiLanguage,
           speed: 0.85,
           outputExtension: 'mp3',
         });
@@ -201,10 +215,10 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
     let finalScore = FALLBACK_SCORE;
     try {
       if (!blob) throw new Error('No audio');
-      const result = await scorePronunciation(blob, PHRASE_CHINESE, 'cantonese');
+      const result = await scorePronunciation(blob, phrase.chinese, phrase.apiLanguage);
       finalScore = result.score ?? FALLBACK_SCORE;
       setScore(finalScore);
-      setTranscribed(result.jyutping ?? null);
+      setTranscribed(result.jyutping ?? result.pinyin ?? null);
     } catch {
       setScore(FALLBACK_SCORE);
       setTranscribed(null);
@@ -212,6 +226,24 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
     setAnswers((prev) => ({ ...prev, demoScore: finalScore }));
     setTimeout(() => setScoreVisible(true), 100);
   };
+
+  const ContextCard = () => (
+    <div style={{
+      background: '#1A2A18',
+      borderRadius: 12,
+      padding: '12px 16px',
+      marginBottom: 16,
+    }}>
+      <p style={{
+        fontSize: "0.8125rem",
+        color: 'rgba(255,255,255,0.8)',
+        margin: 0,
+        lineHeight: 1.5,
+      }}>
+        In {langLabel}, asking "Have you eaten?" is how people say "How are you?" Try saying it.
+      </p>
+    </div>
+  );
 
   // Static fallback for no-mic users
   if (state === 'static') {
@@ -223,9 +255,10 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
         fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
       }}>
         <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: '#1A2A18', margin: 0 }}>
-          Now try it yourself.
+          Here's what scoring looks like.
         </h2>
-        <div style={{ marginTop: 20 }}><PhraseCard /></div>
+        <div style={{ marginTop: 16 }}><ContextCard /></div>
+        <div><PhraseCard phrase={phrase} /></div>
 
         <div style={{ marginTop: 24, textAlign: 'center' }}>
           <p style={{ fontSize: "0.8125rem", color: '#888', marginBottom: 12 }}>
@@ -265,7 +298,7 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
             fontFamily: 'inherit',
           }}
         >
-          I'm in →
+          See my result card
         </button>
       </div>
     );
@@ -282,7 +315,8 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
         Now try it yourself.
       </h2>
 
-      <div style={{ marginTop: 20 }}><PhraseCard /></div>
+      <div style={{ marginTop: 16 }}><ContextCard /></div>
+      <div><PhraseCard phrase={phrase} /></div>
 
       {/* Listen state */}
       {state === 'listen' && (
@@ -399,7 +433,7 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
                     marginTop: 16,
                     lineHeight: 1.8,
                   }}>
-                    <div>Expected: {PHRASE_JYUTPING}</div>
+                    <div>Expected: {phrase.romanisation}</div>
                     <div>You said: {transcribed || '—'}</div>
                   </div>
 
@@ -431,7 +465,7 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
                       fontFamily: 'inherit',
                     }}
                   >
-                    I'm in →
+                    See my result card
                   </button>
                 </>
               )}
