@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { getAllLanguages } from '../../services/languageManager';
-import { getCurrentUser, signOut } from '../../services/auth';
+import { getCurrentUser, signOut, deleteAccount } from '../../services/auth';
 import { DAILY_GOAL_OPTIONS, ROUTES, APP_VERSION } from '../../utils/constants';
+import { fbDb, fbAuth } from '../../services/firebase';
+import { getSettings, getAllLibraryEntries } from '../../services/storage';
 import {
   subscribeToPushNotifications,
   unsubscribeFromPushNotifications,
@@ -20,10 +22,15 @@ import styles from './SettingsScreen.module.css';
 /**
  * @param {{ onBack: Function, onNavigate?: Function }} props
  */
-export default function SettingsScreen({ onBack, onNavigate }) {
+export default function SettingsScreen({ onBack, onNavigate, showToast }) {
   const { settings, updateSettings } = useAppContext();
   const languages = getAllLanguages();
   const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
+  const [showDeleteWarning, setShowDeleteWarning] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState('');
+  const [exportLoading, setExportLoading] = useState(false);
   const [showSpeedPicker, setShowSpeedPicker] = useState(false);
   const [showReminderPicker, setShowReminderPicker] = useState(false);
   const [reminderTime, setReminderTime] = useState(settings.reminderTime || '09:00');
@@ -57,6 +64,87 @@ export default function SettingsScreen({ onBack, onNavigate }) {
   const handleSignOut = async () => {
     await signOut();
     window.location.hash = `#${ROUTES.LOGIN}`;
+  };
+
+  const handleDeleteAccount = async () => {
+    setDeleteLoading(true);
+    setDeleteError('');
+    const { success, error } = await deleteAccount();
+    setDeleteLoading(false);
+    if (!success) {
+      setDeleteError(error || 'Deletion failed. Please try again.');
+      setShowDeleteConfirm(false);
+      return;
+    }
+    // Redirect to onboarding start (empty hash = Screen01)
+    window.location.hash = '';
+    window.location.reload();
+  };
+
+  const handleDownloadData = async () => {
+    setExportLoading(true);
+    try {
+      // 1. Firestore profile
+      const uid = fbAuth.currentUser?.uid;
+      let profile = {};
+      if (uid) {
+        try {
+          const doc = await fbDb.collection('users').doc(uid).get();
+          if (doc.exists) {
+            const d = doc.data();
+            profile = {
+              email: d.email || '',
+              language_choice: d.language_choice || '',
+              created_at: d.created_at?.toDate?.()?.toISOString() || null,
+              subscription_status: d.subscription_status || 'free',
+            };
+          }
+        } catch (_) { /* non-fatal */ }
+      }
+
+      // 2. Local progress from IndexedDB
+      const [localSettings, libraryEntries] = await Promise.all([
+        getSettings(),
+        getAllLibraryEntries(),
+      ]);
+
+      const progress = {
+        streak: localSettings?.streakCount ?? 0,
+        total_practice_seconds: localSettings?.totalPracticeSeconds ?? 0,
+        achievements: localSettings?.achievements ?? [],
+        srs_cards: libraryEntries.map((e) => ({
+          phrase_id: e.phraseId,
+          status: e.status,
+          ease: e.ease,
+          interval: e.interval,
+          next_review_at: e.nextReviewAt,
+          practice_count: e.practiceCount ?? 0,
+        })),
+      };
+
+      const exportData = {
+        exported_at: new Date().toISOString(),
+        app_version: APP_VERSION,
+        profile,
+        progress,
+      };
+
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'shadowspeak-data-export.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showToast?.('Your data is ready — check your downloads', 'success');
+    } catch (err) {
+      showToast?.('Export failed. Please try again.', 'error');
+    } finally {
+      setExportLoading(false);
+    }
   };
 
   const handleDownloadClose = (mode) => {
@@ -186,6 +274,19 @@ export default function SettingsScreen({ onBack, onNavigate }) {
           <button className={styles.navLink} onClick={() => onNavigate(ROUTES.PROFILE)}>View full profile</button>
         )}
         <button className={styles.signOutBtn} onClick={() => setShowSignOutConfirm(true)}>Sign out</button>
+        <button className={styles.deleteAccountBtn} onClick={() => setShowDeleteWarning(true)}>
+          Delete account
+        </button>
+        <button
+          className={styles.downloadDataBtn}
+          onClick={handleDownloadData}
+          disabled={exportLoading}
+        >
+          {exportLoading ? 'Preparing export...' : 'Download my data'}
+        </button>
+        {deleteError ? (
+          <p className={styles.deleteError}>{deleteError}</p>
+        ) : null}
       </div>
 
       <div className={styles.section}>
@@ -197,6 +298,9 @@ export default function SettingsScreen({ onBack, onNavigate }) {
             </button>
             <button className={styles.appRow} onClick={() => onNavigate(ROUTES.FAQ)}>
               <span>FAQ</span><span className={styles.appChevron}>›</span>
+            </button>
+            <button className={styles.appRow} onClick={() => onNavigate(ROUTES.SUPPORT)}>
+              <span>Help &amp; Support</span><span className={styles.appChevron}>›</span>
             </button>
             <button className={styles.appRow} onClick={() => onNavigate(ROUTES.CONTACT)}>
               <span>Contact / Support</span><span className={styles.appChevron}>›</span>
@@ -214,6 +318,30 @@ export default function SettingsScreen({ onBack, onNavigate }) {
           destructive
           onConfirm={handleSignOut}
           onCancel={() => setShowSignOutConfirm(false)}
+        />
+      )}
+
+      {showDeleteWarning && (
+        <ConfirmModal
+          title="Delete your account?"
+          body="This will permanently delete your account and all data. This cannot be undone."
+          confirmLabel="Yes, delete my account"
+          cancelLabel="Cancel"
+          destructive
+          onConfirm={() => { setShowDeleteWarning(false); setShowDeleteConfirm(true); }}
+          onCancel={() => setShowDeleteWarning(false)}
+        />
+      )}
+
+      {showDeleteConfirm && (
+        <ConfirmModal
+          title="Are you absolutely sure?"
+          body="Your account, progress, streak, and all saved phrases will be gone forever."
+          confirmLabel={deleteLoading ? 'Deleting...' : 'Delete forever'}
+          cancelLabel="Cancel"
+          destructive
+          onConfirm={handleDeleteAccount}
+          onCancel={() => setShowDeleteConfirm(false)}
         />
       )}
 

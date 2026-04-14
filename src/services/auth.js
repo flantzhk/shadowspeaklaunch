@@ -291,6 +291,25 @@ async function deleteAccount() {
   }
 }
 
+/**
+ * Write last_active = now to the current user's Firestore doc.
+ * Called on each app session start so the admin dashboard can compute DAU.
+ * Best-effort — never throws.
+ * @returns {Promise<void>}
+ */
+async function updateLastActive() {
+  const user = fbAuth.currentUser;
+  if (!user) return;
+  try {
+    await fbDb.collection('users').doc(user.uid).set(
+      { last_active: firebase.firestore.FieldValue.serverTimestamp() },
+      { merge: true }
+    );
+  } catch (err) {
+    logger.error('Failed to update last_active (non-fatal)', err);
+  }
+}
+
 export {
   signUp,
   signIn,
@@ -304,5 +323,6 @@ export {
   getCurrentUser,
   waitForAuth,
   deleteAccount,
+  updateLastActive,
   createUserDocument, // exported for testing
 };

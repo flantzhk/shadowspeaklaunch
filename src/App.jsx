@@ -1,6 +1,6 @@
 // src/App.jsx — Root: router, context providers, layout shell
 
-import { useState, useEffect, useCallback, lazy, Suspense, Component } from 'react';
+import { useState, useEffect, useCallback, useRef, lazy, Suspense, Component } from 'react';
 import { AppProvider, useAppContext } from './contexts/AppContext';
 import { AudioProvider } from './contexts/AudioContext';
 import { TopBar } from './components/layout/TopBar';
@@ -11,7 +11,7 @@ import { LoadingSpinner } from './components/shared/LoadingSpinner';
 import { useToast } from './components/shared/Toast';
 import { useLibraryActions } from './hooks/useLibraryActions';
 import { ROUTES } from './utils/constants';
-import { isAuthenticated, waitForAuth, getCurrentUser } from './services/auth';
+import { isAuthenticated, waitForAuth, getCurrentUser, updateLastActive } from './services/auth';
 import { fbAuth } from './services/firebase';
 import { getDB } from './services/storage';
 import { initOfflineQueueListener } from './services/offlineManager';
@@ -20,6 +20,9 @@ import { OfflineBanner } from './components/shared/OfflineBanner';
 import { PWAUpdateBanner } from './components/shared/PWAUpdateBanner';
 import { StorageFullModal } from './components/shared/StorageFullModal';
 import { TopicMasteredCelebration } from './components/shared/TopicMasteredCelebration';
+import { CookieConsentBanner } from './components/shared/CookieConsentBanner';
+import { EmailCaptureModal, isEmailCaptureSnoozed } from './components/shared/EmailCaptureModal';
+import { hasResponded } from './services/consent';
 import './styles/global.css';
 
 const HomeScreen = lazy(() => import('./components/screens/HomeScreen'));
@@ -58,6 +61,9 @@ const ScenePickerScreen = lazy(() => import('./components/screens/ScenePickerScr
 const SceneSummary = lazy(() => import('./components/screens/SceneSummary'));
 const ToneGymResults = lazy(() => import('./components/screens/ToneGymResults'));
 const FirstLaunchDownload = lazy(() => import('./components/screens/FirstLaunchDownload'));
+const CheckoutSuccessScreen = lazy(() => import('./components/screens/CheckoutSuccessScreen'));
+const AdminDashboard = lazy(() => import('./components/screens/AdminDashboard'));
+const SupportScreen = lazy(() => import('./components/screens/SupportScreen'));
 
 function parseHash(hash) {
   const clean = hash.replace('#', '');
@@ -100,7 +106,7 @@ const Loader = ({ size = 32 }) => (
   </div>
 );
 
-const PUBLIC_ROUTES = [ROUTES.LOGIN, ROUTES.REGISTER, ROUTES.FORGOT_PASSWORD, ROUTES.NEW_PASSWORD, ROUTES.EMAIL_VERIFY, ROUTES.PRIVACY, ROUTES.TERMS];
+const PUBLIC_ROUTES = [ROUTES.LOGIN, ROUTES.REGISTER, ROUTES.FORGOT_PASSWORD, ROUTES.NEW_PASSWORD, ROUTES.EMAIL_VERIFY, ROUTES.PRIVACY, ROUTES.TERMS, ROUTES.SUPPORT];
 
 function MainLayout() {
   const { route, navigate, goBack } = useRouter();
@@ -116,6 +122,46 @@ function MainLayout() {
   const [showStorageFull, setShowStorageFull] = useState(false);
   const [showFirstLaunch, setShowFirstLaunch] = useState(false);
   const [topicMastered, setTopicMastered] = useState(null); // { topicName, phraseCount }
+
+  // Streak freeze — show confirmation toast when a freeze is consumed or unavailable
+  const handleSessionComplete = useCallback((s) => {
+    setSessionSummary(s);
+    if (s?.freezeUsed) {
+      showToast('Streak freeze used — your streak is safe', 'info');
+    } else if (s?.freezeNotAvailable) {
+      showToast('No streak freezes left — earn more by completing challenges', 'info');
+    }
+  }, [showToast]);
+
+  // Cookie consent banner — show until the user makes a choice
+  const [showConsentBanner, setShowConsentBanner] = useState(() => !hasResponded());
+
+  // Email capture — triggered on 3-day and 7-day streak milestones
+  const [showEmailCapture, setShowEmailCapture] = useState(false);
+  const [emailCaptureStreak, setEmailCaptureStreak] = useState(0);
+  const prevStreakRef = useRef(null);
+
+  // Detect Stripe checkout return (?checkout=success|cancel in query string)
+  const [checkoutResult] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('checkout'); // 'success' | 'cancel' | null
+  });
+
+  // Clean up Stripe checkout query param and handle cancel toast
+  useEffect(() => {
+    if (!checkoutResult) return;
+    const url = new URL(window.location.href);
+    url.searchParams.delete('checkout');
+    window.history.replaceState({}, '', url.toString());
+
+    if (checkoutResult === 'cancel') {
+      // Show toast after auth settles
+      const t = setTimeout(() => {
+        showToast('No payment taken. You can upgrade anytime from your profile.', 'info');
+      }, 1200);
+      return () => clearTimeout(t);
+    }
+  }, [checkoutResult]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Apply forced theme preference to <html> element
   useEffect(() => {
@@ -148,6 +194,8 @@ function MainLayout() {
           updates.onboardingCompleted = true;
         }
         if (Object.keys(updates).length > 0) updateSettings(updates);
+        // Record last_active so the admin dashboard can compute DAU
+        updateLastActive();
       }
       setAuthReady(true);
     }).catch(() => {
@@ -156,6 +204,32 @@ function MainLayout() {
       setAuthReady(true);
     });
   }, []);
+
+  // Email capture — watch for streak crossing the 3-day or 7-day milestone.
+  // Skip if the user already has an email on their Firebase account or in settings.
+  useEffect(() => {
+    const streak = settings.streakCount;
+    const prev = prevStreakRef.current;
+    prevStreakRef.current = streak;
+
+    // prev is null on first render — don't trigger on load
+    if (prev === null) return;
+
+    const milestones = [3, 7];
+    const crossedMilestone = milestones.some(m => prev < m && streak >= m);
+    if (!crossedMilestone) return;
+
+    // Skip if user already has an email address
+    const user = fbAuth.currentUser;
+    const userEmail = user?.email || settings.email || '';
+    if (userEmail) return;
+
+    // Skip if dismissed recently
+    if (isEmailCaptureSnoozed()) return;
+
+    setEmailCaptureStreak(streak);
+    setShowEmailCapture(true);
+  }, [settings.streakCount]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (isLoading || !authReady) return <Loader size={40} />;
 
@@ -167,6 +241,15 @@ function MainLayout() {
           Reload
         </button>
       </div>
+    );
+  }
+
+  // Stripe checkout success — show celebration screen, then route to home
+  if (checkoutResult === 'success' && isAuthenticated()) {
+    return (
+      <Suspense fallback={<Loader size={40} />}>
+        <CheckoutSuccessScreen onDone={() => { navigate(ROUTES.HOME); }} />
+      </Suspense>
     );
   }
 
@@ -311,6 +394,17 @@ function MainLayout() {
         />
       )}
 
+      {showConsentBanner && (
+        <CookieConsentBanner onConsent={() => setShowConsentBanner(false)} />
+      )}
+
+      {showEmailCapture && (
+        <EmailCaptureModal
+          streakCount={emailCaptureStreak}
+          onClose={() => setShowEmailCapture(false)}
+        />
+      )}
+
       {ToastComponent}
     </>
   );
@@ -327,7 +421,7 @@ function MainLayout() {
             <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
               <Suspense fallback={<Loader />}>
                 {isSession && !sessionSummary
-                  ? renderSessionScreen(route.path, () => navigate(ROUTES.HOME), (s) => setSessionSummary(s))
+                  ? renderSessionScreen(route.path, () => navigate(ROUTES.HOME), handleSessionComplete)
                   : renderScreen(route, navigate, goBack, showToast, setActiveScene)}
               </Suspense>
             </main>
@@ -408,6 +502,9 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
     case ROUTES.AI_SCENARIO: return <AIScenarioPicker onBack={goBack} onNavigate={navigate} onSelectScenario={(s) => { navigate(ROUTES.AI_CHAT); }} />;
     case ROUTES.DAY_DETAIL: return <DayDetailScreen date={route.id} onBack={goBack} />;
     case ROUTES.SCENE_PICKER: return <ScenePickerScreen onBack={goBack} onStartScene={onStartScene} />;
+    case ROUTES.CHECKOUT_SUCCESS: return <CheckoutSuccessScreen onDone={() => navigate(ROUTES.HOME)} />;
+    case ROUTES.ADMIN: return <AdminDashboard onBack={goBack} />;
+    case ROUTES.SUPPORT: return <SupportScreen onBack={goBack} />;
     default: return <HomeScreen onNavigate={navigate} />;
   }
 }

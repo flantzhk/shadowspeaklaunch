@@ -189,6 +189,53 @@
   opacity: 0.8;
 }
 
+.deleteAccountBtn {
+  width: 100%;
+  padding: var(--space-md);
+  margin-top: var(--space-sm);
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  min-height: 44px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--transition-fast);
+}
+
+.deleteAccountBtn:active {
+  color: var(--color-error);
+}
+
+.downloadDataBtn {
+  width: 100%;
+  padding: var(--space-md);
+  margin-top: var(--space-sm);
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  min-height: 44px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.downloadDataBtn:disabled {
+  opacity: 0.5;
+}
+
+.deleteError {
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+  text-align: center;
+  margin-top: var(--space-sm);
+  line-height: 1.5;
+}
+
 .navLink {
   display: block;
   width: 100%;

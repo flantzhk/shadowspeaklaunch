@@ -5,6 +5,8 @@ import { useAppContext } from '../../contexts/AppContext';
 import { getAllLanguages } from '../../services/languageManager';
 import { getCurrentUser, signOut, deleteAccount } from '../../services/auth';
 import { DAILY_GOAL_OPTIONS, ROUTES, APP_VERSION } from '../../utils/constants';
+import { fbDb, fbAuth } from '../../services/firebase';
+import { getSettings, getAllLibraryEntries } from '../../services/storage';
 import { ConfirmModal } from '../shared/ConfirmModal';
 import { BottomSheet } from '../shared/BottomSheet';
 import DownloadAllModal from '../shared/DownloadAllModal';
@@ -25,6 +27,7 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
   const [reminderTime, setReminderTime] = useState(settings.reminderTime || '09:00');
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [downloadInBackground, setDownloadInBackground] = useState(false);
+  const [exportLoading, setExportLoading] = useState(false);
 
   const initial = (settings.name || user?.displayName || user?.email || 'U')[0].toUpperCase();
   const displayName = settings.name || user?.displayName || user?.email?.split('@')[0] || 'Learner';
@@ -53,6 +56,70 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
   const handleDownloadClose = (mode) => {
     if (mode === 'background') setDownloadInBackground(true);
     setShowDownloadModal(false);
+  };
+
+  const handleDownloadData = async () => {
+    setExportLoading(true);
+    try {
+      const uid = fbAuth.currentUser?.uid;
+      let profile = {};
+      if (uid) {
+        try {
+          const doc = await fbDb.collection('users').doc(uid).get();
+          if (doc.exists) {
+            const d = doc.data();
+            profile = {
+              email: d.email || '',
+              language_choice: d.language_choice || '',
+              created_at: d.created_at?.toDate?.()?.toISOString() || null,
+              subscription_status: d.subscription_status || 'free',
+            };
+          }
+        } catch (_) { /* non-fatal */ }
+      }
+
+      const [localSettings, libraryEntries] = await Promise.all([
+        getSettings(),
+        getAllLibraryEntries(),
+      ]);
+
+      const progress = {
+        streak: localSettings?.streakCount ?? 0,
+        total_practice_seconds: localSettings?.totalPracticeSeconds ?? 0,
+        achievements: localSettings?.achievements ?? [],
+        srs_cards: libraryEntries.map((e) => ({
+          phrase_id: e.phraseId,
+          status: e.status,
+          ease: e.ease,
+          interval: e.interval,
+          next_review_at: e.nextReviewAt,
+          practice_count: e.practiceCount ?? 0,
+        })),
+      };
+
+      const exportData = {
+        exported_at: new Date().toISOString(),
+        app_version: APP_VERSION,
+        profile,
+        progress,
+      };
+
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'shadowspeak-data-export.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showToast?.('Your data is ready — check your downloads', 'success');
+    } catch (err) {
+      showToast?.('Export failed. Please try again.', 'error');
+    } finally {
+      setExportLoading(false);
+    }
   };
 
   return (
@@ -215,8 +282,21 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
               <span className={styles.rowValue}>›</span>
             </button>
             <div className={styles.cardDivider} />
+            <button className={styles.cardRow} onClick={() => onNavigate(ROUTES.SUPPORT)}>
+              <span className={styles.rowLabel}>Help &amp; Support</span>
+              <span className={styles.rowValue}>›</span>
+            </button>
+            <div className={styles.cardDivider} />
             <button className={styles.cardRow} onClick={() => onNavigate(ROUTES.CONTACT)}>
               <span className={styles.rowLabel}>Contact / Support</span>
+              <span className={styles.rowValue}>›</span>
+            </button>
+            <div className={styles.cardDivider} />
+            <button className={styles.cardRow} onClick={() => {
+              window.location.href = 'mailto:support@shadowspeak.app?subject=Feedback';
+              showToast?.('Opening your email app', 'info');
+            }}>
+              <span className={styles.rowLabel}>Send feedback</span>
               <span className={styles.rowValue}>›</span>
             </button>
           </div>
@@ -230,6 +310,13 @@ export default function ProfileScreen({ onBack, onNavigate, showToast }) {
         </button>
         <button className={styles.deleteBtn} onClick={() => setShowDeleteConfirm(true)}>
           Delete account
+        </button>
+        <button
+          className={styles.exportDataBtn}
+          onClick={handleDownloadData}
+          disabled={exportLoading}
+        >
+          {exportLoading ? 'Preparing export...' : 'Download my data'}
         </button>
       </div>
 
