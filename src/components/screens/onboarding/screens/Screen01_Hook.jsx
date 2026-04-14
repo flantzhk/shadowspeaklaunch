@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { ROUTES } from '../../../../utils/constants';
 import { ScenarioCard } from '../shared/ScenarioCard';
+import { logEvent } from '../../../../services/analytics';
 
 function NavBar({ dark }) {
   const textColor = dark ? 'white' : undefined;
@@ -42,6 +44,10 @@ function NavBar({ dark }) {
 export { NavBar };
 
 export default function Screen01_Hook({ advance }) {
+  useEffect(() => {
+    logEvent('onboarding_started');
+  }, []);
+
   return (
     <div style={{ position: 'relative', height: '100dvh' }}>
       <NavBar dark />

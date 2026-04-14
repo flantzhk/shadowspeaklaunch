@@ -2,34 +2,65 @@
 
 import { firebase, fbAuth, fbDb } from './firebase';
 import { logger } from '../utils/logger';
+import { clearAllData } from './storage';
+
+// ---------------------------------------------------------------------------
+// Internal helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Create a Firestore user document at users/{uid} on first registration.
+ * Does NOT overwrite if the document already exists (returning user protection).
+ *
+ * Required fields per spec:
+ *   - email
+ *   - language_choice   ('cantonese' | 'mandarin')
+ *   - created_at        (Firestore server timestamp)
+ *   - subscription_status ('free')
+ *
+ * @param {string} uid
+ * @param {string} email
+ * @param {string} [languageChoice]
+ * @returns {Promise<void>}
+ */
+async function createUserDocument(uid, email, languageChoice = 'cantonese') {
+  try {
+    const docRef = fbDb.collection('users').doc(uid);
+    const existing = await docRef.get();
+    if (existing.exists) return; // returning user — do not overwrite
+
+    await docRef.set({
+      uid,
+      email: email || '',
+      language_choice: languageChoice || 'cantonese',
+      created_at: firebase.firestore.FieldValue.serverTimestamp(),
+      subscription_status: 'free',
+    });
+  } catch (dbErr) {
+    logger.error('Failed to create user document', dbErr);
+    // Non-fatal — auth still succeeded
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
 
 /**
  * Register a new user with email/password.
  * @param {string} email
  * @param {string} password
  * @param {string} name
+ * @param {string} [languageChoice] - 'cantonese' | 'mandarin' (from onboarding)
  * @returns {Promise<{user: Object|null, error: string|null}>}
  */
-async function signUp(email, password, name) {
+async function signUp(email, password, name, languageChoice = 'cantonese') {
   try {
     const cred = await fbAuth.createUserWithEmailAndPassword(email, password);
     if (cred.user && name) {
       await cred.user.updateProfile({ displayName: name });
     }
-    // Track user registration in Firestore
-    try {
-      await fbDb.collection('users').doc(cred.user.uid).set({
-        uid: cred.user.uid,
-        email,
-        name: name || '',
-        signUpDate: new Date().toISOString(),
-        platform: 'web',
-        onboardingCompleted: false,
-      }, { merge: true });
-    } catch (dbErr) {
-      logger.error('Failed to write user doc', dbErr);
-      // Non-fatal — auth still succeeded
-    }
+    await createUserDocument(cred.user.uid, email, languageChoice);
     return { user: cred.user, error: null };
   } catch (error) {
     logger.error('Sign up failed', error);
@@ -55,26 +86,15 @@ async function signIn(email, password) {
 
 /**
  * Sign in with Google popup.
+ * @param {string} [languageChoice] - passed through to Firestore doc on first sign-up
  * @returns {Promise<{user: Object|null, error: string|null}>}
  */
-async function signInWithGoogle() {
+async function signInWithGoogle(languageChoice = 'cantonese') {
   const provider = new firebase.auth.GoogleAuthProvider();
   try {
     const cred = await fbAuth.signInWithPopup(provider);
-    // Track first-time Google sign-ups in Firestore
     if (cred.additionalUserInfo?.isNewUser) {
-      try {
-        await fbDb.collection('users').doc(cred.user.uid).set({
-          uid: cred.user.uid,
-          email: cred.user.email || '',
-          name: cred.user.displayName || '',
-          signUpDate: new Date().toISOString(),
-          platform: 'web',
-          onboardingCompleted: false,
-        }, { merge: true });
-      } catch (dbErr) {
-        logger.error('Failed to write Google user doc', dbErr);
-      }
+      await createUserDocument(cred.user.uid, cred.user.email || '', languageChoice);
     }
     return { user: cred.user, error: null };
   } catch (error) {
@@ -91,27 +111,17 @@ async function signInWithGoogle() {
  * Requires Apple Sign In configured in the Firebase console:
  *   Authentication > Sign-in method > Apple > Enable
  *   (Needs Apple Developer account + Service ID + OAuth redirect domain)
+ * @param {string} [languageChoice] - passed through to Firestore doc on first sign-up
  * @returns {Promise<{user: Object|null, error: string|null}>}
  */
-async function signInWithApple() {
+async function signInWithApple(languageChoice = 'cantonese') {
   const provider = new firebase.auth.OAuthProvider('apple.com');
   provider.addScope('email');
   provider.addScope('name');
   try {
     const cred = await fbAuth.signInWithPopup(provider);
     if (cred.additionalUserInfo?.isNewUser) {
-      try {
-        await fbDb.collection('users').doc(cred.user.uid).set({
-          uid: cred.user.uid,
-          email: cred.user.email || '',
-          name: cred.user.displayName || '',
-          signUpDate: new Date().toISOString(),
-          platform: 'web',
-          onboardingCompleted: false,
-        }, { merge: true });
-      } catch (dbErr) {
-        logger.error('Failed to write Apple user doc', dbErr);
-      }
+      await createUserDocument(cred.user.uid, cred.user.email || '', languageChoice);
     }
     return { user: cred.user, error: null };
   } catch (error) {
@@ -228,10 +238,57 @@ function firebaseErrorMessage(error) {
   }
 }
 
+/**
+ * Permanently delete the current user's account and all associated data.
+ * Order of operations:
+ *   1. Delete Firestore user document (best-effort)
+ *   2. Clear all IndexedDB stores
+ *   3. Delete Firebase Auth user
+ *   4. Sign out (clears local auth state)
+ *
+ * Required for Apple App Store compliance (guideline 5.1.1).
+ * @returns {Promise<{ success: boolean, error: string|null }>}
+ */
 async function deleteAccount() {
   const user = fbAuth.currentUser;
-  if (!user) throw new Error('Not signed in');
-  await user.delete();
+  if (!user) return { success: false, error: 'Not signed in.' };
+
+  try {
+    // 1. Delete Firestore user document (best-effort — don't abort if this fails)
+    try {
+      await fbDb.collection('users').doc(user.uid).delete();
+    } catch (dbErr) {
+      logger.error('Failed to delete Firestore user doc (non-fatal)', dbErr);
+    }
+
+    // 2. Wipe all local IndexedDB data
+    try {
+      await clearAllData();
+    } catch (storageErr) {
+      logger.error('Failed to clear IndexedDB (non-fatal)', storageErr);
+    }
+
+    // 3. Delete the Firebase Auth user — this is the critical step
+    await user.delete();
+
+    // 4. Sign out to clear any remaining local auth state
+    try {
+      await fbAuth.signOut();
+    } catch (_) {
+      // Auth user is already deleted; sign-out failure is safe to ignore
+    }
+
+    return { success: true, error: null };
+  } catch (error) {
+    logger.error('Account deletion failed', error);
+    if (error.code === 'auth/requires-recent-login') {
+      return {
+        success: false,
+        error: 'For security, please sign out and sign back in before deleting your account.',
+      };
+    }
+    return { success: false, error: error.message || 'Failed to delete account. Please try again.' };
+  }
 }
 
 export {
@@ -247,4 +304,5 @@ export {
   getCurrentUser,
   waitForAuth,
   deleteAccount,
+  createUserDocument, // exported for testing
 };

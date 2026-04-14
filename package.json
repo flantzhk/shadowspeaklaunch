@@ -1,12 +1,15 @@
 {
   "name": "shadowspeak",
   "private": true,
-  "version": "1.15.35",
+  "version": "1.18.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "firebase": "^10.14.1",
@@ -15,8 +18,15 @@
     "react-dom": "^18.3.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@vitejs/plugin-react": "^4.3.0",
+    "@vitest/ui": "^4.1.4",
+    "happy-dom": "^20.9.0",
+    "jsdom": "^29.0.2",
     "vite": "^5.4.0",
-    "vite-plugin-pwa": "^0.20.0"
+    "vite-plugin-pwa": "^0.20.0",
+    "vitest": "^4.1.4"
   }
 }

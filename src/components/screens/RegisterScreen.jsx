@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useMemo } from 'react';
 import { signUp, signInWithGoogle, signInWithApple } from '../../services/auth';
+import { useAppContext } from '../../contexts/AppContext';
 import { ROUTES } from '../../utils/constants';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import styles from './RegisterScreen.module.css';
@@ -17,6 +18,7 @@ function getPasswordStrength(pw) {
 }
 
 export default function RegisterScreen() {
+  const { settings } = useAppContext();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,6 +26,7 @@ export default function RegisterScreen() {
   const [loading, setLoading] = useState(false);
 
   const strength = useMemo(() => getPasswordStrength(password), [password]);
+  const language = settings?.currentLanguage || 'cantonese';
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
@@ -34,7 +37,7 @@ export default function RegisterScreen() {
     if (password.length < 8) { setError('Password must be at least 8 characters.'); return; }
 
     setLoading(true);
-    const { error: authError } = await signUp(email.trim(), password, name.trim());
+    const { error: authError } = await signUp(email.trim(), password, name.trim(), language);
     setLoading(false);
 
     if (authError) { setError(authError); return; }
@@ -88,7 +91,9 @@ export default function RegisterScreen() {
 
       <div className={styles.terms}>
         By creating an account, you agree to our{' '}
-        <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a>.
+        <a href="https://[app-domain]/terms" target="_blank" rel="noopener noreferrer">Terms</a>
+        {' '}and{' '}
+        <a href="https://[app-domain]/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
       </div>
 
       <div className={styles.divider}>
@@ -101,7 +106,7 @@ export default function RegisterScreen() {
         <button className={styles.socialBtn} type="button" onClick={async () => {
           setError('');
           setLoading(true);
-          const { error: authError } = await signInWithGoogle();
+          const { error: authError } = await signInWithGoogle(language);
           setLoading(false);
           if (authError) { setError(authError); return; }
           window.location.hash = `#${ROUTES.WELCOME}`;
@@ -112,7 +117,7 @@ export default function RegisterScreen() {
         <button className={styles.socialBtn} type="button" onClick={async () => {
           setError('');
           setLoading(true);
-          const { error: authError } = await signInWithApple();
+          const { error: authError } = await signInWithApple(language);
           setLoading(false);
           if (authError) { setError(authError); return; }
           window.location.hash = `#${ROUTES.WELCOME}`;

@@ -10,6 +10,7 @@ import { updateAfterPractice } from '../../services/srs';
 import { buildLesson } from '../../services/lessonBuilder';
 import { saveSession } from '../../services/storage';
 import { updateStreak, getTodayString } from '../../services/streak';
+import { logEvent, isStreakMilestone } from '../../services/analytics';
 import { SCORE_THRESHOLDS } from '../../utils/constants';
 import { ScoreBadge } from '../cards/ScoreBadge';
 import { RecordButton } from '../shared/RecordButton';
@@ -47,8 +48,12 @@ export default function PromptDrill({ onBack, onComplete }) {
     (async () => {
       const lesson = await buildLesson(settings.dailyGoalMinutes, settings.currentLanguage);
       setPhrases(lesson);
-      if (lesson.length > 0) setPhase('prompt');
-      else setPhase('empty');
+      if (lesson.length > 0) {
+        setPhase('prompt');
+        logEvent('session_started', { mode: 'prompt_drill' });
+      } else {
+        setPhase('empty');
+      }
     })();
     return () => { audioRef.current.pause(); };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -144,12 +149,21 @@ export default function PromptDrill({ onBack, onComplete }) {
     const dur = Math.round((Date.now() - sessionStart) / 1000);
     const streakCount = await updateStreak();
     const scores = results.filter(r => r.score !== null).map(r => r.score);
+    const avg = scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null;
+    logEvent('session_completed', {
+      mode: 'prompt_drill',
+      phrases_attempted: results.length,
+      average_score: avg !== null ? Math.round(avg) : 0,
+    });
+    if (isStreakMilestone(streakCount)) {
+      logEvent('streak_milestone', { streak_count: streakCount });
+    }
     await updateSettings({ streakCount, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
     const rec = {
       id: crypto.randomUUID(), date: getTodayString(),
       startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
       mode: 'prompt', phrasesAttempted: results.length, phrasesMastered: 0,
-      averageScore: scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null,
+      averageScore: avg,
       phraseResults: results.map(r => ({ phraseId: r.phraseId, romanization: r.romanization, english: r.english, score: r.score, replays: 0, markedKnown: false })),
     };
     await saveSession(rec);
@@ -200,7 +214,7 @@ export default function PromptDrill({ onBack, onComplete }) {
       <div className={styles.promptArea}>
         <span style={{
           fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px',
-          color: 'var(--color-brand-green, #4A6A2A)', fontWeight: 700, marginBottom: '8px',
+          color: 'var(--color-brand-green)', fontWeight: 700, marginBottom: '8px',
         }}>
           {LEVEL_LABELS[level]}
         </span>
@@ -236,7 +250,7 @@ export default function PromptDrill({ onBack, onComplete }) {
             <span className={styles.label}>Say this in Cantonese:</span>
             <p className={styles.english}>{phrase.english}</p>
             {level === 1 && phrase.jyutping && (
-              <p style={{ fontSize: '14px', color: 'var(--color-jyutping, #4A6A2A)', marginTop: '4px' }}>
+              <p style={{ fontSize: '14px', color: 'var(--color-jyutping)', marginTop: '4px' }}>
                 {phrase.jyutping}
               </p>
             )}

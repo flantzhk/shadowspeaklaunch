@@ -5,6 +5,7 @@ import { useAppContext } from '../../contexts/AppContext';
 import { getAllLibraryEntries, saveSession, getSettings, saveSettings } from '../../services/storage';
 import { loadAllPhrases } from '../../services/lessonBuilder';
 import { updateStreak, getTodayString } from '../../services/streak';
+import { logEvent, isStreakMilestone } from '../../services/analytics';
 import { LessonLoader } from '../shared/LessonLoader';
 import styles from './SpeedRun.module.css';
 
@@ -45,7 +46,12 @@ export default function SpeedRun({ onBack, onComplete }) {
 
       const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, TOTAL_ROUNDS);
       setPhrases(shuffled);
-      if (shuffled.length > 0) { setPhase('playing'); startTimer(); generateOptions(shuffled, 0, pool); }
+      if (shuffled.length > 0) {
+        setPhase('playing');
+        logEvent('session_started', { mode: 'speed_run' });
+        startTimer();
+        generateOptions(shuffled, 0, pool);
+      }
     })();
     return () => clearInterval(timerRef.current);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -96,6 +102,10 @@ export default function SpeedRun({ onBack, onComplete }) {
   const finish = useCallback(async () => {
     const dur = Math.round((Date.now() - sessionStart) / 1000);
     const streak = await updateStreak();
+    logEvent('session_completed', { mode: 'speed_run', correct_answers: correct });
+    if (isStreakMilestone(streak)) {
+      logEvent('streak_milestone', { streak_count: streak });
+    }
     const newBest = Math.max(personalBest, correct);
     await updateSettings({ streakCount: streak, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
     if (newBest > personalBest) {

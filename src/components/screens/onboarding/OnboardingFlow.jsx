@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { useAppContext } from '../../../contexts/AppContext';
+import { logEvent } from '../../../services/analytics';
 import { OnboardingProgressBar } from './shared/OnboardingProgressBar';
 import Screen01_Hook from './screens/Screen01_Hook';
 import Screen02_LanguageSelect from './screens/Screen02_LanguageSelect';
@@ -90,6 +91,7 @@ export default function OnboardingFlow({ onComplete }) {
 
   const handleComplete = useCallback(async (plan) => {
     await writeAllAnswersToSettings();
+    logEvent('onboarding_completed', { plan: plan || 'free' });
     onComplete(plan);
   }, [writeAllAnswersToSettings, onComplete]);
 

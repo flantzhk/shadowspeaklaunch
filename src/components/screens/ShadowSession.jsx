@@ -10,6 +10,7 @@ import { saveSession, addToQueue } from '../../services/storage';
 import { scorePronunciation } from '../../services/api';
 import { isAuthenticated } from '../../services/auth';
 import { updateStreak, getTodayString } from '../../services/streak';
+import { logEvent, isStreakMilestone } from '../../services/analytics';
 import { buildLesson } from '../../services/lessonBuilder';
 import { blobToBase64 } from '../../services/offlineManager';
 import { ScoreBadge } from '../cards/ScoreBadge';
@@ -37,6 +38,7 @@ export default function ShadowSession({ onBack, onComplete }) {
   const [currentScore, setCurrentScore] = useState(null);
   const [scoreResult, setScoreResult] = useState(null);
   const [isScoring, setIsScoring] = useState(false);
+  const [scoringError, setScoringError] = useState(false);
   const [phase, setPhase] = useState('loading'); // loading | ready | listen | record | scored
 
   const [lessonPhrases, setLessonPhrases] = useState(null);
@@ -60,7 +62,10 @@ export default function ShadowSession({ onBack, onComplete }) {
 
   const handleTapToStart = useCallback(async () => {
     if (!lessonPhrases) return;
+    logEvent('session_started', { mode: 'shadow' });
     setPhase('listen');
+    // Prime audio element synchronously before any await so iOS Safari allows play()
+    audio.prime();
     try {
       // Disable auto-advance: shadow mode pauses after each phrase so user can repeat
       audio.setAutoAdvance(false);
@@ -86,10 +91,19 @@ export default function ShadowSession({ onBack, onComplete }) {
     audio.pause();
     try {
       const dur = Math.round((Date.now() - sessionStart) / 1000);
-      const streak = await updateStreak();
+      const streakResult = await updateStreak();
+      const streakCount = streakResult.count;
       const scores = results.filter(r => r.score !== null).map(r => r.score);
       const avg = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : null;
-      await updateSettings({ streakCount: streak, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
+      logEvent('session_completed', {
+        mode: 'shadow',
+        phrases_attempted: results.length,
+        average_score: avg !== null ? Math.round(avg) : 0,
+      });
+      if (isStreakMilestone(streakCount)) {
+        logEvent('streak_milestone', { streak_count: streakCount });
+      }
+      await updateSettings({ streakCount, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
       const rec = {
         id: crypto.randomUUID(), date: getTodayString(),
         startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
@@ -98,7 +112,7 @@ export default function ShadowSession({ onBack, onComplete }) {
         phraseResults: results.map(r => ({ phraseId: r.phraseId, romanization: r.romanization, english: r.english, score: r.score, replays: 0, markedKnown: false })),
       };
       await saveSession(rec);
-      onComplete?.({ ...rec, streakCount: streak });
+      onComplete?.({ ...rec, streakCount, freezeUsed: streakResult.freezeUsed, freezeNotAvailable: streakResult.freezeNotAvailable });
     } catch (err) {
       // Storage failure — still navigate away so user isn't stuck
       onComplete?.({ mode: 'shadow', phrasesAttempted: results.length, averageScore: null, streakCount: 0 });
@@ -128,6 +142,7 @@ export default function ShadowSession({ onBack, onComplete }) {
     setPhase('scored');
     setIsScoring(true);
     setCurrentScore(null);
+    setScoringError(false);
 
     if (isOnline && isAuthenticated()) {
       try {
@@ -140,6 +155,7 @@ export default function ShadowSession({ onBack, onComplete }) {
         addResult(audio.currentPhrase.id, result.score);
       } catch (err) {
         setCurrentScore(null);
+        setScoringError(true);
         addResult(audio.currentPhrase.id, null);
       }
     } else {
@@ -162,6 +178,7 @@ export default function ShadowSession({ onBack, onComplete }) {
   const handleNext = useCallback(async () => {
     setCurrentScore(null);
     setScoreResult(null);
+    setScoringError(false);
     if (audio.currentIndex < audio.queueLength - 1) {
       setPhase('listen');
       await audio.next();
@@ -275,15 +292,20 @@ export default function ShadowSession({ onBack, onComplete }) {
         {phase === 'scored' && (
           <div className={styles.scoreSection}>
             <ScoreBadge score={isScoring ? null : currentScore} variant="full" />
-            {!isScoring && (
+            {!isScoring && scoringError && (
+              <p style={{ fontSize: '13px', color: 'var(--color-error)', textAlign: 'center', marginTop: '8px', lineHeight: 1.5 }}>
+                Something went wrong. Check your connection and try again.
+              </p>
+            )}
+            {!isScoring && !scoringError && (
               <PronunciationFeedback
                 phrase={phrase}
                 scoreResult={scoreResult}
-                onHearPhrase={() => { setScoreResult(null); setCurrentScore(null); setPhase('listen'); audio.play(); }}
+                onHearPhrase={() => { setScoreResult(null); setCurrentScore(null); setScoringError(false); setPhase('listen'); audio.play(); }}
               />
             )}
             <div className={styles.scoreActions}>
-              <button className={styles.retryBtn} onClick={() => { setScoreResult(null); setCurrentScore(null); setPhase('listen'); audio.play(); }}>
+              <button className={styles.retryBtn} onClick={() => { setScoreResult(null); setCurrentScore(null); setScoringError(false); setPhase('listen'); audio.play(); }}>
                 Try again
               </button>
               <button className={styles.nextBtn} onClick={handleNext}>

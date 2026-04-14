@@ -1,6 +1,6 @@
 // src/utils/constants.js — App-wide constants
 
-export const APP_VERSION = '1.16.2';
+export const APP_VERSION = '1.18.1';
 export const MAX_LIBRARY_SIZE = 50;
 export const SECONDS_PER_PHRASE = 40;
 export const PRONUNCIATION_PASS_THRESHOLD = { cantonese: 90, mandarin: 70, english: 70 };
@@ -21,6 +21,7 @@ export const API_ENDPOINTS = {
   AI_CHAT: '/ai-chat',
   PUSH_SUBSCRIBE: '/push-subscribe',
   PUSH_UNSUBSCRIBE: '/push-unsubscribe',
+  STRIPE_CHECKOUT: '/create-checkout-session',
 };
 
 // VAPID public key for Web Push subscriptions (non-secret — safe to ship in JS)
@@ -66,6 +67,7 @@ export const ROUTES = {
   LICENSES: 'licenses',
   DAY_DETAIL: 'day-detail',
   SCENE_PICKER: 'scene-picker',
+  CHECKOUT_SUCCESS: 'checkout-success',
 };
 
 export const DAILY_GOAL_OPTIONS = [5, 10, 15, 20, 30];

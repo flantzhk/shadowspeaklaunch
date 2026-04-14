@@ -1,11 +1,13 @@
-import { signInWithGoogle } from '../../../../services/auth';
+import { signInWithGoogle, signInWithApple } from '../../../../services/auth';
 
-const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
+const FONT = "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
 
 export default function Screen15_AccountCreation({ advance, answers, onComplete }) {
+  const language = answers?.language || 'cantonese';
+
   const handleGoogle = async () => {
     try {
-      await signInWithGoogle();
+      await signInWithGoogle(language);
       advance();
     } catch {
       // Auth failed or cancelled — stay on screen
@@ -14,7 +16,7 @@ export default function Screen15_AccountCreation({ advance, answers, onComplete 
 
   const handleApple = async () => {
     // Apple Sign-In: Firebase console config pending
-    // signInWithApple() will be wired once Apple provider is enabled
+    // signInWithApple(language) will be wired once Apple provider is enabled
     advance();
   };
 
@@ -26,7 +28,7 @@ export default function Screen15_AccountCreation({ advance, answers, onComplete 
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '48px 24px 48px',
       fontFamily: FONT,
     }}>

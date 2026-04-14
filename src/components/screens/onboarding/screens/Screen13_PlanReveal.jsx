@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { logEvent } from '../../../../services/analytics';
 
-const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
+const FONT = "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
 
 const LANG_LABELS = {
   cantonese: 'Cantonese',
@@ -32,6 +33,11 @@ export default function Screen13_PlanReveal({ advance, answers }) {
     'Almost ready.',
   ];
 
+  // Fire paywall_viewed once on mount
+  useEffect(() => {
+    logEvent('paywall_viewed', { language: answers.language || 'cantonese' });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Advance through loading messages
   useEffect(() => {
     const timers = [0, 700, 1500, 2200].map((delay, i) =>
@@ -57,7 +63,7 @@ export default function Screen13_PlanReveal({ advance, answers }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '48px 24px 48px',
       fontFamily: FONT,
       display: 'flex',
