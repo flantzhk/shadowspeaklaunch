@@ -1,7 +1,7 @@
 {
   "name": "shadowspeak",
   "private": true,
-  "version": "1.19.0",
+  "version": "1.22.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,6 +14,7 @@
   "dependencies": {
     "firebase": "^10.14.1",
     "idb": "^8.0.0",
+    "posthog-js": "^1.368.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0"
   },

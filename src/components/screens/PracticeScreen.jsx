@@ -6,9 +6,9 @@ import { loadAllDialogues } from '../../services/dialogueLoader';
 import styles from './PracticeScreen.module.css';
 
 const PRACTICE_MODES = [
-  { id: 'session', name: 'Shadow Mode', description: 'Listen, repeat, get scored', icon: 'headphones' },
+  { id: 'session', name: 'Shadow Mode', description: 'New phrases + today\'s reviews', icon: 'headphones' },
   { id: 'prompt', name: 'Prompt Drill', description: 'See English, speak Cantonese', icon: 'speech' },
-  { id: 'speedrun', name: 'Speed Run', description: 'Rapid recall challenge', icon: 'bolt' },
+  { id: 'speedrun', name: 'Speed Run', description: 'Rapid recall. No hints.', icon: 'bolt' },
 ];
 
 function ModeIcon({ name }) {
@@ -56,6 +56,7 @@ export default function PracticeScreen({ onNavigate, onStartScene }) {
       <div className={styles.reviewCard}>
         <div className={styles.reviewText}>
           <h2 className={styles.reviewTitle}>Quick Review</h2>
+          <p className={styles.reviewSubtitle}>Phrases that need practice today</p>
           <p className={styles.reviewCount}>
             {dueCount > 0
               ? `${dueCount} phrases due for review`

@@ -10,7 +10,7 @@ import styles from './LibraryScreen.module.css';
 
 export default function LibraryScreen({ onNavigate, showToast }) {
   const { settings } = useAppContext();
-  const { loadQueue, play } = useAudio();
+  const { loadQueue, play, prime } = useAudio();
   const [entries, setEntries] = useState([]);
   const [phrases, setPhrases] = useState({});
   const [phraseTopics, setPhraseTopics] = useState({});
@@ -73,10 +73,11 @@ export default function LibraryScreen({ onNavigate, showToast }) {
   const handlePlayAll = useCallback(async () => {
     const playable = filtered.map(entry => phrases[entry.phraseId]).filter(Boolean);
     if (playable.length > 0) {
+      prime(); // Must be synchronous before any await — primes iOS audio context
       await loadQueue(playable, settings.currentLanguage);
       await play();
     }
-  }, [filtered, phrases, loadQueue, play, settings.currentLanguage]);
+  }, [filtered, phrases, loadQueue, play, prime, settings.currentLanguage]);
 
   const handleReviewDue = useCallback(() => {
     onNavigate?.('practice');
@@ -165,7 +166,7 @@ export default function LibraryScreen({ onNavigate, showToast }) {
           { key: 'all', label: 'All' },
           { key: 'learning', label: 'Learning' },
           { key: 'mastered', label: 'Mastered' },
-          { key: 'due', label: `Due${dueCount > 0 ? ` · ${dueCount}` : ''}` },
+          { key: 'due', label: `Ready to review${dueCount > 0 ? ` · ${dueCount}` : ''}` },
         ].map(f => (
           <button
             key={f.key}

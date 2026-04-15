@@ -1,6 +1,6 @@
 // src/utils/constants.js — App-wide constants
 
-export const APP_VERSION = '1.19.0';
+export const APP_VERSION = '1.22.0';
 export const MAX_LIBRARY_SIZE = 50;
 export const SECONDS_PER_PHRASE = 40;
 export const PRONUNCIATION_PASS_THRESHOLD = { cantonese: 90, mandarin: 70, english: 70 };
@@ -70,6 +70,7 @@ export const ROUTES = {
   CHECKOUT_SUCCESS: 'checkout-success',
   ADMIN: 'admin',
   SUPPORT: 'support',
+  PAYWALL: 'paywall',
 };
 
 export const DAILY_GOAL_OPTIONS = [5, 10, 15, 20, 30];

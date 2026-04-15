@@ -5,6 +5,7 @@ import { saveLibraryEntry, getLibraryEntry } from '../../services/storage';
 import { textToSpeech } from '../../services/api';
 import { getCachedAudio, cacheAudioBlob } from '../../services/audio';
 import { isAuthenticated } from '../../services/auth';
+import { useAudio } from '../../contexts/AudioContext';
 import { SRS_INITIAL_EASE, SRS_MAX_INTERVAL } from '../../utils/constants';
 import { formatReviewStatus } from '../../utils/formatters';
 import styles from './PhraseCard.module.css';
@@ -86,8 +87,11 @@ export default function PhraseCard({ phrase, libraryEntry, language = 'cantonese
   const [saved, setSaved] = useState(!!libraryEntry);
   const [entry, setEntry] = useState(libraryEntry);
   const [celebrated, setCelebrated] = useState(false);
-  const repeatRef = useRef(null);    // setTimeout handle for repeat loop
+  const repeatRef = useRef(null);      // setTimeout handle for repeat loop
   const repeatAudioRef = useRef(null); // current Audio element in repeat loop
+  const repeatUsedQueue = useRef(false); // whether this repeat session used AudioEngine
+
+  const { loadQueue, play, stop, prime, isRepeat, toggleRepeat } = useAudio();
 
   const chinese = phrase?.chinese || entry?.customData?.chinese;
   const romanization = phrase?.romanization || entry?.customData?.jyutping;
@@ -100,9 +104,12 @@ export default function PhraseCard({ phrase, libraryEntry, language = 'cantonese
     if (!chinese) return;
     if (phrase?.id) {
       await playPhraseAudio(phrase.id, chinese, language);
+    } else if (onPlay) {
+      // External handler provided (e.g. AI chat screen)
+      onPlay(chinese);
     } else {
-      // Vocab-only entry — no phraseId, go straight to TTS
-      onPlay?.(chinese);
+      // Vocab-only entry — no phraseId and no external handler; fall through to TTS
+      await playPhraseAudio(null, chinese, language);
     }
   }, [chinese, phrase?.id, language, onPlay]);
 
@@ -112,43 +119,61 @@ export default function PhraseCard({ phrase, libraryEntry, language = 'cantonese
 
     if (repeating) {
       setRepeating(false);
-      clearTimeout(repeatRef.current);
-      repeatAudioRef.current?.pause();
-      repeatAudioRef.current = null;
-      window.speechSynthesis?.cancel();
+      if (repeatUsedQueue.current) {
+        // We used AudioEngine — tear down: disable repeat if we enabled it, stop queue
+        if (isRepeat) toggleRepeat();
+        stop();
+        repeatUsedQueue.current = false;
+      } else {
+        // Local audio loop — clean up timers + elements
+        clearTimeout(repeatRef.current);
+        repeatAudioRef.current?.pause();
+        repeatAudioRef.current = null;
+        window.speechSynthesis?.cancel();
+      }
       return;
     }
 
     setRepeating(true);
-    let active = true;
 
-    const playLoop = async () => {
-      if (!active) return;
-      const audio = await playPhraseAudio(phrase?.id, chinese, language);
-      if (!active) { audio?.pause(); return; }
+    if (phrase?.id) {
+      // Phrase with ID — route through AudioEngine so MiniPlayer appears
+      repeatUsedQueue.current = true;
+      prime();
+      if (!isRepeat) toggleRepeat(); // Enable AudioEngine repeat mode
+      loadQueue([phrase], language).then(() => play());
+    } else {
+      // Vocab-only entry — no phraseId, use local audio loop
+      repeatUsedQueue.current = false;
+      let active = true;
 
-      if (audio) {
-        repeatAudioRef.current = audio;
-        audio.onended = () => {
-          if (active) repeatRef.current = setTimeout(playLoop, 1500);
-        };
-      } else {
-        // speechSynthesis path — set up repeat via onend
-        if ('speechSynthesis' in window) {
-          const existing = window.speechSynthesis;
-          const checkDone = setInterval(() => {
-            if (!existing.speaking) {
-              clearInterval(checkDone);
-              if (active) repeatRef.current = setTimeout(playLoop, 1500);
-            }
-          }, 200);
+      const playLoop = async () => {
+        if (!active) return;
+        const audio = await playPhraseAudio(null, chinese, language);
+        if (!active) { audio?.pause(); return; }
+
+        if (audio) {
+          repeatAudioRef.current = audio;
+          audio.onended = () => {
+            if (active) repeatRef.current = setTimeout(playLoop, 1500);
+          };
+        } else {
+          // speechSynthesis path — set up repeat via polling
+          if ('speechSynthesis' in window) {
+            const existing = window.speechSynthesis;
+            const checkDone = setInterval(() => {
+              if (!existing.speaking) {
+                clearInterval(checkDone);
+                if (active) repeatRef.current = setTimeout(playLoop, 1500);
+              }
+            }, 200);
+          }
         }
-      }
-    };
+      };
 
-    playLoop();
-    return () => { active = false; };
-  }, [chinese, phrase?.id, language, repeating]);
+      playLoop();
+    }
+  }, [chinese, phrase, language, repeating, loadQueue, play, stop, prime, isRepeat, toggleRepeat]);
 
   // ── Play individual word (expand section) ─────────────────────────────────
   const handlePlayWord = useCallback(async (e, wordChinese) => {
@@ -229,7 +254,7 @@ export default function PhraseCard({ phrase, libraryEntry, language = 'cantonese
     setEntry(updated);
     setCelebrated(true);
     setTimeout(() => setCelebrated(false), 900);
-    showToast?.('🎉 Marked as known!', 'success');
+    showToast?.('Marked as known!', 'success');
     onSaved?.(phrase?.id);
   }, [entry, phrase, showToast, onSaved]);
 

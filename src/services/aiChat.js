@@ -7,13 +7,42 @@ import { jyutpingToDisplay } from '../utils/jyutping';
 import { logger } from '../utils/logger';
 
 const SCENARIOS = [
-  { id: 'restaurant', title: 'At a restaurant', description: 'Order food, ask for recommendations, get the bill', systemContext: 'You are a friendly Cantonese-speaking waiter at a local Hong Kong cha chaan teng.' },
-  { id: 'taxi', title: 'In a taxi', description: 'Give directions, ask about fare, make small talk', systemContext: 'You are a friendly Cantonese-speaking taxi driver in Hong Kong.' },
-  { id: 'market', title: 'At the wet market', description: 'Buy groceries, ask prices, bargain', systemContext: 'You are a friendly Cantonese-speaking vendor at a wet market in Hong Kong.' },
-  { id: 'school', title: 'School pickup', description: 'Chat with other parents, talk to teachers', systemContext: 'You are a friendly Cantonese-speaking parent at a Hong Kong international school.' },
-  { id: 'neighbor', title: 'Meeting a neighbor', description: 'Small talk in the lift or lobby', systemContext: 'You are a friendly Cantonese-speaking neighbor in a Hong Kong apartment building.' },
-  { id: 'doctor', title: 'At the clinic', description: 'Describe symptoms, understand instructions', systemContext: 'You are a friendly Cantonese-speaking receptionist at a clinic in Hong Kong.' },
-  { id: 'shop', title: 'Shopping for clothes', description: 'Ask about sizes, colors, prices', systemContext: 'You are a friendly Cantonese-speaking shop assistant in a clothing store.' },
+  {
+    id: 'cha_chaan_teng',
+    title: 'Cha Chaan Teng',
+    chineseTitle: '茶餐廳',
+    persona: 'Busy waiter',
+    emoji: '☕',
+    backgroundUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1',
+    systemContext: 'You are 阿明, a busy, slightly impatient waiter (伙記) at a packed Hong Kong cha chaan teng during lunchtime rush. You are warm but hurried — you tap your notepad and remind customers you are busy. You ask what they want to eat and drink, suggest the daily special, and nudge them to order quickly. You speak in casual, authentic Hong Kong Cantonese.',
+  },
+  {
+    id: 'red_taxi',
+    title: 'Red Taxi',
+    chineseTitle: '的士',
+    persona: 'Chatty driver',
+    emoji: '🚕',
+    backgroundUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957',
+    systemContext: 'You are Uncle Wai (韋叔), a chatty, opinionated Hong Kong taxi driver (的士大佬) who has driven a cab for 25 years. You have strong opinions about traffic, the MTR, weather, and local politics. You ask the passenger where they are going and make friendly small talk about anything on your mind. You speak in lively, colloquial Cantonese with the warmth of someone who loves a good chat.',
+  },
+  {
+    id: 'building_lobby',
+    title: 'Building Lobby',
+    chineseTitle: '大廈大堂',
+    persona: 'Security guard',
+    emoji: '🏢',
+    backgroundUrl: 'https://images.unsplash.com/photo-1486325212027-8081e485255e',
+    systemContext: 'You are 保安叔叔 (Uncle Security), a familiar, gossipy security guard who has worked in this residential building lobby for 12 years. You know all the residents by name, always have something to say about the weather or building gossip, and love helping people. You ask how they are doing, comment on their groceries, and mention anything interesting that happened today. You speak in friendly, warm Cantonese.',
+  },
+  {
+    id: 'seven_eleven',
+    title: '7-Eleven',
+    chineseTitle: '便利店',
+    persona: 'Tired cashier',
+    emoji: '🏪',
+    backgroundUrl: 'https://images.unsplash.com/photo-1604719312566-8912e9c8a213',
+    systemContext: 'You are a tired but polite young 7-Eleven cashier (便利店店員) near the end of a long shift. You are professional and helpful — you help customers find items, top up Octopus cards (八達通), heat up food in the microwave, and handle plastic bag requests. You speak in efficient, polite Cantonese, occasionally yawning but always courteous.',
+  },
 ];
 
 /**
@@ -117,6 +146,34 @@ function generateLocalResponse(messages, scenario) {
 }
 
 const SCENARIO_RESPONSES = {
+  cha_chaan_teng: [
+    { chinese: '喂！幾多位？快啲入嚟坐！', jyutping: '', romanization: '', english: 'Hey! How many people? Come in and sit down quickly!' },
+    { chinese: '飲咩呀？今日有凍奶茶同熱咖啡。', jyutping: '', romanization: '', english: 'What to drink? Today we have iced milk tea and hot coffee.' },
+    { chinese: '食咩嘢？今日例牌有炒蛋火腿麵。', jyutping: '', romanization: '', english: 'What to eat? Today\'s special is scrambled eggs and ham noodles.' },
+    { chinese: '好，等一陣，好快㗎！', jyutping: '', romanization: '', english: 'Okay, wait a moment, won\'t be long!' },
+    { chinese: '食得開心！有咩要叫我。', jyutping: '', romanization: '', english: 'Enjoy your meal! Call me if you need anything.' },
+  ],
+  red_taxi: [
+    { chinese: '你好！去邊度呀？', jyutping: '', romanization: '', english: 'Hello! Where are you going?' },
+    { chinese: '好，知道喇。今日塞車好犀利㗎。', jyutping: '', romanization: '', english: 'Got it. The traffic is terrible today.' },
+    { chinese: '你睇今日天氣幾靚！', jyutping: '', romanization: '', english: 'Look how nice the weather is today!' },
+    { chinese: '到喇！一共一百蚊。多謝！', jyutping: '', romanization: '', english: 'We\'re here! That\'s 100 dollars. Thanks!' },
+    { chinese: '下次見！拜拜！', jyutping: '', romanization: '', english: 'See you next time! Bye!' },
+  ],
+  building_lobby: [
+    { chinese: '早晨呀！你好嗎？', jyutping: '', romanization: '', english: 'Good morning! How are you?' },
+    { chinese: '今日天氣好好，你去邊度呀？', jyutping: '', romanization: '', english: 'The weather is great today, where are you going?' },
+    { chinese: '有快遞俾你㗎，喺我度攞喇。', jyutping: '', romanization: '', english: 'There\'s a package for you, pick it up from me.' },
+    { chinese: '噢，你買咗好多嘢！好重㗎喎。', jyutping: '', romanization: '', english: 'Oh, you bought a lot! That must be heavy.' },
+    { chinese: '好，拜拜！出入平安！', jyutping: '', romanization: '', english: 'Okay, goodbye! Take care!' },
+  ],
+  seven_eleven: [
+    { chinese: '你好，有咩幫到你？', jyutping: '', romanization: '', english: 'Hi, how can I help you?' },
+    { chinese: '要唔要袋？五毫子一個。', jyutping: '', romanization: '', english: 'Do you need a bag? 50 cents each.' },
+    { chinese: '八達通想增值？增幾多呀？', jyutping: '', romanization: '', english: 'Want to top up your Octopus card? How much?' },
+    { chinese: '好，一共二十三蚊。', jyutping: '', romanization: '', english: 'Okay, that\'s 23 dollars in total.' },
+    { chinese: '多謝！拜拜！', jyutping: '', romanization: '', english: 'Thanks! Bye!' },
+  ],
   restaurant: [
     { chinese: '你好！歡迎嚟！幾多位？', jyutping: '', romanization: '', english: 'Hello! Welcome! How many people?' },
     { chinese: '好，呢邊坐。想飲咩？', jyutping: '', romanization: '', english: 'Okay, sit here. What would you like to drink?' },
