@@ -32,6 +32,9 @@ export default function AIConversation({ onBack, showToast, onNavigate }) {
   const [inputMode, setInputMode] = useState('voice'); // voice|text
   const [textInput, setTextInput] = useState('');
   const [savedMsgIds, setSavedMsgIds] = useState(new Set());
+  // Tracks whether each scene's Unsplash background loaded ('loaded') or failed ('failed').
+  // Used to swap to scenario.fallbackGradient if the image can't be fetched.
+  const [imageLoadState, setImageLoadState] = useState({});
   const chatRef = useRef(null);
   const audioRef = useRef(new Audio());
 
@@ -44,6 +47,23 @@ export default function AIConversation({ onBack, showToast, onNavigate }) {
   useEffect(() => {
     chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages]);
+
+  // Preload scene background images. If Unsplash is unreachable or a URL breaks,
+  // mark it 'failed' so we can render the gradient fallback instead of a flat square.
+  useEffect(() => {
+    let cancelled = false;
+    getScenarios().forEach((s) => {
+      const img = new Image();
+      img.onload = () => {
+        if (!cancelled) setImageLoadState((prev) => ({ ...prev, [s.id]: 'loaded' }));
+      };
+      img.onerror = () => {
+        if (!cancelled) setImageLoadState((prev) => ({ ...prev, [s.id]: 'failed' }));
+      };
+      img.src = `${s.backgroundUrl}?w=600&auto=format&fit=crop`;
+    });
+    return () => { cancelled = true; };
+  }, []);
 
   // Soft paywall gate — shown while resolving subscription status for free users
   if (!isPro) {
@@ -226,7 +246,11 @@ export default function AIConversation({ onBack, showToast, onNavigate }) {
             <button
               key={s.id}
               className={styles.sceneCard}
-              style={{ backgroundImage: `url(${s.backgroundUrl}?w=600&auto=format&fit=crop)` }}
+              style={
+                imageLoadState[s.id] === 'failed'
+                  ? { background: s.fallbackGradient }
+                  : { backgroundImage: `url(${s.backgroundUrl}?w=600&auto=format&fit=crop)` }
+              }
               onClick={() => handleSelectScenario(s)}
             >
               <div className={styles.sceneCardOverlay} />
@@ -311,9 +335,12 @@ export default function AIConversation({ onBack, showToast, onNavigate }) {
   return (
     <div
       className={styles.chatScreen}
-      style={scenario?.backgroundUrl
-        ? { backgroundImage: `url(${scenario.backgroundUrl}?w=1200&auto=format&fit=crop)` }
-        : {}
+      style={
+        scenario?.backgroundUrl
+          ? imageLoadState[scenario.id] === 'failed'
+            ? { background: scenario.fallbackGradient }
+            : { backgroundImage: `url(${scenario.backgroundUrl}?w=1200&auto=format&fit=crop)` }
+          : {}
       }
     >
       {/* Dark overlay so text stays readable */}
