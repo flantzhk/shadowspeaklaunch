@@ -1,0 +1,150 @@
+[
+  {
+    "id": "taxi-to-central",
+    "topicId": "taxis-and-uber",
+    "title": "Taking a taxi to Central",
+    "description": "Telling your taxi driver where you're going and asking about the route",
+    "turns": [
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "唔該，去中環碼頭。",
+        "jyutping": "m4 goi1 heoi3 zung1 waan4 maa5 tau4",
+        "romanization": "M⁴ goi¹, heoi³ zung¹ waan⁴ maa⁵ tau⁴.",
+        "english": "To Central Pier please.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Driver",
+        "phraseId": null,
+        "chinese": "幾號碼頭？",
+        "jyutping": "gei2 hou6 maa5 tau4",
+        "romanization": "Gei² hou⁶ maa⁵ tau⁴?",
+        "english": "Which pier number?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "三號碼頭。",
+        "jyutping": "saam1 hou6 maa5 tau4",
+        "romanization": "Saam¹ hou⁶ maa⁵ tau⁴.",
+        "english": "Pier 3.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Driver",
+        "phraseId": null,
+        "chinese": "好，坐定定。",
+        "jyutping": "hou2 co5 ding6 ding6",
+        "romanization": "Hou², co⁵ ding⁶ ding⁶.",
+        "english": "Okay, sit tight.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "快唔快到？",
+        "jyutping": "faai3 m4 faai3 dou3",
+        "romanization": "Faai³ m⁴ faai³ dou³?",
+        "english": "Will we get there quickly?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Driver",
+        "phraseId": null,
+        "chinese": "大概十五分鐘左右。",
+        "jyutping": "daai6 koi3 sap6 ng5 fan1 zung1 zo2 jau6",
+        "romanization": "Daai⁶ koi³ sap⁶ ng⁵ fan¹ zung¹ zo² jau⁶.",
+        "english": "About 15 minutes or so.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      }
+    ]
+  },
+  {
+    "id": "taxi-paying",
+    "topicId": "taxis-and-uber",
+    "title": "Paying for your taxi",
+    "description": "Asking about payment methods and settling the fare",
+    "turns": [
+      {
+        "speaker": "other",
+        "speakerLabel": "Driver",
+        "phraseId": null,
+        "chinese": "係度喇，五十蚊。",
+        "jyutping": "hai6 dou6 laa3 ng5 sap6 man1",
+        "romanization": "Hai⁶ dou⁶ laa³, ng⁵ sap⁶ man¹.",
+        "english": "Here we are, 50 dollars.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "可唔可以用信用卡？",
+        "jyutping": "ho2 m4 ho2 ji5 jung6 seon3 jung6 kaat1",
+        "romanization": "Ho² m⁴ ho² ji⁵ jung⁶ seon³ jung⁶ kaat¹?",
+        "english": "Can I pay by credit card?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Driver",
+        "phraseId": null,
+        "chinese": "唔得，淨係收現金。",
+        "jyutping": "m4 dak1 zing6 hai6 sau1 jin6 gam1",
+        "romanization": "M⁴ dak¹, zing⁶ hai⁶ sau¹ jin⁶ gam¹.",
+        "english": "No, cash only.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "八達通得唔得？",
+        "jyutping": "baat3 daat6 tung1 dak1 m4 dak1",
+        "romanization": "Baat³ daat⁶ tung¹ dak¹ m⁴ dak¹?",
+        "english": "What about Octopus?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Driver",
+        "phraseId": null,
+        "chinese": "八達通得。嘟一嘟。",
+        "jyutping": "baat3 daat6 tung1 dak1 duk1 jat1 duk1",
+        "romanization": "Baat³ daat⁶ tung¹ dak¹. Duk¹ jat¹ duk¹.",
+        "english": "Octopus is fine. Tap here.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "多謝，拜拜。",
+        "jyutping": "do1 ze6 baai1 baai3",
+        "romanization": "Do¹ ze⁶, baai¹ baai³.",
+        "english": "Thanks, bye.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { ROUTES } from '../../../../utils/constants';
 import { ScenarioCard } from '../shared/ScenarioCard';
 import { logEvent } from '../../../../services/analytics';
+import { phCapture } from '../../../../services/posthog';
 
 function NavBar({ dark }) {
   const textColor = dark ? 'white' : undefined;
@@ -46,6 +47,7 @@ export { NavBar };
 export default function Screen01_Hook({ advance }) {
   useEffect(() => {
     logEvent('onboarding_started');
+    phCapture('onboarding_started');
   }, []);
 
   return (

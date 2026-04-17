@@ -6,11 +6,12 @@ import { useAppContext } from '../../contexts/AppContext';
 import { useRecorder } from '../../hooks/useRecorder';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { updateAfterPractice } from '../../services/srs';
-import { saveSession, addToQueue } from '../../services/storage';
+import { saveSession, addToQueue, getRecentScoredSessions } from '../../services/storage';
 import { scorePronunciation } from '../../services/api';
 import { isAuthenticated } from '../../services/auth';
 import { updateStreak, getTodayString } from '../../services/streak';
-import { logEvent, isStreakMilestone } from '../../services/analytics';
+import { logEvent, isStreakMilestone, calculatePersonalPercentile } from '../../services/analytics';
+import { phCapture } from '../../services/posthog';
 import { buildLesson } from '../../services/lessonBuilder';
 import { blobToBase64 } from '../../services/offlineManager';
 import { ScoreBadge } from '../cards/ScoreBadge';
@@ -63,6 +64,7 @@ export default function ShadowSession({ onBack, onComplete }) {
   const handleTapToStart = useCallback(async () => {
     if (!lessonPhrases) return;
     logEvent('session_started', { mode: 'shadow' });
+    phCapture('session_started', { mode: 'shadow' });
     setPhase('listen');
     // Prime audio element synchronously before any await so iOS Safari allows play()
     audio.prime();
@@ -95,7 +97,14 @@ export default function ShadowSession({ onBack, onComplete }) {
       const streakCount = streakResult.count;
       const scores = results.filter(r => r.score !== null).map(r => r.score);
       const avg = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : null;
+      // Fetch baseline BEFORE saving so the current session isn't in its own percentile
+      const pastScores = await getRecentScoredSessions(20);
       logEvent('session_completed', {
+        mode: 'shadow',
+        phrases_attempted: results.length,
+        average_score: avg !== null ? Math.round(avg) : 0,
+      });
+      phCapture('session_completed', {
         mode: 'shadow',
         phrases_attempted: results.length,
         average_score: avg !== null ? Math.round(avg) : 0,
@@ -112,6 +121,12 @@ export default function ShadowSession({ onBack, onComplete }) {
         phraseResults: results.map(r => ({ phraseId: r.phraseId, romanization: r.romanization, english: r.english, score: r.score, replays: 0, markedKnown: false })),
       };
       await saveSession(rec);
+      if (avg !== null) {
+        const roundedAvg = Math.round(avg);
+        const percentile = calculatePersonalPercentile(roundedAvg, pastScores);
+        logEvent('score_achieved', { score: roundedAvg, mode: 'shadow', language: settings.currentLanguage || 'cantonese' });
+        phCapture('score_achieved', { score: roundedAvg, mode: 'shadow', language: settings.currentLanguage || 'cantonese', percentile });
+      }
       onComplete?.({ ...rec, streakCount, freezeUsed: streakResult.freezeUsed, freezeNotAvailable: streakResult.freezeNotAvailable });
     } catch (err) {
       // Storage failure — still navigate away so user isn't stuck

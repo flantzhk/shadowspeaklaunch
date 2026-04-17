@@ -196,6 +196,25 @@ async function englishTTS(text) {
   return response.blob();
 }
 
+/**
+ * Create a Stripe Checkout session for the given plan.
+ * Requires the user to be authenticated (Firebase token injected via fetchWithAuth).
+ * @param {'monthly'|'annual'|'lifetime'|'family'} planId
+ * @returns {Promise<{url: string}>} Stripe Checkout URL to redirect the user to
+ */
+async function createCheckoutSession(planId) {
+  const response = await fetchWithAuth(
+    `${API_BASE_URL}${API_ENDPOINTS.STRIPE_CHECKOUT}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ planId }),
+    }
+  );
+
+  return response.json();
+}
+
 export {
   scorePronunciation,
   textToSpeech,
@@ -203,4 +222,5 @@ export {
   speechToText,
   textToJyutping,
   fetchWithAuth,
+  createCheckoutSession,
 };

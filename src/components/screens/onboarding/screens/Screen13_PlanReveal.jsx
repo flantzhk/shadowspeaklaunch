@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { logEvent } from '../../../../services/analytics';
+import { phCapture } from '../../../../services/posthog';
 
 const FONT = "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
 
@@ -36,6 +37,7 @@ export default function Screen13_PlanReveal({ advance, answers }) {
   // Fire paywall_viewed once on mount
   useEffect(() => {
     logEvent('paywall_viewed', { language: answers.language || 'cantonese' });
+    phCapture('paywall_viewed', { language: answers.language || 'cantonese' });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Advance through loading messages

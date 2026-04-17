@@ -61,6 +61,10 @@ function AudioProvider({ children }) {
     }
   }, []);
 
+  const prime = useCallback(() => {
+    engineRef.current?.primeForUserGesture();
+  }, []);
+
   const play = useCallback(async () => {
     await engineRef.current?.play();
   }, []);
@@ -119,6 +123,7 @@ function AudioProvider({ children }) {
     isPlaying: playbackState === 'playing',
     hasQueue: queueLength > 0,
     loadQueue,
+    prime,
     play,
     pause,
     stop,

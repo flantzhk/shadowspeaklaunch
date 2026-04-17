@@ -42,10 +42,10 @@
   --color-warning:         #E8A030;
   --color-success:         #2A5A10;
 
-  --color-jyutping:        #4A6A2A;
+  --color-jyutping:        #8F6AE8;
 
   /* === Typography === */
-  --font-family:           -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --font-family:           "DM Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
   --font-family-mono:      "SF Mono", "Menlo", monospace;
 
   --font-size-xs:          0.625rem;   /* 11px at 110% base */

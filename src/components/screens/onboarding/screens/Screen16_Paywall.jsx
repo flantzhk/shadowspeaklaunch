@@ -1,6 +1,9 @@
 import { useState } from 'react';
+import { createCheckoutSession } from '../../../../services/api';
+import { isAuthenticated } from '../../../../services/auth';
+import { ROUTES } from '../../../../utils/constants';
 
-const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
+const FONT = "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
 
 const PLANS = [
   {
@@ -8,27 +11,36 @@ const PLANS = [
     label: 'Annual',
     price: '£54.99',
     period: 'per year',
-    monthly: '£4.58/month',
+    sub: '7-day free trial, then £4.58/month. Cancel anytime.',
     badge: 'Most popular',
-    highlight: true,
+    cta: 'Start 7-day free trial',
   },
   {
     id: 'monthly',
     label: 'Monthly',
     price: '£9.99',
     period: 'per month',
-    monthly: 'Billed monthly, cancel anytime',
+    sub: 'Billed monthly. Cancel anytime.',
     badge: null,
-    highlight: false,
+    cta: 'Get Monthly',
   },
   {
     id: 'lifetime',
     label: 'Lifetime',
     price: '£149',
     period: 'one time',
-    monthly: 'Limited launch offer — price increases after launch',
+    sub: 'Pay once, own it forever. Limited launch pricing.',
     badge: 'Launch offer',
-    highlight: false,
+    cta: 'Get Lifetime Access',
+  },
+  {
+    id: 'family',
+    label: 'Family',
+    price: '£79.99',
+    period: 'per year',
+    sub: 'Up to 5 members. Shared subscription.',
+    badge: null,
+    cta: 'Get Family Plan',
   },
 ];
 
@@ -42,29 +54,72 @@ const FEATURES = [
   'Offline mode for downloaded phrases',
 ];
 
-export default function Screen16_Paywall({ onComplete }) {
+export default function Screen16_Paywall({ onComplete, answers, updateSettings }) {
   const [selected, setSelected] = useState('annual');
   const [showFeatures, setShowFeatures] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleCTA = () => {
-    onComplete('trial');
+  const selectedPlan = PLANS.find((p) => p.id === selected);
+
+  const handlePay = async () => {
+    if (loading) return;
+    setError(null);
+
+    // If not authenticated (email path without account creation), route to register first
+    if (!isAuthenticated()) {
+      localStorage.setItem('ss_pending_plan', selected);
+      window.location.hash = `#${ROUTES.REGISTER}?plan=${selected}`;
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Write onboarding answers before leaving the app
+      if (updateSettings) {
+        await updateSettings({
+          currentLanguage: answers?.language || 'cantonese',
+          dailyGoalMinutes: answers?.dailyGoalMinutes || 20,
+          onboardingCompleted: true,
+        });
+      }
+      // Persist the selected plan so the success screen knows which plan was purchased
+      localStorage.setItem('ss_pending_plan', selected);
+
+      const { url, error: apiError } = await createCheckoutSession(selected);
+
+      if (apiError || !url) {
+        throw new Error(apiError || 'No checkout URL returned');
+      }
+
+      // Leave the app — Stripe handles payment, returns to ?checkout=success|cancel
+      window.location.href = url;
+    } catch (err) {
+      console.error('Stripe checkout error:', err);
+      setError('Unable to start checkout. Please check your connection and try again.');
+      setLoading(false);
+    }
+  };
+
+  const handleFree = () => {
+    if (onComplete) onComplete('free');
   };
 
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
-      padding: '40px 24px 48px',
+      background: '#F7F4EC',
+      padding: '40px 24px 56px',
       fontFamily: FONT,
     }}>
       {/* Wordmark */}
       <div style={{ textAlign: 'center', marginBottom: 20 }}>
-        <span style={{ fontSize: "1.25rem", fontWeight: 800, color: '#1A2A18' }}>Shadow</span>
-        <span style={{ fontSize: "1.25rem", fontWeight: 800, color: '#8BB82B' }}>Speak</span>
+        <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1A2A18' }}>Shadow</span>
+        <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#8BB82B' }}>Speak</span>
       </div>
 
       <h1 style={{
-        fontSize: "1.625rem",
+        fontSize: '1.625rem',
         fontWeight: 800,
         color: '#1A2A18',
         margin: 0,
@@ -75,13 +130,13 @@ export default function Screen16_Paywall({ onComplete }) {
       </h1>
 
       <p style={{
-        fontSize: "0.9375rem",
+        fontSize: '0.9375rem',
         color: '#666',
         textAlign: 'center',
         marginTop: 8,
         lineHeight: 1.5,
       }}>
-        Everything you just experienced — every day. Real pronunciation feedback, real progress.
+        Everything you just experienced, every day. Real pronunciation feedback, real progress.
       </p>
 
       {/* Featured review */}
@@ -91,22 +146,25 @@ export default function Screen16_Paywall({ onComplete }) {
         padding: '16px 18px',
         marginTop: 20,
       }}>
-        <div style={{ fontSize: "0.875rem", color: '#1A2A18', letterSpacing: 1 }}>★★★★★</div>
+        <div style={{ fontSize: '0.875rem', color: '#1A2A18', letterSpacing: 1 }}>
+          {'★★★★★'}
+        </div>
         <p style={{
-          fontSize: "0.875rem",
+          fontSize: '0.875rem',
           fontStyle: 'italic',
           color: '#1A2A18',
           margin: '8px 0 0',
           lineHeight: 1.5,
         }}>
-          "The AI coaching is unlike anything else out there. I've been studying for 3 years and this is the first time I've known exactly what to fix."
+          "The AI coaching is unlike anything else out there. I've been studying for 3 years and
+          this is the first time I've known exactly what to fix."
         </p>
-        <div style={{ fontSize: "0.75rem", color: '#3A6A1A', fontWeight: 600, marginTop: 8 }}>
+        <div style={{ fontSize: '0.75rem', color: '#3A6A1A', fontWeight: 600, marginTop: 8 }}>
           David K. — Cantonese learner
         </div>
       </div>
 
-      {/* Pricing tiers */}
+      {/* Plan selector */}
       <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
         {PLANS.map((plan) => {
           const isSelected = selected === plan.id;
@@ -114,7 +172,7 @@ export default function Screen16_Paywall({ onComplete }) {
             <button
               key={plan.id}
               type="button"
-              onClick={() => setSelected(plan.id)}
+              onClick={() => { setSelected(plan.id); setError(null); }}
               style={{
                 width: '100%',
                 background: isSelected ? '#1A2A18' : 'white',
@@ -129,7 +187,6 @@ export default function Screen16_Paywall({ onComplete }) {
                 WebkitTapHighlightColor: 'transparent',
               }}
             >
-              {/* Badge */}
               {plan.badge && (
                 <div style={{
                   position: 'absolute',
@@ -137,7 +194,7 @@ export default function Screen16_Paywall({ onComplete }) {
                   right: 14,
                   background: '#C5E85A',
                   color: '#1A2A18',
-                  fontSize: "0.6875rem",
+                  fontSize: '0.6875rem',
                   fontWeight: 800,
                   borderRadius: 20,
                   padding: '3px 10px',
@@ -149,7 +206,7 @@ export default function Screen16_Paywall({ onComplete }) {
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
                 <div>
                   <div style={{
-                    fontSize: "0.875rem",
+                    fontSize: '0.875rem',
                     fontWeight: 700,
                     color: isSelected ? '#C5E85A' : '#999',
                     marginBottom: 2,
@@ -158,14 +215,14 @@ export default function Screen16_Paywall({ onComplete }) {
                   </div>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
                     <span style={{
-                      fontSize: "1.5rem",
+                      fontSize: '1.5rem',
                       fontWeight: 800,
                       color: isSelected ? 'white' : '#1A2A18',
                     }}>
                       {plan.price}
                     </span>
                     <span style={{
-                      fontSize: "0.8125rem",
+                      fontSize: '0.8125rem',
                       color: isSelected ? 'rgba(255,255,255,0.6)' : '#999',
                     }}>
                       {plan.period}
@@ -181,45 +238,85 @@ export default function Screen16_Paywall({ onComplete }) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: "0.6875rem",
+                    fontSize: '0.6875rem',
                     color: '#1A2A18',
                     fontWeight: 800,
+                    flexShrink: 0,
                   }}>
-                    ✓
+                    {'✓'}
                   </div>
                 )}
               </div>
               <div style={{
-                fontSize: "0.75rem",
+                fontSize: '0.75rem',
                 color: isSelected ? 'rgba(255,255,255,0.5)' : '#BBB',
                 marginTop: 4,
               }}>
-                {plan.monthly}
+                {plan.sub}
               </div>
             </button>
           );
         })}
       </div>
 
+      {/* Error message */}
+      {error && (
+        <div style={{
+          marginTop: 12,
+          padding: '12px 16px',
+          background: '#FFF0F0',
+          border: '1px solid #FFD0D0',
+          borderRadius: 10,
+          fontSize: '0.8125rem',
+          color: '#D04040',
+          lineHeight: 1.4,
+        }}>
+          {error}
+        </div>
+      )}
+
       {/* Primary CTA */}
       <button
-        onClick={handleCTA}
+        onClick={handlePay}
         type="button"
+        disabled={loading}
         style={{
           width: '100%',
-          marginTop: 20,
+          marginTop: 16,
           padding: '17px 0',
           borderRadius: 12,
           border: 'none',
-          background: '#C5E85A',
+          background: loading ? '#D4E87A' : '#C5E85A',
           color: '#1A2A18',
-          fontSize: "1.0625rem",
+          fontSize: '1.0625rem',
           fontWeight: 800,
-          cursor: 'pointer',
+          cursor: loading ? 'wait' : 'pointer',
           fontFamily: FONT,
+          transition: 'background 200ms ease',
+          minHeight: 56,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 10,
         }}
       >
-        Start my 7-day free trial
+        {loading ? (
+          <>
+            <span style={{
+              width: 18,
+              height: 18,
+              border: '2px solid rgba(26,42,24,0.3)',
+              borderTop: '2px solid #1A2A18',
+              borderRadius: '50%',
+              display: 'inline-block',
+              animation: 'spin 0.7s linear infinite',
+            }} />
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+            Redirecting to checkout...
+          </>
+        ) : (
+          selectedPlan?.cta || 'Continue'
+        )}
       </button>
 
       {/* Secondary links */}
@@ -231,18 +328,19 @@ export default function Screen16_Paywall({ onComplete }) {
       }}>
         <button
           type="button"
-          onClick={() => {}}
+          onClick={handleFree}
           style={{
             background: 'none',
             border: 'none',
-            fontSize: "0.8125rem",
+            fontSize: '0.8125rem',
             color: '#AAA',
             cursor: 'pointer',
             fontFamily: FONT,
-            padding: '4px 0',
+            padding: '8px 4px',
+            minHeight: 44,
           }}
         >
-          Restore purchase
+          Continue with free plan
         </button>
         <button
           type="button"
@@ -250,14 +348,15 @@ export default function Screen16_Paywall({ onComplete }) {
           style={{
             background: 'none',
             border: 'none',
-            fontSize: "0.8125rem",
+            fontSize: '0.8125rem',
             color: '#AAA',
             cursor: 'pointer',
             fontFamily: FONT,
-            padding: '4px 0',
+            padding: '8px 4px',
+            minHeight: 44,
           }}
         >
-          {showFeatures ? 'Hide features' : 'See what\'s included'}
+          {showFeatures ? 'Hide features' : "See what's included"}
         </button>
       </div>
 
@@ -267,7 +366,7 @@ export default function Screen16_Paywall({ onComplete }) {
           background: 'white',
           borderRadius: 14,
           padding: '16px 18px',
-          marginTop: 12,
+          marginTop: 4,
         }}>
           {FEATURES.map((feature) => (
             <div key={feature} style={{
@@ -276,8 +375,8 @@ export default function Screen16_Paywall({ onComplete }) {
               gap: 10,
               marginBottom: 10,
             }}>
-              <span style={{ color: '#C5E85A', fontWeight: 800, flexShrink: 0 }}>✓</span>
-              <span style={{ fontSize: "0.8125rem", color: '#1A2A18', lineHeight: 1.4 }}>{feature}</span>
+              <span style={{ color: '#C5E85A', fontWeight: 800, flexShrink: 0 }}>{'✓'}</span>
+              <span style={{ fontSize: '0.8125rem', color: '#1A2A18', lineHeight: 1.4 }}>{feature}</span>
             </div>
           ))}
         </div>
@@ -285,13 +384,15 @@ export default function Screen16_Paywall({ onComplete }) {
 
       {/* Legal */}
       <p style={{
-        fontSize: "0.6875rem",
+        fontSize: '0.6875rem',
         color: '#CCC',
         textAlign: 'center',
         marginTop: 16,
         lineHeight: 1.6,
       }}>
-        Cancel anytime before trial ends. Payment taken at end of trial period. Annual billing charged in full. Family plan available at £79.99/year for up to 5 members.
+        Cancel anytime before trial ends. Payment taken at end of trial period.
+        Annual billing charged in full. Family plan covers up to 5 members.
+        Processed securely by Stripe.
       </p>
     </div>
   );

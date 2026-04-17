@@ -1,14 +1,14 @@
 // src/utils/levels.js — XP leveling system
 
 const LEVELS = [
-  { level: 1, xp: 0, title: 'Beginner', desc: 'Just getting started — every phrase counts' },
-  { level: 2, xp: 50, title: 'Explorer', desc: 'You know some basics and are building momentum' },
-  { level: 3, xp: 150, title: 'Speaker', desc: 'You can say simple phrases with confidence' },
-  { level: 4, xp: 350, title: 'Conversant', desc: 'You can hold a basic conversation' },
-  { level: 5, xp: 600, title: 'Confident', desc: 'You speak comfortably in everyday situations' },
-  { level: 6, xp: 1000, title: 'Fluent', desc: 'You express yourself naturally and clearly' },
-  { level: 7, xp: 1500, title: 'Master', desc: 'You have deep command of the language' },
-  { level: 8, xp: 2500, title: 'Legend', desc: 'You\'ve reached the highest level of mastery' },
+  { level: 1, xp: 0, title: 'Beginner', desc: 'Getting started. Every phrase counts.' },
+  { level: 2, xp: 50, title: 'Explorer', desc: 'You know some basics and are building momentum.' },
+  { level: 3, xp: 150, title: 'Speaker', desc: 'You can say simple phrases with confidence.' },
+  { level: 4, xp: 350, title: 'Conversant', desc: 'You can hold a basic conversation.' },
+  { level: 5, xp: 600, title: 'Confident', desc: 'You speak comfortably in everyday situations.' },
+  { level: 6, xp: 1000, title: 'Advanced', desc: 'You express yourself naturally and clearly.' },
+  { level: 7, xp: 1500, title: 'Master', desc: 'You have deep command of the language.' },
+  { level: 8, xp: 2500, title: 'Expert', desc: 'You have reached the highest level of mastery.' },
 ];
 
 export function getLevel(totalXP) {

@@ -1,0 +1,76 @@
+[
+  {
+    "id": "wet-market-bargaining",
+    "topicId": "wet-market",
+    "title": "Buying vegetables and bargaining",
+    "description": "Shopping at a Hong Kong wet market and asking for a better price",
+    "turns": [
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "唔該，呢啲菜幾多錢一斤？",
+        "jyutping": "m4 goi1 ni1 di1 coi3 gei2 do1 cin2 jat1 gan1",
+        "romanization": "M⁴ goi¹, ni¹ di¹ coi³ gei² do¹ cin² jat¹ gan¹?",
+        "english": "Excuse me, how much per catty for these vegetables?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Vendor",
+        "phraseId": null,
+        "chinese": "十二蚊一斤。",
+        "jyutping": "sap6 ji6 man1 jat1 gan1",
+        "romanization": "Sap⁶ ji⁶ man¹ jat¹ gan¹.",
+        "english": "12 dollars a catty.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "平啲得唔得？",
+        "jyutping": "peng4 di1 dak1 m4 dak1",
+        "romanization": "Peng⁴ di¹, dak¹ m⁴ dak¹?",
+        "english": "Can you give me a better price?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Vendor",
+        "phraseId": null,
+        "chinese": "十蚊啦，冇得平喇。",
+        "jyutping": "sap6 man1 laa1 mou5 dak1 peng4 laa3",
+        "romanization": "Sap⁶ man¹ laa¹, mou⁵ dak¹ peng⁴ laa³.",
+        "english": "Ten dollars. That's the best I can do.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "好，要兩斤。",
+        "jyutping": "hou2 jiu3 loeng5 gan1",
+        "romanization": "Hou², jiu³ loeng⁵ gan¹.",
+        "english": "Okay, I'll take two catties.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Vendor",
+        "phraseId": null,
+        "chinese": "好，俾你廿蚊。",
+        "jyutping": "hou2 bei2 nei5 jaa6 man1",
+        "romanization": "Hou², bei² nei⁵ jaa⁶ man¹.",
+        "english": "Good, that's 20 dollars.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

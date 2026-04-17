@@ -4,14 +4,28 @@ When Faith says "sync the vault" or "update Obsidian", follow these instructions
 
 ---
 
+## Step 0 — Check the vault lock first
+
+Before doing anything, read:
+`/Users/faithkayiwa/Documents/Faith Second Brain 2026/03 Projects/ShadowSpeakLaunch/02 Development/(C) Active Backlog.md`
+
+Check the **🔐 Vault Sync Lock** section.
+
+- If it says **UNLOCKED** → set it to `LOCKED — [your session name]`, then proceed
+- If it says **LOCKED** → stop. Tell Faith: "Vault is locked by another session — wait for it to finish syncing, then try again."
+
+After your sync is fully complete (Step 3 done), set the lock back to **UNLOCKED** and remove your row from the Active Sessions table.
+
+---
+
 ## Step 1 — Read the current vault files first
 
 Before writing anything, read all four files so you don't overwrite or duplicate:
 
-1. `/Users/faithkayiwa/Documents/Faith Second Brain 2026/03 Projects/Language App/CLAUDE.md`
-2. `/Users/faithkayiwa/Documents/Faith Second Brain 2026/03 Projects/Language App/02 Development/(C) Active Backlog.md`
-3. `/Users/faithkayiwa/Documents/Faith Second Brain 2026/03 Projects/Language App/02 Development/(C) Architecture Reference.md`
-4. `/Users/faithkayiwa/Documents/Faith Second Brain 2026/03 Projects/Language App/04 Released/(C) ShadowSpeak v[CURRENT VERSION] — Released Features.md`
+1. `/Users/faithkayiwa/Documents/Faith Second Brain 2026/03 Projects/ShadowSpeakLaunch/CLAUDE.md`
+2. `/Users/faithkayiwa/Documents/Faith Second Brain 2026/03 Projects/ShadowSpeakLaunch/02 Development/(C) Active Backlog.md`
+3. `/Users/faithkayiwa/Documents/Faith Second Brain 2026/03 Projects/ShadowSpeakLaunch/02 Development/(C) Architecture Reference.md`
+4. `/Users/faithkayiwa/Documents/Faith Second Brain 2026/03 Projects/ShadowSpeakLaunch/04 Released/(C) ShadowSpeak v[CURRENT VERSION] — Released Features.md`
 
 ---
 
@@ -34,7 +48,7 @@ Before writing anything, read all four files so you don't overwrite or duplicate
 → If this is a new major/minor version, create a new file: `04 Released/(C) ShadowSpeak v[NEW VERSION] — Released Features.md` and add the version to the history table.
 
 ### If the version number changed
-→ File: `Language App/CLAUDE.md`
+→ File: `ShadowSpeakLaunch/CLAUDE.md`
 → Update the `**Version:**` line in the Current Status block.
 → Also update the wikilink at the bottom: `→ See [[04 Released/(C) ShadowSpeak v[NEW VERSION] — Released Features]]`
 
@@ -43,7 +57,7 @@ Before writing anything, read all four files so you don't overwrite or duplicate
 → Update the relevant table or section. Add a note with the date if it's a significant change.
 
 ### If the overall project status changed (e.g. App Store went live, Android started)
-→ File: `Language App/CLAUDE.md`
+→ File: `ShadowSpeakLaunch/CLAUDE.md`
 → Update the `**Status:**` and `**What's live:**` lines in Current Status.
 → Also update `**Three biggest gaps:**` if the priorities shifted.
 

@@ -1,0 +1,150 @@
+[
+  {
+    "id": "school-gate-new-parent",
+    "topicId": "school-gate-chat",
+    "title": "Meeting another parent at school pickup",
+    "description": "A chat at the school gate — finding out you have a child in the same year",
+    "turns": [
+      {
+        "speaker": "other",
+        "speakerLabel": "Parent",
+        "phraseId": null,
+        "chinese": "你好！你係新嚟嘅家長？",
+        "jyutping": "nei5 hou2 nei5 hai6 san1 lai4 ge3 gaa1 zoeng2",
+        "romanization": "Nei⁵ hou²! Nei⁵ hai⁶ san¹ lai⁴ ge³ gaa¹ zoeng²?",
+        "english": "Hi! Are you a new parent here?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "係呀，我個仔今年先開始。",
+        "jyutping": "hai6 aa3 ngo5 go3 zai2 gam1 nin4 sin1 hoi1 ci2",
+        "romanization": "Hai⁶ aa³, ngo⁵ go³ zai² gam¹ nin⁴ sin¹ hoi¹ ci².",
+        "english": "Yes, my son just started this year.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Parent",
+        "phraseId": null,
+        "chinese": "係咩？我個女都係！讀幾年級？",
+        "jyutping": "hai6 me1 ngo5 go3 neoi2 dou1 hai6 duk6 gei2 nin4 kap1",
+        "romanization": "Hai⁶ me¹? Ngo⁵ go³ neoi² dou¹ hai⁶! Duk⁶ gei² nin⁴ kap¹?",
+        "english": "Really? My daughter too! What year is he in?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "一年級，你個女呢？",
+        "jyutping": "jat1 nin4 kap1 nei5 go3 neoi2 ne1",
+        "romanization": "Jat¹ nin⁴ kap¹. Nei⁵ go³ neoi² ne¹?",
+        "english": "Year 1. What about your daughter?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Parent",
+        "phraseId": null,
+        "chinese": "都係一年級！咁係囉，好巧！你叫咩名？",
+        "jyutping": "dou1 hai6 jat1 nin4 kap1 gam2 hai6 lo3 hou2 hiu2 nei5 giu3 me1 meng2",
+        "romanization": "Dou¹ hai⁶ jat¹ nin⁴ kap¹! Gam², hai⁶ lo³, hou² hiu²! Nei⁵ giu³ me¹ meng²?",
+        "english": "Year 1 too! Oh wow, what a coincidence! What's your name?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "我係Faith。好高興認識你。",
+        "jyutping": "ngo5 hai6 Faith hou2 gou1 hing3 jing6 sik1 nei5",
+        "romanization": "Ngo⁵ hai⁶ Faith. Hou² gou¹ hing³ jing⁶ sik¹ nei⁵.",
+        "english": "I'm Faith. Really nice to meet you.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      }
+    ]
+  },
+  {
+    "id": "school-gate-cantonese-compliment",
+    "topicId": "school-gate-chat",
+    "title": "Getting a compliment on your Cantonese",
+    "description": "Someone compliments your Cantonese — how to respond warmly and honestly",
+    "turns": [
+      {
+        "speaker": "other",
+        "speakerLabel": "Parent",
+        "phraseId": null,
+        "chinese": "你廣東話講得好好喎！",
+        "jyutping": "nei5 gwong2 dung1 waa2 gong2 dak1 hou2 hou2 wo3",
+        "romanization": "Nei⁵ gwong² dung¹ waa² gong² dak¹ hou² hou² wo³!",
+        "english": "Your Cantonese is really good!",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "唔係，仲學緊，多謝你。",
+        "jyutping": "m4 hai6 zung6 hok6 gan2 do1 ze6 nei5",
+        "romanization": "M⁴ hai⁶, zung⁶ hok⁶ gan². Do¹ ze⁶ nei⁵.",
+        "english": "Not really, I'm still learning. Thank you though.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Parent",
+        "phraseId": null,
+        "chinese": "學咗幾耐？",
+        "jyutping": "hok6 zo2 gei2 noi6",
+        "romanization": "Hok⁶ zo² gei² noi⁶?",
+        "english": "How long have you been learning?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "學咗幾個月，仲差得遠。",
+        "jyutping": "hok6 zo2 gei2 go3 jyut6 zung6 caa1 dak1 jyun5",
+        "romanization": "Hok⁶ zo² gei² go³ jyut⁶, zung⁶ caa¹ dak¹ jyun⁵.",
+        "english": "A few months. I still have a long way to go.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Parent",
+        "phraseId": null,
+        "chinese": "加油！繼續努力！",
+        "jyutping": "gaa1 jau4 gai3 zuk6 nou5 lik6",
+        "romanization": "Gaa¹ jau⁴! Gai³ zuk⁶ nou⁵ lik⁶!",
+        "english": "Keep it up! Keep working hard!",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "多謝你鼓勵！",
+        "jyutping": "do1 ze6 nei5 gu2 lai6",
+        "romanization": "Do¹ ze⁶ nei⁵ gu² lai⁶!",
+        "english": "Thank you for the encouragement!",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

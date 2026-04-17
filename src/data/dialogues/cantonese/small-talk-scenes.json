@@ -1,0 +1,76 @@
+[
+  {
+    "id": "typhoon-small-talk",
+    "topicId": "small-talk",
+    "title": "Talking about a typhoon warning",
+    "description": "Classic Hong Kong small talk — typhoon signals are a shared city experience",
+    "turns": [
+      {
+        "speaker": "other",
+        "speakerLabel": "Colleague",
+        "phraseId": null,
+        "chinese": "今日好熱呀！",
+        "jyutping": "gam1 jat6 hou2 jit6 aa3",
+        "romanization": "Gam¹ jat⁶ hou² jit⁶ aa³!",
+        "english": "It's so hot today!",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "係呀，出咗好多汗。聽日話打風？",
+        "jyutping": "hai6 aa3 ceot1 zo2 hou2 do1 hon6 ting1 jat6 waa6 daa2 fung1",
+        "romanization": "Hai⁶ aa³, ceot¹ zo² hou² do¹ hon⁶. Ting¹ jat⁶ waa⁶ daa² fung¹?",
+        "english": "Yes, sweating so much. Is there a typhoon coming tomorrow?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Colleague",
+        "phraseId": null,
+        "chinese": "係，話可能掛三號。",
+        "jyutping": "hai6 waa6 ho2 nang4 gwaa3 saam1 hou6",
+        "romanization": "Hai⁶, waa⁶ ho² nang⁴ gwaa³ saam¹ hou⁶.",
+        "english": "Yes, they say Signal 3 might be raised.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "係咩？咁要早啲返屋企喇。",
+        "jyutping": "hai6 me1 gam2 jiu3 zou2 di1 faan1 uk1 kei2 laa3",
+        "romanization": "Hai⁶ me¹? Gam², jiu³ zou² di¹ faan¹ uk¹ kei² laa³.",
+        "english": "Really? Then I should head home early.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Colleague",
+        "phraseId": null,
+        "chinese": "係，最好早啲走。小心呀！",
+        "jyutping": "hai6 zeoi3 hou2 zou2 di1 zau2 siu2 sam1 aa3",
+        "romanization": "Hai⁶, zeoi³ hou² zou² di¹ zau². Siu² sam¹ aa³!",
+        "english": "Yes, best to leave early. Take care!",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "你都係，保重！",
+        "jyutping": "nei5 dou1 hai6 bou2 zung6",
+        "romanization": "Nei⁵ dou¹ hai⁶, bou² zung⁶!",
+        "english": "You too, take care!",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

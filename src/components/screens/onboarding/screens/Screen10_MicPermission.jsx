@@ -19,13 +19,13 @@ export default function Screen10_MicPermission({ advance, setAnswers }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '48px 24px 48px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+      fontFamily: "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     }}>
       {/* Mic icon */}
       <svg width="80" height="80" viewBox="0 0 80 80" fill="none" style={{ marginBottom: 28 }}>

@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react';
 import { ROUTES } from '../../utils/constants';
 import { logEvent } from '../../services/analytics';
+import { phCapture } from '../../services/posthog';
 
 const FONT = "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
 
@@ -25,6 +26,7 @@ export default function CheckoutSuccessScreen({ onDone }) {
     const t = setTimeout(() => setVisible(true), 80);
     // Log subscription event before clearing the plan key
     logEvent('subscription_started', { plan: planId });
+    phCapture('subscription_started', { plan: planId });
     // Clean up pending plan key
     localStorage.removeItem('ss_pending_plan');
     return () => clearTimeout(t);

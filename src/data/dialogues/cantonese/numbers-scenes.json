@@ -1,7 +1,7 @@
 [
   {
     "id": "market-price",
-    "topicId": "numbers-and-counting",
+    "topicId": "numbers-counting",
     "title": "Asking the price at a market stall",
     "description": "Haggling over the price at a local market",
     "turns": [
@@ -75,7 +75,7 @@
   },
   {
     "id": "phone-number",
-    "topicId": "numbers-and-counting",
+    "topicId": "numbers-counting",
     "title": "Giving your phone number",
     "description": "Someone asks for your phone number and you read it out",
     "turns": [

@@ -33,9 +33,9 @@ export default function Screen03_Goal({ advance, answers, setAnswers }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '48px 24px 120px',
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+      fontFamily: "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     }}>
       <h1 style={{ fontSize: "1.625rem", fontWeight: 800, color: '#1A2A18', margin: '24px 0 0', lineHeight: 1.2 }}>
         What do you want to be able to do?

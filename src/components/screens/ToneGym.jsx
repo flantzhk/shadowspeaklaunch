@@ -2,8 +2,10 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
-import { saveSession } from '../../services/storage';
+import { saveSession, getRecentScoredSessions } from '../../services/storage';
 import { updateStreak, getTodayString } from '../../services/streak';
+import { logEvent, isStreakMilestone, calculatePersonalPercentile } from '../../services/analytics';
+import { phCapture } from '../../services/posthog';
 import styles from './ToneGym.module.css';
 
 const TOTAL_ROUNDS = 10;
@@ -47,6 +49,7 @@ export default function ToneGym({ onBack, onComplete }) {
   const [correctIndex, setCorrectIndex] = useState(0);
   const [chosen, setChosen] = useState(null);
   const [toneResults, setToneResults] = useState([]);
+  const [finishError, setFinishError] = useState(false);
   const [sessionStart] = useState(Date.now());
   const [sessionPairs] = useState(() => {
     const shuffled = [...TONE_PAIRS].sort(() => Math.random() - 0.5);
@@ -70,6 +73,8 @@ export default function ToneGym({ onBack, onComplete }) {
   const startGame = useCallback(() => {
     setupRound(0);
     setPhase('learn');
+    logEvent('session_started', { mode: 'tone_gym' });
+    phCapture('session_started', { mode: 'tone_gym' });
   }, [setupRound]);
 
   const handleDoneLearn = useCallback(() => {
@@ -104,17 +109,34 @@ export default function ToneGym({ onBack, onComplete }) {
   }, [round, setupRound]);
 
   const finish = useCallback(async () => {
-    const dur = Math.round((Date.now() - sessionStart) / 1000);
-    const streak = await updateStreak();
-    await updateSettings({ streakCount: streak, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
-    const rec = {
-      id: crypto.randomUUID(), date: getTodayString(),
-      startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
-      mode: 'tone-gym', phrasesAttempted: TOTAL_ROUNDS, phrasesMastered: 0,
-      averageScore: Math.round((correct / TOTAL_ROUNDS) * 100), phraseResults: [],
-    };
-    await saveSession(rec);
-    onComplete?.({ ...rec, streakCount: streak, correct, total: TOTAL_ROUNDS, toneResults });
+    setFinishError(false);
+    try {
+      const dur = Math.round((Date.now() - sessionStart) / 1000);
+      const streakResult = await updateStreak();
+      const streakCount = streakResult.count;
+      const avgScore = Math.round((correct / TOTAL_ROUNDS) * 100);
+      // Fetch baseline BEFORE saving so the current session isn't in its own percentile
+      const pastScores = await getRecentScoredSessions(20);
+      logEvent('session_completed', { mode: 'tone_gym', correct_answers: correct });
+      phCapture('session_completed', { mode: 'tone_gym', correct_answers: correct });
+      if (isStreakMilestone(streakCount)) {
+        logEvent('streak_milestone', { streak_count: streakCount });
+      }
+      await updateSettings({ streakCount, totalPracticeSeconds: settings.totalPracticeSeconds + dur });
+      const rec = {
+        id: crypto.randomUUID(), date: getTodayString(),
+        startedAt: sessionStart, completedAt: Date.now(), durationSeconds: dur,
+        mode: 'tone-gym', phrasesAttempted: TOTAL_ROUNDS, phrasesMastered: 0,
+        averageScore: avgScore, phraseResults: [],
+      };
+      await saveSession(rec);
+      const percentile = calculatePersonalPercentile(avgScore, pastScores);
+      logEvent('score_achieved', { score: avgScore, mode: 'tone_gym', language: settings.currentLanguage || 'cantonese' });
+      phCapture('score_achieved', { score: avgScore, mode: 'tone_gym', language: settings.currentLanguage || 'cantonese', percentile });
+      onComplete?.({ ...rec, streakCount, freezeUsed: streakResult.freezeUsed, freezeNotAvailable: streakResult.freezeNotAvailable, correct, total: TOTAL_ROUNDS, toneResults });
+    } catch (err) {
+      setFinishError(true);
+    }
   }, [sessionStart, correct, toneResults, updateSettings, settings, onComplete]);
 
   // === INTRO SCREEN ===
@@ -257,8 +279,13 @@ export default function ToneGym({ onBack, onComplete }) {
           <p className={styles.feedbackText}>
             {chosen === correctIndex ? '✓ Correct!' : `✗ It was ${currentPair.tones[correctIndex].char} (${currentPair.tones[correctIndex].jyutping})`}
           </p>
+          {finishError && (
+            <p style={{ fontSize: '13px', color: 'var(--color-error)', textAlign: 'center', marginBottom: '8px', lineHeight: 1.5 }}>
+              Something went wrong. Check your connection and try again.
+            </p>
+          )}
           <button className={styles.nextBtn} onClick={handleNext}>
-            {round + 1 >= TOTAL_ROUNDS ? 'See results' : 'Next pair'}
+            {round + 1 >= TOTAL_ROUNDS ? (finishError ? 'Retry' : 'See results') : 'Next pair'}
           </button>
         </div>
       )}

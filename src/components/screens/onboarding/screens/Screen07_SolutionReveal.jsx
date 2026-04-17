@@ -1,4 +1,4 @@
-const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
+const FONT = "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
 
 const ROWS = [
   {
@@ -32,7 +32,7 @@ export default function Screen07_SolutionReveal({ advance, answers }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '48px 24px 48px',
       fontFamily: FONT,
     }}>
@@ -116,7 +116,7 @@ export default function Screen07_SolutionReveal({ advance, answers }) {
           margin: 0,
           lineHeight: 1.5,
         }}>
-          ShadowSpeak is the only English-language app that scores your {langLabel} pronunciation in real time.
+          ShadowSpeak is the first English-language app built specifically to score your {langLabel} pronunciation in real time.
         </p>
       </div>
 

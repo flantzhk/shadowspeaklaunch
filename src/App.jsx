@@ -22,7 +22,8 @@ import { StorageFullModal } from './components/shared/StorageFullModal';
 import { TopicMasteredCelebration } from './components/shared/TopicMasteredCelebration';
 import { CookieConsentBanner } from './components/shared/CookieConsentBanner';
 import { EmailCaptureModal, isEmailCaptureSnoozed } from './components/shared/EmailCaptureModal';
-import { hasResponded } from './services/consent';
+import { hasResponded, hasAnalyticsConsent } from './services/consent';
+import { initPostHog, phIdentify } from './services/posthog';
 import './styles/global.css';
 
 const HomeScreen = lazy(() => import('./components/screens/HomeScreen'));
@@ -64,6 +65,7 @@ const FirstLaunchDownload = lazy(() => import('./components/screens/FirstLaunchD
 const CheckoutSuccessScreen = lazy(() => import('./components/screens/CheckoutSuccessScreen'));
 const AdminDashboard = lazy(() => import('./components/screens/AdminDashboard'));
 const SupportScreen = lazy(() => import('./components/screens/SupportScreen'));
+const StandalonePaywall = lazy(() => import('./components/screens/onboarding/screens/Screen16_Paywall'));
 
 function parseHash(hash) {
   const clean = hash.replace('#', '');
@@ -176,6 +178,9 @@ function MainLayout() {
   }, [settings.themePreference]);
 
   useEffect(() => {
+    // Init PostHog immediately if returning user already gave consent
+    if (hasAnalyticsConsent()) initPostHog();
+
     const timeout = setTimeout(() => {
       setAuthError('Unable to connect. Please check your internet connection and reload.');
       setAuthReady(true);
@@ -196,6 +201,8 @@ function MainLayout() {
         if (Object.keys(updates).length > 0) updateSettings(updates);
         // Record last_active so the admin dashboard can compute DAU
         updateLastActive();
+        // Identify user in PostHog (language comes from context settings)
+        phIdentify(user.uid, { email: user.email || '', language_choice: settings.currentLanguage || 'cantonese' });
       }
       setAuthReady(true);
     }).catch(() => {
@@ -395,7 +402,14 @@ function MainLayout() {
       )}
 
       {showConsentBanner && (
-        <CookieConsentBanner onConsent={() => setShowConsentBanner(false)} />
+        <CookieConsentBanner onConsent={() => {
+          setShowConsentBanner(false);
+          // Init PostHog the moment consent is granted; also identify if
+          // the user is already signed in at this point.
+          initPostHog();
+          const u = fbAuth.currentUser;
+          if (u) phIdentify(u.uid, { email: u.email || '', language_choice: settings.currentLanguage || 'cantonese' });
+        }} />
       )}
 
       {showEmailCapture && (
@@ -487,7 +501,7 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
     case ROUTES.SETTINGS: return <ProfileScreen onBack={goBack} onNavigate={navigate} showToast={showToast} />;
     case ROUTES.TOPIC_DETAIL: return <TopicDetailScreen topicId={route.id} onBack={goBack} showToast={showToast} onStartScene={onStartScene} />;
     case ROUTES.CUSTOM_PHRASE: return <CustomPhraseInput onBack={goBack} showToast={showToast} />;
-    case ROUTES.AI_CHAT: return <AIConversation onBack={goBack} showToast={showToast} />;
+    case ROUTES.AI_CHAT: return <AIConversation onBack={goBack} showToast={showToast} onNavigate={navigate} />;
     case ROUTES.STATS: return <StatsScreen onBack={goBack} onNavigate={navigate} />;
     case ROUTES.SEARCH: return <SearchScreen onBack={goBack} onNavigate={navigate} showToast={showToast} />;
     case ROUTES.PRIVACY: return <LegalPages onBack={goBack} />;
@@ -505,6 +519,7 @@ function renderScreen(route, navigate, goBack, showToast, onStartScene) {
     case ROUTES.CHECKOUT_SUCCESS: return <CheckoutSuccessScreen onDone={() => navigate(ROUTES.HOME)} />;
     case ROUTES.ADMIN: return <AdminDashboard onBack={goBack} />;
     case ROUTES.SUPPORT: return <SupportScreen onBack={goBack} />;
+    case ROUTES.PAYWALL: return <StandalonePaywall onComplete={() => navigate(ROUTES.HOME)} answers={{}} />;
     default: return <HomeScreen onNavigate={navigate} />;
   }
 }

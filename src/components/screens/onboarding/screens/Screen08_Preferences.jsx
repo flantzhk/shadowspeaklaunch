@@ -39,9 +39,9 @@ export default function Screen08_Preferences({ advance, answers, setAnswers, upd
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '48px 24px 48px',
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+      fontFamily: "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     }}>
       <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: '#1A2A18', margin: 0 }}>
         Let's set up your plan.

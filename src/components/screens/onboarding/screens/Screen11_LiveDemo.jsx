@@ -64,7 +64,7 @@ function AudioDots({ playing }) {
 
 function ScoreCircle({ score, visible }) {
   const getScoreColor = (s) => {
-    if (s >= 90) return '#2A6A10';
+    if (s >= 90) return '#2A5A10';
     if (s >= 70) return '#C5E85A';
     if (s >= 50) return '#E8A030';
     return '#D04040';
@@ -76,10 +76,10 @@ function ScoreCircle({ score, visible }) {
   };
 
   const getLabel = (s) => {
-    if (s >= 90) return 'Excellent!';
-    if (s >= 70) return 'Great!';
-    if (s >= 50) return 'Keep going';
-    return 'Try again';
+    if (s >= 90) return 'Near native.';
+    if (s >= 70) return 'Solid. Tones landing.';
+    if (s >= 50) return 'Close. Tones need work.';
+    return 'Tones are off. Listen again.';
   };
 
   const bg = getScoreColor(score);
@@ -250,9 +250,9 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
     return (
       <div style={{
         minHeight: '100vh',
-        background: '#F4F1E8',
+        background: '#F7F4EC',
         padding: '48px 24px 48px',
-        fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+        fontFamily: "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
       }}>
         <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: '#1A2A18', margin: 0 }}>
           Here's what scoring looks like.
@@ -307,9 +307,9 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '48px 24px 48px',
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+      fontFamily: "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     }}>
       <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: '#1A2A18', margin: 0 }}>
         Now try it yourself.

@@ -18,7 +18,7 @@ const FAQS = [
   },
   {
     q: 'What languages are supported?',
-    a: 'Currently Cantonese (廣東話). Mandarin and other languages are on the roadmap. Let us know which language you\'d like next.',
+    a: 'Cantonese (廣東話) and Mandarin (普通話). Both are fully supported with real-time pronunciation scoring and complete lesson plans.',
   },
   {
     q: 'How does the streak work?',

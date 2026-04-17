@@ -1,0 +1,76 @@
+[
+  {
+    "id": "711-buying-snacks",
+    "topicId": "convenience-store",
+    "title": "Buying snacks at 7-Eleven",
+    "description": "A quick stop at a convenience store — asking the price and paying by Octopus",
+    "turns": [
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "唔該，呢個幾多錢？",
+        "jyutping": "m4 goi1 ni1 go3 gei2 do1 cin2",
+        "romanization": "M⁴ goi¹, ni¹ go³ gei² do¹ cin²?",
+        "english": "Excuse me, how much is this?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Cashier",
+        "phraseId": null,
+        "chinese": "八蚊。",
+        "jyutping": "baat3 man1",
+        "romanization": "Baat³ man¹.",
+        "english": "Eight dollars.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "我買埋呢包嘢。一共幾多？",
+        "jyutping": "ngo5 maai5 maai4 ni1 baau1 je5 jat1 gung6 gei2 do1",
+        "romanization": "Ngo⁵ maai⁵ maai⁴ ni¹ baau¹ je⁵. Jat¹ gung⁶ gei² do¹?",
+        "english": "I'll take this pack too. How much altogether?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Cashier",
+        "phraseId": null,
+        "chinese": "一共係十五蚊。",
+        "jyutping": "jat1 gung6 hai6 sap6 ng5 man1",
+        "romanization": "Jat¹ gung⁶ hai⁶ sap⁶ ng⁵ man¹.",
+        "english": "Total is 15 dollars.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "嘟八達通。",
+        "jyutping": "duk1 baat3 daat6 tung1",
+        "romanization": "Duk¹ baat³ daat⁶ tung¹.",
+        "english": "I'll pay by Octopus.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Cashier",
+        "phraseId": null,
+        "chinese": "好，謝謝。",
+        "jyutping": "hou2 ze6 ze6",
+        "romanization": "Hou², ze⁶ ze⁶.",
+        "english": "Great, thank you.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

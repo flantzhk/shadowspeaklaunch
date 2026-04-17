@@ -1,0 +1,76 @@
+[
+  {
+    "id": "where-are-you-from",
+    "topicId": "meeting-someone-new",
+    "title": "Talking about where you're from",
+    "description": "The most common conversation starter in Hong Kong — and how to explain your background",
+    "turns": [
+      {
+        "speaker": "other",
+        "speakerLabel": "New contact",
+        "phraseId": null,
+        "chinese": "你係邊度人？",
+        "jyutping": "nei5 hai6 bin1 dou6 jan4",
+        "romanization": "Nei⁵ hai⁶ bin¹ dou⁶ jan⁴?",
+        "english": "Where are you from?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "我係香港出世，但係喺外國住咗好多年。",
+        "jyutping": "ngo5 hai6 hoeng1 gong2 ceot1 sai3 daan6 hai6 hai2 ngoi6 gwok3 zyu6 zo2 hou2 do1 nin4",
+        "romanization": "Ngo⁵ hai⁶ hoeng¹ gong² ceot¹ sai³, daan⁶ hai⁶ hai² ngoi⁶ gwok³ zyu⁶ zo² hou² do¹ nin⁴.",
+        "english": "I was born in Hong Kong but lived abroad for many years.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "New contact",
+        "phraseId": null,
+        "chinese": "係咩！返嚟幾耐喇？",
+        "jyutping": "hai6 me1 faan1 lai4 gei2 noi6 laa3",
+        "romanization": "Hai⁶ me¹! Faan¹ lai⁴ gei² noi⁶ laa³?",
+        "english": "Really! How long have you been back?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "返咗一年幾，仲學緊廣東話。",
+        "jyutping": "faan1 zo2 jat1 nin4 gei2 zung6 hok6 gan2 gwong2 dung1 waa2",
+        "romanization": "Faan¹ zo² jat¹ nin⁴ gei², zung⁶ hok⁶ gan² gwong² dung¹ waa².",
+        "english": "About a year and a half. Still learning Cantonese.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "New contact",
+        "phraseId": null,
+        "chinese": "你講得好好㗎，加油！",
+        "jyutping": "nei5 gong2 dak1 hou2 hou2 ga3 gaa1 jau4",
+        "romanization": "Nei⁵ gong² dak¹ hou² hou² ga³, gaa¹ jau⁴!",
+        "english": "You speak really well, keep it up!",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "多謝你！我會繼續努力。",
+        "jyutping": "do1 ze6 nei5 ngo5 wui5 gai3 zuk6 nou5 lik6",
+        "romanization": "Do¹ ze⁶ nei⁵! Ngo⁵ wui⁵ gai³ zuk⁶ nou⁵ lik⁶.",
+        "english": "Thank you! I'll keep working at it.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

@@ -34,7 +34,7 @@ export function ConfirmModal({ title, body, confirmLabel = 'Confirm', cancelLabe
   }, [onCancel]);
 
   return (
-    <div className={styles.backdrop} onClick={onCancel} aria-hidden="true">
+    <div className={styles.backdrop} onClick={onCancel}>
       <div
         ref={modalRef}
         role="dialog"

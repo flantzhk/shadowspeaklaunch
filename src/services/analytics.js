@@ -8,6 +8,22 @@
 
 import { fbAnalytics } from './firebase';
 
+/**
+ * Calculate the personal score percentile for a given score against a list of
+ * past scores from the same user. This is a personal percentile (not global).
+ *
+ * Returns null when there are no past scores to compare against.
+ *
+ * @param {number} score - The score just achieved (0–100).
+ * @param {number[]} pastScores - Array of past average scores (may be empty).
+ * @returns {number|null} Percentile 0–100, or null if pastScores is empty.
+ */
+export function calculatePersonalPercentile(score, pastScores) {
+  if (!pastScores || pastScores.length === 0) return null;
+  const countAtOrBelow = pastScores.filter(s => s <= score).length;
+  return Math.round((countAtOrBelow / pastScores.length) * 100);
+}
+
 /** Streak counts that trigger a streak_milestone event. */
 export const STREAK_MILESTONES = [3, 7, 14, 30, 60, 100];
 

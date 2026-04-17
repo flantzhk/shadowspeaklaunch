@@ -7,6 +7,11 @@ CANTONESE_AI_BASE = "https://cantonese.ai/api"
 
 # Secrets (set via `wrangler secret put`):
 # - CANTONESE_AI_KEY
+# - STRIPE_SECRET_KEY       — Stripe secret key (sk_live_... or sk_test_...)
+# - STRIPE_PRICE_MONTHLY    — Stripe Price ID for £9.99/month
+# - STRIPE_PRICE_ANNUAL     — Stripe Price ID for £54.99/year (7-day trial configured here)
+# - STRIPE_PRICE_LIFETIME   — Stripe Price ID for £149 one-time
+# - STRIPE_PRICE_FAMILY     — Stripe Price ID for £79.99/year family
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT"

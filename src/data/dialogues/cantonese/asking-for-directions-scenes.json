@@ -1,0 +1,76 @@
+[
+  {
+    "id": "directions-to-ferry-pier",
+    "topicId": "asking-for-directions",
+    "title": "Finding the ferry pier on foot",
+    "description": "Asking a local how to walk to Central Ferry Pier",
+    "turns": [
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "唔該，去中環碼頭點行？",
+        "jyutping": "m4 goi1 heoi3 zung1 waan4 maa5 tau4 dim2 haang4",
+        "romanization": "M⁴ goi¹, heoi³ zung¹ waan⁴ maa⁵ tau⁴ dim² haang⁴?",
+        "english": "Excuse me, how do I walk to Central Ferry Pier?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Passerby",
+        "phraseId": null,
+        "chinese": "行直，轉右，就係喇。",
+        "jyutping": "haang4 zik6 zyun3 jau6 zau6 hai6 laa3",
+        "romanization": "Haang⁴ zik⁶, zyun³ jau⁶, zau⁶ hai⁶ laa³.",
+        "english": "Go straight, turn right, and you're there.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "幾遠？",
+        "jyutping": "gei2 jyun5",
+        "romanization": "Gei² jyun⁵?",
+        "english": "How far is it?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Passerby",
+        "phraseId": null,
+        "chinese": "唔遠，行五分鐘左右。",
+        "jyutping": "m4 jyun5 haang4 ng5 fan1 zung1 zo2 jau6",
+        "romanization": "M⁴ jyun⁵, haang⁴ ng⁵ fan¹ zung¹ zo² jau⁶.",
+        "english": "Not far, about 5 minutes on foot.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "多謝晒！",
+        "jyutping": "do1 ze6 saai3",
+        "romanization": "Do¹ ze⁶ saai³!",
+        "english": "Thank you so much!",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Passerby",
+        "phraseId": null,
+        "chinese": "唔使客氣。",
+        "jyutping": "m4 sai2 haak3 hei3",
+        "romanization": "M⁴ sai² haak³ hei³.",
+        "english": "No problem at all.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

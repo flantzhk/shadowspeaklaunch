@@ -4,6 +4,14 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  test: {
+    // happy-dom is used instead of jsdom: jsdom v29 is incompatible with Vitest v4
+    environment: 'happy-dom',
+    globals: true,
+    setupFiles: './src/test/setup.js',
+    include: ['src/**/*.test.{js,jsx}'],
+    exclude: ['.claude/**', 'node_modules/**'],
+  },
   base: '/shadowspeaklaunch/',
   plugins: [
     react(),

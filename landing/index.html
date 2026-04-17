@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShadowSpeak — AI pronunciation coach for Cantonese and Mandarin</title>
+  <meta name="description" content="The first app that scores your Cantonese and Mandarin pronunciation in real time. 500 founding member spots. Lifetime access. Join the waitlist." />
+  <meta property="og:title" content="ShadowSpeak — AI pronunciation coach for Cantonese and Mandarin" />
+  <meta property="og:description" content="I grew up hearing it. I never knew how to reply. ShadowSpeak gives you a real score — tone by tone, word by word." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #F7F4EC;
+      --bg-page:    #EDE8DC;
+      --surface:    #FFFFFF;
+      --dark:       #1A2A18;
+      --green:      #8BB82B;
+      --lime:       #C5E85A;
+      --lime-muted: rgba(197,232,90,0.15);
+      --text:       #1A1A1A;
+      --text-sec:   #5A5A5A;
+      --text-muted: #9A9A9A;
+      --border:     rgba(0,0,0,0.07);
+      --max:        680px;
+      --r-card:     20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── LAYOUT UTILITIES ── */
+    .container {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 22px;
+    }
+
+    .section { padding: 72px 0; }
+    .section--alt { background: var(--bg-page); }
+    .section--dark { background: var(--dark); color: #fff; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247,244,236,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 22px;
+    }
+
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wordmark {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      text-decoration: none;
+    }
+    .wordmark span:first-child { color: var(--dark); }
+    .wordmark span:last-child  { color: var(--green); }
+
+    .nav-cta {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+      background: var(--lime);
+      padding: 8px 18px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: opacity .15s;
+      white-space: nowrap;
+    }
+    .nav-cta:hover { opacity: .85; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 80px 0 72px;
+      text-align: center;
+    }
+
+    .hero-kicker {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--green);
+      background: var(--lime-muted);
+      border: 1px solid rgba(139,184,43,0.25);
+      border-radius: 100px;
+      padding: 5px 14px;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 7vw, 52px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      color: var(--dark);
+      max-width: 560px;
+      margin: 0 auto 22px;
+    }
+
+    .hero p {
+      font-size: clamp(16px, 2.5vw, 19px);
+      color: var(--text-sec);
+      max-width: 480px;
+      margin: 0 auto 40px;
+      line-height: 1.55;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+
+    @media (min-width: 420px) {
+      .hero-ctas { flex-direction: row; justify-content: center; }
+    }
+
+    .btn-primary {
+      display: inline-block;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--dark);
+      background: var(--lime);
+      padding: 15px 28px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: opacity .15s, transform .1s;
+    }
+    .btn-primary:hover { opacity: .9; transform: translateY(-1px); }
+
+    .btn-ghost {
+      display: inline-block;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-sec);
+      text-decoration: none;
+      padding: 15px 4px;
+      border-bottom: 1px solid var(--border);
+      transition: color .15s;
+    }
+    .btn-ghost:hover { color: var(--dark); }
+
+    /* ── APP MOCKUP STRIP ── */
+    .mockup-strip {
+      padding: 0 0 72px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .mockup-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+      padding: 24px;
+      max-width: 340px;
+      width: 100%;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    .mockup-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .mockup-phrase {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--dark);
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+
+    .mockup-romanisation {
+      font-size: 13px;
+      color: #8F6AE8;
+      margin-bottom: 16px;
+    }
+
+    .mockup-score-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .score-pill {
+      flex: 1;
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 12px 10px;
+      text-align: center;
+    }
+
+    .score-pill .score-num {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--dark);
+      display: block;
+    }
+    .score-pill .score-num.good { color: #2A5A10; }
+    .score-pill .score-num.mid  { color: #E8A030; }
+    .score-pill .score-num.low  { color: #D04040; }
+
+    .score-pill .score-lbl {
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .mockup-bar-row { display: flex; flex-direction: column; gap: 6px; }
+
+    .bar-item { display: flex; align-items: center; gap: 10px; }
+    .bar-item span { font-size: 12px; color: var(--text-sec); width: 48px; flex-shrink: 0; }
+    .bar-track {
+      flex: 1;
+      height: 6px;
+      background: var(--bg-page);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: var(--lime);
+    }
+    .bar-fill.mid { background: #E8A030; }
+    .bar-fill.low { background: #D04040; }
+    .bar-pct { font-size: 11px; font-weight: 600; color: var(--text-muted); width: 32px; text-align: right; flex-shrink: 0; }
+
+    /* ── HOW IT WORKS ── */
+    .section-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--green);
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .section-heading {
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      color: var(--dark);
+      margin-bottom: 14px;
+    }
+
+    .section-sub {
+      font-size: 16px;
+      color: var(--text-sec);
+      max-width: 460px;
+      line-height: 1.6;
+      margin-bottom: 48px;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step {
+      display: flex;
+      gap: 22px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .step:last-child { border-bottom: none; }
+
+    .step-num {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--lime);
+      color: var(--dark);
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-body h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .step-body p {
+      font-size: 15px;
+      color: var(--text-sec);
+      line-height: 1.6;
+    }
+
+    .steps-footer {
+      margin-top: 40px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--dark);
+      padding: 16px 20px;
+      background: var(--lime-muted);
+      border: 1px solid rgba(139,184,43,0.2);
+      border-radius: 12px;
+    }
+
+    /* ── WHY DIFFERENT ── */
+    .diff-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 520px) {
+      .diff-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .diff-card {
+      background: rgba(255,255,255,0.55);
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+      padding: 24px 22px;
+    }
+
+    .diff-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .diff-card p {
+      font-size: 14px;
+      color: var(--text-sec);
+      line-height: 1.65;
+    }
+
+    .diff-card .diff-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--lime);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .diff-icon svg { width: 18px; height: 18px; }
+
+    /* ── FOUNDING MEMBER ── */
+    .founder-wrap {
+      background: var(--dark);
+      border-radius: 28px;
+      padding: 52px 36px;
+      text-align: center;
+      color: #fff;
+    }
+
+    @media (max-width: 420px) { .founder-wrap { padding: 40px 22px; border-radius: 20px; } }
+
+    .founder-kicker {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--lime);
+      margin-bottom: 20px;
+    }
+
+    .founder-wrap h2 {
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+
+    .founder-wrap p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.72);
+      max-width: 480px;
+      margin: 0 auto 32px;
+      line-height: 1.65;
+    }
+
+    .perks {
+      list-style: none;
+      text-align: left;
+      max-width: 400px;
+      margin: 0 auto 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .perks li {
+      font-size: 14px;
+      color: rgba(255,255,255,0.85);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.5;
+    }
+
+    .perks li::before {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--lime);
+      flex-shrink: 0;
+      margin-top: 1px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M4 9l3.5 3.5L14 6' stroke='%231A2A18' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+      background-size: cover;
+    }
+
+    .price-tag {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 36px;
+    }
+
+    .price-tag .amount {
+      font-size: 52px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -2px;
+      line-height: 1;
+    }
+
+    .price-tag .once {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.3px;
+      margin-top: 4px;
+    }
+
+    /* ── EMAIL FORM ── */
+    /* Replace the action URL with your Mailchimp embed action URL */
+    .mc-form {
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .mc-form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    @media (min-width: 420px) {
+      .mc-form-row { flex-direction: row; }
+    }
+
+    .mc-email {
+      flex: 1;
+      padding: 14px 18px;
+      border-radius: 100px;
+      border: none;
+      font-size: 15px;
+      font-family: inherit;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      outline: none;
+      transition: background .15s;
+    }
+    .mc-email::placeholder { color: rgba(255,255,255,0.45); }
+    .mc-email:focus { background: rgba(255,255,255,0.18); }
+
+    .mc-submit {
+      padding: 14px 24px;
+      border-radius: 100px;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: inherit;
+      background: var(--lime);
+      color: var(--dark);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity .15s, transform .1s;
+    }
+    .mc-submit:hover { opacity: .9; transform: translateY(-1px); }
+
+    .mc-note {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    .counter-badge {
+      display: inline-block;
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 100px;
+      padding: 5px 16px;
+      margin-bottom: 28px;
+    }
+
+    .counter-badge strong {
+      color: var(--lime);
+      font-weight: 700;
+    }
+
+    /* ── SOCIAL PROOF ── */
+    .quotes-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    @media (min-width: 520px) {
+      .quotes-grid { display: grid; grid-template-columns: 1fr 1fr; }
+      .quotes-grid .quote-card:first-child { grid-column: 1 / -1; }
+    }
+
+    .quote-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+      padding: 26px 24px;
+    }
+
+    .quote-stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 14px;
+    }
+
+    .star {
+      width: 14px;
+      height: 14px;
+      background: var(--lime);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+
+    .quote-text {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.65;
+      margin-bottom: 18px;
+      font-style: italic;
+    }
+
+    .quote-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .quote-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-page);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dark);
+      flex-shrink: 0;
+    }
+
+    .quote-meta .name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+      display: block;
+    }
+
+    .quote-meta .context {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 1px;
+    }
+
+    .quote-placeholder {
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--bg-page),
+        var(--bg-page) 4px,
+        var(--bg) 4px,
+        var(--bg) 8px
+      );
+      border: 1px dashed rgba(0,0,0,0.12);
+      border-radius: var(--r-card);
+      padding: 26px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 140px;
+    }
+
+    .quote-placeholder p {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      font-style: italic;
+      max-width: 260px;
+    }
+
+    /* ── FINAL CTA ── */
+    .final-cta {
+      text-align: center;
+    }
+
+    .final-cta h2 {
+      font-size: clamp(26px, 5vw, 40px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      color: var(--dark);
+      max-width: 520px;
+      margin: 0 auto 18px;
+    }
+
+    .final-cta p {
+      font-size: 15px;
+      color: var(--text-sec);
+      max-width: 400px;
+      margin: 0 auto 32px;
+      line-height: 1.65;
+    }
+
+    .final-cta .sub-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 14px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.55);
+      padding: 40px 22px;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    footer .wordmark { font-size: 16px; }
+    footer .wordmark span:first-child { color: rgba(255,255,255,0.9); }
+    footer .wordmark span:last-child  { color: var(--green); }
+
+    footer .tagline {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+      margin-bottom: 24px;
+    }
+
+    footer .footer-links {
+      display: flex;
+      gap: 22px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    footer .footer-links a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      transition: color .15s;
+    }
+    footer .footer-links a:hover { color: rgba(255,255,255,0.85); }
+
+    footer .copy {
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+      margin-top: 8px;
+    }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: var(--dark);
+      color: #fff;
+      font-size: 14px;
+      padding: 12px 22px;
+      border-radius: 100px;
+      opacity: 0;
+      transition: opacity .25s, transform .25s;
+      pointer-events: none;
+      z-index: 999;
+      white-space: nowrap;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="wordmark" aria-label="ShadowSpeak home">
+      <span>Shadow</span><span>Speak</span>
+    </a>
+    <a href="#waitlist" class="nav-cta">Join the waitlist</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="container">
+    <span class="hero-kicker">Cantonese &amp; Mandarin pronunciation</span>
+    <h1>I grew up hearing it. I never knew how to reply.</h1>
+    <p>ShadowSpeak scores your Cantonese and Mandarin pronunciation in real time — so you stop guessing and start speaking the way it sounds in your head.</p>
+    <div class="hero-ctas">
+      <a href="#waitlist" class="btn-primary">Join the founding member waitlist</a>
+      <a href="#how-it-works" class="btn-ghost">See how it works</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── APP MOCKUP ── -->
+<div class="mockup-strip">
+  <div class="container" style="display:flex;justify-content:center;">
+    <div class="mockup-card">
+      <div class="mockup-label">Shadow Mode &mdash; Today's session</div>
+      <div class="mockup-phrase">你好嗎？</div>
+      <div class="mockup-romanisation">nei5 hou2 maa3</div>
+      <div class="mockup-score-row">
+        <div class="score-pill">
+          <span class="score-num good">84</span>
+          <span class="score-lbl">Overall</span>
+        </div>
+        <div class="score-pill">
+          <span class="score-num mid">71</span>
+          <span class="score-lbl">Tones</span>
+        </div>
+        <div class="score-pill">
+          <span class="score-num good">91</span>
+          <span class="score-lbl">Rhythm</span>
+        </div>
+      </div>
+      <div class="mockup-bar-row">
+        <div class="bar-item">
+          <span>nei5</span>
+          <div class="bar-track"><div class="bar-fill" style="width:88%"></div></div>
+          <span class="bar-pct">88%</span>
+        </div>
+        <div class="bar-item">
+          <span>hou2</span>
+          <div class="bar-track"><div class="bar-fill mid" style="width:65%"></div></div>
+          <span class="bar-pct">65%</span>
+        </div>
+        <div class="bar-item">
+          <span>maa3</span>
+          <div class="bar-track"><div class="bar-fill" style="width:92%"></div></div>
+          <span class="bar-pct">92%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="section section--alt" id="how-it-works">
+  <div class="container">
+    <span class="section-tag">How it works</span>
+    <h2 class="section-heading">Three steps. No reading.<br>No clicking.</h2>
+    <p class="section-sub">Ten minutes a day. A score you can actually trust.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Listen</h3>
+          <p>Hear a native speaker say the phrase. Full audio, natural pace — no slow-motion, no phonetic tricks. Your ear is already better than you think.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Speak</h3>
+          <p>Say it back out loud. The app listens. Exactly as you said it, exactly as it sounded.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>See your score</h3>
+          <p>AI analyses your pronunciation and gives you a number — tone by tone, word by word. Not "good job." A real score. Exactly where you went wrong and exactly what to fix.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps-footer">
+      Ten minutes a day. A score you can actually trust.
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY DIFFERENT ── -->
+<section class="section">
+  <div class="container">
+    <span class="section-tag">Why ShadowSpeak</span>
+    <h2 class="section-heading">Not another language app.<br>A pronunciation coach.</h2>
+    <p class="section-sub" style="margin-bottom:36px;">Every other app left you behind. This one was built for exactly your situation.</p>
+
+    <div class="diff-grid">
+      <div class="diff-card">
+        <div class="diff-icon">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="9" cy="9" r="7" stroke="#1A2A18" stroke-width="1.5"/>
+            <path d="M6 9l2 2 4-4" stroke="#1A2A18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>No Cantonese on Duolingo</h3>
+        <p>Duolingo doesn't have Cantonese for English speakers. Not "it's limited" — it simply doesn't exist. If you grew up in a Cantonese household, every major language app has left you behind. ShadowSpeak was built specifically for that gap.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 3v6l4 2" stroke="#1A2A18" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="9" cy="9" r="7" stroke="#1A2A18" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>Real feedback, not false progress</h3>
+        <p>Every other app gives you points when you click the right answer. ShadowSpeak gives you a number when you open your mouth. There's a difference between memorising and producing — and only one of them sounds right on the phone with your parents.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 14s1-4 5-4 5 4 5 4" stroke="#1A2A18" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="9" cy="6" r="3" stroke="#1A2A18" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>The shadowing method</h3>
+        <p>Shadowing is how linguists and translators train their ear and mouth simultaneously. No competitor uses it. ShadowSpeak is built around it. Your pronunciation doesn't just improve — it starts to feel natural.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOUNDING MEMBER OFFER ── -->
+<section class="section section--alt" id="waitlist">
+  <div class="container">
+    <div class="founder-wrap">
+      <span class="founder-kicker">Founding member offer</span>
+      <h2>500 founding members.<br>Lifetime access. One price.</h2>
+
+      <div class="counter-badge">
+        <strong id="counter">— </strong> / 500 spots remaining
+      </div>
+
+      <div class="price-tag">
+        <span class="amount">£149</span>
+        <span class="once">once &mdash; no subscription, no renewal, forever</span>
+      </div>
+
+      <p>ShadowSpeak launches in June 2026. Before we open to the public, we're offering lifetime access to the first 500 people who join the waitlist. That's not a promotional price we'll quietly raise — it's the founding member price, hard-capped at 500 people.</p>
+
+      <ul class="perks">
+        <li>Full lifetime access to all current features — Shadow Mode, Tone Gym, AI Conversation, Spaced Repetition, Speed Run, and every practice mode</li>
+        <li>Every feature we ship in the future, included</li>
+        <li>Direct access to give feedback on what we build next — founding members shape the roadmap</li>
+        <li>A founding member badge in your profile, permanently</li>
+        <li>Access to both Cantonese and Mandarin tracks</li>
+      </ul>
+
+      <!-- Mailchimp Embed Form
+           Replace the action URL below with your Mailchimp list action URL.
+           To find it: Mailchimp > Audience > Signup forms > Embedded forms > copy the action= value.
+      -->
+      <form
+        class="mc-form"
+        action="YOUR_MAILCHIMP_ACTION_URL_HERE"
+        method="post"
+        target="_blank"
+        novalidate
+        id="mc-form"
+      >
+        <!-- Mailchimp anti-bot field — keep hidden -->
+        <div style="position:absolute;left:-5000px" aria-hidden="true">
+          <input type="text" name="b_PLACEHOLDER_u_PLACEHOLDER" tabindex="-1" value="" />
+        </div>
+
+        <div class="mc-form-row">
+          <input
+            type="email"
+            name="EMAIL"
+            id="mce-EMAIL"
+            placeholder="Your email address"
+            class="mc-email"
+            required
+            aria-label="Email address"
+          />
+          <button type="submit" name="subscribe" class="mc-submit">
+            Hold my spot
+          </button>
+        </div>
+        <p class="mc-note">No spam. One email when we launch. Unsubscribe any time.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── SOCIAL PROOF ── -->
+<section class="section">
+  <div class="container">
+    <span class="section-tag">Early users</span>
+    <h2 class="section-heading" style="margin-bottom:36px;">What early users are saying</h2>
+
+    <div class="quotes-grid">
+      <!-- Replace these placeholders with real beta quotes before launch -->
+      <div class="quote-placeholder">
+        <p>Beta user quote coming soon — a moment of connection, a score they were surprised by, or a breakthrough with a family member.</p>
+      </div>
+      <div class="quote-placeholder">
+        <p>Beta user quote coming soon — why shadowing worked when nothing else did.</p>
+      </div>
+      <div class="quote-placeholder">
+        <p>Beta user quote coming soon — the diaspora angle, raising kids with the language.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ── -->
+<section class="section section--alt">
+  <div class="container final-cta">
+    <h2>The language was always inside you. The app just listens.</h2>
+    <p>Join the waitlist. Get first access to the founding member offer when we launch in June. 500 spots. The cap is real.</p>
+    <a href="#waitlist" class="btn-primary">Join the founding member waitlist</a>
+    <p class="sub-note">No spam. One email when we launch. You can unsubscribe at any time.</p>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="wordmark"><span>Shadow</span><span>Speak</span></a>
+    <p class="tagline">AI pronunciation coach for Cantonese and Mandarin</p>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="mailto:hello@shadowspeak.app">Contact</a>
+    </nav>
+    <p>Built in Hong Kong.</p>
+    <p class="copy">&copy; 2026 ShadowSpeak / Colour Code Productions Ltd. All rights reserved.</p>
+  </div>
+</footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Toast helper
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3200);
+  }
+
+  // Form submit feedback (Mailchimp handles actual submission via target=_blank)
+  document.getElementById('mc-form').addEventListener('submit', function(e) {
+    const email = document.getElementById('mce-EMAIL').value.trim();
+    if (!email || !email.includes('@')) {
+      e.preventDefault();
+      showToast('Please enter a valid email address.');
+      return;
+    }
+    // Let Mailchimp handle the rest in a new tab
+    showToast('You\'re on the list. One email when we launch.');
+  });
+
+  // Waitlist counter — replace with a live fetch from your backend or Mailchimp API
+  // For now this shows a static placeholder. To make it live:
+  // fetch('/api/counter').then(r => r.json()).then(d => { ... })
+  const counter = document.getElementById('counter');
+  // Uncomment and set when you have a real number:
+  // counter.textContent = '347 spots';
+</script>
+</body>
+</html>

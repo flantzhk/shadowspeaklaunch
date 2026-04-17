@@ -129,7 +129,7 @@
 }
 
 .countAfter { color: var(--color-brand-dark-text); }
-.exceedWarning { color: #E05050; }
+.exceedWarning { color: #D04040; }
 
 /* === Actions === */
 .actions {

@@ -3,6 +3,7 @@
 import { firebase, fbAuth, fbDb } from './firebase';
 import { logger } from '../utils/logger';
 import { clearAllData } from './storage';
+import { phReset } from './posthog';
 
 // ---------------------------------------------------------------------------
 // Internal helpers
@@ -140,6 +141,7 @@ async function signInWithApple(languageChoice = 'cantonese') {
  * Sign out the current user.
  */
 async function signOut() {
+  phReset();
   await fbAuth.signOut();
   window.location.hash = '#login';
 }

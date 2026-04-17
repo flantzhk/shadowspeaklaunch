@@ -14,9 +14,9 @@ export default function Screen14_Gate({ onComplete }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '48px 24px 48px',
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+      fontFamily: "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     }}>
       <h1 style={{ fontSize: "1.625rem", fontWeight: 800, color: '#1A2A18', margin: 0 }}>
         Save your plan and keep going.
@@ -52,7 +52,7 @@ export default function Screen14_Gate({ onComplete }) {
             7 days free, then $59.99/year
           </div>
           <div style={{ fontSize: "0.8125rem", fontWeight: 600, color: '#8BB82B' }}>
-            Just $5/month — cancel any time
+            $5/month. Cancel any time.
           </div>
           <button
             onClick={handleTrial}
@@ -88,7 +88,7 @@ export default function Screen14_Gate({ onComplete }) {
 
       {/* Free card */}
       <div style={{
-        background: '#F4F1E8',
+        background: '#F7F4EC',
         border: '1px solid #E0DDD4',
         borderRadius: 16,
         padding: 20,

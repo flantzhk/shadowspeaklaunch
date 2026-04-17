@@ -201,6 +201,22 @@ class AudioEngine {
     }
   }
 
+  /**
+   * Prime both audio elements during a synchronous user-gesture frame.
+   * Must be called before any async operations in the click handler.
+   * This marks them as "user-activated" so iOS Safari allows subsequent
+   * play() calls after async work (loading, fetching) completes.
+   */
+  primeForUserGesture() {
+    const p1 = this._audio.play();
+    this._audio.pause();
+    this._audio.currentTime = 0;
+    p1.catch(() => {});
+    const p2 = this._englishAudio.play();
+    this._englishAudio.pause();
+    p2.catch(() => {});
+  }
+
   async play() {
     try {
       if (!this._audio.src) {
@@ -208,18 +224,6 @@ class AudioEngine {
         return;
       }
       if (this._shadowMode) {
-        // iOS Safari blocks audio.play() after any async operation (await breaks
-        // the user-gesture chain). Prime both audio elements synchronously right
-        // now — play() + immediate pause — while we are still in the user-gesture
-        // frame. This marks them as "user-activated" for the rest of the session.
-        const primePlay = this._audio.play();
-        this._audio.pause();
-        this._audio.currentTime = 0;
-        primePlay.catch(() => {}); // suppress "interrupted by call to pause()" AbortError
-        // Prime the English audio element too
-        const primeEnglish = this._englishAudio.play();
-        this._englishAudio.pause();
-        primeEnglish.catch(() => {});
         await this._playShadowSequence();
       } else {
         await this._audio.play();

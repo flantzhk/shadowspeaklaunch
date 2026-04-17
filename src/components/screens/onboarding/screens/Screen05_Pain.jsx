@@ -1,6 +1,6 @@
 import { OptionCard } from '../shared/OptionCard';
 
-const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
+const FONT = "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
 
 const OPTIONS = [
   'My tones are wrong but I don\'t know how to fix them',
@@ -27,7 +27,7 @@ export default function Screen05_Pain({ advance, answers, setAnswers }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '48px 24px 120px',
       fontFamily: FONT,
     }}>

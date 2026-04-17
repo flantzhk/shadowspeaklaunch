@@ -111,7 +111,7 @@ export default function SceneSummary({ summary, chatLog, sceneTitle, onDone, onR
           )}
           {onReplay && (
             <button className={styles.replayBtn} onClick={onReplay}>
-              Play again
+              Try again
             </button>
           )}
           <button className={styles.doneBtn} onClick={onDone}>

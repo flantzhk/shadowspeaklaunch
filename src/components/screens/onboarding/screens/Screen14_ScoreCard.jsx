@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
+const FONT = "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
 
 const PHRASES = {
   cantonese: { chinese: '你食咗飯未呀？', romanisation: 'nei5 sik6 zo2 faan6 mei6 aa3', english: 'Have you eaten yet?' },
@@ -10,7 +10,7 @@ const PHRASES = {
 function getScoreColor(s) {
   if (s >= 80) return '#C5E85A';
   if (s >= 60) return '#E8A030';
-  return '#E05050';
+  return '#D04040';
 }
 
 function getScoreLabel(s) {
@@ -47,7 +47,7 @@ export default function Screen14_ScoreCard({ advance, answers }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '32px 24px 48px',
       fontFamily: FONT,
       display: 'flex',
@@ -189,7 +189,7 @@ export default function Screen14_ScoreCard({ advance, answers }) {
         maxWidth: 280,
         lineHeight: 1.5,
       }}>
-        Improving by 3-5 points per week is fluency in a year.
+        Most learners improve 3-5 points per session. That's real progress.
       </p>
 
       {/* Primary CTA */}
@@ -211,7 +211,7 @@ export default function Screen14_ScoreCard({ advance, answers }) {
           fontFamily: FONT,
         }}
       >
-        Unlock the full app
+        Continue to the full app
       </button>
     </div>
   );

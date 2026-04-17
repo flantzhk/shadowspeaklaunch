@@ -1,4 +1,4 @@
-const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
+const FONT = "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
 
 const TESTIMONIALS = [
   {
@@ -36,7 +36,7 @@ export default function Screen06_SocialProof({ advance }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '48px 24px 48px',
       fontFamily: FONT,
     }}>
@@ -47,7 +47,7 @@ export default function Screen06_SocialProof({ advance }) {
         margin: 0,
         lineHeight: 1.25,
       }}>
-        Thousands of heritage learners are already speaking.
+        Heritage learners are already speaking.
       </h1>
 
       <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', gap: 12 }}>

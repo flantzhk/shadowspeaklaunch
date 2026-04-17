@@ -8,9 +8,10 @@ import { speechToText, scorePronunciation, textToSpeech } from '../../services/a
 import { isAuthenticated } from '../../services/auth';
 import { updateAfterPractice } from '../../services/srs';
 import { buildLesson } from '../../services/lessonBuilder';
-import { saveSession } from '../../services/storage';
+import { saveSession, getRecentScoredSessions } from '../../services/storage';
 import { updateStreak, getTodayString } from '../../services/streak';
-import { logEvent, isStreakMilestone } from '../../services/analytics';
+import { logEvent, isStreakMilestone, calculatePersonalPercentile } from '../../services/analytics';
+import { phCapture } from '../../services/posthog';
 import { SCORE_THRESHOLDS } from '../../utils/constants';
 import { ScoreBadge } from '../cards/ScoreBadge';
 import { RecordButton } from '../shared/RecordButton';
@@ -51,6 +52,7 @@ export default function PromptDrill({ onBack, onComplete }) {
       if (lesson.length > 0) {
         setPhase('prompt');
         logEvent('session_started', { mode: 'prompt_drill' });
+        phCapture('session_started', { mode: 'prompt_drill' });
       } else {
         setPhase('empty');
       }
@@ -150,7 +152,14 @@ export default function PromptDrill({ onBack, onComplete }) {
     const streakCount = await updateStreak();
     const scores = results.filter(r => r.score !== null).map(r => r.score);
     const avg = scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null;
+    // Fetch baseline BEFORE saving so the current session isn't in its own percentile
+    const pastScores = await getRecentScoredSessions(20);
     logEvent('session_completed', {
+      mode: 'prompt_drill',
+      phrases_attempted: results.length,
+      average_score: avg !== null ? Math.round(avg) : 0,
+    });
+    phCapture('session_completed', {
       mode: 'prompt_drill',
       phrases_attempted: results.length,
       average_score: avg !== null ? Math.round(avg) : 0,
@@ -167,6 +176,12 @@ export default function PromptDrill({ onBack, onComplete }) {
       phraseResults: results.map(r => ({ phraseId: r.phraseId, romanization: r.romanization, english: r.english, score: r.score, replays: 0, markedKnown: false })),
     };
     await saveSession(rec);
+    if (avg !== null) {
+      const roundedAvg = Math.round(avg);
+      const percentile = calculatePersonalPercentile(roundedAvg, pastScores);
+      logEvent('score_achieved', { score: roundedAvg, mode: 'prompt_drill', language: settings.currentLanguage || 'cantonese' });
+      phCapture('score_achieved', { score: roundedAvg, mode: 'prompt_drill', language: settings.currentLanguage || 'cantonese', percentile });
+    }
     onComplete?.({ ...rec, streakCount });
   }, [sessionStart, results, updateSettings, settings, onComplete]);
 

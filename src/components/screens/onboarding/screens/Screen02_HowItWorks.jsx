@@ -28,9 +28,9 @@ export default function Screen02_HowItWorks({ advance }) {
     <div style={{
       position: 'relative',
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '60px 24px 48px',
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+      fontFamily: "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     }}>
       <NavBar />
 
@@ -47,7 +47,7 @@ export default function Screen02_HowItWorks({ advance }) {
           <div style={numberCircle}>1</div>
           <div>
             <div style={{ fontSize: "0.9375rem", fontWeight: 700, color: '#1A2A18' }}>Press play</div>
-            <div style={{ fontSize: "0.875rem", color: '#8BB82B', marginTop: 4 }}>Dung³ naai⁵ caa⁴</div>
+            <div style={{ fontSize: "0.875rem", color: '#8F6AE8', marginTop: 4 }}>Dung³ naai⁵ caa⁴</div>
             <div style={{ fontSize: "0.8125rem", color: '#999', marginTop: 2 }}>凍奶茶</div>
             <div style={{ fontSize: "0.75rem", color: '#BBB', marginTop: 1 }}>Iced milk tea</div>
           </div>
@@ -82,7 +82,7 @@ export default function Screen02_HowItWorks({ advance }) {
                 fontWeight: 800,
                 color: '#1A2A18',
               }}>87</span>
-              <span style={{ fontSize: "0.75rem", color: '#3A6A1A', fontWeight: 600 }}>Great!</span>
+              <span style={{ fontSize: "0.75rem", color: '#3A6A1A', fontWeight: 600 }}>Solid.</span>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
+const FONT = "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
 
 const TOPICS = [
   { id: 'food', icon: '🍜', label: 'Food and restaurants' },
@@ -27,7 +27,7 @@ export default function Screen09_Personalisation({ advance, answers, setAnswers 
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '48px 24px 120px',
       fontFamily: FONT,
     }}>
@@ -62,7 +62,7 @@ export default function Screen09_Personalisation({ advance, answers, setAnswers 
                 background: isSelected ? '#1A2A18' : 'white',
                 borderRadius: 14,
                 padding: '18px 14px',
-                border: `2px solid ${isSelected ? '#C5E85A' : '#EDE8E0'}`,
+                border: `2px solid ${isSelected ? '#C5E85A' : '#EDE8DC'}`,
                 cursor: 'pointer',
                 fontFamily: FONT,
                 textAlign: 'left',

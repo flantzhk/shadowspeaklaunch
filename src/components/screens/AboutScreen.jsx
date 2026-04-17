@@ -1,6 +1,6 @@
 // src/components/screens/AboutScreen.jsx — Item 21
 
-import { ROUTES } from '../../utils/constants';
+import { ROUTES, APP_VERSION } from '../../utils/constants';
 import styles from './AboutScreen.module.css';
 
 export default function AboutScreen({ onBack, onNavigate }) {
@@ -16,8 +16,7 @@ export default function AboutScreen({ onBack, onNavigate }) {
         <span className={styles.logoS}>S</span>
       </div>
       <p className={styles.wordmark}><span className={styles.shadow}>Shadow</span><span className={styles.speak}>Speak</span></p>
-      <p className={styles.version}>Version 1.0.0</p>
-      <p className={styles.build}>Build 1</p>
+      <p className={styles.version}>Version {APP_VERSION}</p>
 
       <p className={styles.credit}>Made with care in Hong Kong<br />by Faith Lantz and family.</p>
 

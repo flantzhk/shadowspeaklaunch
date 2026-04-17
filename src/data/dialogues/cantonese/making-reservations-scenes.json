@@ -1,0 +1,76 @@
+[
+  {
+    "id": "booking-restaurant",
+    "topicId": "making-reservations",
+    "title": "Booking a restaurant by phone",
+    "description": "Calling ahead to reserve a table for the family",
+    "turns": [
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "唔該，我想訂位。",
+        "jyutping": "m4 goi1 ngo5 soeng2 deng6 wai6",
+        "romanization": "M⁴ goi¹, ngo⁵ soeng² deng⁶ wai⁶.",
+        "english": "Excuse me, I'd like to make a reservation.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Staff",
+        "phraseId": null,
+        "chinese": "幾多位？幾時？",
+        "jyutping": "gei2 do1 wai6 gei2 si4",
+        "romanization": "Gei² do¹ wai⁶? Gei² si⁴?",
+        "english": "How many people? When?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "四位，星期六晚七點半。",
+        "jyutping": "sei3 wai6 sing1 kei4 luk6 maan5 cat1 dim2 bun3",
+        "romanization": "Sei³ wai⁶, sing¹ kei⁴ luk⁶ maan⁵ cat¹ dim² bun³.",
+        "english": "Four people, Saturday evening at 7:30.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Staff",
+        "phraseId": null,
+        "chinese": "你貴姓？",
+        "jyutping": "nei5 gwai3 sing3",
+        "romanization": "Nei⁵ gwai³ sing³?",
+        "english": "May I have your name?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "我姓Chan。",
+        "jyutping": "ngo5 sing3 Can",
+        "romanization": "Ngo⁵ sing³ Chan.",
+        "english": "My surname is Chan.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Staff",
+        "phraseId": null,
+        "chinese": "好，訂好喇。Chan小姐，星期六見！",
+        "jyutping": "hou2 deng6 hou2 laa3 Can siu2 ze2 sing1 kei4 luk6 gin3",
+        "romanization": "Hou², deng⁶ hou² laa³. Chan siu² ze², sing¹ kei⁴ luk⁶ gin³!",
+        "english": "Done. Ms. Chan, see you Saturday!",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

@@ -13,25 +13,25 @@ const ACHIEVEMENTS = [
   { id: '10-phrases', icon: '📖', label: 'Word Collector', desc: 'Save 10 phrases to library', how: 'Tap + on any phrase', field: 'phrases', threshold: 10 },
   { id: '25-phrases', icon: '🔍', label: 'Phrase Hunter', desc: 'Save 25 phrases to library', how: 'Keep adding phrases you like', field: 'phrases', threshold: 25 },
   { id: '50-phrases', icon: '📚', label: 'Vocabulary Builder', desc: 'Save 50 phrases to library', how: 'Build a solid phrase collection', field: 'phrases', threshold: 50 },
-  { id: '3-streak', icon: '🔥', label: 'On a Roll', desc: 'Practice 3 days in a row', how: 'Do at least 1 session per day', field: 'streak', threshold: 3 },
-  { id: '7-streak', icon: '💪', label: 'Week Warrior', desc: 'Practice 7 days in a row', how: 'Keep your daily streak alive', field: 'streak', threshold: 7 },
-  { id: '14-streak', icon: '🏆', label: 'Unstoppable', desc: 'Practice 14 days in a row', how: 'Two full weeks of practice', field: 'streak', threshold: 14 },
-  { id: '30-streak', icon: '👑', label: 'Legend', desc: 'Practice 30 days in a row', how: 'A full month, no days missed', field: 'streak', threshold: 30 },
+  { id: '3-streak', icon: '🔥', label: '3 Days Straight', desc: 'Practice 3 days in a row', how: 'Do at least 1 session per day', field: 'streak', threshold: 3 },
+  { id: '7-streak', icon: '💪', label: '7 Days Straight', desc: 'Practice 7 days in a row', how: 'Keep your daily streak alive', field: 'streak', threshold: 7 },
+  { id: '14-streak', icon: '🏆', label: '14 Days Straight', desc: 'Practice 14 days in a row', how: 'Two full weeks of practice', field: 'streak', threshold: 14 },
+  { id: '30-streak', icon: '👑', label: '30 Days Straight', desc: 'Practice 30 days in a row', how: 'A full month, no days missed', field: 'streak', threshold: 30 },
   { id: 'first-master', icon: '⭐', label: 'First Mastery', desc: 'Master your first phrase', how: 'Score 90+ on a phrase repeatedly', field: 'mastered', threshold: 1 },
-  { id: '25-sessions', icon: '🎯', label: 'Dedicated', desc: 'Complete 25 practice sessions', how: 'Keep showing up to practice', field: 'sessions', threshold: 25 },
+  { id: '25-sessions', icon: '🎯', label: '25 Sessions', desc: 'Complete 25 practice sessions', how: 'Keep showing up to practice', field: 'sessions', threshold: 25 },
   { id: '10-mastered', icon: '🧠', label: 'Sharp Memory', desc: 'Master 10 different phrases', how: 'Review phrases until they stick', field: 'mastered', threshold: 10 },
 ];
 
 const DAY_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
 function streakMessage(streak) {
-  if (streak === 0) return { headline: 'Start your streak today', sub: 'Practice once a day to build momentum' };
-  if (streak === 1) return { headline: "Day 1 — you've begun!", sub: "Come back tomorrow to keep it going" };
-  if (streak < 3) return { headline: `${streak} days and counting`, sub: "Building a habit takes consistency — keep going!" };
-  if (streak < 7) return { headline: `${streak} days strong 🔥`, sub: "You're in the habit zone — don't stop now" };
-  if (streak < 14) return { headline: `${streak} days — impressive!`, sub: "A full week of practice. You're serious about this." };
-  if (streak < 30) return { headline: `${streak} days — unstoppable`, sub: "Most people give up long before this. You haven't." };
-  return { headline: `${streak} days — legend status`, sub: "A month of daily practice. You're fluent in dedication." };
+  if (streak === 0) return { headline: 'Start your streak today', sub: 'Practice once a day to build momentum.' };
+  if (streak === 1) return { headline: "Day 1. You've begun.", sub: "Come back tomorrow to keep it going." };
+  if (streak < 3) return { headline: `${streak} days and counting`, sub: "Building a habit takes consistency. Keep going." };
+  if (streak < 7) return { headline: `${streak} days strong 🔥`, sub: "You're in the habit zone. Don't stop now." };
+  if (streak < 14) return { headline: `${streak} days. Impressive.`, sub: "A full week of practice. You're serious about this." };
+  if (streak < 30) return { headline: `${streak} days`, sub: "Most people give up long before this. You haven't." };
+  return { headline: `${streak} days`, sub: "A month of daily practice. Most people never get here." };
 }
 
 export default function StatsScreen({ onBack, onNavigate }) {

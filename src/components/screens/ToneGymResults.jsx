@@ -15,7 +15,7 @@ function getToneColor(pct) {
   if (pct >= 80) return 'var(--color-brand-green)';
   if (pct >= 60) return 'var(--color-brand-lime)';
   if (pct >= 40) return '#E8A030';
-  return '#E05050';
+  return '#D04040';
 }
 
 /**
@@ -135,7 +135,7 @@ export default function ToneGymResults({ summary, onDone, onPlayAgain }) {
         {/* Actions */}
         <div className={styles.actions}>
           <button className={styles.playAgainBtn} onClick={onPlayAgain}>
-            Play again
+            Try again
           </button>
           <button className={styles.doneBtn} onClick={onDone}>
             Done

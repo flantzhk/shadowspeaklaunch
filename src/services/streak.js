@@ -29,14 +29,21 @@ function getWeekStart() {
  * Supports 1 free streak freeze per week.
  * @returns {Promise<number>}
  */
+/**
+ * Update streak after completing a session.
+ * @returns {Promise<{ count: number, freezeUsed: boolean, freezeNotAvailable: boolean }>}
+ *   count — new streak value
+ *   freezeUsed — true if a freeze was automatically consumed this call
+ *   freezeNotAvailable — true if the streak reset AND a freeze would have helped but was already spent this week
+ */
 async function updateStreak() {
   const settings = await getSettings();
-  if (!settings) return 0;
+  if (!settings) return { count: 0, freezeUsed: false, freezeNotAvailable: false };
 
   const today = getTodayString();
 
   if (settings.streakLastDate === today) {
-    return settings.streakCount;
+    return { count: settings.streakCount, freezeUsed: false, freezeNotAvailable: false };
   }
 
   const yesterday = new Date();
@@ -45,6 +52,8 @@ async function updateStreak() {
 
   let newStreak;
   let freezeUsedThisWeek = settings.streakFreezeUsedWeek || '';
+  let freezeUsed = false;
+  let freezeNotAvailable = false;
 
   if (settings.streakLastDate === yesterdayStr) {
     newStreak = settings.streakCount + 1;
@@ -61,9 +70,14 @@ async function updateStreak() {
       // Use streak freeze — missed exactly 1 day, haven't used freeze this week
       newStreak = settings.streakCount + 1;
       freezeUsedThisWeek = currentWeek;
+      freezeUsed = true;
       logger.info('Streak freeze used');
     } else {
       newStreak = 1;
+      // Freeze was already spent this week and would have saved the streak
+      if (settings.streakLastDate === twoDaysAgoStr && freezeUsedThisWeek === currentWeek) {
+        freezeNotAvailable = true;
+      }
       logger.info('Streak reset — missed a day');
     }
   }
@@ -75,7 +89,7 @@ async function updateStreak() {
     streakFreezeUsedWeek: freezeUsedThisWeek,
   });
 
-  return newStreak;
+  return { count: newStreak, freezeUsed, freezeNotAvailable };
 }
 
 /**

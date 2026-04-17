@@ -145,8 +145,8 @@ export default function HomeScreen({ onNavigate }) {
         <div className={styles.streakBanner}>
           <span className={styles.streakFlame}>🔥</span>
           <div className={styles.streakBannerText}>
-            <span className={styles.streakBannerTitle}>Your {settings.streakCount ?? 0}-day streak is at risk!</span>
-            <span className={styles.streakBannerSub}>Practice 5 minutes to save it.</span>
+            <span className={styles.streakBannerTitle}>{settings.streakCount ?? 0} days. Practice today to keep it.</span>
+            <span className={styles.streakBannerSub}>5 minutes is enough.</span>
           </div>
           <button className={styles.streakBannerAction} onClick={() => { setStreakDismissed(true); onNavigate('session'); }}>
             Start

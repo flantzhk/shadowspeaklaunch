@@ -6,6 +6,7 @@ import { getAllLibraryEntries, saveSession, getSettings, saveSettings } from '..
 import { loadAllPhrases } from '../../services/lessonBuilder';
 import { updateStreak, getTodayString } from '../../services/streak';
 import { logEvent, isStreakMilestone } from '../../services/analytics';
+import { phCapture } from '../../services/posthog';
 import { LessonLoader } from '../shared/LessonLoader';
 import styles from './SpeedRun.module.css';
 
@@ -49,6 +50,7 @@ export default function SpeedRun({ onBack, onComplete }) {
       if (shuffled.length > 0) {
         setPhase('playing');
         logEvent('session_started', { mode: 'speed_run' });
+        phCapture('session_started', { mode: 'speed_run' });
         startTimer();
         generateOptions(shuffled, 0, pool);
       }
@@ -103,6 +105,7 @@ export default function SpeedRun({ onBack, onComplete }) {
     const dur = Math.round((Date.now() - sessionStart) / 1000);
     const streak = await updateStreak();
     logEvent('session_completed', { mode: 'speed_run', correct_answers: correct });
+    phCapture('session_completed', { mode: 'speed_run', correct_answers: correct });
     if (isStreakMilestone(streak)) {
       logEvent('streak_milestone', { streak_count: streak });
     }

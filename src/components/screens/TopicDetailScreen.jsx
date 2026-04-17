@@ -16,7 +16,7 @@ import styles from './TopicDetailScreen.module.css';
  */
 export default function TopicDetailScreen({ topicId, onBack, showToast, onStartScene }) {
   const { settings } = useAppContext();
-  const { loadQueue, play, isPlaying, pause } = useAudio();
+  const { loadQueue, prime, play, isPlaying, pause } = useAudio();
   const [topic, setTopic] = useState(null);
   const [savedIds, setSavedIds] = useState(new Set());
   const [libraryEntries, setLibraryEntries] = useState({});
@@ -69,11 +69,15 @@ export default function TopicDetailScreen({ topicId, onBack, showToast, onStartS
   const handlePlayTopic = useCallback(async () => {
     if (!topic) return;
     if (isPlaying) { pause(); return; }
+    // Prime audio elements NOW, synchronously, while still in the user-gesture frame.
+    // iOS Safari blocks audio.play() after any await — priming here marks both
+    // elements as user-activated before the async loadQueue fetch begins.
+    prime();
     const topicMeta = { name: topic.name, imageUrl: topic.imageUrl, imageGradient: topic.imageGradient };
     // Shadow mode: English → pause → Chinese → 4.5s gap to repeat
     await loadQueue(topic.phrases, settings.currentLanguage, null, topicMeta, { shadowMode: true });
     await play();
-  }, [topic, loadQueue, play, pause, isPlaying, settings.currentLanguage]);
+  }, [topic, loadQueue, prime, play, pause, isPlaying, settings.currentLanguage]);
 
   const handleSave = useCallback(async (phrase) => {
     try {

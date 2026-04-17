@@ -1,7 +1,9 @@
 // cloudflare-worker/src/index.js — ShadowSpeak API Proxy
 // Validates Firebase ID tokens, injects cantonese.ai API key, rate limits per user.
 
-const ALLOWED_PATHS = ['/tts', '/stt', '/score-pronunciation', '/ai-chat', '/tts-english', '/push-subscribe', '/push-unsubscribe'];
+const ALLOWED_PATHS = ['/tts', '/stt', '/score-pronunciation', '/ai-chat', '/tts-english', '/push-subscribe', '/push-unsubscribe', '/create-checkout-session'];
+const STRIPE_API_URL = 'https://api.stripe.com/v1/checkout/sessions';
+const APP_BASE_URL = 'https://flantzhk.github.io/shadowspeaklaunch';
 const VAPID_PUBLIC_KEY = 'BCmqvXWvZ-9ES9BJWC9fkC_RoZ16Fh3p3i5IB1uF_YpdM54OUeBTfrCKppryPIx0_6dB6SQcDixoD22J1Y2Q08M';
 const VAPID_SUBJECT = 'mailto:faith@shadowspeak.app';
 const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
@@ -128,6 +130,79 @@ export default {
       } catch (err) {
         console.error('English TTS error:', err);
         return new Response('English TTS failed', { status: 502, headers: corsHeaders });
+      }
+    }
+
+    // Route /create-checkout-session — creates a Stripe Checkout session and returns the redirect URL
+    if (path === '/create-checkout-session') {
+      try {
+        const body = await request.json();
+        const { planId } = body;
+
+        const priceMap = {
+          monthly:  env.STRIPE_PRICE_MONTHLY,
+          annual:   env.STRIPE_PRICE_ANNUAL,
+          lifetime: env.STRIPE_PRICE_LIFETIME,
+          family:   env.STRIPE_PRICE_FAMILY,
+        };
+
+        const priceId = priceMap[planId];
+        if (!priceId) {
+          return new Response(JSON.stringify({ error: 'Invalid plan' }), {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
+        // lifetime is a one-time payment; everything else is a subscription
+        const isLifetime = planId === 'lifetime';
+        const isAnnual   = planId === 'annual';
+
+        const params = new URLSearchParams({
+          mode:                        isLifetime ? 'payment' : 'subscription',
+          'line_items[0][price]':      priceId,
+          'line_items[0][quantity]':   '1',
+          success_url:                 `${APP_BASE_URL}/?checkout=success`,
+          cancel_url:                  `${APP_BASE_URL}/?checkout=cancel`,
+          client_reference_id:         user.sub,
+        });
+
+        // Annual plan — 7-day free trial
+        if (isAnnual) {
+          params.set('subscription_data[trial_period_days]', '7');
+        }
+
+        // Pre-fill email if available in the Firebase token
+        if (user.email) {
+          params.set('customer_email', user.email);
+        }
+
+        const stripeRes = await fetch(STRIPE_API_URL, {
+          method: 'POST',
+          headers: {
+            'Authorization':  `Bearer ${env.STRIPE_SECRET_KEY}`,
+            'Content-Type':   'application/x-www-form-urlencoded',
+          },
+          body: params,
+        });
+
+        if (!stripeRes.ok) {
+          const errText = await stripeRes.text();
+          console.error('Stripe error:', errText);
+          throw new Error(`Stripe ${stripeRes.status}`);
+        }
+
+        const session = await stripeRes.json();
+        return new Response(JSON.stringify({ url: session.url }), {
+          status: 200,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      } catch (err) {
+        console.error('Checkout session error:', err);
+        return new Response(JSON.stringify({ error: 'Checkout failed. Please try again.' }), {
+          status: 502,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
       }
     }
 

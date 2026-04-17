@@ -1,4 +1,4 @@
-const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
+const FONT = "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
 
 const LANGUAGES = [
   {
@@ -29,7 +29,7 @@ export default function Screen02_LanguageSelect({ advance, answers, setAnswers }
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '48px 24px 120px',
       fontFamily: FONT,
     }}>

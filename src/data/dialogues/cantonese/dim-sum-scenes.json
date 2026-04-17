@@ -1,0 +1,139 @@
+[
+  {
+    "id": "dim-sum-getting-seated",
+    "topicId": "dim-sum",
+    "title": "Getting a table at yum cha",
+    "description": "Asking for a table for your family at a dim sum restaurant",
+    "turns": [
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "唔該，有冇位？",
+        "jyutping": "m4 goi1 jau5 mou5 wai6",
+        "romanization": "M⁴ goi¹, jau⁵ mou⁵ wai⁶?",
+        "english": "Excuse me, do you have a table?",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Staff",
+        "phraseId": null,
+        "chinese": "幾多位？",
+        "jyutping": "gei2 do1 wai6",
+        "romanization": "Gei² do¹ wai⁶?",
+        "english": "How many people?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "四位，有兩個細路。",
+        "jyutping": "sei3 wai6 jau5 loeng5 go3 sai3 lou6",
+        "romanization": "Sei³ wai⁶, jau⁵ loeng⁵ go³ sai³ lou⁶.",
+        "english": "Four people, including two children.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Staff",
+        "phraseId": null,
+        "chinese": "等陣，大概等十五分鐘。",
+        "jyutping": "dang2 zan6 daai6 koi3 dang2 sap6 ng5 fan1 zung1",
+        "romanization": "Dang² zan⁶, daai⁶ koi³ dang² sap⁶ ng⁵ fan¹ zung¹.",
+        "english": "Just a moment, about 15 minutes wait.",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "好，我哋等。唔該。",
+        "jyutping": "hou2 ngo5 dei6 dang2 m4 goi1",
+        "romanization": "Hou², ngo⁵ dei⁶ dang². M⁴ goi¹.",
+        "english": "Okay, we'll wait. Thank you.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      }
+    ]
+  },
+  {
+    "id": "dim-sum-ordering-from-cart",
+    "topicId": "dim-sum",
+    "title": "Ordering from the dim sum trolley",
+    "description": "Choosing dishes when the trolley comes around",
+    "turns": [
+      {
+        "speaker": "other",
+        "speakerLabel": "Server",
+        "phraseId": null,
+        "chinese": "要唔要蝦餃？",
+        "jyutping": "jiu3 m4 jiu3 haa1 gaau2",
+        "romanization": "Jiu³ m⁴ jiu³ haa¹ gaau²?",
+        "english": "Would you like har gow?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "要！多一籠，唔該。",
+        "jyutping": "jiu3 do1 jat1 lung4 m4 goi1",
+        "romanization": "Jiu³! Do¹ jat¹ lung⁴, m⁴ goi¹.",
+        "english": "Yes! One more basket, please.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Server",
+        "phraseId": null,
+        "chinese": "燒賣呢？",
+        "jyutping": "siu1 maai2 ne1",
+        "romanization": "Siu¹ maai² ne¹?",
+        "english": "What about siu mai?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "都要，多謝。",
+        "jyutping": "dou1 jiu3 do1 ze6",
+        "romanization": "Dou¹ jiu³, do¹ ze⁶.",
+        "english": "Yes to that too, thank you.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "other",
+        "speakerLabel": "Server",
+        "phraseId": null,
+        "chinese": "要唔要加熱水？",
+        "jyutping": "jiu3 m4 jiu3 gaa1 jit6 seoi2",
+        "romanization": "Jiu³ m⁴ jiu³ gaa¹ jit⁶ seoi²?",
+        "english": "Need more hot water for the tea?",
+        "voiceId": "99fb84cf-d081-4df6-8b8a-7165015a2f5d",
+        "pauseAfterMs": 2000
+      },
+      {
+        "speaker": "user",
+        "speakerLabel": "You",
+        "phraseId": null,
+        "chinese": "要，唔該晒。",
+        "jyutping": "jiu3 m4 goi1 saai3",
+        "romanization": "Jiu³, m⁴ goi¹ saai³.",
+        "english": "Yes please, thank you so much.",
+        "voiceId": null,
+        "pauseAfterMs": 2000
+      }
+    ]
+  }
+]

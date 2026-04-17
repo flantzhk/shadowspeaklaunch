@@ -124,6 +124,27 @@ async function saveSession(session) {
   return dbOp('Failed to save session', (db) => db.put('sessions', session));
 }
 
+/**
+ * Return the averageScore values from the most recent N sessions that have a
+ * non-null averageScore. Used for personal-percentile calculations.
+ *
+ * Fetches before the current session is saved so the current score is not
+ * included in its own baseline.
+ *
+ * @param {number} [limit=20]
+ * @returns {Promise<number[]>} Most-recent-first list of average scores.
+ */
+async function getRecentScoredSessions(limit = 20) {
+  return dbOp('Failed to get recent scored sessions', async (db) => {
+    const all = await db.getAll('sessions');
+    return all
+      .filter(s => s.averageScore != null)
+      .sort((a, b) => (b.completedAt || 0) - (a.completedAt || 0))
+      .slice(0, limit)
+      .map(s => s.averageScore);
+  }, []);
+}
+
 /** @param {string} date - YYYY-MM-DD @returns {Promise<Array>} */
 async function getSessionsByDate(date) {
   return dbOp('Failed to get sessions', (db) => db.getAllFromIndex('sessions', 'by-date', date), []);
@@ -175,6 +196,18 @@ async function cacheTopic(topic) {
   return dbOp('Failed to cache topic', (db) => db.put('topics', topic));
 }
 
+/**
+ * Wipe all data from all IndexedDB stores (used during account deletion).
+ * @returns {Promise<void>}
+ */
+async function clearAllData() {
+  const STORES = ['settings', 'library', 'sessions', 'queue', 'phrases', 'topics'];
+  const db = await getDB();
+  await Promise.all(STORES.map((store) => db.clear(store)));
+  // Drop the cached instance so the next getDB() starts fresh
+  dbInstance = null;
+}
+
 export {
   getDB,
   getSettings,
@@ -187,6 +220,7 @@ export {
   saveSession,
   getSessionsByDate,
   getAllSessions,
+  getRecentScoredSessions,
   addToQueue,
   getQueueItems,
   deleteQueueItem,
@@ -194,4 +228,5 @@ export {
   cachePhrase,
   getCachedPhrase,
   cacheTopic,
+  clearAllData,
 };

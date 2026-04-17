@@ -1,4 +1,4 @@
-const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
+const FONT = "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
 
 export default function Screen11_NotifPermission({ advance, setAnswers }) {
   const handleEnable = async () => {
@@ -19,7 +19,7 @@ export default function Screen11_NotifPermission({ advance, setAnswers }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '48px 24px',
       display: 'flex',
       flexDirection: 'column',
@@ -50,7 +50,7 @@ export default function Screen11_NotifPermission({ advance, setAnswers }) {
         margin: 0,
         lineHeight: 1.25,
       }}>
-        Stay consistent — that's how fluency happens.
+        Stay consistent. That's how speaking happens.
       </h1>
 
       <div style={{ marginTop: 20, maxWidth: 300, textAlign: 'left' }}>

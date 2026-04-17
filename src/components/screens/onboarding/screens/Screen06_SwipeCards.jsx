@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
+const FONT = "'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
 
 const CARDS = [
   "I've been corrected by family and felt too embarrassed to try again.",
@@ -39,7 +39,7 @@ export default function Screen06_SwipeCards({ advance, answers, setAnswers }) {
     return (
       <div style={{
         minHeight: '100vh',
-        background: '#F4F1E8',
+        background: '#F7F4EC',
         padding: '48px 24px',
         fontFamily: FONT,
         display: 'flex',
@@ -88,7 +88,7 @@ export default function Screen06_SwipeCards({ advance, answers, setAnswers }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#F4F1E8',
+      background: '#F7F4EC',
       padding: '48px 24px',
       fontFamily: FONT,
       display: 'flex',

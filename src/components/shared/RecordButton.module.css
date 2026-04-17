@@ -28,7 +28,7 @@
 .recording {
   background: rgba(208, 64, 64, 0.3);
   border-color: var(--color-error);
-  color: #FF6B6B;
+  color: var(--color-error);
   animation: pulse 1.5s ease-in-out infinite;
 }
 
