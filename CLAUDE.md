@@ -76,7 +76,7 @@ At session end:
 
 - **Repo:** `flantzhk/shadowspeaklaunch` on GitHub
 - **Live at:** `https://flantzhk.github.io/shadowspeaklaunch/` (PWA)
-- **Version:** v1.19.0 (source of truth: `src/utils/constants.js` → `APP_VERSION`)
+- **Version:** v1.22.1 (source of truth: `src/utils/constants.js` → `APP_VERSION`)
 - **Version reporting:** Always tell the user the new version number after every deploy/publish. State it clearly in the response: "Deployed as vX.X.X"
 - **Note:** `package.json` is now synced — both should be bumped together on every deploy
 
@@ -197,9 +197,9 @@ When shipping a feature:
 
 ---
 
-## Current Status (as of v1.19.0 — 2026-04-14)
+## Current Status (as of v1.22.1 — 2026-04-18)
 
-**Live:** Shadow speaking, Prompt Drill, Speed Run, Tone Gym, AI Conversation (real Claude 3.5 Haiku), Spaced Repetition (SM-2), full gamification (streaks, XP, 13 achievements), 50 screens, desktop + mobile layouts. ElevenLabs English TTS in shadow mode. Web Push notifications. Apple Sign-In (code live, Firebase config pending). **Stripe Checkout live on web** — all 4 plans wired (Monthly, Annual with trial, Lifetime, Family). Cookie consent banner (GDPR/UK-PECR). Email capture modal (streak milestones 3d + 7d). Firebase Analytics events. Firestore user doc on registration. Account deletion (Apple guideline 5.1.1). Privacy/Terms links on paywall + register. Streak freeze confirmation toasts. Send feedback button. Visible error states on all key API flows. **Internal admin dashboard (#admin, UID-gated).** **Support page (#support — FAQ + contact). In-app data export (Download my data — JSON).**
+**Live:** Shadow speaking, Prompt Drill, Speed Run, Tone Gym, AI Conversation (real Claude 3.5 Haiku), Spaced Repetition (SM-2), full gamification (streaks, XP, 13 achievements), 50 screens, desktop + mobile layouts. ElevenLabs English TTS in shadow mode. Web Push notifications. Apple Sign-In (code live, Firebase config pending). **Stripe Checkout live on web** — all 4 plans wired (Monthly, Annual with trial, Lifetime, Family). Cookie consent banner (GDPR/UK-PECR). Email capture modal (streak milestones 3d + 7d). Firebase Analytics events. Firestore user doc on registration. Account deletion (Apple guideline 5.1.1). Privacy/Terms links on paywall + register. Streak freeze confirmation toasts. Send feedback button. Visible error states on all key API flows. **PostHog analytics (consent-gated, EU region). Subscription hook (real-time Firestore + offline fallback).** **Internal admin dashboard (#admin, UID-gated).** **Support page (#support — FAQ + contact). In-app data export (Download my data — JSON).**
 
 **Remaining gaps:**
 1. Stripe webhook — subscription lifecycle not written to Firestore yet (manual setup needed, see `10 Monetisation/(C) Stripe Implementation.md`)
