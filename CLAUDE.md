@@ -76,7 +76,7 @@ At session end:
 
 - **Repo:** `flantzhk/shadowspeaklaunch` on GitHub
 - **Live at:** `https://flantzhk.github.io/shadowspeaklaunch/` (PWA)
-- **Version:** v1.22.1 (source of truth: `src/utils/constants.js` → `APP_VERSION`)
+- **Version:** v1.23.0 (source of truth: `src/utils/constants.js` → `APP_VERSION`)
 - **Version reporting:** Always tell the user the new version number after every deploy/publish. State it clearly in the response: "Deployed as vX.X.X"
 - **Note:** `package.json` is now synced — both should be bumped together on every deploy
 
@@ -196,6 +196,26 @@ When shipping a feature:
 6. Update `CLAUDE.md` current status line in both the vault and here if version changes
 
 ---
+
+## Current Status (as of v1.23.0 — 2026-04-18)
+
+**New in v1.23.0:** Cross-device sync for library + streak. `src/services/sync.js` mirrors every library write to `users/{uid}/library/{phraseId}` with a `_updatedAt` stamp; streak fields sync to `users/{uid}`. On login, remote is merged into IDB (newer wins). **Requires Firestore security rules below.**
+
+### Firestore rules (must be deployed manually)
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      match /library/{phraseId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+  }
+}
+```
 
 ## Current Status (as of v1.22.1 — 2026-04-18)
 

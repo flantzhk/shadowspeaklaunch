@@ -622,4 +622,4 @@ function _audioBufferToWav(buffer) {
   return new Blob([ab], { type: 'audio/wav' });
 }
 
-export { AudioEngine, getCachedAudio, cacheAudioForPhrase, cacheAudioBlob };
+export { AudioEngine, getCachedAudio, cacheAudioForPhrase, cacheAudioBlob, padAudioBlob };

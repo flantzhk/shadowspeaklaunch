@@ -93,12 +93,18 @@ async function getLibraryEntry(phraseId) {
 
 /** @param {Object} entry */
 async function saveLibraryEntry(entry) {
-  return dbOp('Failed to save entry', (db) => db.put('library', entry));
+  const stamped = { ...entry, _updatedAt: Date.now() };
+  const result = await dbOp('Failed to save entry', (db) => db.put('library', stamped));
+  // Fire-and-forget sync to Firestore. Dynamic import avoids circular dep.
+  import('./sync').then(({ pushLibraryEntry }) => pushLibraryEntry(stamped)).catch(() => {});
+  return result;
 }
 
 /** @param {string} phraseId */
 async function deleteLibraryEntry(phraseId) {
-  return dbOp('Failed to delete entry', (db) => db.delete('library', phraseId));
+  const result = await dbOp('Failed to delete entry', (db) => db.delete('library', phraseId));
+  import('./sync').then(({ deleteLibraryEntryRemote }) => deleteLibraryEntryRemote(phraseId)).catch(() => {});
+  return result;
 }
 
 /** @returns {Promise<Array>} */

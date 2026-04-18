@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRecorder } from '../../../../hooks/useRecorder';
 import { textToSpeech, scorePronunciation } from '../../../../services/api';
+import { padAudioBlob } from '../../../../services/audio';
 
 const PHRASES = {
   cantonese: {
@@ -152,7 +153,8 @@ export default function Screen11_LiveDemo({ advance, answers, setAnswers }) {
           outputExtension: 'mp3',
         });
         if (cancelled) return;
-        const url = URL.createObjectURL(blob);
+        const padded = await padAudioBlob(blob);
+        const url = URL.createObjectURL(padded);
         const audio = new Audio(url);
         audioRef.current = audio;
         setIsPlaying(true);

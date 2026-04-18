@@ -24,6 +24,7 @@ import { CookieConsentBanner } from './components/shared/CookieConsentBanner';
 import { EmailCaptureModal, isEmailCaptureSnoozed } from './components/shared/EmailCaptureModal';
 import { hasResponded, hasAnalyticsConsent } from './services/consent';
 import { initPostHog, phIdentify } from './services/posthog';
+import { pullLibraryFromFirestore, pullStreakFromFirestore } from './services/sync';
 import './styles/global.css';
 
 const HomeScreen = lazy(() => import('./components/screens/HomeScreen'));
@@ -201,6 +202,12 @@ function MainLayout() {
         if (Object.keys(updates).length > 0) updateSettings(updates);
         // Record last_active so the admin dashboard can compute DAU
         updateLastActive();
+        // Cross-device sync: pull library + streak from Firestore, merge into IDB.
+        // If remote streak was higher, refresh React state so it shows immediately.
+        pullLibraryFromFirestore().catch(() => {});
+        pullStreakFromFirestore().then((remote) => {
+          if (remote) updateSettings(remote);
+        }).catch(() => {});
         // Identify user in PostHog (language comes from context settings)
         phIdentify(user.uid, { email: user.email || '', language_choice: settings.currentLanguage || 'cantonese' });
       }

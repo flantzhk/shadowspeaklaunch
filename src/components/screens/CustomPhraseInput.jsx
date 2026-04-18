@@ -6,7 +6,7 @@ import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { textToJyutping, textToSpeech } from '../../services/api';
 import { isAuthenticated } from '../../services/auth';
 import { saveLibraryEntry } from '../../services/storage';
-import { cacheAudioBlob } from '../../services/audio';
+import { cacheAudioBlob, padAudioBlob } from '../../services/audio';
 import { SRS_INITIAL_EASE } from '../../utils/constants';
 import { sanitizeInput } from '../../utils/validators';
 import { jyutpingToDisplay } from '../../utils/jyutping';
@@ -102,9 +102,10 @@ export default function CustomPhraseInput({ onBack, showToast }) {
     setPhase('preview');
   }, [english, jyutpingInput, chinese, isOnline, settings.currentLanguage]);
 
-  const handlePlayAudio = useCallback(() => {
+  const handlePlayAudio = useCallback(async () => {
     if (!audioBlob) return;
-    const url = URL.createObjectURL(audioBlob);
+    const padded = await padAudioBlob(audioBlob);
+    const url = URL.createObjectURL(padded);
     const audio = new Audio(url);
     audio.play();
     audio.onended = () => URL.revokeObjectURL(url);

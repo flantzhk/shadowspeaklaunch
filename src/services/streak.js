@@ -89,6 +89,13 @@ async function updateStreak() {
     streakFreezeUsedWeek: freezeUsedThisWeek,
   });
 
+  // Fire-and-forget sync to Firestore. Dynamic import avoids circular dep.
+  import('./sync').then(({ pushStreak }) => pushStreak({
+    streakCount: newStreak,
+    streakLastDate: today,
+    streakFreezeUsedWeek: freezeUsedThisWeek,
+  })).catch(() => {});
+
   return { count: newStreak, freezeUsed, freezeNotAvailable };
 }
 

@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef } from 'react';
 import { saveLibraryEntry, getLibraryEntry } from '../../services/storage';
 import { textToSpeech } from '../../services/api';
-import { getCachedAudio, cacheAudioBlob } from '../../services/audio';
+import { getCachedAudio, cacheAudioBlob, padAudioBlob } from '../../services/audio';
 import { isAuthenticated } from '../../services/auth';
 import { useAudio } from '../../contexts/AudioContext';
 import { SRS_INITIAL_EASE, SRS_MAX_INTERVAL } from '../../utils/constants';
@@ -22,8 +22,9 @@ async function playPhraseAudio(phraseId, chinese, language = 'cantonese') {
     const basePath = import.meta.env.BASE_URL || '/';
     const resp = await fetch(`${basePath}audio/${language}/${phraseId}.mp3`);
     if (resp.ok) {
-      const blob = await resp.blob();
+      let blob = await resp.blob();
       if (blob.size > 500) {
+        blob = await padAudioBlob(blob);
         const url = URL.createObjectURL(blob);
         const audio = new Audio(url);
         audio.onended = () => URL.revokeObjectURL(url);
@@ -35,8 +36,9 @@ async function playPhraseAudio(phraseId, chinese, language = 'cantonese') {
 
   // 2. Browser cache
   try {
-    const cached = await getCachedAudio(phraseId, language, speed);
+    let cached = await getCachedAudio(phraseId, language, speed);
     if (cached) {
+      cached = await padAudioBlob(cached);
       const url = URL.createObjectURL(cached);
       const audio = new Audio(url);
       audio.onended = () => URL.revokeObjectURL(url);
@@ -48,9 +50,10 @@ async function playPhraseAudio(phraseId, chinese, language = 'cantonese') {
   // 3. TTS API (cantonese.ai)
   if (isAuthenticated()) {
     try {
-      const blob = await textToSpeech(chinese, { language, speed, outputExtension: 'mp3' });
+      let blob = await textToSpeech(chinese, { language, speed, outputExtension: 'mp3' });
       if (blob && blob.size > 0) {
         cacheAudioBlob(phraseId, language, speed, blob).catch(() => {});
+        blob = await padAudioBlob(blob);
         const url = URL.createObjectURL(blob);
         const audio = new Audio(url);
         audio.onended = () => URL.revokeObjectURL(url);
@@ -180,8 +183,9 @@ export default function PhraseCard({ phrase, libraryEntry, language = 'cantonese
     e?.stopPropagation();
     if (isAuthenticated()) {
       try {
-        const blob = await textToSpeech(wordChinese, { language, speed: 1.0, outputExtension: 'mp3' });
+        let blob = await textToSpeech(wordChinese, { language, speed: 1.0, outputExtension: 'mp3' });
         if (blob && blob.size > 0) {
+          blob = await padAudioBlob(blob);
           const url = URL.createObjectURL(blob);
           const audio = new Audio(url);
           audio.onended = () => URL.revokeObjectURL(url);
