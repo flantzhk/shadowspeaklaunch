@@ -1,7 +1,7 @@
 // cloudflare-worker/src/index.js — ShadowSpeak API Proxy
 // Validates Firebase ID tokens, injects cantonese.ai API key, rate limits per user.
 
-const ALLOWED_PATHS = ['/tts', '/stt', '/score-pronunciation', '/ai-chat', '/tts-english', '/push-subscribe', '/push-unsubscribe', '/create-checkout-session'];
+const ALLOWED_PATHS = ['/tts', '/stt', '/score-pronunciation', '/ai-chat', '/tts-english', '/push-subscribe', '/push-unsubscribe', '/create-checkout-session', '/generate-phrase'];
 const STRIPE_API_URL = 'https://api.stripe.com/v1/checkout/sessions';
 const APP_BASE_URL = 'https://flantzhk.github.io/shadowspeaklaunch';
 const VAPID_PUBLIC_KEY = 'BCmqvXWvZ-9ES9BJWC9fkC_RoZ16Fh3p3i5IB1uF_YpdM54OUeBTfrCKppryPIx0_6dB6SQcDixoD22J1Y2Q08M';
@@ -89,6 +89,31 @@ export default {
       } catch (err) {
         console.error('AI chat error:', err);
         return new Response(JSON.stringify({ error: 'AI chat failed' }), {
+          status: 502,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+    }
+
+    // Route /generate-phrase — calls Anthropic to generate a CJK phrase from free-form input
+    if (path === '/generate-phrase') {
+      const gpHourKey = `rate:ai:${user.sub}:${Math.floor(Date.now() / 3600000)}`;
+      const gpCount = parseInt(await env.RATE_LIMIT.get(gpHourKey) || '0');
+      if (gpCount >= AI_CHAT_RATE_LIMIT) {
+        return new Response('Rate limit exceeded', { status: 429, headers: corsHeaders });
+      }
+      await env.RATE_LIMIT.put(gpHourKey, String(gpCount + 1), { expirationTtl: 3600 });
+
+      try {
+        const body = await request.json();
+        const result = await handleGeneratePhrase(body, env);
+        return new Response(JSON.stringify(result), {
+          status: 200,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      } catch (err) {
+        console.error('Generate phrase error:', err);
+        return new Response(JSON.stringify({ error: 'Generate phrase failed' }), {
           status: 502,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
@@ -360,6 +385,66 @@ function base64UrlDecode(str) {
   const padLen = (4 - (padded.length % 4)) % 4;
   const bin = atob(padded + '='.repeat(padLen));
   return Uint8Array.from(bin, c => c.charCodeAt(0));
+}
+
+/**
+ * Call Anthropic Claude to generate a CJK phrase from free-form input.
+ * @param {{ text: string, language: 'cantonese' | 'mandarin' }} body
+ * @param {Object} env - Worker env bindings
+ * @returns {Promise<{cjk: string, romanization: string, english: string, culturalNote: string|null}>}
+ */
+async function handleGeneratePhrase(body, env) {
+  const { text = '', language = 'cantonese' } = body;
+
+  const isCantonese = language === 'cantonese';
+
+  const systemPrompt = [
+    'You are a language expert for ' + (isCantonese ? 'Cantonese (Hong Kong)' : 'Mandarin Chinese (Mainland)') + '.',
+    'The user will provide text in any form — English, Traditional Chinese, Simplified Chinese, Jyutping, Pinyin, or a mix.',
+    'Your job is to produce a single natural phrase that a learner could say in one breath.',
+    '',
+    'RULES:',
+    isCantonese
+      ? '- cjk: Traditional Chinese characters (colloquial written Cantonese, not standard written Chinese).'
+      : '- cjk: Simplified Chinese characters.',
+    isCantonese
+      ? '- romanization: Jyutping with tone numbers (e.g. nei5 hou2).'
+      : '- romanization: Pinyin with tone marks (e.g. nǐ hǎo).',
+    '- english: A natural English translation (a sentence, not a label).',
+    '- culturalNote: One brief sentence about when or where this phrase is used in ' + (isCantonese ? 'HK' : 'Mainland China') + '. Set to null if nothing interesting.',
+    '- Keep the phrase short — one phrase a learner could say in one breath.',
+    '- If the input is already in the target language, normalise and return it.',
+    '- If the input is unclear, produce the most natural version of what was meant.',
+    '- You MUST respond with ONLY a JSON object in exactly this format (no other text):',
+    '  {"cjk": "...", "romanization": "...", "english": "...", "culturalNote": "..."}',
+  ].join('\n');
+
+  const anthropicRes = await fetch(ANTHROPIC_API_URL, {
+    method: 'POST',
+    headers: {
+      'x-api-key': env.ANTHROPIC_KEY,
+      'anthropic-version': '2023-06-01',
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'claude-3-5-haiku-20241022',
+      max_tokens: 256,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: text }],
+    }),
+  });
+
+  if (!anthropicRes.ok) {
+    const errText = await anthropicRes.text();
+    throw new Error(`Anthropic API ${anthropicRes.status}: ${errText}`);
+  }
+
+  const data = await anthropicRes.json();
+  const raw = data.content?.[0]?.text || '{}';
+
+  // Strip any markdown code fences Claude might wrap around the JSON
+  const cleaned = raw.replace(/^```[a-z]*\n?/i, '').replace(/\n?```$/, '').trim();
+  return JSON.parse(cleaned);
 }
 
 /**
